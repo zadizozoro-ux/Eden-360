@@ -351,10 +351,12 @@ const MODS = {
       { id: "m50", t: "Je me projette avec confiance et joie dans l'avenir avec mon conjoint." }
     ] }
   ], oqs: [
-    { id: "mo1", t: "En une phrase, décrivez ce qui vous préoccupe le plus dans votre vie conjugale en ce moment." },
-    { id: "mo2", t: "Qu'est-ce qui vous a poussé à faire ce bilan { id: "mo3", t: "Si vous pouviez changer une seule chose dans votre couple dès demain, ce serait…" }
+      { id: "mo1", t: "En une phrase, décrivez ce qui vous préoccupe le plus dans votre vie conjugale en ce moment." },
+      { id: "mo2", t: "Qu'est-ce qui vous a poussé à faire ce bilan aujourd'hui ?" },
+      { id: "mo3", t: "Si vous pouviez changer une seule chose dans votre couple dès demain, ce serait…" }
     ]
   }
+};
 };
 // ═══════════════════════════════════════════════════════════════════════════
 // SECTION 2 — DONNÉES PORTRAIT EAUX·OS·CHAIR
