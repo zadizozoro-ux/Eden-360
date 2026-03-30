@@ -1,6 +1,9 @@
 import { useState, useEffect, useRef } from "react";
 import EspaceAbonne, { createSubscriberProfile, PILIERS_ANNUELS } from "./EdenSubscriber.jsx";
 
+// NOTE DÉPLOIEMENT : Décommenter cet import lors de l'intégration Vite
+// import EspaceAbonne, { createSubscriberProfile, PILIERS_ANNUELS } from "./EdenSubscriber";
+
 // ═══════════════════════════════════════════════════════════════════════════
 // EDEN ACADÉMIE — Application Unifiée v2.0
 // Bilan 360° · Portrait Eaux·Os·Chair · Espace Abonné (3 niveaux)
@@ -16,18 +19,7 @@ const INTERNAL_REPORT_PASSWORD = "EdenEquipe@2025";
 const ALERT_LEVELS = { INFO:1, VIGILANCE:2, CRISE:3, SYSTEM:4 };
 const STORAGE_KEY = "eden_unified_v2";
 const MAX_QUESTIONS_FREE = 5;
-const MAX_QUESTIONS_PREMIUM = 30;
-
-// NIVEAUX D'ABONNEMENT
-const FEATURES_MAP = {
-  bilan360: ["simple", "argent", "premium"],
-  portrait: ["simple", "argent", "premium"],
-  horloge: ["simple", "argent", "premium"],
-  futureLetter: ["simple", "argent", "premium"],
-  viralShare: ["simple", "argent", "premium"],
-  microPertes: ["simple", "argent", "premium"],
-  lectureMiroir: ["simple", "argent", "premium"],
-  seedOfEden: ["simple", "argent", "premium"],
+const MAX_QUESTIONS_PREMIUM = 50;
   archeEden: ["simple", "argent", "premium"],
   groupeWhatsapp: ["simple", "argent", "premium"],
   diagnosticMensuel: ["simple", "argent", "premium"],
