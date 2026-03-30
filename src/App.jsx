@@ -2767,5 +2767,18 @@ export default function App() {
     </div>
   );
 
-  return null;
+    // Remplacez "return null;" par ceci :
+  return (
+    <div className="eden-app" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', textAlign: 'center', padding: 20 }}>
+      <div>
+        <div style={{ color: C.gold, fontSize: 10, letterSpacing: '.2em', marginBottom: 20 }}>✦ ACADÉMIE EDEN ✦</div>
+        <p style={{ color: C.text, marginBottom: 20 }}>Une erreur de navigation est survenue.</p>
+        <button className="btn-primary" onClick={() => setCurrentModule("home")}>
+          Retourner à l'accueil
+        </button>
+      </div>
+    </div>
+  );
+}
+
 }
