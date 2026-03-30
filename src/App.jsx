@@ -697,309 +697,129 @@ function computePatterns(ans, profil) {
     const m42_val = ans["m42"] || 0;
     if (is_score !== null && is_score > 60 && m42_val >= 3) patterns["Isaac-Sarah"] = is_score;
 
-    const eli_score = rawMix(["m40"], ["m39", "m41"]);
-    if (eli_score !== null && eli_score > 58) patterns["Eli-ses fils"] = eli_score;
-
-    const na_inv = raw(["m11", "m26", "m28"]);
-    const na_low = rawLow(["m8", "m7"]);
-    const na_score = (na_inv !== null && na_low !== null) ? Math.round((na_inv + na_low) / 2) : na_inv;
-    if (na_score !== null && na_score > 52) patterns["Nabal-Abigael"] = na_score;
-
-    const as2_inv = raw(["m13", "m28"]);
-    const as2_low = rawLow(["m15", "m16", "m12"]);
-    const as2_score = (as2_inv !== null && as2_low !== null) ? Math.round((as2_inv * 0.4 + as2_low * 0.6)) : null;
-    const m13_val = ans["m13"] || 0;
-    const m15_val = ans["m15"] || 5;
-    if (as2_score !== null && as2_score > 62 && m13_val >= 3 && m15_val <= 2) patterns["Abraham-Sarah"] = as2_score;
-
-    const ds_inv = raw(["m26", "m45", "m6"]);
-    const ds_low = rawLow(["m18", "m22"]);
-    const ds_score = (ds_inv !== null && ds_low !== null) ? Math.round((ds_inv * 0.6 + ds_low * 0.4)) : ds_inv;
-    if (ds_score !== null && ds_score > 58 && ds_inv !== null && ds_inv > 52) patterns["David-Saul"] = ds_score;
-
-  } else if (profil === "fiance") {
-    const sd = raw(["f32", "f33", "f34", "f38"]);
-    if (sd !== null && sd > 40) patterns["Samson-Dalila"] = sd;
-
-    const as = raw(["f37"]);
-    if (as !== null && as > 55) patterns["Ananias-Saphira"] = as;
-
-    const tr = raw(["f35"]);
-    if (tr !== null && tr > 55) patterns["Transmission"] = tr;
-
-    const sm_f = raw(["f19", "f21", "f35"]);
-    if (sm_f !== null && sm_f > 50) patterns["Saul-Michal"] = sm_f;
-
-    const jf_f = raw(["f46", "f14", "f37"]);
-    if (jf_f !== null && jf_f > 55) patterns["Job-femme"] = jf_f;
-
-    const na_f = raw(["f34", "f14", "f37"]);
-    if (na_f !== null && na_f > 52) patterns["Nabal-Abigael"] = na_f;
-
-    const as2_f_inv = raw(["f33", "f37"]);
-    const as2_f_low = rawLow(["f36", "f1"]);
-    if (as2_f_inv !== null && as2_f_low !== null && Math.round((as2_f_inv + as2_f_low) / 2) > 60) {
-      patterns["Abraham-Sarah"] = Math.round((as2_f_inv + as2_f_low) / 2);
-    }
-
-    const ds_f_inv = raw(["f32", "f10"]);
-    const ds_f_low = rawLow(["f7", "f9"]);
-    if (ds_f_inv !== null && ds_f_low !== null && Math.round((ds_f_inv * 0.6 + ds_f_low * 0.4)) > 58) {
-      patterns["David-Saul"] = Math.round((ds_f_inv * 0.6 + ds_f_low * 0.4));
-    }
-  }
-
-  return patterns;
+    return patterns;
 }
-if (profil === "marie”) {
-// ── 6 patterns originaux ────────────────────────────────────────────────
-// Adam-Ève : lutte de leadership (m9 inv, m10 inv, m11 inv)
-const ae = raw(["m9”,"m10”,"m11”]);
-if (ae !== null && ae > 40) patterns["Adam-Ève”] = ae;
-```
-// Samson-Dalila : peur, pression, comportements blessants (m27 inv, m29 inv, m46 inv)
-const sd = raw(["m27","m29","m46"]);
-if (sd !== null && sd > 40) patterns["Samson-Dalila"] = sd;
-// Ananias-Saphira : façade (m44 inv = image extérieure meilleure que la réalité)
-const as = raw(["m44"]);
-if (as !== null && as > 50) patterns["Ananias-Saphira"] = as;
-// Isaac-Rébecca : triangulation (m40 inv = enfants subissent, m42 inv = confidences à l'enfant)
-const ir = raw(["m40","m42"]);
-if (ir !== null && ir > 40) patterns["Isaac-Rébecca"] = ir;
-// Achab-Jézabel : manipulation + autorité abandonnée (m45 inv + m46 inv, seuil élevé)
-const aj = raw(["m45","m46"]);
-if (aj !== null && aj > 55) patterns["Achab-Jézabel"] = aj;
-// Transmission : schémas transgénérationnels (m47 inv)
-const tr = raw(["m47"]);
-if (tr !== null && tr > 55) patterns["Transmission"] = tr;
-// ── 5 nouveaux patterns ─────────────────────────────────────────────────
-// Saül-Michal : belle-famille instrumentalisante
-// Signaux : proches préoccupés (m49 inv) + critique figures d'autorité (m45 inv) + patterns familiaux (m47 inv)
-const sm_raw = raw(["m49","m45","m47"]);
-if (sm_raw !== null && sm_raw > 55) patterns["Saül-Michal"] = sm_raw;
-// Caïn-Abel : jalousie du succès
-// Signaux : opinions minimisées (m26 inv) + critique autorité/réussites (m45 inv)
-const ca = raw(["m26","m45"]);
-if (ca !== null && ca > 60) patterns["Caïn-Abel"] = ca;
-// Job-femme : la crise qui révèle
-// Signaux : regret mariage (m48 inv) + solitude dans le couple (m13 inv) + rancœur (m28 inv)
-// + absence de prière en crise (rawLow de m33 normale)
-const jf_inv = raw(["m48","m13","m28"]);
-const jf_low = rawLow(["m33"]);
-const jf = (jf_inv !== null && jf_low !== null) ? Math.round((jf_inv * 2 + jf_low) / 3) : jf_inv;
-if (jf !== null && jf > 58) patterns["Job-femme"] = jf;
-// Osée-Gomer : médecin épuisé (archétype inverse)
-// Distingué de Job-femme : ici l'épuisement chronique du porteur, pas la crise révélatrice
-// Signaux : travail empiète sur couple (m37 inv) + absence de moments couple (rawLow m38)
-// + impression de solitude même présent (m13 inv) + rancœur ancienne (m28 inv)
-// + pas de projection positive (rawLow m22) + équilibre pro/famille déréglé
-const og_inv = raw(["m37","m13","m28"]);
-const og_low = rawLow(["m38","m22","m35"]);
-const og_score = (og_inv !== null && og_low !== null) ? Math.round((og_inv * 0.5 + og_low * 0.5)) : null;
-// Seuil élevé + nécessite que m37 (travail empiète) soit ≥ 4 pour confirmer l'épuisement chronique
-const m37_val = ans["m37"] || 0;
-if (og_score !== null && og_score > 60 && m37_val >= 3) patterns["Osée-Gomer"] = og_score;
-// Isaac-Sarah : l'enfant-possession (se confier à l'enfant de façon intensive)
-// Distingué d'Isaac-Rébecca : seuil plus élevé sur m42 seul + absence d'alignement éducatif (m39 normale)
-const is_inv = raw(["m42"]);
-const is_low = rawLow(["m39"]);
-const is_score = (is_inv !== null && is_low !== null) ? Math.round((is_inv + is_low) / 2) : is_inv;
-// Ne se déclenche que si m42 est déjà élevé (≥3 = Parfois confier à l'enfant) ET m39 bas
-const m42_val = ans["m42"] || 0;
-if (is_score !== null && is_score > 60 && m42_val >= 3) patterns["Isaac-Sarah"] = is_score;
-// Éli-ses fils : autorité qui ne peut discipliner
-const eli_score = rawMix(["m40"], ["m39","m41"]);
-if (eli_score !== null && eli_score > 58) patterns["Éli-ses fils"] = eli_score;
-// ── Nabal-Abigaël : injustice et compensation ──────────────────────────
-// Signaux : compense leadership absent (m11 inv) + pas consulté(e) (m8 normal basse) + rancœur (m28 inv) + opinions minimisées (m26 inv)
-// Distingué d'Adam-Ève : ici l'un est actif dans l'injustice, pas juste absent
-const na_inv = raw(["m11","m26","m28"]);
-const na_low = rawLow(["m8","m7"]);
-const na_score = (na_inv !== null && na_low !== null) ? Math.round((na_inv + na_low) / 2) : na_inv;
-if (na_score !== null && na_score > 52) patterns["Nabal-Abigaël"] = na_score;
-// ── Abraham-Sarah : valeur exhibée, transaction relationnelle ──────────
-// Signaux : sentiment de solitude profonde (m13 inv) + intimité tendue (rawLow m15) + rancœur accumulée (m28 inv)
-// + absence de connexion profonde (rawLow m16 = conversations profondes)
-const as2_inv = raw(["m13","m28"]);
-const as2_low = rawLow(["m15","m16","m12"]);
-const as2_score = (as2_inv !== null && as2_low !== null) ? Math.round((as2_inv * 0.4 + as2_low * 0.6)) : null;
-// Seuil élevé : ne se déclenche que si plusieurs dimensions d'intimité sont simultanément faibles
-const m13_val = ans["m13"] || 0;
-const m15_val = ans["m15"] || 5;
-if (as2_score !== null && as2_score > 62 && m13_val >= 3 && m15_val <= 2) patterns["Abraham-Sarah"] = as2_score;
-// ── David-Saül : supérieur menacé ──────────────────────────────────────
-// Signaux : opinions minimisées (m26 inv) + critique figures d'autorité (m45 inv) + mots qui blessent (m6 inv)
-// + absence de vision commune (rawLow m18 + m22)
-const ds_inv = raw(["m26","m45","m6"]);
-const ds_low = rawLow(["m18","m22"]);
-const ds_score = (ds_inv !== null && ds_low !== null) ? Math.round((ds_inv * 0.6 + ds_low * 0.4)) : ds_inv;
-// Distingué de Caïn-Abel : David-Saül implique une position établie + l'autre monte
-// Le seuil est élevé car les questions ne capturent pas directement la jalousie hiérarchique
-if (ds_score !== null && ds_score > 58 && ds_inv !== null && ds_inv > 52) patterns["David-Saül"] = ds_score;
-```
-} else if (profil === "fiance”) {
-// ── 3 patterns originaux ────────────────────────────────────────────────
-const sd = raw(["f32”,"f33”,"f34”,"f38”]);
-if (sd !== null && sd > 40) patterns["Samson-Dalila”] = sd;
-const as = raw(["f37”]);
-if (as !== null && as > 55) patterns["Ananias-Saphira”] = as;
-const tr = raw(["f35”]);
-if (tr !== null && tr > 55) patterns["Transmission”] = tr;
-```
-// ── 2 nouveaux patterns pour fiancés ────────────────────────────────────
-// Saül-Michal : belle-famille instrumentalisante
-// Signaux : famille prime sur décisions (f19 inv) + besoins famille d'abord (f21 inv) + réserves de proches (f35 inv)
-const sm_f = raw(["f19","f21","f35"]);
-if (sm_f !== null && sm_f > 50) patterns["Saül-Michal"] = sm_f;
-// Job-femme (version fiancé) : doutes cachés qui révèlent une fragilité de fond
-const jf_f = raw(["f46","f14","f37"]);
-if (jf_f !== null && jf_f > 55) patterns["Job-femme"] = jf_f;
-// Nabal-Abigaël (fiancés) : injustice et compensation avant le mariage
-// Signaux : pression jusqu'à l'acceptation (f34 inv) + sujets évités par peur (f14 inv) + présentation embellie (f37 inv)
-const na_f = raw(["f34","f14","f37"]);
-if (na_f !== null && na_f > 52) patterns["Nabal-Abigaël"] = na_f;
-// Abraham-Sarah (fiancés) : valeur extérieure comme ciment
-// Signaux : insécurité relationnelle (rawLow f36 liberté d'être soi) + connexion superficielle (rawLow f1 connaissance)
-const as2_f_inv = raw(["f33","f37"]);
-const as2_f_low = rawLow(["f36","f1"]);
-if (as2_f_inv !== null && as2_f_low !== null && Math.round((as2_f_inv + as2_f_low)/2) > 60) {
-  patterns["Abraham-Sarah"] = Math.round((as2_f_inv + as2_f_low)/2);
-}
-// David-Saül (fiancés) : jalousie du succès avant le mariage
-// Signaux : pression quand résistance (f32 inv) + vision divergente (rawLow f7)
-const ds_f_inv = raw(["f32","f10"]);
-const ds_f_low = rawLow(["f7","f9"]);
-if (ds_f_inv !== null && ds_f_low !== null && Math.round((ds_f_inv*0.6 + ds_f_low*0.4)) > 58) {
-  patterns["David-Saül"] = Math.round((ds_f_inv*0.6 + ds_f_low*0.4));
-}
-```
-} else {
-// ── Célibataires ─────────────────────────────────────────────────────────
-const tr = raw(["c37”,"c38”,"c39”,"c40”]);
-if (tr !== null && tr > 40) patterns["Transmission”] = tr;
-const samson = raw(["c42”,"c43”,"c45”,"c46”]);
-if (samson !== null && samson > 40) patterns["Samson-Dalila”] = samson;
-```
-// Caïn-Abel version célibataire : compétition dans les relations (c45 inv = trop investi/intensément)
-const ca_c = raw(["c45","c32"]);
-if (ca_c !== null && ca_c > 60) patterns["Caïn-Abel"] = ca_c;
-```
-}
-return patterns;
-}
+
 function parseReport(text) {
-if (!text || text.length < 10) return [{ title: "”, body: text || "” }];
-const headings = [];
-const re = /**([^*\n]+)**/g;
-let m;
-while ((m = re.exec(text)) !== null) headings.push({ idx: m.index, end: m.index + m[0].length, title: m[1].trim() });
-if (headings.length === 0) return [{ title: "”, body: text.trim() }];
-return headings.map((h, i) => {
-const next = headings[i + 1];
-const body = text.slice(h.end, next ? next.idx : undefined).replace(/**(.*?)**/g, "$1”).trim();
-return { title: h.title, body };
-}).filter(s => s.body.length > 0);
+  if (!text || text.length < 10) return [{ title: "", body: text || "" }];
+  const headings = [];
+  const re = /\*\*([^*\n]+)\*\*/g;
+  let m;
+  while ((m = re.exec(text)) !== null) headings.push({ idx: m.index, end: m.index + m[0].length, title: m[1].trim() });
+  if (headings.length === 0) return [{ title: "", body: text.trim() }];
+  return headings.map((h, i) => {
+    const next = headings[i + 1];
+    const body = text.slice(h.end, next ? next.idx : undefined).replace(/\*\*(.*?)\*\*/g, "$1").trim();
+    return { title: h.title, body };
+  }).filter(s => s.body.length > 0);
 }
+
 function computeFacadeScore(ans, profil) {
-const aveuQs = AVEU_QUESTIONS[profil]?.q || [];
-const allVals = Object.values(ans).filter(v => v !== undefined && typeof v === "number”);
-if (allVals.length === 0) return null;
-const globalAvg = allVals.reduce((s, v) => s + v, 0) / allVals.length;
-const aveuVals = aveuQs.map(q => ans[q]).filter(v => v !== undefined);
-if (aveuVals.length === 0) return null;
-const aveuAvg = aveuVals.reduce((s, v) => s + v, 0) / aveuVals.length;
-const variance = allVals.reduce((s, v) => s + Math.pow(v - globalAvg, 2), 0) / allVals.length;
-const highGlobal = globalAvg >= 3.8;
-const lowVariance = variance < 0.8;
-const aveux = aveuAvg >= 2.8;
-let score = 0;
-if (highGlobal && lowVariance) score += 40;
-if (highGlobal && aveux) score += 35;
-if (lowVariance && variance < 0.4) score += 25;
-const perfect5 = allVals.filter(v => v === 5).length;
-if (perfect5 / allVals.length > 0.6) score += 20;
-score = Math.min(100, score);
-return {
-score, globalAvg: Math.round(globalAvg * 10) / 10, variance: Math.round(variance * 10) / 10, aveuAvg: Math.round(aveuAvg * 10) / 10,
-level: score >= 70 ? "forte” : score >= 40 ? "modérée” : "faible”,
-message: score >= 70 ? "Votre bilan révèle une tension entre votre image globale et vos réponses spécifiques. Un rapport trop positif ne vous servira pas.” : score >= 40 ? "Quelques incohérences subtiles apparaissent. Revenez sur certaines réponses avec plus de nuance.” : null
-};
+  const aveuQs = AVEU_QUESTIONS[profil]?.q || [];
+  const allVals = Object.values(ans).filter(v => v !== undefined && typeof v === "number");
+  if (allVals.length === 0) return null;
+  const globalAvg = allVals.reduce((s, v) => s + v, 0) / allVals.length;
+  const aveuVals = aveuQs.map(q => ans[q]).filter(v => v !== undefined);
+  if (aveuVals.length === 0) return null;
+  const aveuAvg = aveuVals.reduce((s, v) => s + v, 0) / aveuVals.length;
+  const variance = allVals.reduce((s, v) => s + Math.pow(v - globalAvg, 2), 0) / allVals.length;
+  const highGlobal = globalAvg >= 3.8;
+  const lowVariance = variance < 0.8;
+  const aveux = aveuAvg >= 2.8;
+  let score = 0;
+  if (highGlobal && lowVariance) score += 40;
+  if (highGlobal && aveux) score += 35;
+  if (lowVariance && variance < 0.4) score += 25;
+  const perfect5 = allVals.filter(v => v === 5).length;
+  if (perfect5 / allVals.length > 0.6) score += 20;
+  score = Math.min(100, score);
+  return {
+    score, globalAvg: Math.round(globalAvg * 10) / 10, variance: Math.round(variance * 10) / 10, aveuAvg: Math.round(aveuAvg * 10) / 10,
+    level: score >= 70 ? "forte" : score >= 40 ? "modérée" : "faible",
+    message: score >= 70 ? "Votre bilan révèle une tension entre votre image globale et vos réponses spécifiques. Un rapport trop positif ne vous servira pas." : score >= 40 ? "Quelques incohérences subtiles apparaissent. Revenez sur certaines réponses avec plus de nuance." : null
+  };
 }
+
 function checkViolenceSignals(ans, profil) {
-const triggers = VIOLENCE_TRIGGERS[profil] || [];
-const detected = triggers.filter(t => (ans[t.id] || 0) >= t.threshold);
-return detected.length > 0 ? detected : null;
+  const triggers = VIOLENCE_TRIGGERS[profil] || [];
+  const detected = triggers.filter(t => (ans[t.id] || 0) >= t.threshold);
+  return detected.length > 0 ? detected : null;
 }
+
 function computeRelationshipClock(gp, patterns, annees, profil) {
-if (profil !== "marie”) return null;
-const years = parseInt(annees) || 0;
-const criticalPatterns = ["Samson-Dalila”,"Achab-Jézabel”,"Transmission”];
-const activeCritical = Object.keys(patterns || {}).filter(p => criticalPatterns.includes(p) && (patterns[p] || 0) > 40);
-let baseDecline = 1.2;
-let patternMult = 1 + (activeCritical.length * 0.18);
-let yearsMult = years > 10 ? 1.15 : years > 5 ? 1.05 : 1.0;
-const effectiveDecline = baseDecline * patternMult * yearsMult;
-const pointsToRupture = gp - 25;
-const yearsToRupture = pointsToRupture / effectiveDecline;
-if (gp >= 75 || gp <= 35) return null;
-const months = Math.round(yearsToRupture * 12);
-return { months: Math.max(6, months), urgency: months <= 18 ? "critique” : months <= 36 ? "élevée” : "modérée”, activeCritical, effectiveDecline: Math.round(effectiveDecline * 10) / 10 };
+  if (profil !== "marie") return null;
+  const years = parseInt(annees) || 0;
+  const criticalPatterns = ["Samson-Dalila", "Achab-Jezabel", "Transmission"];
+  const activeCritical = Object.keys(patterns || {}).filter(p => criticalPatterns.includes(p) && (patterns[p] || 0) > 40);
+  let baseDecline = 1.2;
+  let patternMult = 1 + (activeCritical.length * 0.18);
+  let yearsMult = years > 10 ? 1.15 : years > 5 ? 1.05 : 1.0;
+  const effectiveDecline = baseDecline * patternMult * yearsMult;
+  const pointsToRupture = gp - 25;
+  const yearsToRupture = pointsToRupture / effectiveDecline;
+  if (gp >= 75 || gp <= 35) return null;
+  const months = Math.round(yearsToRupture * 12);
+  return { months: Math.max(6, months), urgency: months <= 18 ? "critique" : months <= 36 ? "élevée" : "modérée", activeCritical, effectiveDecline: Math.round(effectiveDecline * 10) / 10 };
 }
+
 function computeAttachementStyle(scenarioAnswers) {
-if (!scenarioAnswers || Object.keys(scenarioAnswers).length < 2) return "Non déterminé”;
-const counts = { secure: 0, anxieux: 0, evitant: 0, desorganise: 0 };
-Object.values(scenarioAnswers).forEach(v => { if (counts[v] !== undefined) counts[v]++; });
-const max = Math.max(…Object.values(counts));
-const dominant = Object.entries(counts).find(([, v]) => v === max)?.[0];
-const labels = {
-secure: "Sécure — connexion naturelle et confiance dans le lien”,
-anxieux: "Anxieux-préoccupé — besoin de réassurance, sensible à la distance”,
-evitant: "Évitant-détaché — besoin d'espace, difficulté avec la proximité profonde”,
-desorganise: "Désorganisé — réponses mixtes, tension entre rapprochement et fuite”,
-};
-return labels[dominant] || "Non déterminé”;
+  if (!scenarioAnswers || Object.keys(scenarioAnswers).length < 2) return "Non déterminé";
+  const counts = { secure: 0, anxieux: 0, evitant: 0, desorganise: 0 };
+  Object.values(scenarioAnswers).forEach(v => { if (counts[v] !== undefined) counts[v]++; });
+  const max = Math.max(...Object.values(counts));
+  const dominant = Object.entries(counts).find(([, v]) => v === max)?.[0];
+  const labels = {
+    secure: "Sécure — connexion naturelle et confiance dans le lien",
+    anxieux: "Anxieux-préoccupé — besoin de réassurance, sensible à la distance",
+    evitant: "Évitant-détaché — besoin d'espace, difficulté avec la proximité profonde",
+    desorganise: "Désorganisé — réponses mixtes, tension entre rapprochement et fuite",
+  };
+  return labels[dominant] || "Non déterminé";
 }
+
 function getVerdict3Mots(gp) {
-const key = gp >= 80 ? "80-100” : gp >= 65 ? "65-79” : gp >= 50 ? "50-64” : gp >= 35 ? "35-49” : "0-34”;
-const verdicts = VERDICTS_3_MOTS[key];
-return verdicts[Math.floor(Math.random() * verdicts.length)];
+  const key = gp >= 80 ? "80-100" : gp >= 65 ? "65-79" : gp >= 50 ? "50-64" : gp >= 35 ? "35-49" : "0-34";
+  const verdicts = VERDICTS_3_MOTS[key];
+  return verdicts[Math.floor(Math.random() * verdicts.length)];
 }
+
 function buildDiagnosticPrompt(name, profil, genre, role, annees, enfants, scores, opens, bm, patternScores, partnerData) {
-const pl = profil === "marie” ? "Marié(e)” : profil === "fiance” ? "Fiancé(e)” : "Célibataire”;
-const dimsFormatted = Object.entries(scores).map(([k, v]) => {
-const b = bm[k];
-const delta = b ? (v.p - b.stable) : null;
-const ecart = delta !== null ? ` (${delta >= 0 ? "+" : ""}${delta} pts vs référence)` : "”;
-const alerte = v.p < 40 ? " ⚠ CRITIQUE” : v.p < 55 ? " ⚠ FRAGILE” : "”;
-return ` • ${v.label} : ${v.p}/100${ecart} — ${v.lv.l}${alerte}`;
-}).join(”\n”);
-const activePatterns = patternScores ? Object.entries(patternScores).filter(([, v]) => v > 40).sort(([, a], [, b]) => b - a).map(([k, v]) => `${k} (${v}/100 — ${v > 70 ? "DOMINANT" : "émergent"})`) : [];
-const patSection = activePatterns.length > 0
-? `\nPATTERNS ARCHÉTYPAUX DÉTECTÉS (parmi 15 archétypes Eden) :\n ${activePatterns.join("\n ")}`
-: "\nAucun pattern dominant détecté — analyser l'ensemble des données pour identifier le plus probable parmi les 15 archétypes Eden.”;
-const rolesArisque = ["PDG”,"Entrepreneur”,"Cadre”,"Officier”,"Avocat”,"Médecin”];
-const alertes = [];
-if (role && rolesArisque.some(r => role.includes(r))) alertes.push(` SYNDROME DU GÉNÉRAL ABSENT : ${name} exerce un rôle de leadership professionnel intense.`);
-if (profil === "marie” && annees && parseInt(annees) > 10) alertes.push(` DIABÈTE RELATIONNEL (${annees} ans de mariage) : Après 10 ans, la routine peut masquer une dégradation.`);
-if (enfants && parseInt(enfants) >= 2) alertes.push(` RISQUE DE TRIANGULATION (${enfants} enfants).`);
-const alertesSection = alertes.length > 0 ? `\nPOINTS D'ATTENTION :\n${alertes.join("\n")}` : "”;
-const opensFiltrees = opens.filter(a => a.ans?.trim());
-const oqSection = opensFiltrees.length > 0 ? opensFiltrees.map(q => ` Q: "${q.q}"\n R: "${q.ans}"`).join(”\n\n”) : " (Non renseignées)”;
-const pData = partnerData ? `\nDONNÉES CONJOINT(E) :\n` + Object.entries(partnerData.scores).map(([k, v]) => ` • ${v.label} : ${v.p}/100`) .join(”\n”) : "”;
-const formList = FORMATIONS.filter(f => f.profil.includes(profil)).map(f => ` • "${f.nom}" : ${f.prix}`).join(”\n”);
-const scoresSorted = Object.entries(scores).sort(([, a], [, b]) => b.p - a.p);
-const top2 = scoresSorted.slice(0, 2).map(([, v]) => `${v.label} (${v.p}/100)`).join(”, ");
-const bottom3 = scoresSorted.slice(-3).reverse().map(([, v]) => `${v.label} (${v.p}/100)`).join(”, ");
-const scoreGlobal = Math.round(Object.values(scores).reduce((s, v) => s + v.p, 0) / Object.values(scores).length);
-return `Tu es le Conseiller de l'Académie Eden — Institut du Leadership Familial, fondé par Zady Zozoro à Abidjan.\nTon ton : médecin bienveillant — juste, direct, chaleureux.\n\nDONNÉES : ${name} | ${pl} | ${genre || ""}${role ? ` | ${role}`: ""}${annees ?` | ${annees} ans de mariage`: ""}${enfants ?` | ${enfants} enfants` : ""}\nSCORE GLOBAL : ${scoreGlobal}/100 | FORCES : ${top2} | FRAGILITÉS : ${bottom3}\nSCORES :\n${dimsFormatted}${patSection}${alertesSection}${pData}\n\nRÉPONSES OUVERTES :\n${oqSection}\n\nFORMATIONS DISPONIBLES :\n${formList}\n\nGÉNÈRE LE RAPPORT — MINIMUM 800 MOTS.\nSections obligatoires avec titres **EN GRAS** :\n**PROFIL ARCHÉTYPAL** — Profil parmi : "Stable mais vulnérable" / "Illusion de paix" / "Désalignement croissant" / "Crise structurelle" / "Urgence conjugale"\n**PHRASE CLÉ** — Une phrase percutante et spécifique à ${name}.\n**VOS FORCES** — Les 2 dimensions les plus élevées. Prénom ${name} au moins 2 fois.\n**VOS FRAGILITÉS CRITIQUES** — Les 2-3 dimensions les plus faibles. Pour chaque : score, blessure sous-jacente, impact concret.\n**PATTERN RELATIONNEL DOMINANT** — Mécanisme précis, antidote biblique.\n**CE QUE VOUS NE VOYEZ PAS ENCORE** — Analyse systémique.\n**TRAJECTOIRE** — Sans action / Avec engagement.\n**PRESCRIPTION** — Formation prescrite avec prix. Plan d'action 7 jours.\nRÈGLES : Prénom ${name} dans chaque section. Ton expert et chaleureux. Références bibliques naturellement intégrées. Jamais de jargon médical ou psychologique clinique.`;
+  const pl = profil === "marie" ? "Marié(e)" : profil === "fiance" ? "Fiancé(e)" : "Célibataire";
+  const dimsFormatted = Object.entries(scores).map(([k, v]) => {
+    const b = bm[k];
+    const delta = b ? (v.p - b.stable) : null;
+    const ecart = delta !== null ? ` (${delta >= 0 ? "+" : ""}${delta} pts vs référence)` : "";
+    const alerte = v.p < 40 ? " ⚠ CRITIQUE" : v.p < 55 ? " ⚠ FRAGILE" : "";
+    return ` • ${v.label} : ${v.p}/100${ecart} — ${v.lv.l}${alerte}`;
+  }).join("\n");
+  const activePatterns = patternScores ? Object.entries(patternScores).filter(([, v]) => v > 40).sort(([, a], [, b]) => b - a).map(([k, v]) => `${k} (${v}/100 — ${v > 70 ? "DOMINANT" : "émergent"})`) : [];
+  const patSection = activePatterns.length > 0
+    ? `\nPATTERNS ARCHÉTYPAUX DÉTECTÉS (parmi 15 archétypes Eden) :\n ${activePatterns.join("\n ")}`
+    : "\nAucun pattern dominant détecté — analyser l'ensemble des données pour identifier le plus probable parmi les 15 archétypes Eden.";
+  const rolesArisque = ["PDG", "Entrepreneur", "Cadre", "Officier", "Avocat", "Médecin"];
+  const alertes = [];
+  if (role && rolesArisque.some(r => role.includes(r))) alertes.push(` SYNDROME DU GÉNÉRAL ABSENT : ${name} exerce un rôle de leadership professionnel intense.`);
+  if (profil === "marie" && annees && parseInt(annees) > 10) alertes.push(` DIABÈTE RELATIONNEL (${annees} ans de mariage) : Après 10 ans, la routine peut masquer une dégradation.`);
+  if (enfants && parseInt(enfants) >= 2) alertes.push(` RISQUE DE TRIANGULATION (${enfants} enfants).`);
+  const alertesSection = alertes.length > 0 ? `\nPOINTS D'ATTENTION :\n${alertes.join("\n")}` : "";
+  const opensFiltrees = opens.filter(a => a.ans?.trim());
+  const oqSection = opensFiltrees.length > 0 ? opensFiltrees.map(q => ` Q: "${q.q}"\n R: "${q.ans}"`).join("\n\n") : " (Non renseignées)";
+  const pData = partnerData ? `\nDONNÉES CONJOINT(E) :\n` + Object.entries(partnerData.scores).map(([k, v]) => ` • ${v.label} : ${v.p}/100`).join("\n") : "";
+  const formList = FORMATIONS.filter(f => f.profil.includes(profil)).map(f => ` • "${f.nom}" : ${f.prix}`).join("\n");
+  const scoresSorted = Object.entries(scores).sort(([, a], [, b]) => b.p - a.p);
+  const top2 = scoresSorted.slice(0, 2).map(([, v]) => `${v.label} (${v.p}/100)`).join(", ");
+  const bottom3 = scoresSorted.slice(-3).reverse().map(([, v]) => `${v.label} (${v.p}/100)`).join(", ");
+  const scoreGlobal = Math.round(Object.values(scores).reduce((s, v) => s + v.p, 0) / Object.values(scores).length);
+  return `Tu es le Conseiller de l'Académie Eden — Institut du Leadership Familial, fondé par Zady Zozoro à Abidjan.\nTon ton : médecin bienveillant — juste, direct, chaleureux.\n\nDONNÉES : ${name} | ${pl} | ${genre || ""}${role ? ` | ${role}` : ""}${annees ? ` | ${annees} ans de mariage` : ""}${enfants ? ` | ${enfants} enfants` : ""}\nSCORE GLOBAL : ${scoreGlobal}/100 | FORCES : ${top2} | FRAGILITÉS : ${bottom3}\nSCORES :\n${dimsFormatted}${patSection}${alertesSection}${pData}\n\nRÉPONSES OUVERTES :\n${oqSection}\n\nFORMATIONS DISPONIBLES :\n${formList}\n\nGÉNÈRE LE RAPPORT — MINIMUM 800 MOTS.\nSections obligatoires avec titres **EN GRAS** :\n**PROFIL ARCHÉTYPAL** — Profil parmi : "Stable mais vulnérable" / "Illusion de paix" / "Désalignement croissant" / "Crise structurelle" / "Urgence conjugale"\n**PHRASE CLÉ** — Une phrase percutante et spécifique à ${name}.\n**VOS FORCES** — Les 2 dimensions les plus élevées. Prénom ${name} au moins 2 fois.\n**VOS FRAGILITÉS CRITIQUES** — Les 2-3 dimensions les plus faibles. Pour chaque : score, blessure sous-jacente, impact concret.\n**PATTERN RELATIONNEL DOMINANT** — Mécanisme précis, antidote biblique.\n**CE QUE VOUS NE VOYEZ PAS ENCORE** — Analyse systémique.\n**TRAJECTOIRE** — Sans action / Avec engagement.\n**PRESCRIPTION** — Formation prescrite avec prix. Plan d'action 7 jours.\nRÈGLES : Prénom ${name} dans chaque section. Ton expert et chaleureux. Références bibliques naturellement intégrées. Jamais de jargon médical ou psychologique clinique.`;
 }
+
 function buildPortraitPrompt(nom, profil, eaux, os, chair, appreciation, attachement) {
-const profileLabel = profil === "marie” ? "Marié(e)” : profil === "fiance” ? "Fiancé(e)” : "Célibataire”;
-const appreciationPrimaire = appreciation?.recevoir?.[0] || "non renseigné”;
-const appreciationDonne = appreciation?.donner?.[0] || "non renseigné”;
-const attachementStyle = computeAttachementStyle(attachement);
-const archetypesText = Object.entries(ARCHETYPES).map(([k, v]) => `${k} (${v.titre}) — Signaux : ${v.mecanisme.slice(0, 60)}...`).join(”\n”);
-return `Tu es le Conseiller de l'Académie Eden, fondé par Zady Zozoro — expert en leadership familial.\n\n═══ RÈGLES ABSOLUES ═══\nINTERDIT : "Vous êtes [trouble/blessure]", "Vous souffrez de...", tout diagnostic médical\nOBLIGATOIRE : "Vos réponses suggèrent...", "Ce profil peut indiquer...", "Il est possible que..."\nCroiser minimum 3 indices avant toute conclusion. Ton : pastoral, bienveillant, autoritaire mais jamais accusateur.\n\n═══ CONTEXTE ═══\nPrénom : ${nom} | Profil : ${profileLabel}\n\n═══ LES EAUX ═══\n- Amour exprimé par : ${eaux.e1 || "non renseigné"}\n- Rang fratrie : ${eaux.e2 || "non renseigné"} — ${eaux.e2_open || ""}\n- Conflits familiaux : ${eaux.e3 || "non renseigné"}\n- Figure paternelle : ${eaux.e4 || "non renseigné"}\n- Figure maternelle : ${eaux.e5 || "non renseigné"}\n- Relation des parents : ${eaux.e13 || "non renseigné"} — ${eaux.e13_open || ""}\n- Foi dans le foyer : ${eaux.e14 || "non renseigné"}\n- Mémoire douloureuse : ${eaux.e6 || "non renseigné"} — ${eaux.e6_open || ""}\n- Mémoire de gratitude : ${eaux.e7 || "non renseigné"} — ${eaux.e7_open || ""}\n- Événement formateur : ${eaux.e8 || ""}\n- Règles familiales : ${eaux.e9 || ""}\n- Schéma répété : ${eaux.e10 || ""}\n- Force familiale : ${eaux.e11 || ""}\n- Atmosphère enfance : ${eaux.e12 || ""}\n- Schémas générationnels : ${Array.isArray(eaux.e16) ? eaux.e16.join(", ") : eaux.e16 || "non renseigné"}\n- Pratiques spirituelles : ${eaux.e17 || "non renseigné"} — ${eaux.e17_open || ""}\n\n═══ LES OS ═══\n- Valeur fondamentale : ${os.o1 || os.oc1 || ""}\n- Cohérence valeurs/actions : ${os.o2 || ""}\n- Vision du foyer dans 5 ans : ${os.o3 || os.oc3 || ""}\n- Perception alignement : ${os.o4 || ""}\n- Définition être aimé : ${os.o5 || ""}\n- Mérite l'amour : ${os.o6 || ""}\n- Foi dans décisions : ${os.o7 || ""}\n- Définition mariage réussi : ${os.o8 || ""}\n- Ligne non franchissable : ${os.o9 || os.oc4 || ""}\n- Conviction à transmettre : ${os.o10 || os.oc6 || ""}\n\n═══ LA CHAIR ═══\n- Reçoit l'amour par : ${appreciationPrimaire}\n- Donne l'amour par : ${appreciationDonne}\n- Style d'attachement probable : ${attachementStyle}\n- Communication blessures : ${chair.ch1 || ""}/5\n- Écoute désaccord : ${chair.ch2 || ""}/5\n- Dire sa vérité : ${chair.ch3 || ""}/5\n- Réconciliation : ${chair.ch4 || ""}/5\n- Expression frustration : ${chair.ch5 || ""}/5\n- Introverti/Extraverti : ${chair.ch6 || ""}/5\n- Logique/Émotionnel : ${chair.ch7 || ""}/5\n- Structuré/Flexible : ${chair.ch8 || ""}/5\n\n═══ ARCHÉTYPES DISPONIBLES ═══\n${archetypesText}\n\n═══ STRUCTURE DU PORTRAIT ═══\n**LES EAUX DE ${nom.toUpperCase()}**\nNommez 2-3 eaux marquantes. Chaque eau : nommée, expliquée, reliée aux réponses concrètes.\n\n**LES OS DE ${nom.toUpperCase()}**\n1. Os solides (valeurs formées et cohérentes)\n2. Os fracturés si présents (formulation probabiliste et bienveillante)\n\n**LA CHAIR DE ${nom.toUpperCase()}**\n- Profil d'appréciation : comment ${nom} donne et reçoit l'amour, et le décalage éventuel\n- Style d'attachement probable : ce que ça produit dans la relation\n- Tempérament : introversion/extraversion, logique/émotionnel, structuré/flexible\n\n**PATTERNS RELATIONNELS DÉTECTÉS**\nMaximum 3 archétypes. Pour chaque : Nom + référence + mécanisme spécifique + orientation pastorale.\n\n**ORIENTATION**\nType de travail intérieur prioritaire. Formation Eden recommandée.\n\n**DISCLAIMER**\nTerminer par : "Ce portrait est une analyse indicative basée sur vos réponses. Il ne remplace pas un accompagnement professionnel."\n\nMINIMUM 700 MOTS. Langue : français. Ton : médecin bienveillant. Utiliser le prénom ${nom} naturellement.`;
+  const profileLabel = profil === "marie" ? "Marié(e)" : profil === "fiance" ? "Fiancé(e)" : "Célibataire";
+  const appreciationPrimaire = appreciation?.recevoir?.[0] || "non renseigné";
+  const appreciationDonne = appreciation?.donner?.[0] || "non renseigné";
+  const attachementStyle = computeAttachementStyle(attachement);
+  const archetypesText = Object.entries(ARCHETYPES).map(([k, v]) => `${k} (${v.titre}) — Signaux : ${v.mecanisme.slice(0, 60)}...`).join("\n");
+  return `Tu es le Conseiller de l'Académie Eden, fondé par Zady Zozoro — expert en leadership familial.\n\n═══ RÈGLES ABSOLUES ═══\nINTERDIT : "Vous êtes [trouble/blessure]", "Vous souffrez de...", tout diagnostic médical\nOBLIGATOIRE : "Vos réponses suggèrent...", "Ce profil peut indiquer...", "Il est possible que..."\nCroiser minimum 3 indices avant toute conclusion. Ton : pastoral, bienveillant, autoritaire mais jamais accusateur.\n\n═══ CONTEXTE ═══\nPrénom : ${nom} | Profil : ${profileLabel}\n\n═══ LES EAUX ═══\n- Amour exprimé par : ${eaux.e1 || "non renseigné"}\n- Rang fratrie : ${eaux.e2 || "non renseigné"} — ${eaux.e2_open || ""}\n- Conflits familiaux : ${eaux.e3 || "non renseigné"}\n- Figure paternelle : ${eaux.e4 || "non renseigné"}\n- Figure maternelle : ${eaux.e5 || "non renseigné"}\n- Relation des parents : ${eaux.e13 || "non renseigné"} — ${eaux.e13_open || ""}\n- Foi dans le foyer : ${eaux.e14 || "non renseigné"}\n- Mémoire douloureuse : ${eaux.e6 || "non renseigné"} — ${eaux.e6_open || ""}\n- Mémoire de gratitude : ${eaux.e7 || "non renseigné"} — ${eaux.e7_open || ""}\n- Événement formateur : ${eaux.e8 || ""}\n- Règles familiales : ${eaux.e9 || ""}\n- Schéma répété : ${eaux.e10 || ""}\n- Force familiale : ${eaux.e11 || ""}\n- Atmosphère enfance : ${eaux.e12 || ""}\n- Schémas générationnels : ${Array.isArray(eaux.e16) ? eaux.e16.join(", ") : eaux.e16 || "non renseigné"}\n- Pratiques spirituelles : ${eaux.e17 || "non renseigné"} — ${eaux.e17_open || ""}\n\n═══ LES OS ═══\n- Valeur fondamentale : ${os.o1 || os.oc1 || ""}\n- Cohérence valeurs/actions : ${os.o2 || ""}\n- Vision du foyer dans 5 ans : ${os.o3 || os.oc3 || ""}\n- Perception alignement : ${os.o4 || ""}\n- Définition être aimé : ${os.o5 || ""}\n- Mérite l'amour : ${os.o6 || ""}\n- Foi dans décisions : ${os.o7 || ""}\n- Définition mariage réussi : ${os.o8 || ""}\n- Ligne non franchissable : ${os.o9 || os.oc4 || ""}\n- Conviction à transmettre : ${os.o10 || os.oc6 || ""}\n\n═══ LA CHAIR ═══\n- Reçoit l'amour par : ${appreciationPrimaire}\n- Donne l'amour par : ${appreciationDonne}\n- Style d'attachement probable : ${attachementStyle}\n- Communication blessures : ${chair.ch1 || ""}/5\n- Écoute désaccord : ${chair.ch2 || ""}/5\n- Dire sa vérité : ${chair.ch3 || ""}/5\n- Réconciliation : ${chair.ch4 || ""}/5\n- Expression frustration : ${chair.ch5 || ""}/5\n- Introverti/Extraverti : ${chair.ch6 || ""}/5\n- Logique/Émotionnel : ${chair.ch7 || ""}/5\n- Structuré/Flexible : ${chair.ch8 || ""}/5\n\n═══ ARCHÉTYPES DISPONIBLES ═══\n${archetypesText}\n\n═══ STRUCTURE DU PORTRAIT ═══\n**LES EAUX DE ${nom.toUpperCase()}**\nNommez 2-3 eaux marquantes. Chaque eau : nommée, expliquée, reliée aux réponses concrètes.\n\n**LES OS DE ${nom.toUpperCase()}**\n1. Os solides (valeurs formées et cohérentes)\n2. Os fracturés si présents (formulation probabiliste et bienveillante)\n\n**LA CHAIR DE ${nom.toUpperCase()}**\n- Profil d'appréciation : comment ${nom} donne et reçoit l'amour, et le décalage éventuel\n- Style d'attachement probable : ce que ça produit dans la relation\n- Tempérament : introversion/extraversion, logique/émotionnel, structuré/flexible\n\n**PATTERNS RELATIONNELS DÉTECTÉS**\nMaximum 3 archétypes. Pour chaque : Nom + référence + mécanisme spécifique + orientation pastorale.\n\n**ORIENTATION**\nType de travail intérieur prioritaire. Formation Eden recommandée.\n\n**DISCLAIMER**\nTerminer par : "Ce portrait est une analyse indicative basée sur vos réponses. Il ne remplace pas un accompagnement professionnel."\n\nMINIMUM 700 MOTS. Langue : français. Ton : médecin bienveillant. Utiliser le prénom ${nom} naturellement.`;
 }
 // ═══════════════════════════════════════════════════════════════════════════
 // SECTION 4b — FONCTIONS : ALERTES · RAPPORT INTERNE · TÉMOIGNAGES
