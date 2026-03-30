@@ -2229,7 +2229,7 @@ function ScenarioAttachement({ scenario, value, onChange }) {
     </div>
   );
 
- // ── RAPPORT ──
+// ── RAPPORT ──
   if (phase === "rapport") {
     const attachStyle = computeAttachementStyle(repAttachement);
     const primaryRecevoir = PROFIL_APPRECIATION_OPTIONS.find(o => o.id === appreciationRecevoir[0])?.label || "Non renseigné";
@@ -2277,8 +2277,6 @@ function ScenarioAttachement({ scenario, value, onChange }) {
       </div>
     );
   }
-  return null;
-}
 // ═══════════════════════════════════════════════════════════════════════════
 // SECTION 9 — MODULE ADMIN
 // ═══════════════════════════════════════════════════════════════════════════
@@ -2335,7 +2333,7 @@ function AdminModule({ codes, onSaveCodes, onBack }) {
         {[
           { label: "Codes total", val: total, color: C.gold },
           { label: "Codes utilisés", val: usedC, color: C.green },
-          { label: "Couples", val: coupleCount, color: C.blue },
+          { label: "Couples", val: coupleCount, color: C.blue }
         ].map(stat => (
           <div key={stat.label} style={{ background: "#0D1018", border: "1px solid #1E2330", padding: "14px 12px" }}>
             <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 28, color: stat.color, lineHeight: 1 }}>{stat.val}</div>
@@ -2486,7 +2484,6 @@ export default function App() {
     else setAdminErr("Mot de passe incorrect.");
   }
 
-  // MODAL GLOBAL
   if (modal) return (
     <div className="eden-app">
       <div className="modal-overlay" onClick={() => setModal(null)}>
@@ -2500,26 +2497,25 @@ export default function App() {
     </div>
   );
 
-  // UPGRADE MODAL
   if (upgradeModal) {
     const TIERS = [
       {
         id: "simple", label: "Simple", couleur: "#4A9B6A",
         prix: "15 000 FCFA/mois",
-        features: ["Bilan 360° illimité", "Portrait Eaux·Os·Chair", "1 diagnostic thématique/mois", "Seed of Eden quotidien", "Arche Eden hebdomadaire", "Groupe WhatsApp privé", "IA illimitée (30 questions/mois)", "1 formation offerte/mois"],
+        features: ["Bilan 360° illimité", "Portrait Eaux·Os·Chair", "1 diagnostic thématique/mois", "Seed of Eden quotidien", "Arche Eden hebdomadaire", "Groupe WhatsApp privé", "IA illimitée (30 questions/mois)", "1 formation offerte/mois"]
       },
       {
         id: "argent", label: "Argent", couleur: "#7BAFC9",
         prix: "25 000 FCFA/mois",
         extra: "Tout Simple +",
-        features: ["Accès à toutes les formations", "Accès à tous les PDF", "Suivi mensuel personnalisé", "Export PDF des rapports"],
+        features: ["Accès à toutes les formations", "Accès à tous les PDF", "Suivi mensuel personnalisé", "Export PDF des rapports"]
       },
       {
         id: "premium", label: "Premium", couleur: "#C9A84C",
         prix: "40 000 FCFA/mois",
         extra: "Tout Argent +",
-        features: ["Séance 30 min/mois (accompagnateur)", "Séance trimestrielle avec Zady", "Accès aux replays", "Plan d'action IA mensuel", "Graphiques de progression", "Alertes proactives"],
-      },
+        features: ["Séance 30 min/mois (accompagnateur)", "Séance trimestrielle avec Zady", "Accès aux replays", "Plan d'action IA mensuel", "Graphiques de progression", "Alertes proactives"]
+      }
     ];
     return (
       <div className="eden-app">
@@ -2560,7 +2556,6 @@ export default function App() {
     );
   }
 
-  // HOME
   if (currentModule === "home") return (
     <div className="eden-app">
       <div className="eden-header">
@@ -2632,12 +2627,12 @@ export default function App() {
                       jour: new Date().getDate(),
                       pilier: "communication",
                       contenu: "Ce soir, prenez 15 minutes — sans téléphone — pour vous regarder dans les yeux et répondre à cette question : 'Qu'est-ce que tu vis en ce moment que tu ne m'as pas encore dit ?'",
-                      action: "Posez la question. Écoutez sans interrompre. Puis répondez vous aussi.",
+                      action: "Posez la question. Écoutez sans interrompre. Puis répondez vous aussi."
                     }],
                     questions: [],
                     rapportAnnuel: null,
                     bilanInitial: null,
-                    notesAdmin: "",
+                    notesAdmin: ""
                   };
                   handleSaveSubscriberProfile(demo);
                 }
@@ -2657,7 +2652,6 @@ export default function App() {
     </div>
   );
 
-  // ADMIN LOGIN
   if (currentModule === "admin_login") return (
     <div className="eden-app">
       <div className="eden-header">
@@ -2683,7 +2677,6 @@ export default function App() {
     </div>
   );
 
-  // ADMIN
   if (currentModule === "admin") return (
     <div className="eden-app">
       <div className="eden-header">
@@ -2697,7 +2690,6 @@ export default function App() {
     </div>
   );
 
-  // BILAN 360
   if (currentModule === "bilan") return (
     <div className="eden-app">
       <div className="eden-header">
@@ -2717,7 +2709,6 @@ export default function App() {
     </div>
   );
 
-  // PORTRAIT
   if (currentModule === "portrait") return (
     <div className="eden-app">
       <div className="eden-header">
@@ -2736,7 +2727,6 @@ export default function App() {
     </div>
   );
 
-  // ESPACE ABONNE
   if (currentModule === "espace_abonne" && subscriberProfile) return (
     <div className="eden-app">
       <div style={{ padding: "10px 20px", borderBottom: "1px solid #1E2330", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
