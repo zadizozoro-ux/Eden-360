@@ -1114,343 +1114,353 @@ textarea:focus,input:focus{outline:none;}
 .form-card-prix{font-size:11px;color:#C9A84C;margin-bottom:4px;}
 .form-card-desc{font-size:11px;color:#6A6070;line-height:1.5;}
 .abonne-banner{background:linear-gradient(135deg,#0A1208,#0D1018);border:1px solid #4A9B6A44;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;}
-`;
-// ═══════════════════════════════════════════════════════════════════════════
+`;// ═══════════════════════════════════════════════════════════════════════════
 // SECTION 6 — COMPOSANTS PARTAGÉS
 // ═══════════════════════════════════════════════════════════════════════════
+
 function Footer() {
-return (
-<div className="footer">
-<div className="footer-logo">Académie Eden · Institut de Leadership Familial</div>
-<div className="footer-copy">Fondé par Zady Zozoro · Abidjan, Côte d'Ivoire · © 2025</div>
-</div>
-);
+  return (
+    <div className="footer">
+      <div className="footer-logo">Académie Eden · Institut de Leadership Familial</div>
+      <div className="footer-copy">Fondé par Zady Zozoro · Abidjan, Côte d'Ivoire · © 2025</div>
+    </div>
+  );
 }
+
 function PremiumGate({ feature, onUpgrade, children }) {
-return (
-<div className="premium-lock">
-<div className="premium-lock-tag">✦ Fonctionnalité Premium</div>
-<div className="premium-lock-title">{feature}</div>
-<div className="premium-lock-desc">Disponible avec l'abonnement Eden Premium (15 000 FCFA/mois). Accès illimité aux deux modules + 5 fonctionnalités exclusives.</div>
-<button className="btn-gold-outline” style={{ width: "100%” }} onClick={onUpgrade}>
-Activer l'abonnement Premium
-</button>
-</div>
-);
+  return (
+    <div className="premium-lock">
+      <div className="premium-lock-tag">✦ Fonctionnalité Premium</div>
+      <div className="premium-lock-title">{feature}</div>
+      <div className="premium-lock-desc">Disponible avec l'abonnement Eden Premium (15 000 FCFA/mois). Accès illimité aux deux modules + 5 fonctionnalités exclusives.</div>
+      <button className="btn-gold-outline" style={{ width: "100%" }} onClick={onUpgrade}>
+        Activer l'abonnement Premium
+      </button>
+    </div>
+  );
 }
+
 function FacadeAlert({ ans, profil, onContinue, onRevise }) {
-const facade = computeFacadeScore(ans, profil);
-if (!facade || facade.level === "faible” || !facade.message) { onContinue(); return null; }
-return (
-<div style={{ position:"fixed”, inset:0, background:”#000000EE”, zIndex:300, display:"flex”, alignItems:"center”, justifyContent:"center”, padding:24 }}>
-<div style={{ background:”#0D1018”, border:"1px solid #C9A84C66”, maxWidth:480, width:"100%”, padding:"32px 28px” }}>
-<div style={{ fontSize:9, letterSpacing:”.22em”, textTransform:"uppercase”, color:C.gold, marginBottom:16 }}>◈ Lecture de cohérence</div>
-<div style={{ fontFamily:”‘Cormorant Garamond',serif”, fontSize:22, color:”#F0EBE0”, marginBottom:8, lineHeight:1.3 }}>Avant de continuer…</div>
-<p style={{ fontSize:13, color:C.text, lineHeight:1.8, marginBottom:24 }}>{facade.message}</p>
-<p style={{ fontSize:12, color:C.muted, lineHeight:1.7, marginBottom:28 }}>Un bilan honnête vous servira davantage qu'un rapport flatteur. La qualité de votre rapport dépend directement de la qualité de vos réponses.</p>
-<div style={{ display:"flex”, gap:10, flexDirection:"column” }}>
-<button onClick={onRevise} className="btn-gold-outline” style={{ width:"100%” }}>Revoir mes réponses avec plus de nuance</button>
-<button onClick={onContinue} className="btn-primary">Continuer — mes réponses sont authentiques</button>
-</div>
-</div>
-</div>
-);
+  const facade = computeFacadeScore(ans, profil);
+  if (!facade || facade.level === "faible" || !facade.message) {
+    if (onContinue) onContinue();
+    return null;
+  }
+  return (
+    <div style={{ position: "fixed", inset: 0, background: "#000000EE", zIndex: 300, display: "flex", alignItems: "center", justifyContent: "center", padding: 24 }}>
+      <div style={{ background: "#0D1018", border: "1px solid #C9A84C66", maxWidth: 480, width: "100%", padding: "32px 28px" }}>
+        <div style={{ fontSize: 9, letterSpacing: ".22em", textTransform: "uppercase", color: C.gold, marginBottom: 16 }}>◈ Lecture de cohérence</div>
+        <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 22, color: "#F0EBE0", marginBottom: 8, lineHeight: 1.3 }}>Avant de continuer…</div>
+        <p style={{ fontSize: 13, color: C.text, lineHeight: 1.8, marginBottom: 24 }}>{facade.message}</p>
+        <p style={{ fontSize: 12, color: C.muted, lineHeight: 1.7, marginBottom: 28 }}>Un bilan honnête vous servira davantage qu'un rapport flatteur. La qualité de votre rapport dépend directement de la qualité de vos réponses.</p>
+        <div style={{ display: "flex", gap: 10, flexDirection: "column" }}>
+          <button onClick={onRevise} className="btn-gold-outline" style={{ width: "100%" }}>Revoir mes réponses avec plus de nuance</button>
+          <button onClick={onContinue} className="btn-primary">Continuer — mes réponses sont authentiques</button>
+        </div>
+      </div>
+    </div>
+  );
 }
+
 function ViolenceProtocol({ signals, onContinue }) {
-if (!signals || signals.length === 0) return null;
-const resources = [
-{ pays:"Côte d'Ivoire”, num:"1010 / +225 27 21 24 53 53” },
-{ pays:"Sénégal”, num:"116” },
-{ pays:"Cameroun”, num:”+237 222 23 40 89” },
-{ pays:"France (diaspora)”, num:"3919” },
-{ pays:"International”, num:"wa.me/+12134046022” },
-];
-return (
-<div style={{ position:"fixed”, inset:0, background:"linear-gradient(135deg,#0A0005,#120008)”, zIndex:500, display:"flex”, alignItems:"center”, justifyContent:"center”, padding:20 }}>
-<div style={{ background:”#0D0008”, border:"1px solid #C0614A66”, maxWidth:500, width:"100%”, padding:"32px 28px” }}>
-<div style={{ width:40, height:40, borderRadius:"50%”, background:”#C0614A22”, border:"1px solid #C0614A”, display:"flex”, alignItems:"center”, justifyContent:"center”, fontSize:18, marginBottom:20 }}>⚠</div>
-<div style={{ fontSize:9, letterSpacing:”.22em”, textTransform:"uppercase”, color:C.red, marginBottom:12 }}>Message important</div>
-<div style={{ fontFamily:”‘Cormorant Garamond',serif”, fontSize:20, color:”#F0EBE0”, marginBottom:16, lineHeight:1.35 }}>Certaines de vos réponses nous préoccupent</div>
-<p style={{ fontSize:13, color:C.text, lineHeight:1.8, marginBottom:20 }}>Ce que vous avez décrit peut indiquer une situation où votre sécurité ou votre liberté est compromise. Aucun diagnostic ne vaut votre sécurité.</p>
-<p style={{ fontSize:12, color:”#A0906A”, lineHeight:1.7, marginBottom:24, fontStyle:"italic” }}>L'Académie Eden ne peut pas vous accompagner seul(e) dans cette situation. Un professionnel formé à cela peut faire la différence.</p>
-<div style={{ background:”#0A0005”, border:"1px solid #C0614A33”, padding:"16px 18px”, marginBottom:24 }}>
-<div style={{ fontSize:9, color:C.red, letterSpacing:”.18em”, textTransform:"uppercase”, marginBottom:12 }}>Ressources confidentielles — 24h/24</div>
-{resources.map((r, i) => (
-<div key={i} style={{ display:"flex”, justifyContent:"space-between”, padding:"6px 0”, borderBottom: i < resources.length - 1 ? "1px solid #1A0A10” : "none” }}>
-<div style={{ fontSize:11, color:C.text }}>{r.pays}</div>
-<div style={{ fontSize:12, color:”#E8A0A0”, fontWeight:600 }}>{r.num}</div>
-</div>
-))}
-</div>
-<div style={{ display:"flex”, flexDirection:"column”, gap:10 }}>
-<button className="btn-wa” onClick={() => window.open(`https://wa.me/${WHATSAPP_NUM}?text=${encodeURIComponent("Bonjour, j'ai besoin d'aide urgente suite à mon bilan Eden.")}`)}>Contacter l'Académie Eden maintenant</button>
-<button onClick={onContinue} style={{ background:"transparent”, border:"1px solid #3A2A2A”, color:”#6A5050”, padding:"11px 20px”, cursor:"pointer”, fontFamily:”‘Jost',sans-serif”, fontSize:11 }}>Continuer quand même</button>
-</div>
-</div>
-</div>
-);
+  if (!signals || signals.length === 0) return null;
+  const resources = [
+    { pays: "Côte d'Ivoire", num: "1010 / +225 27 21 24 53 53" },
+    { pays: "Sénégal", num: "116" },
+    { pays: "Cameroun", num: "+237 222 23 40 89" },
+    { pays: "France (diaspora)", num: "3919" },
+    { pays: "International", num: "wa.me/+12134046022" },
+  ];
+  return (
+    <div style={{ position: "fixed", inset: 0, background: "linear-gradient(135deg,#0A0005,#120008)", zIndex: 500, display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}>
+      <div style={{ background: "#0D0008", border: "1px solid #C0614A66", maxWidth: 500, width: "100%", padding: "32px 28px" }}>
+        <div style={{ width: 40, height: 40, borderRadius: "50%", background: "#C0614A22", border: "1px solid #C0614A", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18, marginBottom: 20 }}>⚠</div>
+        <div style={{ fontSize: 9, letterSpacing: ".22em", textTransform: "uppercase", color: C.red, marginBottom: 12 }}>Message important</div>
+        <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 20, color: "#F0EBE0", marginBottom: 16, lineHeight: 1.35 }}>Certaines de vos réponses nous préoccupent</div>
+        <p style={{ fontSize: 13, color: C.text, lineHeight: 1.8, marginBottom: 20 }}>Ce que vous avez décrit peut indiquer une situation où votre sécurité ou votre liberté est compromise. Aucun diagnostic ne vaut votre sécurité.</p>
+        <p style={{ fontSize: 12, color: "#A0906A", lineHeight: 1.7, marginBottom: 24, fontStyle: "italic" }}>L'Académie Eden ne peut pas vous accompagner seul(e) dans cette situation. Un professionnel formé à cela peut faire la différence.</p>
+        <div style={{ background: "#0A0005", border: "1px solid #C0614A33", padding: "16px 18px", marginBottom: 24 }}>
+          <div style={{ fontSize: 9, color: C.red, letterSpacing: ".18em", textTransform: "uppercase", marginBottom: 12 }}>Ressources confidentielles — 24h/24</div>
+          {resources.map((r, i) => (
+            <div key={i} style={{ display: "flex", justifyContent: "space-between", padding: "6px 0", borderBottom: i < resources.length - 1 ? "1px solid #1A0A10" : "none" }}>
+              <div style={{ fontSize: 11, color: C.text }}>{r.pays}</div>
+              <div style={{ fontSize: 12, color: "#E8A0A0", fontWeight: 600 }}>{r.num}</div>
+            </div>
+          ))}
+        </div>
+        <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+          <button className="btn-wa" onClick={() => window.open(`https://wa.me/${WHATSAPP_NUM}?text=${encodeURIComponent("Bonjour, j'ai besoin d'aide urgente suite à mon bilan Eden.")}`)}>Contacter l'Académie Eden maintenant</button>
+          <button onClick={onContinue} style={{ background: "transparent", border: "1px solid #3A2A2A", color: "#6A5050", padding: "11px 20px", cursor: "pointer", fontFamily: "'Jost',sans-serif", fontSize: 11 }}>Continuer quand même</button>
+        </div>
+      </div>
+    </div>
+  );
 }
+
 function RelationshipClock({ clockData }) {
-const [visible, setVisible] = useState(false);
-const [angle, setAngle] = useState(0);
-useEffect(() => {
-setTimeout(() => setVisible(true), 300);
-const target = clockData.urgency === "critique” ? 280 : clockData.urgency === "élevée” ? 200 : 130;
-const t = setTimeout(() => setAngle(target), 500);
-return () => clearTimeout(t);
-}, [clockData]);
-if (!clockData) return null;
-const urgencyColor = clockData.urgency === "critique” ? C.red : clockData.urgency === "élevée” ? C.orange : C.gold;
-const needleRad = (angle - 90) * (Math.PI / 180);
-const cx = 80, cy = 80, r = 60;
-const nx = cx + r * 0.75 * Math.cos(needleRad);
-const ny = cy + r * 0.75 * Math.sin(needleRad);
-return (
-<div style={{ opacity:visible?1:0, transform:visible?"translateY(0)”:"translateY(20px)”, transition:"all 0.6s ease”, background:”#0D0810”, border:`1px solid ${urgencyColor}44`, borderLeft:`4px solid ${urgencyColor}`, padding:"24px 22px”, marginBottom:24 }}>
-<div style={{ fontSize:9, color:urgencyColor, letterSpacing:”.22em”, textTransform:"uppercase”, marginBottom:16 }}>◎ Projection temporelle — Modèle Gottman</div>
-<div style={{ display:"flex”, gap:20, alignItems:"center” }}>
-<svg width="160” height="160” viewBox="0 0 160 160” style={{ flexShrink:0 }}>
-<circle cx="80" cy="80" r="75" fill="#0A060C" stroke="#1E1828" strokeWidth="1" />
-{[0,30,60,90,120,150,180,210,240,270,300,330].map(a => {
-const rad = (a - 90) * Math.PI / 180;
-const x1 = 80 + 55 * Math.cos(rad), y1 = 80 + 55 * Math.sin(rad);
-const x2 = 80 + 62 * Math.cos(rad), y2 = 80 + 62 * Math.sin(rad);
-return <line key={a} x1={x1} y1={y1} x2={x2} y2={y2} stroke=”#2A2040” strokeWidth={a % 90 === 0 ? 2 : 1} />;
-})}
-<line x1="80” y1="80” x2={nx} y2={ny} stroke={urgencyColor} strokeWidth="2.5” strokeLinecap="round” style={{ transition:"all 1.5s cubic-bezier(.34,1.56,.64,1)” }} />
-<circle cx="80" cy="80" r="5" fill={urgencyColor} />
-<text x="80" y="18" textAnchor="middle" fontSize="8" fill="#6A6070">Stable</text>
-<text x="147" y="84" textAnchor="start" fontSize="8" fill={C.red}>Crise</text>
-</svg>
-<div style={{ flex:1 }}>
-<div style={{ fontFamily:”‘Cormorant Garamond',serif”, fontSize:clockData.months <= 24 ? 32 : 24, color:urgencyColor, lineHeight:1, marginBottom:4 }}>{clockData.months} mois</div>
-<div style={{ fontSize:11, color:C.muted, marginBottom:12 }}>projection sans intervention structurée</div>
-<div style={{ fontSize:12, color:C.text, lineHeight:1.7 }}>À ce rythme ({clockData.effectiveDecline} pts/an), votre relation atteindra la zone de rupture difficile à inverser{clockData.urgency === "critique” ? " dans moins de 2 ans.” : clockData.urgency === "élevée” ? " dans 2 à 3 ans.” : " dans 3 à 5 ans.”}</div>
-{clockData.activeCritical.length > 0 && <div style={{ fontSize:10, color:urgencyColor, marginTop:8, padding:"6px 10px”, background:urgencyColor+"12”, border:`1px solid ${urgencyColor}33` }}>Patterns accélérateurs : {clockData.activeCritical.join(”, ")}</div>}
-</div>
-</div>
-<div style={{ fontSize:9, color:”#3A3444”, marginTop:16, lineHeight:1.6, fontStyle:"italic” }}>Basé sur les modèles de recherche de John Gottman (40 ans d'étude sur 3000 couples).</div>
-</div>
-);
+  const [visible, setVisible] = useState(false);
+  const [angle, setAngle] = useState(0);
+  useEffect(() => {
+    setTimeout(() => setVisible(true), 300);
+    const target = clockData.urgency === "critique" ? 280 : clockData.urgency === "élevée" ? 200 : 130;
+    const t = setTimeout(() => setAngle(target), 500);
+    return () => clearTimeout(t);
+  }, [clockData]);
+  if (!clockData) return null;
+  const urgencyColor = clockData.urgency === "critique" ? C.red : clockData.urgency === "élevée" ? C.orange : C.gold;
+  const needleRad = (angle - 90) * (Math.PI / 180);
+  const cx = 80, cy = 80, r = 60;
+  const nx = cx + r * 0.75 * Math.cos(needleRad);
+  const ny = cy + r * 0.75 * Math.sin(needleRad);
+  return (
+    <div style={{ opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(20px)", transition: "all 0.6s ease", background: "#0D0810", border: `1px solid ${urgencyColor}44`, borderLeft: `4px solid ${urgencyColor}`, padding: "24px 22px", marginBottom: 24 }}>
+      <div style={{ fontSize: 9, color: urgencyColor, letterSpacing: ".22em", textTransform: "uppercase", marginBottom: 16 }}>◎ Projection temporelle — Modèle Gottman</div>
+      <div style={{ display: "flex", gap: 20, alignItems: "center" }}>
+        <svg width="160" height="160" viewBox="0 0 160 160" style={{ flexShrink: 0 }}>
+          <circle cx="80" cy="80" r="75" fill="#0A060C" stroke="#1E1828" strokeWidth="1" />
+          {[0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330].map(a => {
+            const rad = (a - 90) * Math.PI / 180;
+            const x1 = 80 + 55 * Math.cos(rad), y1 = 80 + 55 * Math.sin(rad);
+            const x2 = 80 + 62 * Math.cos(rad), y2 = 80 + 62 * Math.sin(rad);
+            return <line key={a} x1={x1} y1={y1} x2={x2} y2={y2} stroke="#2A2040" strokeWidth={a % 90 === 0 ? 2 : 1} />;
+          })}
+          <line x1="80" y1="80" x2={nx} y2={ny} stroke={urgencyColor} strokeWidth="2.5" strokeLinecap="round" style={{ transition: "all 1.5s cubic-bezier(.34,1.56,.64,1)" }} />
+          <circle cx="80" cy="80" r="5" fill={urgencyColor} />
+          <text x="80" y="18" textAnchor="middle" fontSize="8" fill="#6A6070">Stable</text>
+          <text x="147" y="84" textAnchor="start" fontSize="8" fill={C.red}>Crise</text>
+        </svg>
+        <div style={{ flex: 1 }}>
+          <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: clockData.months <= 24 ? 32 : 24, color: urgencyColor, lineHeight: 1, marginBottom: 4 }}>{clockData.months} mois</div>
+          <div style={{ fontSize: 11, color: C.muted, marginBottom: 12 }}>projection sans intervention structurée</div>
+          <div style={{ fontSize: 12, color: C.text, lineHeight: 1.7 }}>À ce rythme ({clockData.effectiveDecline} pts/an), votre relation atteindra la zone de rupture difficile à inverser{clockData.urgency === "critique" ? " dans moins de 2 ans." : clockData.urgency === "élevée" ? " dans 2 à 3 ans." : " dans 3 à 5 ans."}</div>
+          {clockData.activeCritical.length > 0 && <div style={{ fontSize: 10, color: urgencyColor, marginTop: 8, padding: "6px 10px", background: urgencyColor + "12", border: `1px solid ${urgencyColor}33` }}>Patterns accélérateurs : {clockData.activeCritical.join(", ")}</div>}
+        </div>
+      </div>
+      <div style={{ fontSize: 9, color: "#3A3444", marginTop: 16, lineHeight: 1.6, fontStyle: "italic" }}>Basé sur les modèles de recherche de John Gottman (40 ans d'étude sur 3000 couples).</div>
+    </div>
+  );
 }
+
 function MicroPertesSection({ scores, profil }) {
-const [revealed, setRevealed] = useState(false);
-if (profil === "celibataire”) return null;
-const fragiles = Object.entries(scores).filter(([k]) => MICRO_PERTES_MAP[k]).sort(([, a], [, b]) => a.p - b.p).slice(0, 3).filter(([, v]) => v.p < 65);
-if (fragiles.length === 0) return null;
-const pertes = fragiles.flatMap(([k, v]) => {
-const map = MICRO_PERTES_MAP[k];
-if (v.p < 40) return map.low.slice(0, 2);
-return map.low.slice(0, 1);
-}).slice(0, 5);
-if (pertes.length === 0) return null;
-return (
-<div className="card-red” style={{ marginBottom:24 }}>
-<div style={{ fontSize:9, letterSpacing:”.22em”, textTransform:"uppercase”, color:C.red, marginBottom:12 }}>◉ Ce que vous perdez déjà — invisiblement</div>
-<div style={{ fontFamily:”‘Cormorant Garamond',serif”, fontSize:17, color:”#F0EBE0”, marginBottom:16, lineHeight:1.35 }}>Avant même la rupture, le manque est déjà là</div>
-{!revealed ? (
-<div>
-<p style={{ fontSize:13, color:C.muted, lineHeight:1.7, marginBottom:16 }}>Votre bilan a identifié {pertes.length} zones de perte quotidienne que vous ne nommez peut-être pas encore explicitement.</p>
-<button onClick={() => setRevealed(true)} className="btn-gold-outline” style={{ width:"100%” }}>Révéler les pertes identifiées</button>
-</div>
-) : (
-<div>
-<div style={{ display:"flex”, flexDirection:"column”, gap:10, marginBottom:20 }}>
-{pertes.map((perte, i) => (
-<div key={i} style={{ display:"flex”, gap:12, alignItems:"flex-start”, padding:"12px 14px”, background:”#08050C”, border:"1px solid #1A0A14” }}>
-<div style={{ color:C.red, fontSize:14, flexShrink:0 }}>◉</div>
-<div style={{ fontSize:13, color:C.text, lineHeight:1.7 }}>{perte}</div>
-</div>
-))}
-</div>
-<p style={{ fontSize:12, color:”#8A6070”, lineHeight:1.7, fontStyle:"italic” }}>Ces pertes ne s'annoncent pas. Elles s'accumulent. Jusqu'au jour où l'une d'elles manque si profondément qu'on ne se souvient plus quand elle a commencé à disparaître.</p>
-</div>
-)}
-</div>
-);
+  const [revealed, setRevealed] = useState(false);
+  if (profil === "celibataire") return null;
+  const fragiles = Object.entries(scores).filter(([k]) => MICRO_PERTES_MAP[k]).sort(([, a], [, b]) => a.p - b.p).slice(0, 3).filter(([, v]) => v.p < 65);
+  if (fragiles.length === 0) return null;
+  const pertes = fragiles.flatMap(([k, v]) => {
+    const map = MICRO_PERTES_MAP[k];
+    if (v.p < 40) return map.low.slice(0, 2);
+    return map.low.slice(0, 1);
+  }).slice(0, 5);
+  if (pertes.length === 0) return null;
+  return (
+    <div className="card-red" style={{ marginBottom: 24 }}>
+      <div style={{ fontSize: 9, letterSpacing: ".22em", textTransform: "uppercase", color: C.red, marginBottom: 12 }}>◉ Ce que vous perdez déjà — invisiblement</div>
+      <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 17, color: "#F0EBE0", marginBottom: 16, lineHeight: 1.35 }}>Avant même la rupture, le manque est déjà là</div>
+      {!revealed ? (
+        <div>
+          <p style={{ fontSize: 13, color: C.muted, lineHeight: 1.7, marginBottom: 16 }}>Votre bilan a identifié {pertes.length} zones de perte quotidienne que vous ne nommez peut-être pas encore explicitement.</p>
+          <button onClick={() => setRevealed(true)} className="btn-gold-outline" style={{ width: "100%" }}>Révéler les pertes identifiées</button>
+        </div>
+      ) : (
+        <div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 20 }}>
+            {pertes.map((perte, i) => (
+              <div key={i} style={{ display: "flex", gap: 12, alignItems: "flex-start", padding: "12px 14px", background: "#08050C", border: "1px solid #1A0A14" }}>
+                <div style={{ color: C.red, fontSize: 14, flexShrink: 0 }}>◉</div>
+                <div style={{ fontSize: 13, color: C.text, lineHeight: 1.7 }}>{perte}</div>
+              </div>
+            ))}
+          </div>
+          <p style={{ fontSize: 12, color: "#8A6070", lineHeight: 1.7, fontStyle: "italic" }}>Ces pertes ne s'annoncent pas. Elles s'accumulent. Jusqu'au jour où l'une d'elles manque si profondément qu'on ne se souvient plus quand elle a commencé à disparaître.</p>
+        </div>
+      )}
+    </div>
+  );
 }
+
 function FutureLetter({ letter, clientName, gp, onClose }) {
-const [visible, setVisible] = useState(false);
-useEffect(() => { setTimeout(() => setVisible(true), 100); }, []);
-const isPositive = gp >= 65;
-const accentColor = isPositive ? C.green : C.orange;
-return (
-<div style={{ position:"fixed”, inset:0, background:”#000000F0”, zIndex:400, display:"flex”, alignItems:"center”, justifyContent:"center”, padding:16, overflowY:"auto” }}>
-<div style={{ background:”#080C10”, border:`1px solid ${accentColor}44`, maxWidth:520, width:"100%”, opacity:visible?1:0, transform:visible?"translateY(0)”:"translateY(30px)”, transition:"all 0.8s ease” }}>
-<div style={{ padding:"28px 28px 0” }}>
-<div style={{ fontSize:8, letterSpacing:”.28em”, textTransform:"uppercase”, color:accentColor, marginBottom:12 }}>{isPositive ? "✦ Lettre de votre futur possible” : "◈ Lettre de votre futur probable”}</div>
-<div style={{ fontFamily:”‘Cormorant Garamond',serif”, fontSize:17, color:”#F0EBE0”, fontStyle:"italic”, marginBottom:8 }}>{isPositive ? "Si vous agissez courageusement aujourd'hui…” : "Si rien ne change à partir d'aujourd'hui…”}</div>
-<div style={{ width:40, height:1, background:accentColor+"55”, marginBottom:24 }} />
-</div>
-<div style={{ padding:"0 28px 28px” }}>
-<div style={{ fontFamily:”‘Cormorant Garamond',serif”, fontSize:14, color:C.text, lineHeight:2.1, fontStyle:"italic”, whiteSpace:"pre-wrap”, borderLeft:`2px solid ${accentColor}33`, paddingLeft:20 }}>{letter}</div>
-</div>
-<div style={{ padding:"20px 28px”, borderTop:"1px solid #1E2230”, display:"flex”, gap:10, flexDirection:"column” }}>
-<div style={{ fontSize:11, color:”#6A6070”, lineHeight:1.6, fontStyle:"italic”, marginBottom:4 }}>Cette lettre est générée à partir des dynamiques identifiées dans votre bilan. Elle n'est pas une prédiction — c'est un miroir de vos trajectoires possibles.</div>
-<button onClick={onClose} className="btn-primary” style={{ background:accentColor }}>Retour à mon rapport</button>
-</div>
-</div>
-</div>
-);
+  const [visible, setVisible] = useState(false);
+  useEffect(() => { setTimeout(() => setVisible(true), 100); }, []);
+  const isPositive = gp >= 65;
+  const accentColor = isPositive ? C.green : C.orange;
+  return (
+    <div style={{ position: "fixed", inset: 0, background: "#000000F0", zIndex: 400, display: "flex", alignItems: "center", justifyContent: "center", padding: 16, overflowY: "auto" }}>
+      <div style={{ background: "#080C10", border: `1px solid ${accentColor}44`, maxWidth: 520, width: "100%", opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(30px)", transition: "all 0.8s ease" }}>
+        <div style={{ padding: "28px 28px 0" }}>
+          <div style={{ fontSize: 8, letterSpacing: ".28em", textTransform: "uppercase", color: accentColor, marginBottom: 12 }}>{isPositive ? "✦ Lettre de votre futur possible" : "◈ Lettre de votre futur probable"}</div>
+          <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 17, color: "#F0EBE0", fontStyle: "italic", marginBottom: 8 }}>{isPositive ? "Si vous agissez courageusement aujourd'hui…" : "Si rien ne change à partir d'aujourd'hui…"}</div>
+          <div style={{ width: 40, height: 1, background: accentColor + "55", marginBottom: 24 }} />
+        </div>
+        <div style={{ padding: "0 28px 28px" }}>
+          <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 14, color: C.text, lineHeight: 2.1, fontStyle: "italic", whiteSpace: "pre-wrap", borderLeft: `2px solid ${accentColor}33`, paddingLeft: 20 }}>{letter}</div>
+        </div>
+        <div style={{ padding: "20px 28px", borderTop: "1px solid #1E2230", display: "flex", gap: 10, flexDirection: "column" }}>
+          <div style={{ fontSize: 11, color: "#6A6070", lineHeight: 1.6, fontStyle: "italic", marginBottom: 4 }}>Cette lettre est générée à partir des dynamiques identifiées dans votre bilan. Elle n'est pas une prédiction — c'est un miroir de vos trajectoires possibles.</div>
+          <button onClick={onClose} className="btn-primary" style={{ background: accentColor }}>Retour à mon rapport</button>
+        </div>
+      </div>
+    </div>
+  );
 }
+
 function ViralShareCard({ clientName, gp, profil, riskLevel, onClose }) {
-const [copied, setCopied] = useState(false);
-const verdict = getVerdict3Mots(gp);
-const scoreColor = gp >= 65 ? C.green : gp >= 50 ? C.gold : gp >= 35 ? C.orange : C.red;
-const profilLabel = profil === "marie” ? "Couple marié” : profil === "fiance” ? "Fiancé(e)” : "Célibataire”;
-const shareText = `Mon Bilan 360° Eden révèle :\n\n"${verdict}"\n\nScore global : ${gp}/100 · ${riskLevel?.l || ""}\n\nDécouvrez le vôtre → academie-eden.com\n(Bilan · 25 000 FCFA)`;
-return (
-<div style={{ position:"fixed”, inset:0, background:”#000000EE”, zIndex:400, display:"flex”, alignItems:"center”, justifyContent:"center”, padding:16 }}>
-<div style={{ background:”#0B0F1A”, border:"1px solid #C9A84C44”, maxWidth:420, width:"100%” }}>
-<div style={{ background:"linear-gradient(135deg,#080C14,#0D1020,#080A10)”, padding:"32px 28px”, position:"relative”, overflow:"hidden” }}>
-<div style={{ position:"absolute”, top:-40, right:-40, width:180, height:180, borderRadius:"50%”, background:scoreColor+"08”, border:`1px solid ${scoreColor}15` }} />
-<div style={{ fontSize:8, letterSpacing:”.3em”, textTransform:"uppercase”, color:C.gold, marginBottom:20 }}>Académie Eden · Bilan 360°</div>
-<div style={{ display:"flex”, alignItems:"flex-end”, gap:8, marginBottom:16 }}>
-<div style={{ fontFamily:”‘Cormorant Garamond',serif”, fontSize:72, color:scoreColor, lineHeight:1, fontWeight:100 }}>{gp}</div>
-<div style={{ paddingBottom:12 }}>
-<div style={{ fontSize:18, color:scoreColor }}>/ 100</div>
-<div style={{ fontSize:9, color:C.muted, letterSpacing:”.1em”, textTransform:"uppercase” }}>{profilLabel}</div>
-</div>
-</div>
-<div style={{ fontFamily:”‘Cormorant Garamond',serif”, fontSize:22, color:”#F0EBE0”, fontStyle:"italic”, marginBottom:20, lineHeight:1.3, borderLeft:`3px solid ${scoreColor}`, paddingLeft:16 }}>”{verdict}”</div>
-<div style={{ display:"inline-block”, padding:"4px 12px”, border:`1px solid ${scoreColor}44`, fontSize:9, letterSpacing:”.16em”, textTransform:"uppercase”, color:scoreColor }}>{riskLevel?.l || "Bilan complété”}</div>
-<div style={{ marginTop:24, paddingTop:16, borderTop:"1px solid #1E2230”, display:"flex”, justifyContent:"space-between”, alignItems:"center” }}>
-<div style={{ fontSize:10, color:”#4A5060” }}>Découvrez le vôtre → academie-eden.com</div>
-<div style={{ fontSize:8, color:C.gold, letterSpacing:”.12em” }}>◈ EDEN</div>
-</div>
-</div>
-<div style={{ padding:"20px 24px” }}>
-<div style={{ fontSize:11, color:C.muted, marginBottom:14, lineHeight:1.6 }}>Partagez votre révélation sans exposer votre rapport complet. Chaque partage peut aider quelqu'un à faire le premier pas.</div>
-<div style={{ display:"flex”, flexDirection:"column”, gap:10 }}>
-<button className="btn-wa” onClick={() => window.open(`https://wa.me/?text=${encodeURIComponent(shareText)}`)}>Partager sur WhatsApp</button>
-<button className="btn-gold-outline” style={{ width:"100%” }} onClick={() => { navigator.clipboard.writeText(shareText).then(() => { setCopied(true); setTimeout(() => setCopied(false), 2500); }); }}>{copied ? "✓ Copié” : "Copier le texte”}</button>
-<button onClick={onClose} style={{ background:"transparent”, border:"1px solid #1E2330”, color:”#4A5060”, padding:"9px 20px”, cursor:"pointer”, fontFamily:”‘Jost',sans-serif”, fontSize:11 }}>Fermer</button>
-</div>
-</div>
-</div>
-</div>
-);
+  const [copied, setCopied] = useState(false);
+  const verdict = getVerdict3Mots(gp);
+  const scoreColor = gp >= 65 ? C.green : gp >= 50 ? C.gold : gp >= 35 ? C.orange : C.red;
+  const profilLabel = profil === "marie" ? "Couple marié" : profil === "fiance" ? "Fiancé(e)" : "Célibataire";
+  const shareText = `Mon Bilan 360° Eden révèle :\n\n"${verdict}"\n\nScore global : ${gp}/100 · ${riskLevel?.l || ""}\n\nDécouvrez le vôtre → academie-eden.com\n(Bilan · 25 000 FCFA)`;
+  return (
+    <div style={{ position: "fixed", inset: 0, background: "#000000EE", zIndex: 400, display: "flex", alignItems: "center", justifyContent: "center", padding: 16 }}>
+      <div style={{ background: "#0B0F1A", border: "1px solid #C9A84C44", maxWidth: 420, width: "100%" }}>
+        <div style={{ background: "linear-gradient(135deg,#080C14,#0D1020,#080A10)", padding: "32px 28px", position: "relative", overflow: "hidden" }}>
+          <div style={{ position: "absolute", top: -40, right: -40, width: 180, height: 180, borderRadius: "50%", background: scoreColor + "08", border: `1px solid ${scoreColor}15` }} />
+          <div style={{ fontSize: 8, letterSpacing: ".3em", textTransform: "uppercase", color: C.gold, marginBottom: 20 }}>Académie Eden · Bilan 360°</div>
+          <div style={{ display: "flex", alignItems: "flex-end", gap: 8, marginBottom: 16 }}>
+            <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 72, color: scoreColor, lineHeight: 1, fontWeight: 100 }}>{gp}</div>
+            <div style={{ paddingBottom: 12 }}>
+              <div style={{ fontSize: 18, color: scoreColor }}>/ 100</div>
+              <div style={{ fontSize: 9, color: C.muted, letterSpacing: ".1em", textTransform: "uppercase" }}>{profilLabel}</div>
+            </div>
+          </div>
+          <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 22, color: "#F0EBE0", fontStyle: "italic", marginBottom: 20, lineHeight: 1.3, borderLeft: `3px solid ${scoreColor}`, paddingLeft: 16 }}>"{verdict}"</div>
+          <div style={{ display: "inline-block", padding: "4px 12px", border: `1px solid ${scoreColor}44`, fontSize: 9, letterSpacing: ".16em", textTransform: "uppercase", color: scoreColor }}>{riskLevel?.l || "Bilan complété"}</div>
+          <div style={{ marginTop: 24, paddingTop: 16, borderTop: "1px solid #1E2230", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <div style={{ fontSize: 10, color: "#4A5060" }}>Découvrez le vôtre → academie-eden.com</div>
+            <div style={{ fontSize: 8, color: C.gold, letterSpacing: ".12em" }}>◈ EDEN</div>
+          </div>
+        </div>
+        <div style={{ padding: "20px 24px" }}>
+          <div style={{ fontSize: 11, color: C.muted, marginBottom: 14, lineHeight: 1.6 }}>Partagez votre révélation sans exposer votre rapport complet. Chaque partage peut aider quelqu'un à faire le premier pas.</div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+            <button className="btn-wa" onClick={() => window.open(`https://wa.me/?text=${encodeURIComponent(shareText)}`)}>Partager sur WhatsApp</button>
+            <button className="btn-gold-outline" style={{ width: "100%" }} onClick={() => { navigator.clipboard.writeText(shareText).then(() => { setCopied(true); setTimeout(() => setCopied(false), 2500); }); }}>{copied ? "✓ Copié" : "Copier le texte"}</button>
+            <button onClick={onClose} style={{ background: "transparent", border: "1px solid #1E2330", color: "#4A5060", padding: "9px 20px", cursor: "pointer", fontFamily: "'Jost',sans-serif", fontSize: 11 }}>Fermer</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }
+
 // ─── COMPOSANT : BANNIÈRE D'ALERTE (niveaux 1, 2, 3) ────────────────────────
 function AlertBanner({ alertLevel, clientName, gp }) {
-const [wantsContact, setWantsContact] = useState(false);
-const [contactSent, setContactSent] = useState(false);
-if (!alertLevel || alertLevel === 0) return null;
-// Niveau 3 — déjà géré par ViolenceProtocol, pas de bannière ici
-if (alertLevel >= ALERT_LEVELS.CRISE) return null;
-// Niveau 2 — VIGILANCE
-if (alertLevel === ALERT_LEVELS.VIGILANCE) return (
-<div style={{ background:”#140A00”, border:"1px solid #C0784A44”, borderLeft:"4px solid #C0784A”, padding:"20px 22px”, marginBottom:24 }}>
-<div style={{ fontSize:9, color:C.orange, letterSpacing:”.22em”, textTransform:"uppercase”, marginBottom:8 }}>⚠ Attention — Situation à surveiller</div>
-<div style={{ fontFamily:”‘Cormorant Garamond',serif”, fontSize:17, color:”#F0EBE0”, marginBottom:10, lineHeight:1.4 }}>
-Votre situation nécessite une attention rapide
-</div>
-<p style={{ fontSize:12, color:C.muted, lineHeight:1.7, marginBottom:16 }}>
-Certains signaux de votre bilan indiquent une dynamique qui peut évoluer rapidement sans accompagnement. Un conseiller peut vous recontacter dans les 48h si vous le souhaitez — sans engagement, juste pour échanger.
-</p>
-{!contactSent ? (
-!wantsContact ? (
-<button onClick={() => setWantsContact(true)} style={{ background:C.orange, border:"none”, color:”#fff”, padding:"11px 18px”, fontFamily:”‘Jost',sans-serif”, fontSize:12, fontWeight:600, cursor:"pointer”, width:"100%” }}>
-Je souhaite être recontacté(e) dans les 48h
-</button>
-) : (
-<div style={{ background:”#0A0805”, border:"1px solid #C0784A33”, padding:"14px” }}>
-<div style={{ fontSize:12, color:C.text, marginBottom:10 }}>Sur quel numéro WhatsApp peut-on vous joindre ?</div>
-<div style={{ display:"flex”, gap:8 }}>
-<input id="contact-tel” className="inp” placeholder=”+225 XX XX XX XX” style={{ flex:1, marginBottom:0 }} />
-<button onClick={() => {
-const tel = document.getElementById("contact-tel”)?.value || "”;
-triggerCrisisAlert({ clientName, gp, profil:””, patternScores:{}, alertLevel, tel });
-setContactSent(true);
-}} style={{ background:C.orange, border:"none”, color:”#fff”, padding:"10px 16px”, fontFamily:”‘Jost',sans-serif”, fontSize:12, fontWeight:600, cursor:"pointer” }}>
-Envoyer
-</button>
-</div>
-</div>
-)
-) : (
-<div style={{ fontSize:12, color:C.green, padding:"10px 0” }}>✓ Demande envoyée — Un conseiller vous contactera sous 48h.</div>
-)}
-</div>
-);
-// Niveau 1 — INFORMATION (discret)
-if (alertLevel === ALERT_LEVELS.INFO) return (
-<div style={{ background:”#0A0C08”, border:"1px solid #C9A84C22”, padding:"12px 16px”, marginBottom:16 }}>
-<div style={{ fontSize:11, color:C.muted, lineHeight:1.6 }}>
-◈ Certaines dimensions de votre bilan méritent une attention régulière. Le programme mensuel abonné vous permettra de suivre votre progression sur 12 mois.
-</div>
-</div>
-);
-return null;
+  const [wantsContact, setWantsContact] = useState(false);
+  const [contactSent, setContactSent] = useState(false);
+  if (!alertLevel || alertLevel === 0) return null;
+  if (alertLevel >= ALERT_LEVELS.CRISE) return null;
+  if (alertLevel === ALERT_LEVELS.VIGILANCE) return (
+    <div style={{ background: "#140A00", border: "1px solid #C0784A44", borderLeft: "4px solid #C0784A", padding: "20px 22px", marginBottom: 24 }}>
+      <div style={{ fontSize: 9, color: C.orange, letterSpacing: ".22em", textTransform: "uppercase", marginBottom: 8 }}>⚠ Attention — Situation à surveiller</div>
+      <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 17, color: "#F0EBE0", marginBottom: 10, lineHeight: 1.4 }}>
+        Votre situation nécessite une attention rapide
+      </div>
+      <p style={{ fontSize: 12, color: C.muted, lineHeight: 1.7, marginBottom: 16 }}>
+        Certains signaux de votre bilan indiquent une dynamique qui peut évoluer rapidement sans accompagnement. Un conseiller peut vous recontacter dans les 48h si vous le souhaitez — sans engagement, juste pour échanger.
+      </p>
+      {!contactSent ? (
+        !wantsContact ? (
+          <button onClick={() => setWantsContact(true)} style={{ background: C.orange, border: "none", color: "#fff", padding: "11px 18px", fontFamily: "'Jost',sans-serif", fontSize: 12, fontWeight: 600, cursor: "pointer", width: "100%" }}>
+            Je souhaite être recontacté(e) dans les 48h
+          </button>
+        ) : (
+          <div style={{ background: "#0A0805", border: "1px solid #C0784A33", padding: "14px" }}>
+            <div style={{ fontSize: 12, color: C.text, marginBottom: 10 }}>Sur quel numéro WhatsApp peut-on vous joindre ?</div>
+            <div style={{ display: "flex", gap: 8 }}>
+              <input id="contact-tel" className="inp" placeholder="+225 XX XX XX XX" style={{ flex: 1, marginBottom: 0 }} />
+              <button onClick={() => {
+                const tel = document.getElementById("contact-tel")?.value || "";
+                triggerCrisisAlert({ clientName, gp, profil: "", patternScores: {}, alertLevel, tel });
+                setContactSent(true);
+              }} style={{ background: C.orange, border: "none", color: "#fff", padding: "10px 16px", fontFamily: "'Jost',sans-serif", fontSize: 12, fontWeight: 600, cursor: "pointer" }}>
+                Envoyer
+              </button>
+            </div>
+          </div>
+        )
+      ) : (
+        <div style={{ fontSize: 12, color: C.green, padding: "10px 0" }}>✓ Demande envoyée — Un conseiller vous contactera sous 48h.</div>
+      )}
+    </div>
+  );
+  if (alertLevel === ALERT_LEVELS.INFO) return (
+    <div style={{ background: "#0A0C08", border: "1px solid #C9A84C22", padding: "12px 16px", marginBottom: 16 }}>
+      <div style={{ fontSize: 11, color: C.muted, lineHeight: 1.6 }}>
+        ◈ Certaines dimensions de votre bilan méritent une attention régulière. Le programme mensuel abonné vous permettra de suivre votre progression sur 12 mois.
+      </div>
+    </div>
+  );
+  return null;
 }
+
 // ─── COMPOSANT : TÉMOIGNAGES AUTO-GÉNÉRÉS ────────────────────────────────────
 function TestimonialsModal({ clientName, gp, profil, patternScores, scores, onClose }) {
-const [loading, setLoading] = useState(true);
-const [versions, setVersions] = useState({ v1:””, v2:””, v3:”” });
-const [selected, setSelected] = useState(null);
-const [edited, setEdited] = useState(””);
-const [shared, setShared] = useState(false);
-useEffect(() => {
-(async () => {
-const prompt = buildTestimonialsPrompt(clientName, profil, gp, patternScores, scores);
-try {
-const res = await fetch(”/api/diagnostic-report”, { method:"POST”, headers:{"Content-Type”:"application/json”}, body:JSON.stringify({ prompt }) });
-const data = await res.json();
-const text = data.text || "”;
-const v1 = text.match(/VERSION_1:\s*(.+?)(?=VERSION_2:|$)/s)?.[1]?.trim() || "”;
-const v2 = text.match(/VERSION_2:\s*(.+?)(?=VERSION_3:|$)/s)?.[1]?.trim() || "”;
-const v3 = text.match(/VERSION_3:\s*(.+?)$/s)?.[1]?.trim() || "”;
-setVersions({ v1, v2, v3 });
-} catch { setVersions({ v1:"Le bilan m'a permis de nommer ce que je vivais sans pouvoir le dire.”, v2:””, v3:”” }); }
-setLoading(false);
-})();
-}, []);
-const labels = ["Le choc de reconnaissance”,"Le déclic émotionnel”,"Le résultat concret”];
-const vList = [versions.v1, versions.v2, versions.v3];
-const handleShare = () => {
-const msg = `”${edited || vList[selected]}”
+  const [loading, setLoading] = useState(true);
+  const [versions, setVersions] = useState({ v1: "", v2: "", v3: "" });
+  const [selected, setSelected] = useState(null);
+  const [edited, setEdited] = useState("");
+  const [shared, setShared] = useState(false);
+  useEffect(() => {
+    (async () => {
+      const prompt = buildTestimonialsPrompt(clientName, profil, gp, patternScores, scores);
+      try {
+        const res = await fetch("/api/diagnostic-report", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ prompt }) });
+        const data = await res.json();
+        const text = data.text || "";
+        const v1 = text.match(/VERSION_1:\s*(.+?)(?=VERSION_2:|$)/s)?.[1]?.trim() || "";
+        const v2 = text.match(/VERSION_2:\s*(.+?)(?=VERSION_3:|$)/s)?.[1]?.trim() || "";
+        const v3 = text.match(/VERSION_3:\s*(.+?)$/s)?.[1]?.trim() || "";
+        setVersions({ v1, v2, v3 });
+      } catch { setVersions({ v1: "Le bilan m'a permis de nommer ce que je vivais sans pouvoir le dire.", v2: "", v3: "" }); }
+      setLoading(false);
+    })();
+  }, []);
+  const labels = ["Le choc de reconnaissance", "Le déclic émotionnel", "Le résultat concret"];
+  const vList = [versions.v1, versions.v2, versions.v3];
+  const handleShare = () => {
+    const msg = `"${edited || vList[selected]}"
 — ${clientName.charAt(0)}., Bilan Eden 360°
-academie-eden.com`; window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`);
-setShared(true);
-};
-return (
-<div style={{ position:"fixed”, inset:0, background:”#000000EE”, zIndex:400, display:"flex”, alignItems:"center”, justifyContent:"center”, padding:20 }}>
-<div style={{ background:”#0D1018”, border:"1px solid #C9A84C44”, maxWidth:500, width:"100%”, padding:"28px 24px”, maxHeight:"90vh”, overflowY:"auto” }}>
-<div style={{ fontSize:9, letterSpacing:”.26em”, textTransform:"uppercase”, color:C.gold, marginBottom:12 }}>◈ Votre témoignage</div>
-<div style={{ fontFamily:”‘Cormorant Garamond',serif”, fontSize:20, color:”#F0EBE0”, marginBottom:8 }}>Partagez votre expérience</div>
-<p style={{ fontSize:12, color:C.muted, lineHeight:1.7, marginBottom:20 }}>
-Votre parcours peut aider d'autres personnes à faire le premier pas. Choisissez la version qui vous ressemble le plus — vous pouvez la modifier avant de partager.
-</p>
-{loading ? (
-<div style={{ textAlign:"center”, padding:"24px 0” }}>
-<div className="loading-ring” style={{ margin:"0 auto 12px” }} />
-<div style={{ fontSize:12, color:C.muted }}>Génération de vos témoignages…</div>
-</div>
-) : (
-<div>
-{vList.filter(v=>v).map((v, i) => (
-<div key={i} onClick={() => { setSelected(i); setEdited(v); }} style={{ background:selected===i?”#0A1208”:”#080C10”, border:`1px solid ${selected===i?"#4A9B6A":"#1E2330"}`, padding:"14px 16px”, marginBottom:10, cursor:"pointer”, transition:"all .2s” }}>
-<div style={{ fontSize:9, color:selected===i?C.green:C.dim, letterSpacing:”.16em”, textTransform:"uppercase”, marginBottom:6 }}>{labels[i]}</div>
-<div style={{ fontSize:13, color:selected===i?”#F0EBE0”:C.muted, lineHeight:1.7, fontStyle:"italic” }}>" {v} " </div>
-</div>
-))}
-{selected !== null && (
-<div style={{ marginTop:16 }}>
-<div style={{ fontSize:10, color:C.gold, letterSpacing:”.14em”, textTransform:"uppercase”, marginBottom:8 }}>Modifier si souhaité</div>
-<textarea className="ta” value={edited} onChange={e=>setEdited(e.target.value)} style={{ minHeight:80 }} />
-</div>
-)}
-<div style={{ display:"flex”, gap:8, marginTop:16 }}>
-<button onClick={onClose} style={{ flex:1, background:"transparent”, border:"1px solid #1E2330”, color:C.dim, padding:"11px”, fontFamily:”‘Jost',sans-serif”, fontSize:11, cursor:"pointer” }}>Fermer</button>
-<button onClick={handleShare} disabled={selected===null} style={{ flex:2, background:selected!==null?”#25D366”:”#1E2330”, border:"none”, color:”#fff”, padding:"11px”, fontFamily:”‘Jost',sans-serif”, fontSize:12, fontWeight:600, cursor:selected!==null?"pointer”:"not-allowed” }}>
-{shared ? "✓ Partagé” : "Partager sur WhatsApp”}
-</button>
-</div>
-</div>
-)}
-</div>
-</div>
-);
+academie-eden.com`;
+    window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`);
+    setShared(true);
+  };
+  return (
+    <div style={{ position: "fixed", inset: 0, background: "#000000EE", zIndex: 400, display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}>
+      <div style={{ background: "#0D1018", border: "1px solid #C9A84C44", maxWidth: 500, width: "100%", padding: "28px 24px", maxHeight: "90vh", overflowY: "auto" }}>
+        <div style={{ fontSize: 9, letterSpacing: ".26em", textTransform: "uppercase", color: C.gold, marginBottom: 12 }}>◈ Votre témoignage</div>
+        <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 20, color: "#F0EBE0", marginBottom: 8 }}>Partagez votre expérience</div>
+        <p style={{ fontSize: 12, color: C.muted, lineHeight: 1.7, marginBottom: 20 }}>
+          Votre parcours peut aider d'autres personnes à faire le premier pas. Choisissez la version qui vous ressemble le plus — vous pouvez la modifier avant de partager.
+        </p>
+        {loading ? (
+          <div style={{ textAlign: "center", padding: "24px 0" }}>
+            <div className="loading-ring" style={{ margin: "0 auto 12px" }} />
+            <div style={{ fontSize: 12, color: C.muted }}>Génération de vos témoignages…</div>
+          </div>
+        ) : (
+          <div>
+            {vList.filter(v => v).map((v, i) => (
+              <div key={i} onClick={() => { setSelected(i); setEdited(v); }} style={{ background: selected === i ? "#0A1208" : "#080C10", border: `1px solid ${selected === i ? "#4A9B6A" : "#1E2330"}`, padding: "14px 16px", marginBottom: 10, cursor: "pointer", transition: "all .2s" }}>
+                <div style={{ fontSize: 9, color: selected === i ? C.green : C.dim, letterSpacing: ".16em", textTransform: "uppercase", marginBottom: 6 }}>{labels[i]}</div>
+                <div style={{ fontSize: 13, color: selected === i ? "#F0EBE0" : C.muted, lineHeight: 1.7, fontStyle: "italic" }}>"{v}"</div>
+              </div>
+            ))}
+            {selected !== null && (
+              <div style={{ marginTop: 16 }}>
+                <div style={{ fontSize: 10, color: C.gold, letterSpacing: ".14em", textTransform: "uppercase", marginBottom: 8 }}>Modifier si souhaité</div>
+                <textarea className="ta" value={edited} onChange={e => setEdited(e.target.value)} style={{ minHeight: 80 }} />
+              </div>
+            )}
+            <div style={{ display: "flex", gap: 8, marginTop: 16 }}>
+              <button onClick={onClose} style={{ flex: 1, background: "transparent", border: "1px solid #1E2330", color: C.dim, padding: "11px", fontFamily: "'Jost',sans-serif", fontSize: 11, cursor: "pointer" }}>Fermer</button>
+              <button onClick={handleShare} disabled={selected === null} style={{ flex: 2, background: selected !== null ? "#25D366" : "#1E2330", border: "none", color: "#fff", padding: "11px", fontFamily: "'Jost',sans-serif", fontSize: 12, fontWeight: 600, cursor: selected !== null ? "pointer" : "not-allowed" }}>
+                {shared ? "✓ Partagé" : "Partager sur WhatsApp"}
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
 }
 // ─── COMPOSANT : RAPPORT INTERNE CONSEILLER ──────────────────────────────────
 // Protégé par mot de passe + téléchargeable en PDF
