@@ -70,12 +70,12 @@ const C = {
   red: "#C0614A", orange: "#C0784A",
   text: "#C8C0B0", muted: "#8A8070", dim: "#4A5060",
 };
-  seanceAccompagnateur: ["premium"],
+  seanceAccompagnateur: ["premium"],   // ← attention à l'orthographe !
   seanceZady: ["premium"],
   replays: ["premium"],
   planActionIA: ["premium"],
   graphiquesProgression: ["premium"],
-  alertesProactives: ["premium"],
+  alertesProactives: ["premium"]
 };
 
 function hasAccess(feature, level) {
