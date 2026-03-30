@@ -102,210 +102,212 @@ const FORMATIONS = [
     desc: "Séance en cabinet — 90 min d'accompagnement intensif.", profil: ["marie", "fiance", "celibataire"] },
 ];
 const BM = {
-marie:{ communication:{stable:72,fragile:41}, gouvernance:{stable:68,fragile:44}, intimite:{stable:74,fragile:43}, vision:{stable:70,fragile:45}, conflits:{stable:65,fragile:40}, spiritualite:{stable:76,fragile:48}, equilibre:{stable:66,fragile:42}, heritage:{stable:72,fragile:46}, dynamiques:{stable:68,fragile:42} },
-fiance:{ connaissance:{stable:78,fragile:52}, vision:{stable:74,fragile:48}, conflits:{stable:67,fragile:43}, famille:{stable:72,fragile:46}, finances:{stable:70,fragile:44}, spiritualite:{stable:76,fragile:50}, securite:{stable:80,fragile:55}, preparation:{stable:74,fragile:48} },
-celibataire:{ identite:{stable:74,fragile:45}, blessures:{stable:70,fragile:38}, autonomie:{stable:72,fragile:44}, maturite:{stable:68,fragile:42}, discernement:{stable:74,fragile:48}, spiritualite:{stable:76,fragile:50}, schemas:{stable:68,fragile:40}, dynamiques:{stable:70,fragile:};
+  marie: { communication: { stable: 72, fragile: 41 }, gouvernance: { stable: 68, fragile: 44 }, intimite: { stable: 74, fragile: 43 }, vision: { stable: 70, fragile: 45 }, conflits: { stable: 65, fragile: 40 }, spiritualite: { stable: 76, fragile: 48 }, equilibre: { stable: 66, fragile: 42 }, heritage: { stable: 72, fragile: 46 }, dynamiques: { stable: 68, fragile: 42 } },
+  fiance: { connaissance: { stable: 78, fragile: 52 }, vision: { stable: 74, fragile: 48 }, conflits: { stable: 67, fragile: 43 }, famille: { stable: 72, fragile: 46 }, finances: { stable: 70, fragile: 44 }, spiritualite: { stable: 76, fragile: 50 }, securite: { stable: 80, fragile: 55 }, preparation: { stable: 74, fragile: 48 } },
+  celibataire: { identite: { stable: 74, fragile: 45 }, blessures: { stable: 70, fragile: 38 }, autonomie: { stable: 72, fragile: 44 }, maturite: { stable: 68, fragile: 42 }, discernement: { stable: 74, fragile: 48 }, spiritualite: { stable: 76, fragile: 50 }, schemas: { stable: 68, fragile: 40 }, dynamiques: { stable: 70, fragile: 42 } }
+};
+
 const IE = {
   ISC: { titre: "Solidité Conjugale", def: "L'architecture fondamentale : vision, gouvernance, communication, héritage." },
   IPR: { titre: "Perception Relationnelle", def: "Thermomètre émotionnel : qualité de connexion intime et de dialogue." },
   IRC: { titre: "Résilience Conjugale", def: "Système immunitaire conjugal : capacité à traverser les crises sans se briser." },
-const IE = {
-ISC:{titre:"Solidité Conjugale”,def:"L'architecture fondamentale : vision, gouvernance, communication, héritage.”},
-IPR:{titre:"Perception Relationnelle”,def:"Thermomètre émotionnel : qualité de connexion intime et de dialogue.”},
-IRC:{titre:"Résilience Conjugale”,def:"Système immunitaire conjugal : capacité à traverser les crises sans se briser.”},
-IDC:{titre:"Dynamique Conflictuelle”,def:"Comment vous gérez les désaccords — prédicteur clé de la trajectoire.”},
-ICP:{titre:"Connaissance & Vision”,def:"Profondeur de votre connaissance réciproque et alignement sur l'avenir.”},
-IPF:{titre:"Préparation”,def:"Niveau de préparation réelle : outils, finances, sécurité relationnelle.”},
-IFS:{titre:"Fondation Spirituelle”,def:"Solidité de votre fondation commune et clarté des limites familiales.”},
-ICO:{titre:"Cohésion Relationnelle”,def:"Comment vous gérez les désaccords — prédicteur clé de l'alliance.”},
-IIP:{titre:"Identité Personnelle”,def:"Solidité de votre identité, autonomie émotionnelle et maturité.”},
-IBG:{titre:"Blessures & Guérison”,def:"État de guérison de vos blessures et présence de schémas actifs.”},
-IDS:{titre:"Discernement Spirituel”,def:"Capacité à distinguer une vraie attirance d'un besoin affectif non guéri.”},
-IRP:{titre:"Patterns Relationnels”,def:"Dynamiques inconscientes actives dans vos relations.”},
+  IDC: { titre: "Dynamique Conflictuelle", def: "Comment vous gérez les désaccords — prédicteur clé de la trajectoire." },
+  ICP: { titre: "Connaissance & Vision", def: "Profondeur de votre connaissance réciproque et alignement sur l'avenir." },
+  IPF: { titre: "Préparation", def: "Niveau de préparation réelle : outils, finances, sécurité relationnelle." },
+  IFS: { titre: "Fondation Spirituelle", def: "Solidité de votre fondation commune et clarté des limites familiales." },
+  ICO: { titre: "Cohésion Relationnelle", def: "Comment vous gérez les désaccords — prédicteur clé de l'alliance." },
+  IIP: { titre: "Identité Personnelle", def: "Solidité de votre identité, autonomie émotionnelle et maturité." },
+  IBG: { titre: "Blessures & Guérison", def: "État de guérison de vos blessures et présence de schémas actifs." },
+  IDS: { titre: "Discernement Spirituel", def: "Capacité à distinguer une vraie attirance d'un besoin affectif non guéri." },
+  IRP: { titre: "Patterns Relationnels", def: "Dynamiques inconscientes actives dans vos relations." }
 };
+
 const DE = {
-communication:{titre:"Communication & Dialogue”,texte:"À Babel, le peuple s'est divisé non par manque d'amour, mais par perte de langage commun. La communication est le système nerveux du couple.”},
-gouvernance:{titre:"Gouvernance & Rôles”,texte:"Le ‘syndrome du général absent' : un homme peut être présent physiquement mais absent en leadership. La gouvernance, c'est savoir qui tient le cap et comment les décisions se prennent.”},
-intimite:{titre:"Intimité & Connexion”,texte:"L'intimité, ce n'est pas seulement physique. C'est être connu profondément et accepté pleinement. Quand l'intimité s'efface, la distance s'installe silencieusement.”},
-vision:{titre:"Vision & Projet Commun”,texte:"Un couple sans vision commune devient deux individus qui cohabitent. La vision partagée est la boussole qui oriente chaque décision.”},
-conflits:{titre:"Gestion des Conflits”,texte:"Les 4 Cavaliers de Gottman (critique, mépris, défensive, mur de pierre) prédisent la rupture avec 93% de précision. La façon dont vous vous disputez révèle tout.”},
-spiritualite:{titre:"Foi & Vie Spirituelle”,texte:”‘Un mariage sans autel familial est un bâtiment sans fondation.' La foi commune n'est pas un supplément — c'est la base.”},
-equilibre:{titre:"Équilibre Pro / Famille”,texte:"Le dirigeant qui ‘rentre chez lui physiquement mais reste au bureau mentalement' est absent même quand il est là.”},
-heritage:{titre:"Parentalité & Héritage”,texte:"La famille produit soit des citoyens de valeur soit des blessés émotionnels. L'héritage se transmet — consciemment ou non.”},
-dynamiques:{titre:"Dynamiques Relationnelles Profondes”,texte:"Cette dimension révèle les patterns invisibles qui opèrent sous la surface du quotidien.”},
-identite:{titre:"Identité & Connaissance de Soi”,texte:”‘On ne peut pas donner ce qu'on n'a pas.' L'identité solide est le fondement de tout engagement sain.”},
-blessures:{titre:"Guérison des Blessures”,texte:"Les blessures non guéries — rejet, abandon, trahison — deviennent les lunettes à travers lesquelles on interprète tout.”},
-autonomie:{titre:"Autonomie Émotionnelle”,texte:"La solitude n'est pas l'ennemi. C'est une école d'identité. Celui qui ne sait pas être seul ne sait pas vraiment être avec l'autre.”},
-maturite:{titre:"Maturité Relationnelle”,texte:"Se mesure à la capacité de faire le premier pas, d'exprimer ses besoins et de gérer la frustration sans explosion ni retrait.”},
-discernement:{titre:"Discernement & Critères”,texte:"La capacité de distinguer une vraie attirance d'un besoin affectif non guéri est rare — et précieuse.”},
-schemas:{titre:"Schémas Familiaux”,texte:"Les patterns relationnels se transmettent de génération en génération — jusqu'à ce que quelqu'un décide de briser la chaîne.”},
-connaissance:{titre:"Connaissance Mutuelle”,texte:"Connaître son partenaire en profondeur — ses peurs, ses rêves, ses blessures — est la fondation de l'intimité réelle.”},
-famille:{titre:"Belle-famille & Limites”,texte:”‘Quitter père et mère' (Genèse 2:24) est une instruction architecturale. Sans frontières claires, le couple reste fragile.”},
-finances:{titre:"Transparence Financière”,texte:"Les conflits financiers sont la 2ème cause de divorce. La transparence financière n'est pas un détail — c'est un acte d'alliance.”},
-securite:{titre:"Sécurité & Liberté”,texte:"Une relation saine est un espace où l'on peut être soi-même sans peur de la réaction de l'autre.”},
-preparation:{titre:"Préparation à l'Alliance”,texte:"Vous passez 20 ans sur les bancs de l'école pour une carrière. Combien pour le mariage ?”},
+  communication: { titre: "Communication & Dialogue", texte: "À Babel, le peuple s'est divisé non par manque d'amour, mais par perte de langage commun. La communication est le système nerveux du couple." },
+  gouvernance: { titre: "Gouvernance & Rôles", texte: "Le 'syndrome du général absent' : un homme peut être présent physiquement mais absent en leadership. La gouvernance, c'est savoir qui tient le cap et comment les décisions se prennent." },
+  intimite: { titre: "Intimité & Connexion", texte: "L'intimité, ce n'est pas seulement physique. C'est être connu profondément et accepté pleinement. Quand l'intimité s'efface, la distance s'installe silencieusement." },
+  vision: { titre: "Vision & Projet Commun", texte: "Un couple sans vision commune devient deux individus qui cohabitent. La vision partagée est la boussole qui oriente chaque décision." },
+  conflits: { titre: "Gestion des Conflits", texte: "Les 4 Cavaliers de Gottman (critique, mépris, défensive, mur de pierre) prédisent la rupture avec 93% de précision. La façon dont vous vous disputez révèle tout." },
+  spiritualite: { titre: "Foi & Vie Spirituelle", texte: "'Un mariage sans autel familial est un bâtiment sans fondation.' La foi commune n'est pas un supplément — c'est la base." },
+  equilibre: { titre: "Équilibre Pro / Famille", texte: "Le dirigeant qui 'rentre chez lui physiquement mais reste au bureau mentalement' est absent même quand il est là." },
+  heritage: { titre: "Parentalité & Héritage", texte: "La famille produit soit des citoyens de valeur soit des blessés émotionnels. L'héritage se transmet — consciemment ou non." },
+  dynamiques: { titre: "Dynamiques Relationnelles Profondes", texte: "Cette dimension révèle les patterns invisibles qui opèrent sous la surface du quotidien." },
+  identite: { titre: "Identité & Connaissance de Soi", texte: "'On ne peut pas donner ce qu'on n'a pas.' L'identité solide est le fondement de tout engagement sain." },
+  blessures: { titre: "Guérison des Blessures", texte: "Les blessures non guéries — rejet, abandon, trahison — deviennent les lunettes à travers lesquelles on interprète tout." },
+  autonomie: { titre: "Autonomie Émotionnelle", texte: "La solitude n'est pas l'ennemi. C'est une école d'identité. Celui qui ne sait pas être seul ne sait pas vraiment être avec l'autre." },
+  maturite: { titre: "Maturité Relationnelle", texte: "Se mesure à la capacité de faire le premier pas, d'exprimer ses besoins et de gérer la frustration sans explosion ni retrait." },
+  discernement: { titre: "Discernement & Critères", texte: "La capacité de distinguer une vraie attirance d'un besoin affectif non guéri est rare — et précieuse." },
+  schemas: { titre: "Schémas Familiaux", texte: "Les patterns relationnels se transmettent de génération en génération — jusqu'à ce que quelqu'un décide de briser la chaîne." },
+  connaissance: { titre: "Connaissance Mutuelle", texte: "Connaître son partenaire en profondeur — ses peurs, ses rêves, ses blessures — est la fondation de l'intimité réelle." },
+  famille: { titre: "Belle-famille & Limites", texte: "'Quitter père et mère' (Genèse 2:24) est une instruction architecturale. Sans frontières claires, le couple reste fragile." },
+  finances: { titre: "Transparence Financière", texte: "Les conflits financiers sont la 2ème cause de divorce. La transparence financière n'est pas un détail — c'est un acte d'alliance." },
+  securite: { titre: "Sécurité & Liberté", texte: "Une relation saine est un espace où l'on peut être soi-même sans peur de la réaction de l'autre." },
+  preparation: { titre: "Préparation à l'Alliance", texte: "Vous passez 20 ans sur les bancs de l'école pour une carrière. Combien pour le mariage ?" }
 };
+
 const MODS = {
-celibataire:{ label:"Eden Single”, subtitle:"Bilan de préparation au mariage”, dims:[
-{ id:"identite”, label:"Identité & Connaissance de Soi”, icon:"◈”, qs:[
-{id:"c1”,t:"Je peux décrire avec précision mes qualités et mes défauts sans utiliser des mots de façade.”},
-{id:"c2”,t:"J'ai une idée claire de ce que je veux faire de ma vie dans les 5 prochaines années.”},
-{id:"c3”,t:"Je me sens à l'aise pour exprimer mes limites et dire ‘non' sans culpabilité.”},
-{id:"c4”,t:"Je crois que les gens autour de moi me voient plus mature que je ne le suis réellement.”,inv:true},
-{id:"c5”,t:"Je sais reconnaître mes torts et m'excuser sans chercher à me justifier.”},
-{id:"c6”,t:"Je me sens bien dans ma vie de célibataire — c'est une saison active, pas une salle d'attente.”},
-]},
-{ id:"blessures”, label:"Guérison des Blessures”, icon:"◉”, qs:[
-{id:"c7”,t:"Je pense souvent que les personnes qui m'ont blessé devraient payer pour ce qu'elles m'ont fait.”,inv:true},
-{id:"c8”,t:"Je suis parvenu(e) à pardonner sincèrement aux personnes qui m'ont profondément blessé(e).”},
-{id:"c9”,t:"Des situations passées me font encore réagir de manière disproportionnée.”,inv:true},
-{id:"c10”,t:"Aujourd'hui, je me sens libéré(e) de l'emprise émotionnelle de blessures relationnelles passées.”},
-{id:"c11”,t:"Lorsqu'une relation prend fin, je comprends généralement ce que j'en ai appris.”},
-{id:"c12”,t:"Je peux évoquer mon passé sans ressentir de honte ou de colère intense.”},
-{id:"c13”,t:"J'ai maintenu des relations que je savais problématiques parce que je n'arrivais pas à partir.”,inv:true},
-]},
-{ id:"autonomie”, label:"Autonomie Émotionnelle”, icon:"◆”, qs:[
-{id:"c14”,t:"La solitude est pour moi un espace que je redoute et que je cherche à fuir.”,inv:true},
-{id:"c15”,t:"Je trouve une vraie richesse dans les moments seul(e).”},
-{id:"c16”,t:"Ma relation avec Dieu me permet de ne pas dépendre d'une relation amoureuse pour me sentir complet(e).”},
-{id:"c17”,t:"Je me sens épanoui(e) et complet(e) sans être en couple.”},
-{id:"c18”,t:"Quand quelqu'un met fin à une relation avec moi, je gère cela sans perdre pied durablement.”},
-{id:"c19”,t:"J'ai des passions personnelles qui me comblent indépendamment de mes relations.”},
-]},
-{ id:"maturite”, label:"Maturité Relationnelle”, icon:"◎”, qs:[
-{id:"c20”,t:"Lors d'un désaccord, j'attends généralement que l'autre fasse le premier pas vers la réconciliation.”,inv:true},
-{id:"c21”,t:"Après un désaccord, je fais activement des efforts pour rétablir le lien.”},
-{id:"c22”,t:"Il m'arrive de dire ‘oui' à des choses que je ne veux pas vraiment faire pour éviter le conflit.”,inv:true},
-{id:"c23”,t:"Je prends le temps de comprendre pourquoi une personne agit d'une certaine façon avant de juger.”},
-{id:"c24”,t:"Je gère les frustrations sans explosion émotionnelle ni retrait brutal.”},
-{id:"c25”,t:"Je suis capable d'exprimer mes besoins clairement sans attendre que l'autre les devine.”},
-{id:"c26”,t:"Je sais distinguer une réaction liée à la situation présente d'une blessure ancienne.”},
-]},
-{ id:"discernement”, label:"Discernement & Critères”, icon:"◐”, qs:[
-{id:"c27”,t:"Je connais précisément les valeurs non-négociables que j'attends d'une future relation.”},
-{id:"c28”,t:"J'ai souvent du mal à distinguer une vraie attirance d'un simple besoin affectif.”,inv:true},
-{id:"c29”,t:"Je suis capable d'identifier clairement ce qui me rendrait incompatible avec quelqu'un.”},
-{id:"c30”,t:"Je confonds souvent l'intensité émotionnelle des débuts avec la profondeur d'une relation.”,inv:true},
-{id:"c31”,t:"Je suis capable de reconnaître rapidement quand une relation me fait plus de mal que de bien.”},
-{id:"c32”,t:"Dans le passé, j'ai perdu intérêt pour quelqu'un peu après avoir obtenu ce que je cherchais.”,inv:true},
-]},
-{ id:"spiritualite”, label:"Ancrage Spirituel”, icon:"✦”, qs:[
-{id:"c33”,t:"Ma vision de vie est guidée par des convictions claires.”},
-{id:"c34”,t:"Ma vie spirituelle est principalement une affaire privée — je n'en parle pas.”,inv:true},
-{id:"c35”,t:"Je fais partie d'une communauté de foi qui me soutient et me responsabilise.”},
-{id:"c36”,t:"Ma relation avec Dieu guide concrètement mes choix relationnels.”},
-]},
-{ id:"schemas”, label:"Schémas Familiaux”, icon:"◇”, qs:[
-{id:"c37”,t:"En observant mes parents, je reconnais des ressemblances avec ce que je recherche chez un partenaire.”},
-{id:"c38”,t:"Dans mes relations passées, les mêmes types de tensions revenaient régulièrement.”,inv:true},
-{id:"c39”,t:"Je me surprends parfois à réagir dans les conflits exactement comme mon père ou ma mère.”,inv:true},
-{id:"c40”,t:"Je reproduis parfois des comportements que j'avais juré de ne jamais reproduire.”,inv:true},
-{id:"c41”,t:"J'ai identifié les schémas transgénérationnels qui agissent dans ma vie et je travaille à les transformer.”},
-]},
-{ id:"dynamiques”, label:"Dynamiques Relationnelles”, icon:"◑”, qs:[
-{id:"c42”,t:"La passion au début d'une relation a souvent été très intense pour moi, presque addictive.”,inv:true},
-{id:"c43”,t:"J'ai déjà cédé face à une pression insistante parce que je ne supportais pas la tension.”,inv:true},
-{id:"c44”,t:"Des personnes proches ont exprimé des réserves sur des personnes que je fréquentais.”,inv:true},
-{id:"c45”,t:"Je me sens parfois ‘trop' dans mes relations — trop investi(e), trop intensément présent(e).”,inv:true},
-{id:"c46”,t:"J'ai déjà choisi quelqu'un que je savais problématique parce que l'attachement était trop fort.”,inv:true},
-{id:"c47”,t:"Je suis capable de maintenir mes limites même sous une forte pression affective.”},
-{id:"c48”,t:"Je prends des décisions relationnelles importantes après réflexion et prière, pas sous l'émotion.”},
-{id:"c49”,t:"Mes relations passées ressemblent trop souvent aux mêmes scénarios.”,inv:true},
-{id:"c50”,t:"Je me sens prêt(e) à entrer en relation en force, pas pour fuir la solitude.”},
-]},
-], oqs:[
-{id:"co1”,t:"En une phrase, décrivez ce qui vous préoccupe le plus dans votre vie relationnelle en ce moment.”},
-{id:"co2”,t:"Qu'est-ce qui vous a poussé à faire ce bilan aujourd'hui ?”},
-{id:"co3”,t:"Quelle est la relation passée qui vous a le plus marqué(e), et pourquoi ?”},
-]},
-fiance:{ label:"Eden Connexion”, subtitle:"Bilan de préparation à l'alliance”, dims:[
-{ id:"connaissance”, label:"Connaissance Mutuelle”, icon:"◈”, qs:[
-{id:"f1”,t:"Je peux citer trois choses que mon/ma partenaire apprécie vraiment dans sa vie quotidienne.”},
-{id:"f2”,t:"Je connais les principales peurs et insécurités de mon/ma partenaire.”},
-{id:"f3”,t:"J'ai parfois l'impression de ne pas vraiment connaître la version la plus vulnérable de mon partenaire.”,inv:true},
-{id:"f4”,t:"Mon partenaire connaît mes blessures les plus profondes et les accepte pleinement.”},
-{id:"f5”,t:"J'ai déjà vu comment mon partenaire réagit sous une pression intense ou une profonde déception.”},
-{id:"f6”,t:"Je pourrais décrire avec précision ce qui motive profondément mon partenaire dans la vie.”},
-]},
-{ id:"vision”, label:"Vision Commune”, icon:"◆”, qs:[
-{id:"f7”,t:"Nous avons une vision alignée sur l'éducation de nos futurs enfants.”},
-{id:"f8”,t:"Nous avons parlé de nos objectifs professionnels et de comment nous nous soutiendrons.”},
-{id:"f9”,t:"Si mon partenaire recevait une opportunité dans une autre ville, nous trouverions un terrain d'entente.”},
-{id:"f10”,t:"Nous sommes en désaccord profond sur des éléments fondamentaux de notre avenir commun.”,inv:true},
-{id:"f11”,t:"Nous avons une vision commune de notre vie spirituelle après le mariage.”},
-]},
-{ id:"conflits”, label:"Gestion des Conflits”, icon:"◉”, qs:[
-{id:"f12”,t:"Après une dispute sérieuse, je sais comment créer un espace pour renouer le contact.”},
-{id:"f13”,t:"Quand nous ne sommes pas d'accord, nous trouvons un compromis sans que l'un se sente perdant.”},
-{id:"f14”,t:"Il y a des sujets importants que j'évite d'aborder avec mon partenaire par peur de la réaction.”,inv:true},
-{id:"f15”,t:"Je me sens libre d'exprimer un désaccord avec mon partenaire sans craindre une rupture.”},
-{id:"f16”,t:"Notre dernière dispute s'est terminée par une compréhension mutuelle, pas par un silence.”},
-]},
-{ id:"famille”, label:"Belle-famille & Limites”, icon:"◎”, qs:[
-{id:"f17”,t:"Mon partenaire et moi partageons la même compréhension de ce que signifie ‘quitter père et mère'.”},
-{id:"f18”,t:"Je pense que nos familles respectives respecteront notre autonomie après le mariage.”},
-{id:"f19”,t:"La famille de mon partenaire exerce une influence qui peut primer sur nos décisions.”,inv:true},
-{id:"f20”,t:"Nous avons un accord clair sur les limites à poser avec nos familles respectives.”},
-{id:"f21”,t:"Mon partenaire met régulièrement les besoins de sa famille d'origine avant les nôtres.”,inv:true},
-]},
-{ id:"finances”, label:"Transparence Financière”, icon:"◐”, qs:[
-{id:"f22”,t:"Mon partenaire a été totalement transparent sur l'état réel de ses finances.”},
-{id:"f23”,t:"Nous avons eu des conversations honnêtes sur nos situations financières respectives.”},
-{id:"f24”,t:"Nous avons un plan clair sur la gestion de l'argent après le mariage.”},
-{id:"f25”,t:"Il y a des aspects financiers que je connais mal ou que je préfère ne pas aborder.”,inv:true},
-{id:"f26”,t:"Nous sommes alignés sur nos priorités de dépense et d'épargne.”},
-]},
-{ id:"spiritualite”, label:"Fondation Spirituelle”, icon:"✦”, qs:[
-{id:"f27”,t:"Nous avons une compréhension claire et partagée de notre vie spirituelle commune après le mariage.”},
-{id:"f28”,t:"Je sens que Dieu nous a guidés l'un vers l'autre, et cette conviction est partagée.”},
-{id:"f29”,t:"Il y a des zones importantes de notre vie spirituelle sur lesquelles nous ne sommes pas alignés.”,inv:true},
-{id:"f30”,t:"Nous prions ensemble régulièrement, pas seulement lors des cultes.”},
-{id:"f31”,t:"L'un de nous est significativement plus engagé spirituellement, ce qui crée des tensions.”,inv:true},
-]},
-{ id:"securite”, label:"Sécurité & Liberté”, icon:"◑”, qs:[
-{id:"f32”,t:"Lorsque je résiste à une demande de mon partenaire, l'atmosphère devient tendue.”,inv:true},
-{id:"f33”,t:"Il m'arrive de ne pas dire ce que je pense vraiment pour éviter une réaction difficile.”,inv:true},
-{id:"f34”,t:"Mon partenaire insiste ou fait pression jusqu'à ce que j'accepte, même quand j'ai dit non.”,inv:true},
-{id:"f35”,t:"Des personnes proches ont exprimé des réserves sérieuses sur ma relation.”,inv:true},
-{id:"f36”,t:"Je me sens totalement libre d'être moi-même avec mon partenaire, sans masque.”},
-{id:"f37”,t:"J'ai déjà présenté une version embellie de notre relation à ma famille pour les rassurer.”,inv:true},
-{id:"f38”,t:"Mon partenaire cherche parfois à limiter mes contacts avec certains amis ou membres de ma famille.”,inv:true},
-]},
-{ id:"preparation”, label:"Préparation à l'Alliance”, icon:"◇”, qs:[
-{id:"f39”,t:"Nous avons suivi un accompagnement ou reçu un enseignement sérieux sur le mariage.”},
-{id:"f40”,t:"Nous avons fixé une date de mariage sans avoir reçu de préparation prénuptiale sérieuse.”,inv:true},
-{id:"f41”,t:"Je me sens prêt(e) à m'engager pour la vie en pleine connaissance des forces ET des fragilités.”},
-{id:"f42”,t:"Notre engagement à la pureté pendant les fiançailles est respecté et partagé.”},
-{id:"f43”,t:"En cas de crise, notre premier réflexe serait de prier ensemble puis de consulter.”},
-{id:"f44”,t:"Nous avons des mentors ou pasteurs qui connaissent notre relation et peuvent nous accompagner.”},
-{id:"f45”,t:"Je me sens prêt(e) à dire ‘oui' pour la vie, en pleine conscience.”},
-{id:"f46”,t:"J'ai encore des doutes importants sur cette relation que je n'ai pas résolus.”,inv:true},
-{id:"f47”,t:"Nous avons discuté sérieusement de nos attentes concernant les enfants.”},
-{id:"f48”,t:"Je suis convaincu(e) que nous avons les outils pour traverser les moments difficiles.”},
-{id:"f49”,t:"Notre relation a connu une évolution très rapide — nous nous sommes peu connus avant de nous fiancer.”,inv:true},
-{id:"f50”,t:"Je me réjouis pleinement à l'idée de construire une vie avec cette personne.”},
-]},
-], oqs:[
-{id:"fo1”,t:"En une phrase, décrivez ce qui vous préoccupe le plus dans votre relation actuelle.”},
-{id:"fo2”,t:"Qu'est-ce qui vous a poussé à faire ce bilan aujourd'hui ?”},
-{id:"fo3”,t:"Si vous pouviez changer une seule chose dans votre relation avant le mariage, ce serait…”},
-]},
-marie:{ label:"Eden Couple”, subtitle:"Bilan de vitalité conjugale”, dims:[
-{ id:"communication”, label:"Communication & Dialogue”, icon:"◈”, qs:[
-{id:"m1”,t:"Nous prenons le temps de nous parler chaque jour sans distraction.”},
-{id:"m2”,t:"Je me sens libre d'exprimer mes besoins et mes émotions sans craindre une réaction négative.”},
-{id:"m3”,t:"Nos désaccords se terminent par une compréhension mutuelle, pas par un silence ou une capitulation.”},
-{id:"m4”,t:"Il y a des sujets dans notre couple dont nous avons tacitement décidé de ne jamais parler.”,inv:true},
-{id:"m5”,t:"Mon conjoint écoute vraiment quand je parle, sans préparer sa réponse dans sa tête.”},
-{id:"m6”,t:"Il y a des mots ou comportements récurrents de mon conjoint qui me font encore mal.”,inv:true},
-]},
-{ id:"gouvernance”, label:"Gouvernance & Rôles”, icon:"◆”, qs:[
-{id:"m7”,t:"Les rôles et responsabilités de chacun sont clairement définis et acceptés par les deux.”},
-{id:"m8”,t:"Mon conjoint me consulte avant de prendre des décisions importantes qui nous concernent.”},
-{id:"m9”,t:"Dans notre couple, il y a une lutte constante pour savoir qui a le dernier mot.”,inv:true},
-{id:"m10”,t:"Mon conjoint prend régulièrement des décisions en mon nom sans m'avoir consulté(e).”,inv:true},
-{id:"m11”,t:"Je compense souvent l'absence de leadership de mon conjoint sans que nous en ayons parlé.”,inv:true},
-]},
+  celibataire: { label: "Eden Single", subtitle: "Bilan de préparation au mariage", dims: [
+    { id: "identite", label: "Identité & Connaissance de Soi", icon: "◈", qs: [
+      { id: "c1", t: "Je peux décrire avec précision mes qualités et mes défauts sans utiliser des mots de façade." },
+      { id: "c2", t: "J'ai une idée claire de ce que je veux faire de ma vie dans les 5 prochaines années." },
+      { id: "c3", t: "Je me sens à l'aise pour exprimer mes limites et dire 'non' sans culpabilité." },
+      { id: "c4", t: "Je crois que les gens autour de moi me voient plus mature que je ne le suis réellement.", inv: true },
+      { id: "c5", t: "Je sais reconnaître mes torts et m'excuser sans chercher à me justifier." },
+      { id: "c6", t: "Je me sens bien dans ma vie de célibataire — c'est une saison active, pas une salle d'attente." }
+    ] },
+    { id: "blessures", label: "Guérison des Blessures", icon: "◉", qs: [
+      { id: "c7", t: "Je pense souvent que les personnes qui m'ont blessé devraient payer pour ce qu'elles m'ont fait.", inv: true },
+      { id: "c8", t: "Je suis parvenu(e) à pardonner sincèrement aux personnes qui m'ont profondément blessé(e)." },
+      { id: "c9", t: "Des situations passées me font encore réagir de manière disproportionnée.", inv: true },
+      { id: "c10", t: "Aujourd'hui, je me sens libéré(e) de l'emprise émotionnelle de blessures relationnelles passées." },
+      { id: "c11", t: "Lorsqu'une relation prend fin, je comprends généralement ce que j'en ai appris." },
+      { id: "c12", t: "Je peux évoquer mon passé sans ressentir de honte ou de colère intense." },
+      { id: "c13", t: "J'ai maintenu des relations que je savais problématiques parce que je n'arrivais pas à partir.", inv: true }
+    ] },
+    { id: "autonomie", label: "Autonomie Émotionnelle", icon: "◆", qs: [
+      { id: "c14", t: "La solitude est pour moi un espace que je redoute et que je cherche à fuir.", inv: true },
+      { id: "c15", t: "Je trouve une vraie richesse dans les moments seul(e)." },
+      { id: "c16", t: "Ma relation avec Dieu me permet de ne pas dépendre d'une relation amoureuse pour me sentir complet(e)." },
+      { id: "c17", t: "Je me sens épanoui(e) et complet(e) sans être en couple." },
+      { id: "c18", t: "Quand quelqu'un met fin à une relation avec moi, je gère cela sans perdre pied durablement." },
+      { id: "c19", t: "J'ai des passions personnelles qui me comblent indépendamment de mes relations." }
+    ] },
+    { id: "maturite", label: "Maturité Relationnelle", icon: "◎", qs: [
+      { id: "c20", t: "Lors d'un désaccord, j'attends généralement que l'autre fasse le premier pas vers la réconciliation.", inv: true },
+      { id: "c21", t: "Après un désaccord, je fais activement des efforts pour rétablir le lien." },
+      { id: "c22", t: "Il m'arrive de dire 'oui' à des choses que je ne veux pas vraiment faire pour éviter le conflit.", inv: true },
+      { id: "c23", t: "Je prends le temps de comprendre pourquoi une personne agit d'une certaine façon avant de juger." },
+      { id: "c24", t: "Je gère les frustrations sans explosion émotionnelle ni retrait brutal." },
+      { id: "c25", t: "Je suis capable d'exprimer mes besoins clairement sans attendre que l'autre les devine." },
+      { id: "c26", t: "Je sais distinguer une réaction liée à la situation présente d'une blessure ancienne." }
+    ] },
+    { id: "discernement", label: "Discernement & Critères", icon: "◐", qs: [
+      { id: "c27", t: "Je connais précisément les valeurs non-négociables que j'attends d'une future relation." },
+      { id: "c28", t: "J'ai souvent du mal à distinguer une vraie attirance d'un simple besoin affectif.", inv: true },
+      { id: "c29", t: "Je suis capable d'identifier clairement ce qui me rendrait incompatible avec quelqu'un." },
+      { id: "c30", t: "Je confonds souvent l'intensité émotionnelle des débuts avec la profondeur d'une relation.", inv: true },
+      { id: "c31", t: "Je suis capable de reconnaître rapidement quand une relation me fait plus de mal que de bien." },
+      { id: "c32", t: "Dans le passé, j'ai perdu intérêt pour quelqu'un peu après avoir obtenu ce que je cherchais.", inv: true }
+    ] },
+    { id: "spiritualite", label: "Ancrage Spirituel", icon: "✦", qs: [
+      { id: "c33", t: "Ma vision de vie est guidée par des convictions claires." },
+      { id: "c34", t: "Ma vie spirituelle est principalement une affaire privée — je n'en parle pas.", inv: true },
+      { id: "c35", t: "Je fais partie d'une communauté de foi qui me soutient et me responsabilise." },
+      { id: "c36", t: "Ma relation avec Dieu guide concrètement mes choix relationnels." }
+    ] },
+    { id: "schemas", label: "Schémas Familiaux", icon: "◇", qs: [
+      { id: "c37", t: "En observant mes parents, je reconnais des ressemblances avec ce que je recherche chez un partenaire." },
+      { id: "c38", t: "Dans mes relations passées, les mêmes types de tensions revenaient régulièrement.", inv: true },
+      { id: "c39", t: "Je me surprends parfois à réagir dans les conflits exactement comme mon père ou ma mère.", inv: true },
+      { id: "c40", t: "Je reproduis parfois des comportements que j'avais juré de ne jamais reproduire.", inv: true },
+      { id: "c41", t: "J'ai identifié les schémas transgénérationnels qui agissent dans ma vie et je travaille à les transformer." }
+    ] },
+    { id: "dynamiques", label: "Dynamiques Relationnelles", icon: "◑", qs: [
+      { id: "c42", t: "La passion au début d'une relation a souvent été très intense pour moi, presque addictive.", inv: true },
+      { id: "c43", t: "J'ai déjà cédé face à une pression insistante parce que je ne supportais pas la tension.", inv: true },
+      { id: "c44", t: "Des personnes proches ont exprimé des réserves sur des personnes que je fréquentais.", inv: true },
+      { id: "c45", t: "Je me sens parfois 'trop' dans mes relations — trop investi(e), trop intensément présent(e).", inv: true },
+      { id: "c46", t: "J'ai déjà choisi quelqu'un que je savais problématique parce que l'attachement était trop fort.", inv: true },
+      { id: "c47", t: "Je suis capable de maintenir mes limites même sous une forte pression affective." },
+      { id: "c48", t: "Je prends des décisions relationnelles importantes après réflexion et prière, pas sous l'émotion." },
+      { id: "c49", t: "Mes relations passées ressemblent trop souvent aux mêmes scénarios.", inv: true },
+      { id: "c50", t: "Je me sens prêt(e) à entrer en relation en force, pas pour fuir la solitude." }
+    ] }
+  ], oqs: [
+    { id: "co1", t: "En une phrase, décrivez ce qui vous préoccupe le plus dans votre vie relationnelle en ce moment." },
+    { id: "co2", t: "Qu'est-ce qui vous a poussé à faire ce bilan aujourd'hui ?" },
+    { id: "co3", t: "Quelle est la relation passée qui vous a le plus marqué(e), et pourquoi ?" }
+  ] },
+  fiance: { label: "Eden Connexion", subtitle: "Bilan de préparation à l'alliance", dims: [
+    { id: "connaissance", label: "Connaissance Mutuelle", icon: "◈", qs: [
+      { id: "f1", t: "Je peux citer trois choses que mon/ma partenaire apprécie vraiment dans sa vie quotidienne." },
+      { id: "f2", t: "Je connais les principales peurs et insécurités de mon/ma partenaire." },
+      { id: "f3", t: "J'ai parfois l'impression de ne pas vraiment connaître la version la plus vulnérable de mon partenaire.", inv: true },
+      { id: "f4", t: "Mon partenaire connaît mes blessures les plus profondes et les accepte pleinement." },
+      { id: "f5", t: "J'ai déjà vu comment mon partenaire réagit sous une pression intense ou une profonde déception." },
+      { id: "f6", t: "Je pourrais décrire avec précision ce qui motive profondément mon partenaire dans la vie." }
+    ] },
+    { id: "vision", label: "Vision Commune", icon: "◆", qs: [
+      { id: "f7", t: "Nous avons une vision alignée sur l'éducation de nos futurs enfants." },
+      { id: "f8", t: "Nous avons parlé de nos objectifs professionnels et de comment nous nous soutiendrons." },
+      { id: "f9", t: "Si mon partenaire recevait une opportunité dans une autre ville, nous trouverions un terrain d'entente." },
+      { id: "f10", t: "Nous sommes en désaccord profond sur des éléments fondamentaux de notre avenir commun.", inv: true },
+      { id: "f11", t: "Nous avons une vision commune de notre vie spirituelle après le mariage." }
+    ] },
+    { id: "conflits", label: "Gestion des Conflits", icon: "◉", qs: [
+      { id: "f12", t: "Après une dispute sérieuse, je sais comment créer un espace pour renouer le contact." },
+      { id: "f13", t: "Quand nous ne sommes pas d'accord, nous trouvons un compromis sans que l'un se sente perdant." },
+      { id: "f14", t: "Il y a des sujets importants que j'évite d'aborder avec mon partenaire par peur de la réaction.", inv: true },
+      { id: "f15", t: "Je me sens libre d'exprimer un désaccord avec mon partenaire sans craindre une rupture." },
+      { id: "f16", t: "Notre dernière dispute s'est terminée par une compréhension mutuelle, pas par un silence." }
+    ] },
+    { id: "famille", label: "Belle-famille & Limites", icon: "◎", qs: [
+      { id: "f17", t: "Mon partenaire et moi partageons la même compréhension de ce que signifie 'quitter père et mère'." },
+      { id: "f18", t: "Je pense que nos familles respectives respecteront notre autonomie après le mariage." },
+      { id: "f19", t: "La famille de mon partenaire exerce une influence qui peut primer sur nos décisions.", inv: true },
+      { id: "f20", t: "Nous avons un accord clair sur les limites à poser avec nos familles respectives." },
+      { id: "f21", t: "Mon partenaire met régulièrement les besoins de sa famille d'origine avant les nôtres.", inv: true }
+    ] },
+    { id: "finances", label: "Transparence Financière", icon: "◐", qs: [
+      { id: "f22", t: "Mon partenaire a été totalement transparent sur l'état réel de ses finances." },
+      { id: "f23", t: "Nous avons eu des conversations honnêtes sur nos situations financières respectives." },
+      { id: "f24", t: "Nous avons un plan clair sur la gestion de l'argent après le mariage." },
+      { id: "f25", t: "Il y a des aspects financiers que je connais mal ou que je préfère ne pas aborder.", inv: true },
+      { id: "f26", t: "Nous sommes alignés sur nos priorités de dépense et d'épargne." }
+    ] },
+    { id: "spiritualite", label: "Fondation Spirituelle", icon: "✦", qs: [
+      { id: "f27", t: "Nous avons une compréhension claire et partagée de notre vie spirituelle commune après le mariage." },
+      { id: "f28", t: "Je sens que Dieu nous a guidés l'un vers l'autre, et cette conviction est partagée." },
+      { id: "f29", t: "Il y a des zones importantes de notre vie spirituelle sur lesquelles nous ne sommes pas alignés.", inv: true },
+      { id: "f30", t: "Nous prions ensemble régulièrement, pas seulement lors des cultes." },
+      { id: "f31", t: "L'un de nous est significativement plus engagé spirituellement, ce qui crée des tensions.", inv: true }
+    ] },
+    { id: "securite", label: "Sécurité & Liberté", icon: "◑", qs: [
+      { id: "f32", t: "Lorsque je résiste à une demande de mon partenaire, l'atmosphère devient tendue.", inv: true },
+      { id: "f33", t: "Il m'arrive de ne pas dire ce que je pense vraiment pour éviter une réaction difficile.", inv: true },
+      { id: "f34", t: "Mon partenaire insiste ou fait pression jusqu'à ce que j'accepte, même quand j'ai dit non.", inv: true },
+      { id: "f35", t: "Des personnes proches ont exprimé des réserves sérieuses sur ma relation.", inv: true },
+      { id: "f36", t: "Je me sens totalement libre d'être moi-même avec mon partenaire, sans masque." },
+      { id: "f37", t: "J'ai déjà présenté une version embellie de notre relation à ma famille pour les rassurer.", inv: true },
+      { id: "f38", t: "Mon partenaire cherche parfois à limiter mes contacts avec certains amis ou membres de ma famille.", inv: true }
+    ] },
+    { id: "preparation", label: "Préparation à l'Alliance", icon: "◇", qs: [
+      { id: "f39", t: "Nous avons suivi un accompagnement ou reçu un enseignement sérieux sur le mariage." },
+      { id: "f40", t: "Nous avons fixé une date de mariage sans avoir reçu de préparation prénuptiale sérieuse.", inv: true },
+      { id: "f41", t: "Je me sens prêt(e) à m'engager pour la vie en pleine connaissance des forces ET des fragilités." },
+      { id: "f42", t: "Notre engagement à la pureté pendant les fiançailles est respecté et partagé." },
+      { id: "f43", t: "En cas de crise, notre premier réflexe serait de prier ensemble puis de consulter." },
+      { id: "f44", t: "Nous avons des mentors ou pasteurs qui connaissent notre relation et peuvent nous accompagner." },
+      { id: "f45", t: "Je me sens prêt(e) à dire 'oui' pour la vie, en pleine conscience." },
+      { id: "f46", t: "J'ai encore des doutes importants sur cette relation que je n'ai pas résolus.", inv: true },
+      { id: "f47", t: "Nous avons discuté sérieusement de nos attentes concernant les enfants." },
+      { id: "f48", t: "Je suis convaincu(e) que nous avons les outils pour traverser les moments difficiles." },
+      { id: "f49", t: "Notre relation a connu une évolution très rapide — nous nous sommes peu connus avant de nous fiancer.", inv: true },
+      { id: "f50", t: "Je me réjouis pleinement à l'idée de construire une vie avec cette personne." }
+    ] }
+  ], oqs: [
+    { id: "fo1", t: "En une phrase, décrivez ce qui vous préoccupe le plus dans votre relation actuelle." },
+    { id: "fo2", t: "Qu'est-ce qui vous a poussé à faire ce bilan aujourd'hui ?" },
+    { id: "fo3", t: "Si vous pouviez changer une seule chose dans votre relation avant le mariage, ce serait…" }
+  ] },
+  marie: { label: "Eden Couple", subtitle: "Bilan de vitalité conjugale", dims: [
+    { id: "communication", label: "Communication & Dialogue", icon: "◈", qs: [
+      { id: "m1", t: "Nous prenons le temps de nous parler chaque jour sans distraction." },
+      { id: "m2", t: "Je me sens libre d'exprimer mes besoins et mes émotions sans craindre une réaction négative." },
+      { id: "m3", t: "Nos désaccords se terminent par une compréhension mutuelle, pas par un silence ou une capitulation." },
+      { id: "m4", t: "Il y a des sujets dans notre couple dont nous avons tacitement décidé de ne jamais parler.", inv: true },
+      { id: "m5", t: "Mon conjoint écoute vraiment quand je parle, sans préparer sa réponse dans sa tête." },
+      { id: "m6", t: "Il y a des mots ou comportements récurrents de mon conjoint qui me font encore mal.", inv: true }
+    ] },
+    { id: "gouvernance", label: "Gouvernance & Rôles", icon: "◆", qs: [
+      { id: "m7", t: "Les rôles et responsabilités de chacun sont clairement définis et acceptés par les deux." },
+      { id: "m8", t: "Mon conjoint me consulte avant de prendre des décisions importantes qui nous concernent." },
+      { id: "m9", t: "Dans notre couple, il y a une lutte constante pour savoir qui a le dernier mot.", inv: true },
+      { id: "m10", t: "Mon conjoint prend régulièrement des décisions en mon nom sans m'avoir consulté(e).", inv: true },
+      { id: "m11", t: "Je compense souvent l'absence de leadership de mon conjoint sans que nous en ayons parlé.", inv: true }
+    ] }
+  ] }
+};
 { id:"intimite”, label:"Intimité & Connexion”, icon:"◉”, qs:[
 {id:"m12”,t:"Je me sens profondément connu(e) et accepté(e) par mon conjoint, au-delà de mon image publique.”},
 {id:"m13”,t:"Il m'arrive de me sentir seul(e) même quand mon conjoint est physiquement présent.”,inv:true},
