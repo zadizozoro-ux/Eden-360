@@ -498,7 +498,8 @@ const QUESTIONS_OS_COUPLE = [
   ] },
   { id: "o9", bloc: 5, type: "ouvert", question: "Y a-t-il quelque chose que vous ne seriez jamais prêt(e) à accepter dans votre relation — une limite absolue ?", placeholder: "Nommez cette limite en vos propres mots…" },
   { id: "o10", bloc: 5, type: "ouvert", question: "Si vous pouviez transmettre une seule conviction sur l'amour et le mariage à quelqu'un qui commence, quelle serait-elle ?", placeholder: "Quelle est cette conviction profonde ?" }
-;
+];
+
 const QUESTIONS_OS_CELIBATAIRE = [
   { id: "oc1", bloc: 1, type: "ouvert", question: "Si vous pensez à l'idée de vous engager dans un mariage, qu'est-ce qui vous vient en premier : l'enthousiasme ou la peur ? Décrivez." },
   { id: "oc2", bloc: 2, type: "choix", question: "Y a-t-il des convictions profondes sur le mariage que vous avez héritées de votre famille et que vous n'avez jamais vraiment questionnées ?", options: [
@@ -507,147 +508,249 @@ const QUESTIONS_OS_CELIBATAIRE = [
     { val: "peut_etre", label: "Peut-être, je n'y ai pas vraiment réfléchi" },
     { val: "non", label: "Non, j'ai construit mes propres convictions" }
   ] },
-  { id: "oc3", bloc: 3, type: "ouvert", question: "Qu'est-ce qui vous a le plus marqué dans les relations que vous avez observées autour de vous (parents, proches) ?" }
+  { id: "oc3", bloc: 3, type: "ouvert", question: "Complétez : 'Pour moi, un foyer idéal ressemble à…'", placeholder: "Une image, quelques mots…" },
+  { id: "oc4", bloc: 3, type: "choix", question: "Avez-vous déjà eu une conviction profonde sur ce que vous vouliez dans une relation, puis trahi cette conviction sous la pression émotionnelle ?", options: [
+    { val: "oui_plusieurs", label: "Oui, plusieurs fois" }, { val: "oui_une", label: "Oui, une fois marquante" }, { val: "compromis", label: "J'ai eu des compromis mais sans vraiment trahir ce que je croyais" }, { val: "non", label: "Non, je n'ai pas encore vécu ça" }
+  ] },
+  { id: "oc5", bloc: 4, type: "choix", question: "En ce moment, votre vie quotidienne reflète-t-elle vraiment ce que vous croyez sur l'amour et le mariage ?", options: [
+    { val: "coherent", label: "Oui, ma vie est cohérente avec ce que je crois" }, { val: "partiellement", label: "Partiellement — il y a des écarts que je reconnais" }, { val: "pas_vraiment", label: "Pas vraiment — je vis différemment de ce que je crois" }, { val: "incertain", label: "Je ne suis pas encore sûr(e) de ce que je crois vraiment" }
+  ] },
+  { id: "oc6", bloc: 5, type: "ouvert", question: "Qu'est-ce que vous voulez que votre futur(e) conjoint(e) dise de vous dans dix ans ?", placeholder: "Quelle personne voulez-vous être dans les yeux de l'autre ?" }
 ];
-]},
-{ id:"oc3”, bloc:3, type:"ouvert”, question:"Complétez : "Pour moi, un foyer idéal ressemble à…"”, placeholder:"Une image, quelques mots…” },
-{ id:"oc4”, bloc:3, type:"choix”, question:"Avez-vous déjà eu une conviction profonde sur ce que vous vouliez dans une relation, puis trahi cette conviction sous la pression émotionnelle ?”, options:[
-{val:"oui_plusieurs”,label:"Oui, plusieurs fois”},{val:"oui_une”,label:"Oui, une fois marquante”},{val:"compromis”,label:"J'ai eu des compromis mais sans vraiment trahir ce que je croyais”},{val:"non”,label:"Non, je n'ai pas encore vécu ça”},
-]},
-{ id:"oc5”, bloc:4, type:"choix”, question:"En ce moment, votre vie quotidienne reflète-t-elle vraiment ce que vous croyez sur l'amour et le mariage ?”, options:[
-{val:"coherent”,label:"Oui, ma vie est cohérente avec ce que je crois”},{val:"partiellement”,label:"Partiellement — il y a des écarts que je reconnais”},{val:"pas_vraiment”,label:"Pas vraiment — je vis différemment de ce que je crois”},{val:"incertain”,label:"Je ne suis pas encore sûr(e) de ce que je crois vraiment”},
-]},
-{ id:"oc6”, bloc:5, type:"ouvert”, question:"Qu'est-ce que vous voulez que votre futur(e) conjoint(e) dise de vous dans dix ans ?”, placeholder:"Quelle personne voulez-vous être dans les yeux de l'autre ?” },
-];
+
 const PROFIL_APPRECIATION_OPTIONS = [
-{ id:"paroles”, icon:"◈”, label:"Que cette personne me dise clairement ce qu'elle apprécie en moi” },
-{ id:"temps”, icon:"◆”, label:"Que cette personne me consacre du temps de qualité, vraiment présente” },
-{ id:"cadeaux”, icon:"◉”, label:"Que cette personne pense à moi à travers un geste ou un cadeau attentionné” },
-{ id:"actes”, icon:"◎”, label:"Que cette personne fasse quelque chose de concret pour me faciliter la vie” },
-{ id:"toucher”, icon:"◐”, label:"Que cette personne me touche — une main posée, une accolade, une présence physique” },
+  { id: "paroles", icon: "◈", label: "Que cette personne me dise clairement ce qu'elle apprécie en moi" },
+  { id: "temps", icon: "◆", label: "Que cette personne me consacre du temps de qualité, vraiment présente" },
+  { id: "cadeaux", icon: "◉", label: "Que cette personne pense à moi à travers un geste ou un cadeau attentionné" },
+  { id: "actes", icon: "◎", label: "Que cette personne fasse quelque chose de concret pour me faciliter la vie" },
+  { id: "toucher", icon: "◐", label: "Que cette personne me touche — une main posée, une accolade, une présence physique" }
 ];
+
 const SCENARIOS_ATTACHEMENT = [
-{ id:"a1”, scenario:"Vous envoyez un message important à votre conjoint(e). Deux heures passent sans réponse. Votre réaction naturelle est…”, reponses:[
-{val:"secure”,label:"Je me demande s'il/elle va bien, puis je passe à autre chose en attendant”},
-{val:"anxieux”,label:"Je commence à m'inquiéter, je renvoie un message, j'ai du mal à me concentrer”},
-{val:"evitant”,label:"Je remarque l'absence mais je préfère ne pas insister — il/elle répondra quand il/elle voudra”},
-{val:"desorganise”,label:"Quelque chose en moi se ferme, je ne sais pas si c'est de la colère ou de l'inquiétude”},
-]},
-{ id:"a2”, scenario:"Votre conjoint(e) vous dit qu'il/elle a besoin de passer du temps seul(e) ce week-end. Votre réaction est…”, reponses:[
-{val:"secure”,label:"Je comprends, j'organise quelque chose de mon côté, c'est bien pour nous deux”},
-{val:"anxieux”,label:"J'acquiesce mais je me demande si j'ai fait quelque chose de mal”},
-{val:"evitant”,label:"Je suis soulagé(e) — j'avais aussi besoin de mon espace”},
-{val:"desorganise”,label:"Je veux lui dire oui mais quelque chose en moi résiste sans que je comprenne pourquoi”},
-]},
-{ id:"a3”, scenario:"Après une dispute sérieuse, votre premier réflexe est…”, reponses:[
-{val:"secure”,label:"Laisser passer un peu de temps puis revenir pour parler calmement”},
-{val:"anxieux”,label:"Avoir besoin que les choses soient résolues rapidement — le silence m'est insupportable”},
-{val:"evitant”,label:"Prendre de la distance pour réfléchir seul(e) avant de revenir”},
-{val:"desorganise”,label:"Hésiter entre vouloir résoudre et vouloir fuir — sans savoir quoi faire de l'émotion”},
-]},
-{ id:"a4”, scenario:"Votre conjoint(e) vous exprime une critique sur quelque chose que vous avez fait. Votre réaction est…”, reponses:[
-{val:"secure”,label:"Je l'écoute, je réfléchis, je peux l'accepter si c'est juste”},
-{val:"anxieux”,label:"Je me sens touché(e) — une partie de moi craint que ça change ce qu'il/elle pense de moi”},
-{val:"evitant”,label:"Je me ferme légèrement — j'ai besoin de traiter ça seul(e) avant de répondre”},
-{val:"desorganise”,label:"Une réaction forte monte en moi — défensive ou effondrée — avant même que j'aie réfléchi”},
-]},
+  { id: "a1", scenario: "Vous envoyez un message important à votre conjoint(e). Deux heures passent sans réponse. Votre réaction naturelle est…", reponses: [
+    { val: "secure", label: "Je me demande s'il/elle va bien, puis je passe à autre chose en attendant" },
+    { val: "anxieux", label: "Je commence à m'inquiéter, je renvoie un message, j'ai du mal à me concentrer" },
+    { val: "evitant", label: "Je remarque l'absence mais je préfère ne pas insister — il/elle répondra quand il/elle voudra" },
+    { val: "desorganise", label: "Quelque chose en moi se ferme, je ne sais pas si c'est de la colère ou de l'inquiétude" }
+  ] },
+  { id: "a2", scenario: "Votre conjoint(e) vous dit qu'il/elle a besoin de passer du temps seul(e) ce week-end. Votre réaction est…", reponses: [
+    { val: "secure", label: "Je comprends, j'organise quelque chose de mon côté, c'est bien pour nous deux" },
+    { val: "anxieux", label: "J'acquiesce mais je me demande si j'ai fait quelque chose de mal" },
+    { val: "evitant", label: "Je suis soulagé(e) — j'avais aussi besoin de mon espace" },
+    { val: "desorganise", label: "Je veux lui dire oui mais quelque chose en moi résiste sans que je comprenne pourquoi" }
+  ] },
+  { id: "a3", scenario: "Après une dispute sérieuse, votre premier réflexe est…", reponses: [
+    { val: "secure", label: "Laisser passer un peu de temps puis revenir pour parler calmement" },
+    { val: "anxieux", label: "Avoir besoin que les choses soient résolues rapidement — le silence m'est insupportable" },
+    { val: "evitant", label: "Prendre de la distance pour réfléchir seul(e) avant de revenir" },
+    { val: "desorganise", label: "Hésiter entre vouloir résoudre et vouloir fuir — sans savoir quoi faire de l'émotion" }
+  ] },
+  { id: "a4", scenario: "Votre conjoint(e) vous exprime une critique sur quelque chose que vous avez fait. Votre réaction est…", reponses: [
+    { val: "secure", label: "Je l'écoute, je réfléchis, je peux l'accepter si c'est juste" },
+    { val: "anxieux", label: "Je me sens touché(e) — une partie de moi craint que ça change ce qu'il/elle pense de moi" },
+    { val: "evitant", label: "Je me ferme légèrement — j'ai besoin de traiter ça seul(e) avant de répondre" },
+    { val: "desorganise", label: "Une réaction forte monte en moi — défensive ou effondrée — avant même que j'aie réfléchi" }
+  ] }
 ];
+
 const QUESTIONS_CHAIR = [
-{ id:"ch1”, bloc:3, type:"likert”, question:"Quand je suis blessé(e), j'exprime ce que je ressens clairement plutôt que de me fermer ou d'attaquer.”, scale:["Jamais”,"Rarement”,"Parfois”,"Souvent”,"Toujours”] },
-{ id:"ch2”, bloc:3, type:"likert”, question:"Dans un désaccord, j'arrive à écouter vraiment le point de vue de l'autre avant de répondre.”, scale:["Jamais”,"Rarement”,"Parfois”,"Souvent”,"Toujours”] },
-{ id:"ch3”, bloc:3, type:"likert”, question:"Je dis ce que je pense vraiment, même quand c'est inconfortable — je ne laisse pas le silence parler à ma place.”, scale:["Jamais”,"Rarement”,"Parfois”,"Souvent”,"Toujours”] },
-{ id:"ch4”, bloc:3, type:"likert”, question:"Après un conflit, je fais naturellement le premier pas vers la réconciliation.”, scale:["Jamais”,"Rarement”,"Parfois”,"Souvent”,"Toujours”] },
-{ id:"ch5”, bloc:3, type:"likert”, question:"Ma manière d'exprimer ma frustration ou ma colère ne blesse pas et n'écrase pas l'autre.”, scale:["Jamais”,"Rarement”,"Parfois”,"Souvent”,"Toujours”] },
-{ id:"ch6”, bloc:4, type:"likert”, question:"Je me ressource principalement dans le calme et la solitude — les interactions prolongées me fatiguent.”, scale:["Pas du tout”,"Peu”,"Moyennement”,"Beaucoup”,"Totalement”] },
-{ id:"ch7”, bloc:4, type:"likert”, question:"Face à un problème, j'analyse d'abord logiquement avant de considérer la dimension émotionnelle.”, scale:["Pas du tout”,"Peu”,"Moyennement”,"Beaucoup”,"Totalement”] },
-{ id:"ch8”, bloc:4, type:"likert”, question:"J'ai besoin que les choses soient organisées et prévisibles — l'improvisation me déstabilise.”, scale:["Pas du tout”,"Peu”,"Moyennement”,"Beaucoup”,"Totalement”] },
-{ id:"ch9”, bloc:4, type:"likert”, question:"Je m'adapte facilement à ce qui n'était pas prévu sans que cela perturbe mon équilibre.”, scale:["Jamais”,"Rarement”,"Parfois”,"Souvent”,"Toujours”] },
+  { id: "ch1", bloc: 3, type: "likert", question: "Quand je suis blessé(e), j'exprime ce que je ressens clairement plutôt que de me fermer ou d'attaquer.", scale: ["Jamais", "Rarement", "Parfois", "Souvent", "Toujours"] },
+  { id: "ch2", bloc: 3, type: "likert", question: "Dans un désaccord, j'arrive à écouter vraiment le point de vue de l'autre avant de répondre.", scale: ["Jamais", "Rarement", "Parfois", "Souvent", "Toujours"] },
+  { id: "ch3", bloc: 3, type: "likert", question: "Je dis ce que je pense vraiment, même quand c'est inconfortable — je ne laisse pas le silence parler à ma place.", scale: ["Jamais", "Rarement", "Parfois", "Souvent", "Toujours"] },
+  { id: "ch4", bloc: 3, type: "likert", question: "Après un conflit, je fais naturellement le premier pas vers la réconciliation.", scale: ["Jamais", "Rarement", "Parfois", "Souvent", "Toujours"] },
+  { id: "ch5", bloc: 3, type: "likert", question: "Ma manière d'exprimer ma frustration ou ma colère ne blesse pas et n'écrase pas l'autre.", scale: ["Jamais", "Rarement", "Parfois", "Souvent", "Toujours"] },
+  { id: "ch6", bloc: 4, type: "likert", question: "Je me ressource principalement dans le calme et la solitude — les interactions prolongées me fatiguent.", scale: ["Pas du tout", "Peu", "Moyennement", "Beaucoup", "Totalement"] },
+  { id: "ch7", bloc: 4, type: "likert", question: "Face à un problème, j'analyse d'abord logiquement avant de considérer la dimension émotionnelle.", scale: ["Pas du tout", "Peu", "Moyennement", "Beaucoup", "Totalement"] },
+  { id: "ch8", bloc: 4, type: "likert", question: "J'ai besoin que les choses soient organisées et prévisibles — l'improvisation me déstabilise.", scale: ["Pas du tout", "Peu", "Moyennement", "Beaucoup", "Totalement"] },
+  { id: "ch9", bloc: 4, type: "likert", question: "Je m'adapte facilement à ce qui n'était pas prévu sans que cela perturbe mon équilibre.", scale: ["Jamais", "Rarement", "Parfois", "Souvent", "Toujours"] }
 ];
+
 // ═══════════════════════════════════════════════════════════════════════════
 // SECTION 3 — DONNÉES FEATURES (FAÇADE, VIOLENCE, PATTERNS)
 // ═══════════════════════════════════════════════════════════════════════════
 const AVEU_QUESTIONS = {
-// Questions "aveux” — réponses élevées sur ces questions contredisent un score global flatté
-// Couvrent maintenant les 6 patterns originaux + les 5 nouveaux
-marie:{ q:["m4”,"m6”,"m9”,"m13”,"m24”,"m26”,"m28”,"m37”,"m42”,"m44”,"m45”,"m46”,"m47”,"m48”,"m49”] },
-fiance:{ q:["f3”,"f14”,"f19”,"f21”,"f25”,"f29”,"f31”,"f33”,"f34”,"f37”,"f40”,"f46”,"f49”] },
-celibataire:{ q:["c7”,"c9”,"c14”,"c20”,"c22”,"c28”,"c30”,"c38”,"c39”,"c43”,"c46”] },
+  marie: { q: ["m4", "m6", "m9", "m13", "m24", "m26", "m28", "m37", "m42", "m44", "m45", "m46", "m47", "m48", "m49"] },
+  fiance: { q: ["f3", "f14", "f19", "f21", "f25", "f29", "f31", "f33", "f34", "f37", "f40", "f46", "f49"] },
+  celibataire: { q: ["c7", "c9", "c14", "c20", "c22", "c28", "c30", "c38", "c39", "c43", "c46"] }
 };
+
 const VIOLENCE_TRIGGERS = {
-marie:[ {id:"m29”,threshold:3}, {id:"m46”,threshold:4}, {id:"m27”,threshold:4} ],
-fiance:[ {id:"f34”,threshold:3}, {id:"f32”,threshold:4}, {id:"f38”,threshold:3} ],
-celibataire:[ {id:"c43”,threshold:4} ],
+  marie: [ { id: "m29", threshold: 3 }, { id: "m46", threshold: 4 }, { id: "m27", threshold: 4 } ],
+  fiance: [ { id: "f34", threshold: 3 }, { id: "f32", threshold: 4 }, { id: "f38", threshold: 3 } ],
+  celibataire: [ { id: "c43", threshold: 4 } ]
 };
+
 const MICRO_PERTES_MAP = {
-communication:{ low:["Les conversations de fond que vous n'avez plus le soir”,"La paix de vous sentir vraiment entendu(e)”,"Les décisions importantes prises sans vous”] },
-intimite:{ low:["La légèreté d'être pleinement vous-même à la maison”,"Le regard complice que vous ne cherchez plus”,"L'énergie gaspillée à maintenir une distance non dite”] },
-gouvernance:{ low:["L'unité de front devant vos enfants”,"Le sentiment d'avancer dans la même direction”,"La confiance de savoir qui décide quand”] },
-vision:{ low:["L'excitation de construire quelque chose ensemble”,"Un projet commun qui vous lève le matin”,"Le sentiment que votre couple a un sens”] },
-spiritualite:{ low:["La paix d'un foyer ancré dans quelque chose de plus grand”,"La force d'une prière commune dans les moments difficiles”,"La certitude que Dieu est au centre de vos décisions”] },
-conflits:{ low:["L'énergie émotionnelle consumée par les mêmes disputes”,"Les nuits apaisées après un vrai pardon”,"La liberté de vous exprimer sans craindre une tempête”] },
+  communication: { low: ["Les conversations de fond que vous n'avez plus le soir", "La paix de vous sentir vraiment entendu(e)", "Les décisions importantes prises sans vous"] },
+  intimite: { low: ["La légèreté d'être pleinement vous-même à la maison", "Le regard complice que vous ne cherchez plus", "L'énergie gaspillée à maintenir une distance non dite"] },
+  gouvernance: { low: ["L'unité de front devant vos enfants", "Le sentiment d'avancer dans la même direction", "La confiance de savoir qui décide quand"] },
+  vision: { low: ["L'excitation de construire quelque chose ensemble", "Un projet commun qui vous lève le matin", "Le sentiment que votre couple a un sens"] },
+  spiritualite: { low: ["La paix d'un foyer ancré dans quelque chose de plus grand", "La force d'une prière commune dans les moments difficiles", "La certitude que Dieu est au centre de vos décisions"] },
+  conflits: { low: ["L'énergie émotionnelle consumée par les mêmes disputes", "Les nuits apaisées après un vrai pardon", "La liberté de vous exprimer sans craindre une tempête"] }
 };
+
 const VERDICTS_3_MOTS = {
-"80-100”:["Fondation qui tient”,"Couple debout ensemble”,"Ancrage à protéger”],
-"65-79”:["Vigilance bien portée”,"Fissures à traiter”,"Solidité à consolider”],
-"50-64”:["Tension qui s'installe”,"Distance qui grandit”,"Silence qui pèse”],
-"35-49”:["Fracture en progression”,"Crise qui couve”,"Urgence ignorée”],
-"0-34”:["Rupture en marche”,"Désert de connexion”,"Intervention requise maintenant”],
+  "80-100": ["Fondation qui tient", "Couple debout ensemble", "Ancrage à protéger"],
+  "65-79": ["Vigilance bien portée", "Fissures à traiter", "Solidité à consolider"],
+  "50-64": ["Tension qui s'installe", "Distance qui grandit", "Silence qui pèse"],
+  "35-49": ["Fracture en progression", "Crise qui couve", "Urgence ignorée"],
+  "0-34": ["Rupture en marche", "Désert de connexion", "Intervention requise maintenant"]
 };
+
 // ═══════════════════════════════════════════════════════════════════════════
 // SECTION 4 — UTILITAIRES
 // ═══════════════════════════════════════════════════════════════════════════
 function genCode() {
-const c = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789”;
-let s = "”;
-for (let i = 0; i < 8; i++) {
-if (i === 4) s += "-”;
-s += c[Math.floor(Math.random() * c.length)];
+  const c = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+  let s = "";
+  for (let i = 0; i < 8; i++) {
+    if (i === 4) s += "-";
+    s += c[Math.floor(Math.random() * c.length)];
+  }
+  return s;
 }
-return s;
-}
+
 function pct(score, max) { return Math.round((score / max) * 100); }
+
 function lvl(p) {
-if (p >= 80) return { l: "Excellent”, c: C.green };
-if (p >= 65) return { l: "Stable”, c: "#7AAB6A” };
-if (p >= 50) return { l: "Fragile”, c: C.gold };
-if (p >= 35) return { l: "Critique”, c: C.orange };
-return { l: "Urgence”, c: C.red };
+  if (p >= 80) return { l: "Excellent", c: C.green };
+  if (p >= 65) return { l: "Stable", c: "#7AAB6A" };
+  if (p >= 50) return { l: "Fragile", c: C.gold };
+  if (p >= 35) return { l: "Critique", c: C.orange };
+  return { l: "Urgence", c: C.red };
 }
+
 function computeIndices(scores, profil) {
-const map = INDICES_MAP[profil];
-if (!map) return null;
-const result = {};
-Object.entries(map).forEach(([key, def]) => {
-const vals = def.dims.map(d => scores[d]?.p || 0).filter(v => v > 0);
-if (vals.length === 0) return;
-result[key] = { label: def.label, p: Math.round(vals.reduce((a, b) => a + b, 0) / vals.length), color: def.color };
-});
-return result;
+  const map = INDICES_MAP[profil];
+  if (!map) return null;
+  const result = {};
+  Object.entries(map).forEach(([key, def]) => {
+    const vals = def.dims.map(d => scores[d]?.p || 0).filter(v => v > 0);
+    if (vals.length === 0) return;
+    result[key] = { label: def.label, p: Math.round(vals.reduce((a, b) => a + b, 0) / vals.length), color: def.color };
+  });
+  return result;
 }
+
 function computePatterns(ans, profil) {
-// raw() — pour les questions INVERSÉES : réponse haute = mauvais comportement fréquent
-// score 80 = Souvent (4), 60 = Parfois (3), 40 = Rarement (2)
-const raw = (ids) => {
-const vals = ids.map(id => ans[id]).filter(v => v !== undefined);
-if (!vals.length) return null;
-return Math.round(vals.reduce((s, v) => s + v, 0) / vals.length * 20);
-};
-// rawLow() — pour les questions NORMALES : réponse basse = bon comportement absent
-// si la personne répond 2 (Rarement) à une bonne chose → score problème = 80
-const rawLow = (ids) => {
-const vals = ids.map(id => ans[id]).filter(v => v !== undefined);
-if (!vals.length) return null;
-return Math.round((6 - vals.reduce((s, v) => s + v, 0) / vals.length) * 20);
-};
-// rawMix() — combine une question inversée et une normale pour un score composite
-const rawMix = (invIds, normalIds) => {
-const s1 = raw(invIds);
-const s2 = rawLow(normalIds);
-if (s1 === null && s2 === null) return null;
-const vals = [s1, s2].filter(v => v !== null);
-return Math.round(vals.reduce((a, b) => a + b, 0) / vals.length);
-};
-const patterns = {};
+  const raw = (ids) => {
+    const vals = ids.map(id => ans[id]).filter(v => v !== undefined);
+    if (!vals.length) return null;
+    return Math.round(vals.reduce((s, v) => s + v, 0) / vals.length * 20);
+  };
+
+  const rawLow = (ids) => {
+    const vals = ids.map(id => ans[id]).filter(v => v !== undefined);
+    if (!vals.length) return null;
+    return Math.round((6 - vals.reduce((s, v) => s + v, 0) / vals.length) * 20);
+  };
+
+  const rawMix = (invIds, normalIds) => {
+    const s1 = raw(invIds);
+    const s2 = rawLow(normalIds);
+    if (s1 === null && s2 === null) return null;
+    const vals = [s1, s2].filter(v => v !== null);
+    return Math.round(vals.reduce((a, b) => a + b, 0) / vals.length);
+  };
+
+  const patterns = {};
+
+  if (profil === "marie") {
+    const ae = raw(["m9", "m10", "m11"]);
+    if (ae !== null && ae > 40) patterns["Adam-Eve"] = ae;
+
+    const sd = raw(["m27", "m29", "m46"]);
+    if (sd !== null && sd > 40) patterns["Samson-Dalila"] = sd;
+
+    const as = raw(["m44"]);
+    if (as !== null && as > 50) patterns["Ananias-Saphira"] = as;
+
+    const ir = raw(["m40", "m42"]);
+    if (ir !== null && ir > 40) patterns["Isaac-Rebecca"] = ir;
+
+    const aj = raw(["m45", "m46"]);
+    if (aj !== null && aj > 55) patterns["Achab-Jezabel"] = aj;
+
+    const tr = raw(["m47"]);
+    if (tr !== null && tr > 55) patterns["Transmission"] = tr;
+
+    const sm_raw = raw(["m49", "m45", "m47"]);
+    if (sm_raw !== null && sm_raw > 55) patterns["Saul-Michal"] = sm_raw;
+
+    const ca = raw(["m26", "m45"]);
+    if (ca !== null && ca > 60) patterns["Cain-Abel"] = ca;
+
+    const jf_inv = raw(["m48", "m13", "m28"]);
+    const jf_low = rawLow(["m33"]);
+    const jf = (jf_inv !== null && jf_low !== null) ? Math.round((jf_inv * 2 + jf_low) / 3) : jf_inv;
+    if (jf !== null && jf > 58) patterns["Job-femme"] = jf;
+
+    const og_inv = raw(["m37", "m13", "m28"]);
+    const og_low = rawLow(["m38", "m22", "m35"]);
+    const og_score = (og_inv !== null && og_low !== null) ? Math.round((og_inv * 0.5 + og_low * 0.5)) : null;
+    const m37_val = ans["m37"] || 0;
+    if (og_score !== null && og_score > 60 && m37_val >= 3) patterns["Osee-Gomer"] = og_score;
+
+    const is_inv = raw(["m42"]);
+    const is_low = rawLow(["m39"]);
+    const is_score = (is_inv !== null && is_low !== null) ? Math.round((is_inv + is_low) / 2) : is_inv;
+    const m42_val = ans["m42"] || 0;
+    if (is_score !== null && is_score > 60 && m42_val >= 3) patterns["Isaac-Sarah"] = is_score;
+
+    const eli_score = rawMix(["m40"], ["m39", "m41"]);
+    if (eli_score !== null && eli_score > 58) patterns["Eli-ses fils"] = eli_score;
+
+    const na_inv = raw(["m11", "m26", "m28"]);
+    const na_low = rawLow(["m8", "m7"]);
+    const na_score = (na_inv !== null && na_low !== null) ? Math.round((na_inv + na_low) / 2) : na_inv;
+    if (na_score !== null && na_score > 52) patterns["Nabal-Abigael"] = na_score;
+
+    const as2_inv = raw(["m13", "m28"]);
+    const as2_low = rawLow(["m15", "m16", "m12"]);
+    const as2_score = (as2_inv !== null && as2_low !== null) ? Math.round((as2_inv * 0.4 + as2_low * 0.6)) : null;
+    const m13_val = ans["m13"] || 0;
+    const m15_val = ans["m15"] || 5;
+    if (as2_score !== null && as2_score > 62 && m13_val >= 3 && m15_val <= 2) patterns["Abraham-Sarah"] = as2_score;
+
+    const ds_inv = raw(["m26", "m45", "m6"]);
+    const ds_low = rawLow(["m18", "m22"]);
+    const ds_score = (ds_inv !== null && ds_low !== null) ? Math.round((ds_inv * 0.6 + ds_low * 0.4)) : ds_inv;
+    if (ds_score !== null && ds_score > 58 && ds_inv !== null && ds_inv > 52) patterns["David-Saul"] = ds_score;
+
+  } else if (profil === "fiance") {
+    const sd = raw(["f32", "f33", "f34", "f38"]);
+    if (sd !== null && sd > 40) patterns["Samson-Dalila"] = sd;
+
+    const as = raw(["f37"]);
+    if (as !== null && as > 55) patterns["Ananias-Saphira"] = as;
+
+    const tr = raw(["f35"]);
+    if (tr !== null && tr > 55) patterns["Transmission"] = tr;
+
+    const sm_f = raw(["f19", "f21", "f35"]);
+    if (sm_f !== null && sm_f > 50) patterns["Saul-Michal"] = sm_f;
+
+    const jf_f = raw(["f46", "f14", "f37"]);
+    if (jf_f !== null && jf_f > 55) patterns["Job-femme"] = jf_f;
+
+    const na_f = raw(["f34", "f14", "f37"]);
+    if (na_f !== null && na_f > 52) patterns["Nabal-Abigael"] = na_f;
+
+    const as2_f_inv = raw(["f33", "f37"]);
+    const as2_f_low = rawLow(["f36", "f1"]);
+    if (as2_f_inv !== null && as2_f_low !== null && Math.round((as2_f_inv + as2_f_low) / 2) > 60) {
+      patterns["Abraham-Sarah"] = Math.round((as2_f_inv + as2_f_low) / 2);
+    }
+
+    const ds_f_inv = raw(["f32", "f10"]);
+    const ds_f_low = rawLow(["f7", "f9"]);
+    if (ds_f_inv !== null && ds_f_low !== null && Math.round((ds_f_inv * 0.6 + ds_f_low * 0.4)) > 58) {
+      patterns["David-Saul"] = Math.round((ds_f_inv * 0.6 + ds_f_low * 0.4));
+    }
+  }
+
+  return patterns;
+}
 if (profil === "marie”) {
 // ── 6 patterns originaux ────────────────────────────────────────────────
 // Adam-Ève : lutte de leadership (m9 inv, m10 inv, m11 inv)
