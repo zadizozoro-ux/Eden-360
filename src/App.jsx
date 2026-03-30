@@ -2229,7 +2229,7 @@ function ScenarioAttachement({ scenario, value, onChange }) {
     </div>
   );
 
-  // ── RAPPORT ──
+ // ── RAPPORT ──
   if (phase === "rapport") {
     const attachStyle = computeAttachementStyle(repAttachement);
     const primaryRecevoir = PROFIL_APPRECIATION_OPTIONS.find(o => o.id === appreciationRecevoir[0])?.label || "Non renseigné";
@@ -2283,487 +2283,490 @@ function ScenarioAttachement({ scenario, value, onChange }) {
 // SECTION 9 — MODULE ADMIN
 // ═══════════════════════════════════════════════════════════════════════════
 function AdminModule({ codes, onSaveCodes, onBack }) {
-const [genCount, setGenCount] = useState(10);
-const [newCodes, setNewCodes] = useState([]);
-const [copied, setCopied] = useState(false);
-const [tab, setTab] = useState("codes”);
-const total = Object.keys(codes).length;
-const usedC = Object.values(codes).filter(c => c.used).length;
-const coupleCount = new Set(Object.values(codes).filter(c => c.coupleId).map(c => c.coupleId)).size;
-const recentUsed = Object.entries(codes).filter(([,c]) => c.used && c.usedAt).sort(([,a],[,b]) => new Date(b.usedAt) - new Date(a.usedAt)).slice(0, 10);
-async function handleGenerate(isCouple = false) {
-const fresh = { …codes };
-const generated = [];
-for (let i = 0; i < genCount; i++) {
-if (isCouple) {
-let cid; do { cid = Math.random().toString(36).slice(2,8).toUpperCase(); } while (Object.values(fresh).some(c => c.coupleId === cid));
-const cA = cid.slice(0,3)+”-”+cid.slice(3,6)+"A”;
-const cB = cid.slice(0,3)+”-”+cid.slice(3,6)+"B”;
-fresh[cA] = { used:false, createdAt:new Date().toISOString(), coupleId:cid, partnerNum:1 };
-fresh[cB] = { used:false, createdAt:new Date().toISOString(), coupleId:cid, partnerNum:2 };
-generated.push(cA+” + "+cB);
-} else {
-let code; do { code = genCode(); } while (fresh[code]);
-fresh[code] = { used:false, createdAt:new Date().toISOString() };
-generated.push(code);
-}
-}
-await onSaveCodes(fresh);
-setNewCodes(generated);
-}
-async function handleDelete(code) {
-const updated = { …codes };
-delete updated[code];
-await onSaveCodes(updated);
-}
-const available = Object.entries(codes).filter(([,c]) => !c.used);
-const usedList = Object.entries(codes).filter(([,c]) => c.used);
-return (
-<div className="section">
-<div style={{ display:"flex”, alignItems:"center”, justifyContent:"space-between”, marginBottom:24 }}>
-<div>
-<div className="section-tag">◈ Administration</div>
-<div className="section-title” style={{ fontSize:20, marginBottom:0 }}>Tableau de bord</div>
-</div>
-<button className="btn-secondary" onClick={onBack}>← Retour</button>
-</div>
-{/* Stats */}
-<div style={{ display:"grid”, gridTemplateColumns:"1fr 1fr 1fr”, gap:8, marginBottom:24 }}>
-{[
-{ label:"Codes total”, val:total, color:C.gold },
-{ label:"Codes utilisés”, val:usedC, color:C.green },
-{ label:"Couples”, val:coupleCount, color:C.blue },
-].map(stat => (
-<div key={stat.label} style={{ background:”#0D1018”, border:"1px solid #1E2330”, padding:"14px 12px” }}>
-<div style={{ fontFamily:”‘Cormorant Garamond',serif”, fontSize:28, color:stat.color, lineHeight:1 }}>{stat.val}</div>
-<div style={{ fontSize:9, color:C.dim, letterSpacing:”.1em”, textTransform:"uppercase”, marginTop:4 }}>{stat.label}</div>
-</div>
-))}
-</div>
-{/* Tabs */}
-<div style={{ display:"flex”, gap:0, marginBottom:20, borderBottom:"1px solid #1E2330” }}>
-{["codes”,"generer”,"activite”].map(t => (
-<button key={t} onClick={() => setTab(t)} style={{ background:"transparent”, border:"none”, color:tab===t?C.gold:C.dim, padding:"10px 16px”, fontFamily:”‘Jost',sans-serif”, fontSize:11, letterSpacing:”.1em”, textTransform:"uppercase”, borderBottom:tab===t?`2px solid ${C.gold}`:"2px solid transparent”, cursor:"pointer” }}>
-{t === "codes” ? "Codes disponibles” : t === "generer” ? "Générer” : "Activité récente”}
-</button>
-))}
-</div>
-{tab === "codes” && (
-<div>
-<div style={{ fontSize:10, color:C.dim, marginBottom:12 }}>{available.length} codes disponibles</div>
-<div style={{ display:"flex”, flexDirection:"column”, gap:6, maxHeight:400, overflowY:"auto” }}>
-{available.map(([code, data]) => (
-<div key={code} style={{ display:"flex”, justifyContent:"space-between”, alignItems:"center”, padding:"10px 14px”, background:”#0D1018”, border:"1px solid #1E2330” }}>
-<div>
-<div style={{ fontSize:13, color:C.gold, letterSpacing:”.08em”, fontFamily:"monospace” }}>{code}</div>
-<div style={{ fontSize:9, color:C.dim, marginTop:2 }}>{new Date(data.createdAt).toLocaleDateString("fr-FR”)} {data.coupleId ? `· Couple ${data.coupleId} P${data.partnerNum}` : "”}</div>
-</div>
-<button onClick={() => handleDelete(code)} style={{ background:"transparent”, border:"1px solid #C0614A33”, color:C.red, padding:"4px 10px”, cursor:"pointer”, fontSize:10 }}>Supprimer</button>
-</div>
-))}
-{available.length === 0 && <div style={{ fontSize:12, color:C.dim, textAlign:"center”, padding:20 }}>Aucun code disponible.</div>}
-</div>
-{usedList.length > 0 && (
-<div style={{ marginTop:20 }}>
-<div style={{ fontSize:10, color:C.dim, marginBottom:12 }}>{usedList.length} codes utilisés</div>
-<div style={{ display:"flex”, flexDirection:"column”, gap:6, maxHeight:240, overflowY:"auto” }}>
-{usedList.map(([code, data]) => (
-<div key={code} style={{ display:"flex”, justifyContent:"space-between”, alignItems:"center”, padding:"10px 14px”, background:”#0D1018”, border:"1px solid #1E2330”, opacity:.6 }}>
-<div>
-<div style={{ fontSize:12, color:C.muted, letterSpacing:”.08em”, fontFamily:"monospace” }}>{code}</div>
-<div style={{ fontSize:9, color:C.dim, marginTop:2 }}>{data.clientName||”—”} · {data.usedAt ? new Date(data.usedAt).toLocaleDateString("fr-FR”) : "date inconnue”}</div>
-</div>
-<div style={{ fontSize:9, color:C.green }}>✓ Utilisé</div>
-</div>
-))}
-</div>
-</div>
-)}
-</div>
-)}
-{tab === "generer” && (
-<div>
-<div style={{ marginBottom:16 }}>
-<div style={{ fontSize:10, color:C.gold, letterSpacing:”.16em”, textTransform:"uppercase”, marginBottom:8 }}>Nombre de codes à générer</div>
-<div style={{ display:"flex”, gap:8, flexWrap:"wrap”, marginBottom:12 }}>
-{[1,5,10,20,50].map(n => (
-<button key={n} onClick={() => setGenCount(n)} style={{ background:genCount===n?C.gold:"transparent”, border:`1px solid ${genCount===n?C.gold:"#1E2330"}`, color:genCount===n?”#0B0F1A”:C.muted, padding:"8px 14px”, cursor:"pointer”, fontFamily:”‘Jost',sans-serif”, fontSize:12 }}>{n}</button>
-))}
-</div>
-</div>
-<div style={{ display:"flex”, gap:8, marginBottom:24 }}>
-<button className="btn-primary” style={{ flex:1 }} onClick={() => handleGenerate(false)}>Générer {genCount} code{genCount>1?"s”:””} individuels</button>
-<button className="btn-gold-outline” style={{ flex:1 }} onClick={() => handleGenerate(true)}>Générer {genCount} paire{genCount>1?"s”:””} couple</button>
-</div>
-{newCodes.length > 0 && (
-<div className="card-gold">
-<div className="stl">Codes générés</div>
-<div style={{ display:"flex”, flexDirection:"column”, gap:6, marginBottom:16, maxHeight:300, overflowY:"auto” }}>
-{newCodes.map((c,i) => (
-<div key={i} style={{ fontFamily:"monospace”, fontSize:13, color:C.gold, padding:"8px 12px”, background:”#080C10”, border:"1px solid #C9A84C22” }}>{c}</div>
-))}
-</div>
-<button className="btn-gold-outline” style={{ width:"100%” }} onClick={() => {
-navigator.clipboard.writeText(newCodes.join(”\n”)).then(() => { setCopied(true); setTimeout(() => setCopied(false), 2500); });
-}}>{copied ? "✓ Copié” : "Copier tous les codes”}</button>
-</div>
-)}
-</div>
-)}
-{tab === "activite” && (
-<div>
-<div style={{ fontSize:10, color:C.dim, marginBottom:12 }}>10 dernières utilisations</div>
-{recentUsed.length === 0 && <div style={{ fontSize:12, color:C.dim, textAlign:"center”, padding:20 }}>Aucune activité enregistrée.</div>}
-{recentUsed.map(([code, data]) => (
-<div key={code} style={{ padding:"12px 14px”, background:”#0D1018”, border:"1px solid #1E2330”, marginBottom:6 }}>
-<div style={{ display:"flex”, justifyContent:"space-between”, marginBottom:4 }}>
-<div style={{ fontSize:12, color:C.text }}>{data.clientName || "Anonyme”}</div>
-<div style={{ fontSize:10, color:C.dim }}>{data.usedAt ? new Date(data.usedAt).toLocaleDateString("fr-FR”) : "”}</div>
-</div>
-<div style={{ fontSize:10, color:C.muted }}>{code} {data.coupleId ? `· Couple` : "”}</div>
-</div>
-))}
-</div>
-)}
-</div>
-);
+  const [genCount, setGenCount] = useState(10);
+  const [newCodes, setNewCodes] = useState([]);
+  const [copied, setCopied] = useState(false);
+  const [tab, setTab] = useState("codes");
+  const total = Object.keys(codes).length;
+  const usedC = Object.values(codes).filter(c => c.used).length;
+  const coupleCount = new Set(Object.values(codes).filter(c => c.coupleId).map(c => c.coupleId)).size;
+  const recentUsed = Object.entries(codes).filter(([, c]) => c.used && c.usedAt).sort(([, a], [, b]) => new Date(b.usedAt) - new Date(a.usedAt)).slice(0, 10);
+
+  async function handleGenerate(isCouple = false) {
+    const fresh = { ...codes };
+    const generated = [];
+    for (let i = 0; i < genCount; i++) {
+      if (isCouple) {
+        let cid; do { cid = Math.random().toString(36).slice(2, 8).toUpperCase(); } while (Object.values(fresh).some(c => c.coupleId === cid));
+        const cA = cid.slice(0, 3) + "-" + cid.slice(3, 6) + "A";
+        const cB = cid.slice(0, 3) + "-" + cid.slice(3, 6) + "B";
+        fresh[cA] = { used: false, createdAt: new Date().toISOString(), coupleId: cid, partnerNum: 1 };
+        fresh[cB] = { used: false, createdAt: new Date().toISOString(), coupleId: cid, partnerNum: 2 };
+        generated.push(cA + " + " + cB);
+      } else {
+        let code; do { code = genCode(); } while (fresh[code]);
+        fresh[code] = { used: false, createdAt: new Date().toISOString() };
+        generated.push(code);
+      }
+    }
+    await onSaveCodes(fresh);
+    setNewCodes(generated);
+  }
+
+  async function handleDelete(code) {
+    const updated = { ...codes };
+    delete updated[code];
+    await onSaveCodes(updated);
+  }
+
+  const available = Object.entries(codes).filter(([, c]) => !c.used);
+  const usedList = Object.entries(codes).filter(([, c]) => c.used);
+
+  return (
+    <div className="section">
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 24 }}>
+        <div>
+          <div className="section-tag">◈ Administration</div>
+          <div className="section-title" style={{ fontSize: 20, marginBottom: 0 }}>Tableau de bord</div>
+        </div>
+        <button className="btn-secondary" onClick={onBack}>← Retour</button>
+      </div>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 8, marginBottom: 24 }}>
+        {[
+          { label: "Codes total", val: total, color: C.gold },
+          { label: "Codes utilisés", val: usedC, color: C.green },
+          { label: "Couples", val: coupleCount, color: C.blue },
+        ].map(stat => (
+          <div key={stat.label} style={{ background: "#0D1018", border: "1px solid #1E2330", padding: "14px 12px" }}>
+            <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 28, color: stat.color, lineHeight: 1 }}>{stat.val}</div>
+            <div style={{ fontSize: 9, color: C.dim, letterSpacing: ".1em", textTransform: "uppercase", marginTop: 4 }}>{stat.label}</div>
+          </div>
+        ))}
+      </div>
+      <div style={{ display: "flex", gap: 0, marginBottom: 20, borderBottom: "1px solid #1E2330" }}>
+        {["codes", "generer", "activite"].map(t => (
+          <button key={t} onClick={() => setTab(t)} style={{ background: "transparent", border: "none", color: tab === t ? C.gold : C.dim, padding: "10px 16px", fontFamily: "'Jost',sans-serif", fontSize: 11, letterSpacing: ".1em", textTransform: "uppercase", borderBottom: tab === t ? `2px solid ${C.gold}` : "2px solid transparent", cursor: "pointer" }}>
+            {t === "codes" ? "Codes disponibles" : t === "generer" ? "Générer" : "Activité récente"}
+          </button>
+        ))}
+      </div>
+      {tab === "codes" && (
+        <div>
+          <div style={{ fontSize: 10, color: C.dim, marginBottom: 12 }}>{available.length} codes disponibles</div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 6, maxHeight: 400, overflowY: "auto" }}>
+            {available.map(([code, data]) => (
+              <div key={code} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "10px 14px", background: "#0D1018", border: "1px solid #1E2330" }}>
+                <div>
+                  <div style={{ fontSize: 13, color: C.gold, letterSpacing: ".08em", fontFamily: "monospace" }}>{code}</div>
+                  <div style={{ fontSize: 9, color: C.dim, marginTop: 2 }}>{new Date(data.createdAt).toLocaleDateString("fr-FR")} {data.coupleId ? `· Couple ${data.coupleId} P${data.partnerNum}` : ""}</div>
+                </div>
+                <button onClick={() => handleDelete(code)} style={{ background: "transparent", border: "1px solid #C0614A33", color: C.red, padding: "4px 10px", cursor: "pointer", fontSize: 10 }}>Supprimer</button>
+              </div>
+            ))}
+            {available.length === 0 && <div style={{ fontSize: 12, color: C.dim, textAlign: "center", padding: 20 }}>Aucun code disponible.</div>}
+          </div>
+          {usedList.length > 0 && (
+            <div style={{ marginTop: 20 }}>
+              <div style={{ fontSize: 10, color: C.dim, marginBottom: 12 }}>{usedList.length} codes utilisés</div>
+              <div style={{ display: "flex", flexDirection: "column", gap: 6, maxHeight: 240, overflowY: "auto" }}>
+                {usedList.map(([code, data]) => (
+                  <div key={code} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "10px 14px", background: "#0D1018", border: "1px solid #1E2330", opacity: .6 }}>
+                    <div>
+                      <div style={{ fontSize: 12, color: C.muted, letterSpacing: ".08em", fontFamily: "monospace" }}>{code}</div>
+                      <div style={{ fontSize: 9, color: C.dim, marginTop: 2 }}>{data.clientName || "—"} · {data.usedAt ? new Date(data.usedAt).toLocaleDateString("fr-FR") : "date inconnue"}</div>
+                    </div>
+                    <div style={{ fontSize: 9, color: C.green }}>✓ Utilisé</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+      {tab === "generer" && (
+        <div>
+          <div style={{ marginBottom: 16 }}>
+            <div style={{ fontSize: 10, color: C.gold, letterSpacing: ".16em", textTransform: "uppercase", marginBottom: 8 }}>Nombre de codes à générer</div>
+            <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 12 }}>
+              {[1, 5, 10, 20, 50].map(n => (
+                <button key={n} onClick={() => setGenCount(n)} style={{ background: genCount === n ? C.gold : "transparent", border: `1px solid ${genCount === n ? C.gold : "#1E2330"}`, color: genCount === n ? "#0B0F1A" : C.muted, padding: "8px 14px", cursor: "pointer", fontFamily: "'Jost',sans-serif", fontSize: 12 }}>{n}</button>
+              ))}
+            </div>
+          </div>
+          <div style={{ display: "flex", gap: 8, marginBottom: 24 }}>
+            <button className="btn-primary" style={{ flex: 1 }} onClick={() => handleGenerate(false)}>Générer {genCount} code{genCount > 1 ? "s" : ""} individuels</button>
+            <button className="btn-gold-outline" style={{ flex: 1 }} onClick={() => handleGenerate(true)}>Générer {genCount} paire{genCount > 1 ? "s" : ""} couple</button>
+          </div>
+          {newCodes.length > 0 && (
+            <div className="card-gold">
+              <div className="stl">Codes générés</div>
+              <div style={{ display: "flex", flexDirection: "column", gap: 6, marginBottom: 16, maxHeight: 300, overflowY: "auto" }}>
+                {newCodes.map((c, i) => (
+                  <div key={i} style={{ fontFamily: "monospace", fontSize: 13, color: C.gold, padding: "8px 12px", background: "#080C10", border: "1px solid #C9A84C22" }}>{c}</div>
+                ))}
+              </div>
+              <button className="btn-gold-outline" style={{ width: "100%" }} onClick={() => {
+                navigator.clipboard.writeText(newCodes.join("\n")).then(() => { setCopied(true); setTimeout(() => setCopied(false), 2500); });
+              }}>{copied ? "✓ Copié" : "Copier tous les codes"}</button>
+            </div>
+          )}
+        </div>
+      )}
+      {tab === "activite" && (
+        <div>
+          <div style={{ fontSize: 10, color: C.dim, marginBottom: 12 }}>10 dernières utilisations</div>
+          {recentUsed.length === 0 && <div style={{ fontSize: 12, color: C.dim, textAlign: "center", padding: 20 }}>Aucune activité enregistrée.</div>}
+          {recentUsed.map(([code, data]) => (
+            <div key={code} style={{ padding: "12px 14px", background: "#0D1018", border: "1px solid #1E2330", marginBottom: 6 }}>
+              <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
+                <div style={{ fontSize: 12, color: C.text }}>{data.clientName || "Anonyme"}</div>
+                <div style={{ fontSize: 10, color: C.dim }}>{data.usedAt ? new Date(data.usedAt).toLocaleDateString("fr-FR") : ""}</div>
+              </div>
+              <div style={{ fontSize: 10, color: C.muted }}>{code} {data.coupleId ? "· Couple" : ""}</div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
 }
 // ═══════════════════════════════════════════════════════════════════════════
 // SECTION 10 — COMPOSANT PRINCIPAL APP
 // ═══════════════════════════════════════════════════════════════════════════
 export default function App() {
-const [currentModule, setCurrentModule] = useState("home”); // home | bilan | portrait | admin | admin_login | espace_abonne
-const [codes, setCodes] = useState({});
-const [abonnementLevel, setAbonnementLevel] = useState("none”); // "none”|"simple”|"argent”|"premium”
-const [subscriberProfile, setSubscriberProfile] = useState(null);
-// Alias de compatibilité — vrai dès qu'un abonnement est actif
-const isAbonne = abonnementLevel !== "none”;
-const [adminPwd, setAdminPwd] = useState(””);
-const [adminErr, setAdminErr] = useState(””);
-const [modal, setModal] = useState(null);
-const [upgradeModal, setUpgradeModal] = useState(false);
-const codesRef = useRef({});
-const SUBSCRIBER_KEY = "eden_subscriber_v1”;
-useEffect(() => {
-const s = document.createElement("style”);
-s.textContent = GLOBAL_CSS;
-document.head.appendChild(s);
-return () => document.head.removeChild(s);
-}, []);
-useEffect(() => {
-(async () => {
-try {
-const r = await window.storage.get(STORAGE_KEY, true);
-if (r && r.value) { const d = JSON.parse(r.value); codesRef.current = d; setCodes(d); }
-} catch {}
-try {
-const rs = await window.storage.get("eden_subscriber_v1”, true);
-if (rs && rs.value) {
-const p = JSON.parse(rs.value);
-setSubscriberProfile(p);
-if (p.actif) setAbonnementLevel(p.abonnementLevel || "simple”);
-}
-} catch {}
-})();
-}, []);
-async function handleSaveSubscriberProfile(profile) {
-setSubscriberProfile(profile);
-try { await window.storage.set("eden_subscriber_v1”, JSON.stringify(profile), true); } catch {}
-}
-async function handleSaveCodes(c) {
-codesRef.current = c;
-setCodes(c);
-try { await window.storage.set(STORAGE_KEY, JSON.stringify(c), true); } catch {}
-}
-function handleAdminLogin() {
-if (adminPwd === ADMIN_PASSWORD) { setAdminErr(””); setCurrentModule("admin”); }
-else setAdminErr("Mot de passe incorrect.”);
-}
-// ── MODAL GLOBAL ──
-if (modal) return (
-<div className="eden-app">
-<div className="modal-overlay” onClick={() => setModal(null)}>
-<div className="modal-box” onClick={e => e.stopPropagation()}>
-<div className="modal-sub">{modal.sub}</div>
-<div className="modal-title">{modal.title}</div>
-<div className="modal-body">{modal.body}</div>
-<button className="btn-primary” onClick={() => setModal(null)}>Fermer</button>
-</div>
-</div>
-</div>
-);
-// ── UPGRADE MODAL — 3 NIVEAUX ──────────────────────────────────────────
-if (upgradeModal) {
-const TIERS = [
-{
-id:"simple”, label:"Simple”, couleur:”#4A9B6A”,
-prix:"15 000 FCFA/mois”,
-features:["Bilan 360° illimité”,"Portrait Eaux·Os·Chair”,"1 diagnostic thématique/mois”,"Seed of Eden quotidien”,"Arche Eden hebdomadaire”,"Groupe WhatsApp privé”,"IA illimitée (30 questions/mois)”,"1 formation offerte/mois”],
-},
-{
-id:"argent”, label:"Argent”, couleur:”#7BAFC9”,
-prix:"25 000 FCFA/mois”,
-extra:"Tout Simple +”,
-features:["Accès à toutes les formations”,"Accès à tous les PDF”,"Suivi mensuel personnalisé”,"Export PDF des rapports”],
-},
-{
-id:"premium”, label:"Premium”, couleur:”#C9A84C”,
-prix:"40 000 FCFA/mois”,
-extra:"Tout Argent +”,
-features:["Séance 30 min/mois (accompagnateur)”,"Séance trimestrielle avec Zady”,"Accès aux replays”,"Plan d'action IA mensuel”,"Graphiques de progression”,"Alertes proactives”],
-},
-];
-return (
-<div className="eden-app">
-<div className="modal-overlay” onClick={() => setUpgradeModal(false)}>
-<div style={{ background:”#0D1018”, border:"1px solid #C9A84C33”, maxWidth:520, width:"100%”, padding:"28px 24px”, maxHeight:"90vh”, overflowY:"auto” }} onClick={e => e.stopPropagation()}>
-<div style={{ fontSize:8, letterSpacing:”.28em”, textTransform:"uppercase”, color:C.gold, marginBottom:12 }}>✦ Eden — Abonnements</div>
-<div style={{ fontFamily:”‘Cormorant Garamond',serif”, fontSize:22, color:”#F0EBE0”, marginBottom:6 }}>Choisissez votre niveau</div>
-<p style={{ fontSize:12, color:C.muted, lineHeight:1.7, marginBottom:20 }}>Tous les niveaux incluent les bilans mensuels, seeds quotidiens et l'Arche Eden hebdomadaire.</p>
-{TIERS.map(tier => (
-<div key={tier.id} style={{ background:”#080C14”, border:`1px solid ${tier.couleur}44`, padding:"16px”, marginBottom:10 }}>
-<div style={{ display:"flex”, justifyContent:"space-between”, alignItems:"flex-start”, marginBottom:8 }}>
-<div>
-<div style={{ fontSize:9, letterSpacing:”.2em”, textTransform:"uppercase”, color:tier.couleur, marginBottom:4 }}>✦ Abonnement {tier.label}</div>
-{tier.extra && <div style={{ fontSize:10, color:C.dim, marginBottom:4 }}>{tier.extra}</div>}
-<div style={{ display:"flex”, flexDirection:"column”, gap:3 }}>
-{tier.features.map((f,i) => <div key={i} style={{ fontSize:11, color:C.text }}><span style={{ color:tier.couleur, marginRight:6 }}>✓</span>{f}</div>)}
-</div>
-</div>
-<div style={{ textAlign:"right”, flexShrink:0, marginLeft:12 }}>
-<div style={{ fontFamily:”‘Cormorant Garamond',serif”, fontSize:18, color:tier.couleur, lineHeight:1 }}>{tier.prix.split(”/”)[0]}</div>
-<div style={{ fontSize:9, color:C.dim }}>/mois</div>
-</div>
-</div>
-<button onClick={() => { window.open(`https://wa.me/${WHATSAPP_NUM}?text=${encodeURIComponent(`Bonjour, je souhaite activer l'abonnement Eden ${tier.label} (${tier.prix}).`)}`); }} style={{ background:tier.couleur, border:"none”, color:”#0B0F1A”, padding:"10px 16px”, fontFamily:”‘Jost',sans-serif”, fontSize:11, fontWeight:600, cursor:"pointer”, width:"100%” }}>
-Activer via WhatsApp
-</button>
-</div>
-))}
-<button style={{ background:"transparent”, border:"1px solid #1E2330”, color:C.dim, padding:"10px 16px”, fontFamily:”‘Jost',sans-serif”, fontSize:11, cursor:"pointer”, width:"100%”, marginTop:4 }} onClick={() => setUpgradeModal(false)}>Fermer</button>
-<div style={{ marginTop:12, textAlign:"center” }}>
-<span style={{ fontSize:10, color:C.dim, cursor:"pointer” }} onClick={() => { setAbonnementLevel("premium”); setUpgradeModal(false); }}>
-[Mode démo — Activer Premium sans paiement]
-</span>
-</div>
-</div>
-</div>
-</div>
-);
-}
-// ── HOME ──
-if (currentModule === "home”) return (
-<div className="eden-app">
-<div className="eden-header">
-<div className="eden-logo">Académie Eden · Institut de Leadership Familial</div>
-<div className="eden-title">Outils d'<em style={{ fontStyle:"italic” }}>évaluation</em></div>
-<div className="eden-subtitle">Fondé par Zady Zozoro · Abidjan, Côte d'Ivoire</div>
-</div>
-<div className="eden-wrap">
-<div className="section">
-{isAbonne && (
-<div className="abonne-banner” style={{ borderColor:`${getLevelColor(abonnementLevel)}44` }}>
-<div style={{ fontSize:10, color:getLevelColor(abonnementLevel), letterSpacing:”.12em”, textTransform:"uppercase” }}>
-✦ Eden {getLevelLabel(abonnementLevel)} actif
-</div>
-<button onClick={() => setAbonnementLevel("none”)} style={{ background:"transparent”, border:"none”, color:C.dim, fontSize:10, cursor:"pointer” }}>Désactiver</button>
-</div>
-)}
-<div style={{ marginBottom:24 }}>
-<div style={{ fontSize:9, color:C.dim, letterSpacing:”.18em”, textTransform:"uppercase”, marginBottom:16 }}>Choisissez votre module</div>
-{/* Bilan 360° */}
-<div className="home-module-card featured” onClick={() => setCurrentModule("bilan”)}>
-<div className="home-module-tag">◈ Module 1 · Accès par code</div>
-<div className="home-module-title">Bilan 360° Eden</div>
-<div className="home-module-desc">Évaluation approfondie sur 12 dimensions relationnelles. 50 questions, rapport personnalisé par le Conseiller Eden, indices composites et patterns archétypaux bibliques.</div>
-<div style={{ display:"flex”, gap:8, flexWrap:"wrap”, marginTop:12 }}>
-{["Marié(e)”,"Fiancé(e)”,"Célibataire”].map(p => <span key={p} style={{ padding:"3px 10px”, border:`1px solid ${C.gold}44`, fontSize:9, letterSpacing:”.12em”, textTransform:"uppercase”, color:C.gold }}>{p}</span>)}
-</div>
-<div style={{ marginTop:12, fontSize:11, color:C.dim }}>25 000 FCFA · Code à usage unique</div>
-</div>
-{/* Portrait */}
-<div className="home-module-card” onClick={() => hasAccess("portrait”, abonnementLevel) ? setCurrentModule("portrait”) : setUpgradeModal(true)}>
-<div className="home-module-tag">◆ Module 2 · {isAbonne ? `Inclus — ${getLevelLabel(abonnementLevel)}` : "Abonnement requis”}</div>
-<div className="home-module-title">Portrait Eaux · Os · Chair</div>
-<div className="home-module-desc">Exploration en profondeur de votre histoire, vos convictions et votre manière de vivre les relations. Framework propriétaire fondé sur Genèse 2:23. Profil d'attachement + langages de l'amour.</div>
-<div style={{ display:"flex”, gap:8, flexWrap:"wrap”, marginTop:12 }}>
-{["Histoire familiale”,"Os constitutifs”,"Profil d'attachement”,"Archétypes bibliques”].map(t => <span key={t} style={{ padding:"3px 10px”, border:"1px solid #1E2330”, fontSize:9, color:C.dim }}>{t}</span>)}
-</div>
-<div className="home-module-badge” style={{ borderColor:isAbonne?`${C.green}44`:`${C.gold}44`, color:isAbonne?C.green:C.gold }}>
-{isAbonne ? `✦ Inclus — Eden ${getLevelLabel(abonnementLevel)}` : "✦ Abonnement requis · dès 15 000 FCFA/mois”}
-</div>
-</div>
-</div>
-{/* Premium banner pour non-abonnés */}
-{!isAbonne && (
-<div style={{ background:"linear-gradient(135deg,#0D0E18,#10141E)”, border:"1px solid #C9A84C22”, padding:"20px”, marginBottom:20 }}>
-<div style={{ fontSize:9, letterSpacing:”.22em”, textTransform:"uppercase”, color:C.gold, marginBottom:8 }}>✦ Eden Premium</div>
-<div style={{ fontFamily:”‘Cormorant Garamond',serif”, fontSize:18, color:”#F0EBE0”, marginBottom:8 }}>Accès illimité aux deux modules</div>
-<p style={{ fontSize:12, color:C.muted, lineHeight:1.7, marginBottom:14 }}>Bilan 360° + Portrait Eaux·Os·Chair + 5 fonctionnalités exclusives pour 15 000 FCFA/mois.</p>
-<button className="btn-primary” onClick={() => setUpgradeModal(true)}>Découvrir l'abonnement Premium</button>
-</div>
-)}
-{/* Espace abonné */}
-{isAbonne && (
-<div style={{ background:"linear-gradient(135deg,#0A1208,#0D1018)”, border:"1px solid #4A9B6A44”, padding:"20px”, marginBottom:12 }}>
-<div style={{ fontSize:9, letterSpacing:”.22em”, textTransform:"uppercase”, color:C.green, marginBottom:8 }}>✦ Eden Premium</div>
-<div style={{ fontFamily:”‘Cormorant Garamond',serif”, fontSize:18, color:”#F0EBE0”, marginBottom:8 }}>
-{subscriberProfile ? `Bienvenue, ${subscriberProfile.nom}` : "Votre espace abonné”}
-</div>
-<p style={{ fontSize:12, color:C.muted, lineHeight:1.7, marginBottom:14 }}>Piliers mensuels · Seeds quotidiens · Rapport annuel · Conseiller IA avec mémoire</p>
-<button style={{ background:C.green, border:"none”, color:”#0B0F1A”, padding:"12px 20px”, fontFamily:”‘Jost',sans-serif”, fontSize:12, fontWeight:600, cursor:"pointer”, width:"100%” }} onClick={() => {
-if (!subscriberProfile) {
-// Créer un profil démo si pas encore de profil
-const demo = {
-abonneId: "demo_” + Date.now(),
-nom: "Abonné(e)”,
-profil: "marie”,
-dateInscription: new Date().toISOString(),
-actif: true,
-bilans: [],
-formations: [],
-seeds: [{
-date: new Date().toISOString(),
-mois: new Date().getMonth()+1,
-jour: new Date().getDate(),
-pilier: "communication”,
-contenu: "Ce soir, prenez 15 minutes — sans téléphone — pour vous regarder dans les yeux et répondre à cette question : ‘Qu'est-ce que tu vis en ce moment que tu ne m'as pas encore dit ?'”,
-action: "Posez la question. Écoutez sans interrompre. Puis répondez vous aussi.”,
-}],
-questions: [],
-rapportAnnuel: null,
-bilanInitial: null,
-notesAdmin: "”,
-};
-handleSaveSubscriberProfile(demo);
-}
-setCurrentModule("espace_abonne”);
-}}>
-Accéder à mon espace →
-</button>
-</div>
-)}
-{/* Admin + Demo */}
-<div style={{ display:"flex”, gap:8, marginTop:8 }}>
-<button className="btn-secondary” style={{ flex:1, fontSize:10 }} onClick={() => setCurrentModule("admin_login”)}>Administration</button>
-<button className="btn-secondary” style={{ flex:1, fontSize:10 }} onClick={() => { setAbonnementLevel("premium”); setCurrentModule("bilan”); }}>Démo (Premium)</button>
-</div>
-</div>
-<Footer />
-</div>
-</div>
-);
-// ── ADMIN LOGIN ──
-if (currentModule === "admin_login”) return (
-<div className="eden-app">
-<div className="eden-header">
-<div className="eden-logo">Académie Eden</div>
-<div className="eden-title">Administration</div>
-</div>
-<div className="eden-wrap">
-<div className="section">
-<div className="section-tag">◈ Accès sécurisé</div>
-<div className="section-desc">Accès réservé à l'équipe Eden Académie.</div>
-<div style={{ marginBottom:16 }}>
-<div style={{ fontSize:10, color:C.gold, letterSpacing:”.16em”, textTransform:"uppercase”, marginBottom:8 }}>Mot de passe</div>
-<input className="inp” type="password” placeholder=”••••••••••” value={adminPwd} onChange={e => setAdminPwd(e.target.value)} onKeyDown={e => e.key === "Enter” && handleAdminLogin()} />
-</div>
-{adminErr && <div style={{ fontSize:12, color:C.red, marginBottom:12 }}>{adminErr}</div>}
-<div className="nav-row">
-<button className="btn-secondary” style={{ flex:"0 0 auto” }} onClick={() => { setCurrentModule("home”); setAdminPwd(””); setAdminErr(””); }}>← Retour</button>
-<button className="btn-primary" onClick={handleAdminLogin}>Accéder →</button>
-</div>
-</div>
-<Footer />
-</div>
-</div>
-);
-// ── ADMIN ──
-if (currentModule === "admin”) return (
-<div className="eden-app">
-<div className="eden-header">
-<div className="eden-logo">Académie Eden</div>
-<div className="eden-title">Administration</div>
-</div>
-<div className="eden-wrap">
-<AdminModule codes={codes} onSaveCodes={handleSaveCodes} onBack={() => setCurrentModule("home”)} />
-<Footer />
-</div>
-</div>
-);
-// ── BILAN 360° ──
-if (currentModule === "bilan”) return (
-<div className="eden-app">
-<div className="eden-header">
-<div className="eden-logo">Académie Eden · Institut de Leadership Familial</div>
-<div className="eden-title">Bilan <em style={{ fontStyle:"italic” }}>360°</em></div>
-<div className="eden-subtitle">Évaluation relationnelle approfondie</div>
-{isAbonne && <div style={{ marginTop:6, display:"inline-block”, padding:"2px 10px”, border:`1px solid ${getLevelColor(abonnementLevel)}44`, fontSize:9, color:getLevelColor(abonnementLevel), letterSpacing:”.12em”, textTransform:"uppercase” }}>✦ Eden {getLevelLabel(abonnementLevel)}</div>}
-</div>
-<div style={{ padding:"10px 20px”, borderBottom:"1px solid #1E2330”, display:"flex”, justifyContent:"space-between”, alignItems:"center” }}>
-<button onClick={() => setCurrentModule("home”)} style={{ background:"transparent”, border:"none”, color:C.dim, cursor:"pointer”, fontSize:11, fontFamily:”‘Jost',sans-serif” }}>← Accueil</button>
-{isAbonne ? <div style={{ fontSize:9, color:getLevelColor(abonnementLevel), letterSpacing:”.12em”, textTransform:"uppercase” }}>✦ {getLevelLabel(abonnementLevel)}</div> : <button onClick={() => setUpgradeModal(true)} style={{ background:"transparent”, border:`1px solid ${C.gold}44`, color:C.gold, padding:"4px 12px”, cursor:"pointer”, fontSize:9, letterSpacing:”.12em”, textTransform:"uppercase”, fontFamily:”‘Jost',sans-serif” }}>✦ S'abonner</button>}
-</div>
-<div className="eden-wrap">
-<DiagnosticModule codes={codes} onSaveCodes={handleSaveCodes} isAbonne={isAbonne} abonnementLevel={abonnementLevel} onRequestUpgrade={() => setUpgradeModal(true)} subscriberProfile={subscriberProfile} onUpdateSubscriber={handleSaveSubscriberProfile} />
-<Footer />
-</div>
-</div>
-);
-// ── PORTRAIT ──
-if (currentModule === "portrait”) return (
-<div className="eden-app">
-<div className="eden-header">
-<div className="eden-logo">Académie Eden · Institut de Leadership Familial</div>
-<div className="eden-title">Portrait <em style={{ fontStyle:"italic” }}>de Personne</em></div>
-<div className="eden-subtitle">Eaux · Os · Chair · Framework propriétaire Zady Zozoro</div>
-{isAbonne && <div style={{ marginTop:6, display:"inline-block”, padding:"2px 10px”, border:`1px solid ${getLevelColor(abonnementLevel)}44`, fontSize:9, color:getLevelColor(abonnementLevel), letterSpacing:”.12em”, textTransform:"uppercase” }}>✦ Eden {getLevelLabel(abonnementLevel)}</div>}
-</div>
-<div style={{ padding:"10px 20px”, borderBottom:"1px solid #1E2330” }}>
-<button onClick={() => setCurrentModule("home”)} style={{ background:"transparent”, border:"none”, color:C.dim, cursor:"pointer”, fontSize:11, fontFamily:”‘Jost',sans-serif” }}>← Accueil</button>
-</div>
-<div className="eden-wrap">
-<PortraitModule isAbonne={isAbonne} abonnementLevel={abonnementLevel} onRequestUpgrade={() => setUpgradeModal(true)} />
-<Footer />
-</div>
-</div>
-);
-// ── ESPACE ABONNÉ ──
-// Note : EspaceAbonne est importé depuis EdenSubscriber.jsx
-// import EspaceAbonne, { createSubscriberProfile, PILIERS_ANNUELS } from "./EdenSubscriber”;
-// À décommenter lors de l'intégration complète dans le projet Vite
-if (currentModule === "espace_abonne” && subscriberProfile) return (
-<div className="eden-app">
-<div style={{ padding:"10px 20px”, borderBottom:"1px solid #1E2330”, display:"flex”, justifyContent:"space-between”, alignItems:"center” }}>
-<button onClick={() => setCurrentModule("home”)} style={{ background:"transparent”, border:"none”, color:C.dim, cursor:"pointer”, fontSize:11, fontFamily:”‘Jost',sans-serif” }}>← Accueil</button>
-<div style={{ fontSize:9, color:C.green, letterSpacing:”.12em”, textTransform:"uppercase” }}>✦ Premium</div>
-</div>
-{/* EspaceAbonne — EdenSubscriber.jsx requis. Décommenter import ligne 2 pour activer. */}
-{typeof EspaceAbonne !== "undefined”
-? <EspaceAbonne profile={subscriberProfile} abonnementLevel={abonnementLevel} onUpdateProfile={handleSaveSubscriberProfile} />
-: (
-<div style={{ maxWidth:640, margin:"0 auto”, padding:"40px 20px”, textAlign:"center” }}>
-<div style={{ fontSize:9, color:C.gold, letterSpacing:”.3em”, textTransform:"uppercase”, marginBottom:16 }}>✦ Espace Abonné</div>
-<div style={{ fontFamily:”‘Cormorant Garamond',serif”, fontSize:24, color:”#F0EBE0”, marginBottom:12 }}>
-{subscriberProfile?.nom ? `Bienvenue, ${subscriberProfile.nom}` : "Espace Abonné”}
-</div>
-<p style={{ fontSize:13, color:C.muted, lineHeight:1.8, marginBottom:20 }}>
-Import EdenSubscriber.jsx requis en production Vite.
-</p>
-<div style={{ background:”#0D1018”, border:"1px solid #4A9B6A33”, padding:"16px 20px”, textAlign:"left”, marginBottom:20 }}>
-<div style={{ fontSize:10, color:C.green, letterSpacing:”.14em”, textTransform:"uppercase”, marginBottom:8 }}>Activation</div>
-<div style={{ fontFamily:"monospace”, fontSize:12, color:C.text, lineHeight:2 }}>
-1. EdenSubscriber.jsx → src/<br/>
-2. Décommenter ligne 2 : import EspaceAbonne from "./EdenSubscriber”
-</div>
-</div>
-<button onClick={() => setCurrentModule("home”)} style={{ background:C.gold, border:"none”, color:”#0B0F1A”, padding:"12px 24px”, fontFamily:”‘Jost',sans-serif”, fontSize:12, fontWeight:600, cursor:"pointer” }}>Retour</button>
-</div>
-)
-}
-<Footer />
-</div>
-);
-return null;
-}
+  const [currentModule, setCurrentModule] = useState("home");
+  const [codes, setCodes] = useState({});
+  const [abonnementLevel, setAbonnementLevel] = useState("none");
+  const [subscriberProfile, setSubscriberProfile] = useState(null);
+  const isAbonne = abonnementLevel !== "none";
+  const [adminPwd, setAdminPwd] = useState("");
+  const [adminErr, setAdminErr] = useState("");
+  const [modal, setModal] = useState(null);
+  const [upgradeModal, setUpgradeModal] = useState(false);
+  const codesRef = useRef({});
+  const SUBSCRIBER_KEY = "eden_subscriber_v1";
 
+  useEffect(() => {
+    const s = document.createElement("style");
+    s.textContent = GLOBAL_CSS;
+    document.head.appendChild(s);
+    return () => document.head.removeChild(s);
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const r = await window.storage.get(STORAGE_KEY, true);
+        if (r && r.value) { const d = JSON.parse(r.value); codesRef.current = d; setCodes(d); }
+      } catch {}
+      try {
+        const rs = await window.storage.get("eden_subscriber_v1", true);
+        if (rs && rs.value) {
+          const p = JSON.parse(rs.value);
+          setSubscriberProfile(p);
+          if (p.actif) setAbonnementLevel(p.abonnementLevel || "simple");
+        }
+      } catch {}
+    })();
+  }, []);
+
+  async function handleSaveSubscriberProfile(profile) {
+    setSubscriberProfile(profile);
+    try { await window.storage.set("eden_subscriber_v1", JSON.stringify(profile), true); } catch {}
+  }
+
+  async function handleSaveCodes(c) {
+    codesRef.current = c;
+    setCodes(c);
+    try { await window.storage.set(STORAGE_KEY, JSON.stringify(c), true); } catch {}
+  }
+
+  function handleAdminLogin() {
+    if (adminPwd === ADMIN_PASSWORD) { setAdminErr(""); setCurrentModule("admin"); }
+    else setAdminErr("Mot de passe incorrect.");
+  }
+
+  // MODAL GLOBAL
+  if (modal) return (
+    <div className="eden-app">
+      <div className="modal-overlay" onClick={() => setModal(null)}>
+        <div className="modal-box" onClick={e => e.stopPropagation()}>
+          <div className="modal-sub">{modal.sub}</div>
+          <div className="modal-title">{modal.title}</div>
+          <div className="modal-body">{modal.body}</div>
+          <button className="btn-primary" onClick={() => setModal(null)}>Fermer</button>
+        </div>
+      </div>
+    </div>
+  );
+
+  // UPGRADE MODAL
+  if (upgradeModal) {
+    const TIERS = [
+      {
+        id: "simple", label: "Simple", couleur: "#4A9B6A",
+        prix: "15 000 FCFA/mois",
+        features: ["Bilan 360° illimité", "Portrait Eaux·Os·Chair", "1 diagnostic thématique/mois", "Seed of Eden quotidien", "Arche Eden hebdomadaire", "Groupe WhatsApp privé", "IA illimitée (30 questions/mois)", "1 formation offerte/mois"],
+      },
+      {
+        id: "argent", label: "Argent", couleur: "#7BAFC9",
+        prix: "25 000 FCFA/mois",
+        extra: "Tout Simple +",
+        features: ["Accès à toutes les formations", "Accès à tous les PDF", "Suivi mensuel personnalisé", "Export PDF des rapports"],
+      },
+      {
+        id: "premium", label: "Premium", couleur: "#C9A84C",
+        prix: "40 000 FCFA/mois",
+        extra: "Tout Argent +",
+        features: ["Séance 30 min/mois (accompagnateur)", "Séance trimestrielle avec Zady", "Accès aux replays", "Plan d'action IA mensuel", "Graphiques de progression", "Alertes proactives"],
+      },
+    ];
+    return (
+      <div className="eden-app">
+        <div className="modal-overlay" onClick={() => setUpgradeModal(false)}>
+          <div style={{ background: "#0D1018", border: "1px solid #C9A84C33", maxWidth: 520, width: "100%", padding: "28px 24px", maxHeight: "90vh", overflowY: "auto" }} onClick={e => e.stopPropagation()}>
+            <div style={{ fontSize: 8, letterSpacing: ".28em", textTransform: "uppercase", color: C.gold, marginBottom: 12 }}>✦ Eden — Abonnements</div>
+            <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 22, color: "#F0EBE0", marginBottom: 6 }}>Choisissez votre niveau</div>
+            <p style={{ fontSize: 12, color: C.muted, lineHeight: 1.7, marginBottom: 20 }}>Tous les niveaux incluent les bilans mensuels, seeds quotidiens et l'Arche Eden hebdomadaire.</p>
+            {TIERS.map(tier => (
+              <div key={tier.id} style={{ background: "#080C14", border: `1px solid ${tier.couleur}44`, padding: "16px", marginBottom: 10 }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 8 }}>
+                  <div>
+                    <div style={{ fontSize: 9, letterSpacing: ".2em", textTransform: "uppercase", color: tier.couleur, marginBottom: 4 }}>✦ Abonnement {tier.label}</div>
+                    {tier.extra && <div style={{ fontSize: 10, color: C.dim, marginBottom: 4 }}>{tier.extra}</div>}
+                    <div style={{ display: "flex", flexDirection: "column", gap: 3 }}>
+                      {tier.features.map((f, i) => <div key={i} style={{ fontSize: 11, color: C.text }}><span style={{ color: tier.couleur, marginRight: 6 }}>✓</span>{f}</div>)}
+                    </div>
+                  </div>
+                  <div style={{ textAlign: "right", flexShrink: 0, marginLeft: 12 }}>
+                    <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 18, color: tier.couleur, lineHeight: 1 }}>{tier.prix.split("/")[0]}</div>
+                    <div style={{ fontSize: 9, color: C.dim }}>/mois</div>
+                  </div>
+                </div>
+                <button onClick={() => { window.open(`https://wa.me/${WHATSAPP_NUM}?text=${encodeURIComponent(`Bonjour, je souhaite activer l'abonnement Eden ${tier.label} (${tier.prix}).`)}`); }} style={{ background: tier.couleur, border: "none", color: "#0B0F1A", padding: "10px 16px", fontFamily: "'Jost',sans-serif", fontSize: 11, fontWeight: 600, cursor: "pointer", width: "100%" }}>
+                  Activer via WhatsApp
+                </button>
+              </div>
+            ))}
+            <button style={{ background: "transparent", border: "1px solid #1E2330", color: C.dim, padding: "10px 16px", fontFamily: "'Jost',sans-serif", fontSize: 11, cursor: "pointer", width: "100%", marginTop: 4 }} onClick={() => setUpgradeModal(false)}>Fermer</button>
+            <div style={{ marginTop: 12, textAlign: "center" }}>
+              <span style={{ fontSize: 10, color: C.dim, cursor: "pointer" }} onClick={() => { setAbonnementLevel("premium"); setUpgradeModal(false); }}>
+                [Mode démo — Activer Premium sans paiement]
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // HOME
+  if (currentModule === "home") return (
+    <div className="eden-app">
+      <div className="eden-header">
+        <div className="eden-logo">Académie Eden · Institut de Leadership Familial</div>
+        <div className="eden-title">Outils d'<em style={{ fontStyle: "italic" }}>évaluation</em></div>
+        <div className="eden-subtitle">Fondé par Zady Zozoro · Abidjan, Côte d'Ivoire</div>
+      </div>
+      <div className="eden-wrap">
+        <div className="section">
+          {isAbonne && (
+            <div className="abonne-banner" style={{ borderColor: `${getLevelColor(abonnementLevel)}44` }}>
+              <div style={{ fontSize: 10, color: getLevelColor(abonnementLevel), letterSpacing: ".12em", textTransform: "uppercase" }}>
+                ✦ Eden {getLevelLabel(abonnementLevel)} actif
+              </div>
+              <button onClick={() => setAbonnementLevel("none")} style={{ background: "transparent", border: "none", color: C.dim, fontSize: 10, cursor: "pointer" }}>Désactiver</button>
+            </div>
+          )}
+          <div style={{ marginBottom: 24 }}>
+            <div style={{ fontSize: 9, color: C.dim, letterSpacing: ".18em", textTransform: "uppercase", marginBottom: 16 }}>Choisissez votre module</div>
+            <div className="home-module-card featured" onClick={() => setCurrentModule("bilan")}>
+              <div className="home-module-tag">◈ Module 1 · Accès par code</div>
+              <div className="home-module-title">Bilan 360° Eden</div>
+              <div className="home-module-desc">Évaluation approfondie sur 12 dimensions relationnelles. 50 questions, rapport personnalisé par le Conseiller Eden, indices composites et patterns archétypaux bibliques.</div>
+              <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 12 }}>
+                {["Marié(e)", "Fiancé(e)", "Célibataire"].map(p => <span key={p} style={{ padding: "3px 10px", border: `1px solid ${C.gold}44`, fontSize: 9, letterSpacing: ".12em", textTransform: "uppercase", color: C.gold }}>{p}</span>)}
+              </div>
+              <div style={{ marginTop: 12, fontSize: 11, color: C.dim }}>25 000 FCFA · Code à usage unique</div>
+            </div>
+            <div className="home-module-card" onClick={() => hasAccess("portrait", abonnementLevel) ? setCurrentModule("portrait") : setUpgradeModal(true)}>
+              <div className="home-module-tag">◆ Module 2 · {isAbonne ? `Inclus — ${getLevelLabel(abonnementLevel)}` : "Abonnement requis"}</div>
+              <div className="home-module-title">Portrait Eaux · Os · Chair</div>
+              <div className="home-module-desc">Exploration en profondeur de votre histoire, vos convictions et votre manière de vivre les relations. Framework propriétaire fondé sur Genèse 2:23. Profil d'attachement + langages de l'amour.</div>
+              <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 12 }}>
+                {["Histoire familiale", "Os constitutifs", "Profil d'attachement", "Archétypes bibliques"].map(t => <span key={t} style={{ padding: "3px 10px", border: "1px solid #1E2330", fontSize: 9, color: C.dim }}>{t}</span>)}
+              </div>
+              <div className="home-module-badge" style={{ borderColor: isAbonne ? `${C.green}44` : `${C.gold}44`, color: isAbonne ? C.green : C.gold }}>
+                {isAbonne ? `✦ Inclus — Eden ${getLevelLabel(abonnementLevel)}` : "✦ Abonnement requis · dès 15 000 FCFA/mois"}
+              </div>
+            </div>
+          </div>
+          {!isAbonne && (
+            <div style={{ background: "linear-gradient(135deg,#0D0E18,#10141E)", border: "1px solid #C9A84C22", padding: "20px", marginBottom: 20 }}>
+              <div style={{ fontSize: 9, letterSpacing: ".22em", textTransform: "uppercase", color: C.gold, marginBottom: 8 }}>✦ Eden Premium</div>
+              <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 18, color: "#F0EBE0", marginBottom: 8 }}>Accès illimité aux deux modules</div>
+              <p style={{ fontSize: 12, color: C.muted, lineHeight: 1.7, marginBottom: 14 }}>Bilan 360° + Portrait Eaux·Os·Chair + 5 fonctionnalités exclusives pour 15 000 FCFA/mois.</p>
+              <button className="btn-primary" onClick={() => setUpgradeModal(true)}>Découvrir l'abonnement Premium</button>
+            </div>
+          )}
+          {isAbonne && (
+            <div style={{ background: "linear-gradient(135deg,#0A1208,#0D1018)", border: "1px solid #4A9B6A44", padding: "20px", marginBottom: 12 }}>
+              <div style={{ fontSize: 9, letterSpacing: ".22em", textTransform: "uppercase", color: C.green, marginBottom: 8 }}>✦ Eden Premium</div>
+              <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 18, color: "#F0EBE0", marginBottom: 8 }}>
+                {subscriberProfile ? `Bienvenue, ${subscriberProfile.nom}` : "Votre espace abonné"}
+              </div>
+              <p style={{ fontSize: 12, color: C.muted, lineHeight: 1.7, marginBottom: 14 }}>Piliers mensuels · Seeds quotidiens · Rapport annuel · Conseiller IA avec mémoire</p>
+              <button style={{ background: C.green, border: "none", color: "#0B0F1A", padding: "12px 20px", fontFamily: "'Jost',sans-serif", fontSize: 12, fontWeight: 600, cursor: "pointer", width: "100%" }} onClick={() => {
+                if (!subscriberProfile) {
+                  const demo = {
+                    abonneId: "demo_" + Date.now(),
+                    nom: "Abonné(e)",
+                    profil: "marie",
+                    dateInscription: new Date().toISOString(),
+                    actif: true,
+                    bilans: [],
+                    formations: [],
+                    seeds: [{
+                      date: new Date().toISOString(),
+                      mois: new Date().getMonth() + 1,
+                      jour: new Date().getDate(),
+                      pilier: "communication",
+                      contenu: "Ce soir, prenez 15 minutes — sans téléphone — pour vous regarder dans les yeux et répondre à cette question : 'Qu'est-ce que tu vis en ce moment que tu ne m'as pas encore dit ?'",
+                      action: "Posez la question. Écoutez sans interrompre. Puis répondez vous aussi.",
+                    }],
+                    questions: [],
+                    rapportAnnuel: null,
+                    bilanInitial: null,
+                    notesAdmin: "",
+                  };
+                  handleSaveSubscriberProfile(demo);
+                }
+                setCurrentModule("espace_abonne");
+              }}>
+                Accéder à mon espace →
+              </button>
+            </div>
+          )}
+          <div style={{ display: "flex", gap: 8, marginTop: 8 }}>
+            <button className="btn-secondary" style={{ flex: 1, fontSize: 10 }} onClick={() => setCurrentModule("admin_login")}>Administration</button>
+            <button className="btn-secondary" style={{ flex: 1, fontSize: 10 }} onClick={() => { setAbonnementLevel("premium"); setCurrentModule("bilan"); }}>Démo (Premium)</button>
+          </div>
+        </div>
+        <Footer />
+      </div>
+    </div>
+  );
+
+  // ADMIN LOGIN
+  if (currentModule === "admin_login") return (
+    <div className="eden-app">
+      <div className="eden-header">
+        <div className="eden-logo">Académie Eden</div>
+        <div className="eden-title">Administration</div>
+      </div>
+      <div className="eden-wrap">
+        <div className="section">
+          <div className="section-tag">◈ Accès sécurisé</div>
+          <div className="section-desc">Accès réservé à l'équipe Eden Académie.</div>
+          <div style={{ marginBottom: 16 }}>
+            <div style={{ fontSize: 10, color: C.gold, letterSpacing: ".16em", textTransform: "uppercase", marginBottom: 8 }}>Mot de passe</div>
+            <input className="inp" type="password" placeholder="••••••••••" value={adminPwd} onChange={e => setAdminPwd(e.target.value)} onKeyDown={e => e.key === "Enter" && handleAdminLogin()} />
+          </div>
+          {adminErr && <div style={{ fontSize: 12, color: C.red, marginBottom: 12 }}>{adminErr}</div>}
+          <div className="nav-row">
+            <button className="btn-secondary" style={{ flex: "0 0 auto" }} onClick={() => { setCurrentModule("home"); setAdminPwd(""); setAdminErr(""); }}>← Retour</button>
+            <button className="btn-primary" onClick={handleAdminLogin}>Accéder →</button>
+          </div>
+        </div>
+        <Footer />
+      </div>
+    </div>
+  );
+
+  // ADMIN
+  if (currentModule === "admin") return (
+    <div className="eden-app">
+      <div className="eden-header">
+        <div className="eden-logo">Académie Eden</div>
+        <div className="eden-title">Administration</div>
+      </div>
+      <div className="eden-wrap">
+        <AdminModule codes={codes} onSaveCodes={handleSaveCodes} onBack={() => setCurrentModule("home")} />
+        <Footer />
+      </div>
+    </div>
+  );
+
+  // BILAN 360
+  if (currentModule === "bilan") return (
+    <div className="eden-app">
+      <div className="eden-header">
+        <div className="eden-logo">Académie Eden · Institut de Leadership Familial</div>
+        <div className="eden-title">Bilan <em style={{ fontStyle: "italic" }}>360°</em></div>
+        <div className="eden-subtitle">Évaluation relationnelle approfondie</div>
+        {isAbonne && <div style={{ marginTop: 6, display: "inline-block", padding: "2px 10px", border: `1px solid ${getLevelColor(abonnementLevel)}44`, fontSize: 9, color: getLevelColor(abonnementLevel), letterSpacing: ".12em", textTransform: "uppercase" }}>✦ Eden {getLevelLabel(abonnementLevel)}</div>}
+      </div>
+      <div style={{ padding: "10px 20px", borderBottom: "1px solid #1E2330", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <button onClick={() => setCurrentModule("home")} style={{ background: "transparent", border: "none", color: C.dim, cursor: "pointer", fontSize: 11, fontFamily: "'Jost',sans-serif" }}>← Accueil</button>
+        {isAbonne ? <div style={{ fontSize: 9, color: getLevelColor(abonnementLevel), letterSpacing: ".12em", textTransform: "uppercase" }}>✦ {getLevelLabel(abonnementLevel)}</div> : <button onClick={() => setUpgradeModal(true)} style={{ background: "transparent", border: `1px solid ${C.gold}44`, color: C.gold, padding: "4px 12px", cursor: "pointer", fontSize: 9, letterSpacing: ".12em", textTransform: "uppercase", fontFamily: "'Jost',sans-serif" }}>✦ S'abonner</button>}
+      </div>
+      <div className="eden-wrap">
+        <DiagnosticModule codes={codes} onSaveCodes={handleSaveCodes} isAbonne={isAbonne} abonnementLevel={abonnementLevel} onRequestUpgrade={() => setUpgradeModal(true)} subscriberProfile={subscriberProfile} onUpdateSubscriber={handleSaveSubscriberProfile} />
+        <Footer />
+      </div>
+    </div>
+  );
+
+  // PORTRAIT
+  if (currentModule === "portrait") return (
+    <div className="eden-app">
+      <div className="eden-header">
+        <div className="eden-logo">Académie Eden · Institut de Leadership Familial</div>
+        <div className="eden-title">Portrait <em style={{ fontStyle: "italic" }}>de Personne</em></div>
+        <div className="eden-subtitle">Eaux · Os · Chair · Framework propriétaire Zady Zozoro</div>
+        {isAbonne && <div style={{ marginTop: 6, display: "inline-block", padding: "2px 10px", border: `1px solid ${getLevelColor(abonnementLevel)}44`, fontSize: 9, color: getLevelColor(abonnementLevel), letterSpacing: ".12em", textTransform: "uppercase" }}>✦ Eden {getLevelLabel(abonnementLevel)}</div>}
+      </div>
+      <div style={{ padding: "10px 20px", borderBottom: "1px solid #1E2330" }}>
+        <button onClick={() => setCurrentModule("home")} style={{ background: "transparent", border: "none", color: C.dim, cursor: "pointer", fontSize: 11, fontFamily: "'Jost',sans-serif" }}>← Accueil</button>
+      </div>
+      <div className="eden-wrap">
+        <PortraitModule isAbonne={isAbonne} abonnementLevel={abonnementLevel} onRequestUpgrade={() => setUpgradeModal(true)} />
+        <Footer />
+      </div>
+    </div>
+  );
+
+  // ESPACE ABONNE
+  if (currentModule === "espace_abonne" && subscriberProfile) return (
+    <div className="eden-app">
+      <div style={{ padding: "10px 20px", borderBottom: "1px solid #1E2330", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <button onClick={() => setCurrentModule("home")} style={{ background: "transparent", border: "none", color: C.dim, cursor: "pointer", fontSize: 11, fontFamily: "'Jost',sans-serif" }}>← Accueil</button>
+        <div style={{ fontSize: 9, color: C.green, letterSpacing: ".12em", textTransform: "uppercase" }}>✦ Premium</div>
+      </div>
+      {typeof EspaceAbonne !== "undefined"
+        ? <EspaceAbonne profile={subscriberProfile} abonnementLevel={abonnementLevel} onUpdateProfile={handleSaveSubscriberProfile} />
+        : (
+          <div style={{ maxWidth: 640, margin: "0 auto", padding: "40px 20px", textAlign: "center" }}>
+            <div style={{ fontSize: 9, color: C.gold, letterSpacing: ".3em", textTransform: "uppercase", marginBottom: 16 }}>✦ Espace Abonné</div>
+            <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 24, color: "#F0EBE0", marginBottom: 12 }}>
+              {subscriberProfile?.nom ? `Bienvenue, ${subscriberProfile.nom}` : "Espace Abonné"}
+            </div>
+            <p style={{ fontSize: 13, color: C.muted, lineHeight: 1.8, marginBottom: 20 }}>
+              Import EdenSubscriber.jsx requis en production Vite.
+            </p>
+            <div style={{ background: "#0D1018", border: "1px solid #4A9B6A33", padding: "16px 20px", textAlign: "left", marginBottom: 20 }}>
+              <div style={{ fontSize: 10, color: C.green, letterSpacing: ".14em", textTransform: "uppercase", marginBottom: 8 }}>Activation</div>
+              <div style={{ fontFamily: "monospace", fontSize: 12, color: C.text, lineHeight: 2 }}>
+                1. EdenSubscriber.jsx → src/<br />
+                2. Décommenter ligne 2 : import EspaceAbonne from "./EdenSubscriber"
+              </div>
+            </div>
+            <button onClick={() => setCurrentModule("home")} style={{ background: C.gold, border: "none", color: "#0B0F1A", padding: "12px 24px", fontFamily: "'Jost',sans-serif", fontSize: 12, fontWeight: 600, cursor: "pointer" }}>Retour</button>
+          </div>
+        )}
+      <Footer />
+    </div>
+  );
+
+  return null;
+}
