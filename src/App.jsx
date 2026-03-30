@@ -10,29 +10,34 @@ import EspaceAbonne, { createSubscriberProfile, PILIERS_ANNUELS } from "./EdenSu
 // ═══════════════════════════════════════════════════════════════════════════
 // ─── CONSTANTS ───────────────────────────────────────────────────────────
 const WHATSAPP_NUM = "22501418000001";
-const WHATSAPP_GROUP_LINK = "https://chat.whatsapp.com/CONFIGURER_ICI”; // ← Remplacer par le lien du groupe privé abonnés
-const ADMIN_PASSWORD = "Eden@2026”;
-const ALERT_EMAIL = "zadi.zozoro@gmail.com”; // ← Remplacer par email pro quand disponible
-const INTERNAL_REPORT_PASSWORD = "EdenEquipe@2025”; // Mot de passe rapport interne conseiller
+const WHATSAPP_GROUP_LINK = "https://chat.whatsapp.com/CONFIGURER_ICI"; // ← Remplacer par le lien du groupe privé abonnés
+const ADMIN_PASSWORD = "Eden@2026";
+const ALERT_EMAIL = "zadi.zozoro@gmail.com"; // ← Remplacer par email pro quand disponible
+const INTERNAL_REPORT_PASSWORD = "EdenEquipe@2025"; // Mot de passe rapport interne conseiller
 // Niveaux d'alerte
-const ALERT_LEVELS = { INFO:1, VIGILANCE:2, CRISE:3, SYSTEM:4 };
-const STORAGE_KEY = "eden_unified_v2”;
+const ALERT_LEVELS = { INFO: 1, VIGILANCE: 2, CRISE: 3, SYSTEM: 4 };
+const STORAGE_KEY = "eden_unified_v2";
 const MAX_QUESTIONS_FREE = 5;
 const MAX_QUESTIONS_PREMIUM = 30; // Tous les niveaux abonnés = 30 questions IA/mois
 // ─── NIVEAUX D'ABONNEMENT ────────────────────────────────────────────────
-// "none”    = Non-abonné
-// "simple”  = Abonnement Simple  — 15 000 FCFA/mois
-// "argent”  = Abonnement Argent  — 25 000 FCFA/mois (à confirmer)
-// "premium” = Abonnement Premium — 40 000 FCFA/mois (à confirmer)
+// "none"    = Non-abonné
+// "simple"  = Abonnement Simple  — 15 000 FCFA/mois
+// "argent"  = Abonnement Argent  — 25 000 FCFA/mois (à confirmer)
+// "premium" = Abonnement Premium — 40 000 FCFA/mois (à confirmer)
 const FEATURES_MAP = {
-// Disponible pour tous les abonnés (simple, argent, premium)
-bilan360:           ["simple”,"argent”,"premium”],
-portrait:           ["simple”,"argent”,"premium”],
-horloge:            ["simple”,"argent”,"premium”],
-futureLetter:       ["simple”,"argent”,"premium”],
-viralShare:         ["simple”,"argent”,"premium”],
-microPertes:        ["simple”,"argent”,"premium”],
-lectureMiroir:      ["simple”,"argent”,"premium”],
+  // Disponible pour tous les abonnés (simple, argent, premium)
+  bilan360:           ["simple", "argent", "premium"],
+  portrait:           ["simple", "argent", "premium"],
+  horloge:            ["simple", "argent", "premium"],
+  futureLetter:       ["simple", "argent", "premium"],
+  viralShare:         ["simple", "argent", "premium"],
+  microPertes:        ["simple", "argent", "premium"],
+  lectureMiroir:      ["simple", "argent", "premium"],
+  seedOfEden:         ["simple", "argent", "premium"],
+  archeEden:          ["simple", "argent", "premium"],
+  groupeWhatsapp:     ["simple", "argent", "premium"],
+  diagnosticMensuel:  ["simple", "argent", "premium"],
+  formationOfferte:   ["simple", "argent", "premium"],
 seedOfEden:         ["simple”,"argent”,"premium”],
 archeEden:          ["simple”,"argent”,"premium”],
 groupeWhatsapp:     ["simple”,"argent”,"premium”],
