@@ -2228,6 +2228,8 @@ function ScenarioAttachement({ scenario, value, onChange }) {
       <div className="loading-sub">Académie Eden · Portrait en cours de rédaction</div>
     </div>
   );
+function AfficherMonRapport({ phase, nom, profil, rapport, appreciationRecevoir, appreciationDonner, repAttachement }) {
+
 
 // ── RAPPORT ──
   if (phase === "rapport") {
@@ -2277,6 +2279,7 @@ function ScenarioAttachement({ scenario, value, onChange }) {
       </div>
     );
   }
+  }.
 // ═══════════════════════════════════════════════════════════════════════════
 // SECTION 9 — MODULE ADMIN
 // ═══════════════════════════════════════════════════════════════════════════
