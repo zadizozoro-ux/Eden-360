@@ -1,16 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import EspaceAbonne, { createSubscriberProfile, PILIERS_ANNUELS } from "./EdenSubscriber.jsx";
 const WHATSAPP_NUM = "2250141800001"; 
-const C = {
-  gold: "#C9A84C",
-  dim: "#666666",
-  text: "#F0EBE0",
-  blue: "#7BAFC9",
-  green: "#4A9B6A",
-  red: "#C0614A",
-  muted: "#888888"
-};
-
 
 
 // EDEN ACADÉMIE — Application Unifiée v2.0
@@ -2242,6 +2232,7 @@ function ScenarioAttachement({ scenario, value, onChange }) {
   );
 function AfficherMonRapport({ phase, nom, profil, rapport, appreciationRecevoir, appreciationDonner, repAttachement }) {
 
+const RapportSection = ({ phase, nom, profil, rapport, appreciationRecevoir, appreciationDonner, repAttachement }) => {
 
 // ── RAPPORT ──
   if (phase === "rapport") {
@@ -2292,6 +2283,7 @@ function AfficherMonRapport({ phase, nom, profil, rapport, appreciationRecevoir,
     );
   }
   }
+  };
 // ═══════════════════════════════════════════════════════════════════════════
 // SECTION 9 — MODULE ADMIN
 // ═══════════════════════════════════════════════════════════════════════════
