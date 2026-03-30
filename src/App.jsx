@@ -4,11 +4,9 @@ import EspaceAbonne, { createSubscriberProfile, PILIERS_ANNUELS } from "./EdenSu
 // NOTE DÉPLOIEMENT : Décommenter cet import lors de l'intégration Vite
 // import EspaceAbonne, { createSubscriberProfile, PILIERS_ANNUELS } from "./EdenSubscriber";
 
-// ═══════════════════════════════════════════════════════════════════════════
 // EDEN ACADÉMIE — Application Unifiée v2.0
 // Bilan 360° · Portrait Eaux·Os·Chair · Espace Abonné (3 niveaux)
 // Institut de Leadership Familial — Fondé par Zady Zozoro
-// ═══════════════════════════════════════════════════════════════════════════
 
 // ─── CONSTANTS ───────────────────────────────────────────────────────────
 const WHATSAPP_NUM = "2250141800001";
@@ -19,7 +17,18 @@ const INTERNAL_REPORT_PASSWORD = "EdenEquipe@2025";
 const ALERT_LEVELS = { INFO:1, VIGILANCE:2, CRISE:3, SYSTEM:4 };
 const STORAGE_KEY = "eden_unified_v2";
 const MAX_QUESTIONS_FREE = 5;
-const MAX_QUESTIONS_PREMIUM = 50;
+const MAX_QUESTIONS_PREMIUM = 30;
+
+// NIVEAUX D'ABONNEMENT
+const FEATURES_MAP = {
+  bilan360: ["simple", "argent", "premium"],
+  portrait: ["simple", "argent", "premium"],
+  horloge: ["simple", "argent", "premium"],
+  futureLetter: ["simple", "argent", "premium"],
+  viralShare: ["simple", "argent", "premium"],
+  microPertes: ["simple", "argent", "premium"],
+  lectureMiroir: ["simple", "argent", "premium"],
+  seedOfEden: ["simple", "argent", "premium"],
   archeEden: ["simple", "argent", "premium"],
   groupeWhatsapp: ["simple", "argent", "premium"],
   diagnosticMensuel: ["simple", "argent", "premium"],
@@ -28,6 +37,39 @@ const MAX_QUESTIONS_PREMIUM = 50;
   tousPDF: ["argent", "premium"],
   suiviMensuel: ["argent", "premium"],
   exportPDF: ["argent", "premium"],
+  seanceAccompagnateur: ["premium"],
+  seanceZady: ["premium"],
+  replays: ["premium"],
+  planActionIA: ["premium"],
+  graphiquesProgression: ["premium"],
+  alertesProactives: ["premium"],
+};
+
+function hasAccess(feature, level) {
+  if (!level || level === "none") return false;
+  return (FEATURES_MAP[feature] || []).includes(level);
+}
+
+function getLevelLabel(level) {
+  return level === "simple" ? "Simple" : level === "argent" ? "Argent" : level === "premium" ? "Premium" : "";
+}
+
+function getLevelColor(level) {
+  return level === "premium" ? "#C9A84C" : level === "argent" ? "#7BAFC9" : level === "simple" ? "#4A9B6A" : "#4A5060";
+}
+
+const SCALE = [1, 2, 3, 4, 5];
+const SL = { 1: "Jamais", 2: "Rarement", 3: "Parfois", 4: "Souvent", 5: "Toujours" };
+const ROLES = ["PDG / Directeur Général", "Avocat / Juriste", "Officier / Militaire", "Médecin / Chirurgien", "Entrepreneur", "Cadre / Manager", "Enseignant / Chercheur", "Autre"];
+
+// DESIGN TOKENS
+const C = {
+  bg: "#080C14", surface: "#0D1018", border: "#1E2330",
+  gold: "#C9A84C", goldLight: "#D4B86A",
+  green: "#4A9B6A", blue: "#7BAFC9",
+  red: "#C0614A", orange: "#C0784A",
+  text: "#C8C0B0", muted: "#8A8070", dim: "#4A5060",
+};
   seanceAccompagnateur: ["premium"],
   seanceZady: ["premium"],
   replays: ["premium"],
