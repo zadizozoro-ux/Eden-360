@@ -104,13 +104,11 @@ const FORMATIONS = [
 const BM = {
 marie:{ communication:{stable:72,fragile:41}, gouvernance:{stable:68,fragile:44}, intimite:{stable:74,fragile:43}, vision:{stable:70,fragile:45}, conflits:{stable:65,fragile:40}, spiritualite:{stable:76,fragile:48}, equilibre:{stable:66,fragile:42}, heritage:{stable:72,fragile:46}, dynamiques:{stable:68,fragile:42} },
 fiance:{ connaissance:{stable:78,fragile:52}, vision:{stable:74,fragile:48}, conflits:{stable:67,fragile:43}, famille:{stable:72,fragile:46}, finances:{stable:70,fragile:44}, spiritualite:{stable:76,fragile:50}, securite:{stable:80,fragile:55}, preparation:{stable:74,fragile:48} },
-celibataire:{ identite:{stable:74,fragile:45}, blessures:{stable:70,fragile:38}, autonomie:{stable:72,fragile:44}, maturite:{stable:68,fragile:42}, discernement:{stable:74,fragile:48}, spiritualite:{stable:76,fragile:50}, schemas:{stable:68,fragile:40}, dynamiques:{stable:70,fragile:44} }
-};
-const INDICES_MAP = {
-  marie: { ISC: { label: "Solidité Conjugale", dims: ["communication", "vision", "gouvernance", "heritage"], color: C.gold }, IPR: { label: "Perception Relationnelle", dims: ["intimite", "communication"], color: C.blue }, IRC: { label: "Résilience Conjugale", dims: ["conflits", "spiritualite", "dynamiques"], color: C.green }, IDC: { label: "Dynamique Conflictuelle", dims: ["conflits", "dynamiques"], color: C.orange } },
-  fiance: { ICP: { label: "Connaissance & Vision", dims: ["connaissance", "vision"], color: C.gold }, IPF: { label: "Préparation", dims: ["preparation", "finances", "famille"], color: C.blue }, IFS: { label: "Fondation Spirituelle", dims: ["spiritualite"], color: C.green }, ICO: { label: "Cohésion Relationnelle", dims: ["conflits", "securite"], color: C.orange } },
-  celibataire: { IIP: { label: "Identité Personnelle", dims: ["identite", "autonomie", "maturite"], color: C.gold }, IBG: { label: "Blessures & Guérison", dims: ["blessures", "schemas"], color: C.blue }, IDS: { label: "Discernement Spirituel", dims: ["discernement", "spiritualite"], color: C.green }, IRP: { label: "Patterns Relationnels", dims: ["dynamiques", "schemas"], color: C.orange } }
-};
+celibataire:{ identite:{stable:74,fragile:45}, blessures:{stable:70,fragile:38}, autonomie:{stable:72,fragile:44}, maturite:{stable:68,fragile:42}, discernement:{stable:74,fragile:48}, spiritualite:{stable:76,fragile:50}, schemas:{stable:68,fragile:40}, dynamiques:{stable:70,fragile:};
+const IE = {
+  ISC: { titre: "Solidité Conjugale", def: "L'architecture fondamentale : vision, gouvernance, communication, héritage." },
+  IPR: { titre: "Perception Relationnelle", def: "Thermomètre émotionnel : qualité de connexion intime et de dialogue." },
+  IRC: { titre: "Résilience Conjugale", def: "Système immunitaire conjugal : capacité à traverser les crises sans se briser." },
 const IE = {
 ISC:{titre:"Solidité Conjugale”,def:"L'architecture fondamentale : vision, gouvernance, communication, héritage.”},
 IPR:{titre:"Perception Relationnelle”,def:"Thermomètre émotionnel : qualité de connexion intime et de dialogue.”},
