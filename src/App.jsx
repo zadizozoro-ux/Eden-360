@@ -9,7 +9,7 @@ import EspaceAbonne, { createSubscriberProfile, PILIERS_ANNUELS } from "./EdenSu
 // API calls → /api/diagnostic-report · /api/portrait-report (backend Node.js)
 // ═══════════════════════════════════════════════════════════════════════════
 // ─── CONSTANTS ───────────────────────────────────────────────────────────
-const WHATSAPP_NUM = "2250141800001”;
+const WHATSAPP_NUM = "22501418000001";
 const WHATSAPP_GROUP_LINK = "https://chat.whatsapp.com/CONFIGURER_ICI”; // ← Remplacer par le lien du groupe privé abonnés
 const ADMIN_PASSWORD = "Eden@2026”;
 const ALERT_EMAIL = "zadi.zozoro@gmail.com”; // ← Remplacer par email pro quand disponible
