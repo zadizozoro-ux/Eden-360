@@ -32,62 +32,73 @@ const FEATURES_MAP = {
   futureLetter:       ["simple", "argent", "premium"],
   viralShare:         ["simple", "argent", "premium"],
   microPertes:        ["simple", "argent", "premium"],
+  const FEATURES_MAP = {
+  // Disponible pour tous les abonnés (simple, argent, premium)
+  bilan360:           ["simple", "argent", "premium"],
+  portrait:           ["simple", "argent", "premium"],
+  horloge:            ["simple", "argent", "premium"],
+  futureLetter:       ["simple", "argent", "premium"],
+  viralShare:         ["simple", "argent", "premium"],
+  microPertes:        ["simple", "argent", "premium"],
   lectureMiroir:      ["simple", "argent", "premium"],
   seedOfEden:         ["simple", "argent", "premium"],
   archeEden:          ["simple", "argent", "premium"],
   groupeWhatsapp:     ["simple", "argent", "premium"],
   diagnosticMensuel:  ["simple", "argent", "premium"],
   formationOfferte:   ["simple", "argent", "premium"],
-seedOfEden:         ["simple”,"argent”,"premium”],
-archeEden:          ["simple”,"argent”,"premium”],
-groupeWhatsapp:     ["simple”,"argent”,"premium”],
-diagnosticMensuel:  ["simple”,"argent”,"premium”],
-formationOfferte:   ["simple”,"argent”,"premium”],
-// Argent et Premium uniquement
-toutesFormations:   ["argent”,"premium”],
-tousPDF:            ["argent”,"premium”],
-suiviMensuel:       ["argent”,"premium”],
-exportPDF:          ["argent”,"premium”],
-// Premium uniquement
-seanceAccompagnateur: ["premium”],
-seanceZady:           ["premium”],
-replays:              ["premium”],
-planActionIA:         ["premium”],
-graphiquesProgression:["premium”],
-alertesProactives:    ["premium”],
+  // Argent et Premium uniquement
+  toutesFormations:   ["argent", "premium"],
+  tousPDF:            ["argent", "premium"],
+  suiviMensuel:       ["argent", "premium"],
+  exportPDF:          ["argent", "premium"],
+  // Premium uniquement
+  seanceAccompagnateur: ["premium"],
+  seanceZady:           ["premium"],
+  replays:              ["premium"],
+  planActionIA:         ["premium"],
+  graphiquesProgression: ["premium"],
+  alertesProactives:    ["premium"],
 };
+
 function hasAccess(feature, level) {
-if (!level || level === "none”) return false;
-return (FEATURES_MAP[feature] || []).includes(level);
+  if (!level || level === "none") return false;
+  return (FEATURES_MAP[feature] || []).includes(level);
 }
+
 function getLevelLabel(level) {
-return level === "simple” ? "Simple” : level === "argent” ? "Argent” : level === "premium” ? "Premium” : "”;
+  return level === "simple" ? "Simple" : level === "argent" ? "Argent" : level === "premium" ? "Premium" : "";
 }
+
 function getLevelColor(level) {
-return level === "premium” ? "#C9A84C” : level === "argent” ? "#7BAFC9” : level === "simple” ? "#4A9B6A” : "#4A5060”;
+  return level === "premium" ? "#C9A84C" : level === "argent" ? "#7BAFC9" : level === "simple" ? "#4A9B6A" : "#4A5060";
 }
+
 const SCALE = [1, 2, 3, 4, 5];
-const SL = { 1: "Jamais”, 2: "Rarement”, 3: "Parfois”, 4: "Souvent”, 5: "Toujours” };
-const ROLES = ["PDG / Directeur Général”,"Avocat / Juriste”,"Officier / Militaire”,"Médecin / Chirurgien”,"Entrepreneur”,"Cadre / Manager”,"Enseignant / Chercheur”,"Autre”];
+const SL = { 1: "Jamais", 2: "Rarement", 3: "Parfois", 4: "Souvent", 5: "Toujours" };
+const ROLES = ["PDG / Directeur Général", "Avocat / Juriste", "Officier / Militaire", "Médecin / Chirurgien", "Entrepreneur", "Cadre / Manager", "Enseignant / Chercheur", "Autre"];
+
 // ─── DESIGN TOKENS ───────────────────────────────────────────────────────
 const C = {
-bg: "#080C14”, surface: "#0D1018”, border: "#1E2330”,
-gold: "#C9A84C”, goldLight: "#D4B86A”,
-green: "#4A9B6A”, blue: "#7BAFC9”,
-red: "#C0614A”, orange: "#C0784A”,
-text: "#C8C0B0”, muted: "#8A8070”, dim: "#4A5060”,
+  bg: "#080C14", surface: "#0D1018", border: "#1E2330",
+  gold: "#C9A84C", goldLight: "#D4B86A",
+  green: "#4A9B6A", blue: "#7BAFC9",
+  red: "#C0614A", orange: "#C0784A",
+  text: "#C8C0B0", muted: "#8A8070", dim: "#4A5060",
 };
+
 // ═══════════════════════════════════════════════════════════════════════════
 // SECTION 1 — DONNÉES BILAN 360°
 // ═══════════════════════════════════════════════════════════════════════════
 const FORMATIONS = [
-{ id:"single”, nom:"Eden Single”, detail:"Se Préparer au Mariage avec Dieu”, prix:"25 000 FCFA”,
-desc:"Pour les célibataires qui veulent entrer en relation en force, pas en manque.”, profil:["celibataire”] },
-{ id:"connexion”, nom:"Eden Connexion”, detail:"Se Préparer à l'Alliance”, prix:"25 000 FCFA”,
-desc:"Pour les fiancés qui veulent bâtir sur du solide avant de dire oui.”, profil:["fiance”] },
-{ id:"piliers”, nom:"Les 12 Piliers d'un Mariage Solide”, detail:””, prix:"75 000 FCFA”,
-desc:"L'architecture complète d'un couple qui dure.”, profil:["marie”,"fiance”] },
-{ id:"stades”, nom:"Les 7 Stades de la Rupture”, detail:””, prix:"75 000 FCFA”,
+  { id: "single", nom: "Eden Single", detail: "Se Préparer au Mariage avec Dieu", prix: "25 000 FCFA",
+    desc: "Pour les célibataires qui veulent entrer en relation en force, pas en manque.", profil: ["celibataire"] },
+  { id: "connexion", nom: "Eden Connexion", detail: "Se Préparer à l'Alliance", prix: "25 000 FCFA",
+    desc: "Pour les fiancés qui veulent bâtir sur du solide avant de dire oui.", profil: ["fiance"] },
+  { id: "piliers", nom: "Les 12 Piliers d'un Mariage Solide", detail: "", prix: "75 000 FCFA",
+    desc: "L'architecture complète d'un couple qui dure.", profil: ["marie", "fiance"] },
+  { id: "stades", nom: "Les 7 Stades de la Rupture", detail: "", prix: "75 000 FCFA",
+    desc: "Comprendre et traverser les crises.", profil: ["marie", "fiance", "celibataire"] },
+];
 desc:"Comprendre où en est votre couple et inverser le processus.”, profil:["marie”] },
 { id:"causes”, nom:"Les 7 Causes Internes de la Chute”, detail:””, prix:"75 000 FCFA”,
 desc:"Ce qui ronge silencieusement votre foyer.”, profil:["marie”] },
