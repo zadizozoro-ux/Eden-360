@@ -498,11 +498,17 @@ const QUESTIONS_OS_COUPLE = [
   ] },
   { id: "o9", bloc: 5, type: "ouvert", question: "Y a-t-il quelque chose que vous ne seriez jamais prêt(e) à accepter dans votre relation — une limite absolue ?", placeholder: "Nommez cette limite en vos propres mots…" },
   { id: "o10", bloc: 5, type: "ouvert", question: "Si vous pouviez transmettre une seule conviction sur l'amour et le mariage à quelqu'un qui commence, quelle serait-elle ?", placeholder: "Quelle est cette conviction profonde ?" }
-];
+;
 const QUESTIONS_OS_CELIBATAIRE = [
-{ id:"oc1”, bloc:1, type:"ouvert”, question:"Si vous pensez à la personne que vous admirez le plus dans votre vie — pas qui vous attire, mais qui vous inspire — qu'est-ce qui vous attire en elle ?”, placeholder:"Décrivez ce qui vous inspire en elle…” },
-{ id:"oc2”, bloc:2, type:"choix”, question:"Y a-t-il des convictions sur l'amour ou le mariage que vous avez héritées sans les avoir vraiment choisies ?”, options:[
-{val:"plusieurs_non_choisi”,label:"Oui, plusieurs — je ne les ai jamais vraiment questionnées”},{val:"quelques_conscient”,label:"Quelques-unes — j'en suis conscient(e) mais je ne les ai pas encore travaillées”},{val:"commence_questionner”,label:"J'ai commencé à les questionner et à choisir ce que je crois vraiment”},{val:"travail_fait”,label:"J'ai fait le travail — je sais ce que je crois vraiment”},
+  { id: "oc1", bloc: 1, type: "ouvert", question: "Si vous pensez à l'idée de vous engager dans un mariage, qu'est-ce qui vous vient en premier : l'enthousiasme ou la peur ? Décrivez." },
+  { id: "oc2", bloc: 2, type: "choix", question: "Y a-t-il des convictions profondes sur le mariage que vous avez héritées de votre famille et que vous n'avez jamais vraiment questionnées ?", options: [
+    { val: "plusieurs_non_choisi", label: "Oui, plusieurs – je ne les ai jamais vraiment questionnées" },
+    { val: "une_seule", label: "Oui, une en particulier" },
+    { val: "peut_etre", label: "Peut-être, je n'y ai pas vraiment réfléchi" },
+    { val: "non", label: "Non, j'ai construit mes propres convictions" }
+  ] },
+  { id: "oc3", bloc: 3, type: "ouvert", question: "Qu'est-ce qui vous a le plus marqué dans les relations que vous avez observées autour de vous (parents, proches) ?" }
+];
 ]},
 { id:"oc3”, bloc:3, type:"ouvert”, question:"Complétez : "Pour moi, un foyer idéal ressemble à…"”, placeholder:"Une image, quelques mots…” },
 { id:"oc4”, bloc:3, type:"choix”, question:"Avez-vous déjà eu une conviction profonde sur ce que vous vouliez dans une relation, puis trahi cette conviction sous la pression émotionnelle ?”, options:[
