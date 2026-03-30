@@ -104,31 +104,28 @@ const C = {
   text: "#C8C0B0", muted: "#8A8070", dim: "#4A5060",
 };
 const FEATURES_MAP = {
-// Disponible pour tous les abonnés (simple, argent, premium)
-bilan360:           [“simple”,“argent”,“premium”],
-portrait:           [“simple”,“argent”,“premium”],
-horloge:            [“simple”,“argent”,“premium”],
-futureLetter:       [“simple”,“argent”,“premium”],
-viralShare:         [“simple”,“argent”,“premium”],
-microPertes:        [“simple”,“argent”,“premium”],
-lectureMiroir:      [“simple”,“argent”,“premium”],
-seedOfEden:         [“simple”,“argent”,“premium”],
-archeEden:          [“simple”,“argent”,“premium”],
-groupeWhatsapp:     [“simple”,“argent”,“premium”],
-diagnosticMensuel:  [“simple”,“argent”,“premium”],
-formationOfferte:   [“simple”,“argent”,“premium”],
-// Argent et Premium uniquement
-toutesFormations:   [“argent”,“premium”],
-tousPDF:            [“argent”,“premium”],
-suiviMensuel:       [“argent”,“premium”],
-exportPDF:          [“argent”,“premium”],
-// Premium uniquement
-seanceAccompagnateur: [“premium”],
-seanceZady:           [“premium”],
-replays:              [“premium”],
-planActionIA:         [“premium”],
-graphiquesProgression:[“premium”],
-alertesProactives:    [“premium”],
+  bilan360: ["simple", "argent", "premium"],
+  portrait: ["simple", "argent", "premium"],
+  horloge: ["simple", "argent", "premium"],
+  futureLetter: ["simple", "argent", "premium"],
+  viralShare: ["simple", "argent", "premium"],
+  microPertes: ["simple", "argent", "premium"],
+  lectureMiroir: ["simple", "argent", "premium"],
+  seedOfEden: ["simple", "argent", "premium"],
+  archeEden: ["simple", "argent", "premium"],
+  groupeWhatsapp: ["simple", "argent", "premium"],
+  diagnosticMensuel: ["simple", "argent", "premium"],
+  formationOfferte: ["simple", "argent", "premium"],
+  toutesFormations: ["argent", "premium"],
+  tousPDF: ["argent", "premium"],
+  suiviMensuel: ["argent", "premium"],
+  exportPDF: ["argent", "premium"],
+  seanceAccompagnateur: ["premium"],
+  seanceZady: ["premium"],
+  replays: ["premium"],
+  planActionIA: ["premium"],
+  graphiquesProgression: ["premium"],
+  alertesProactives: ["premium"]
 };
 
 function hasAccess(feature, level) {
