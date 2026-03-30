@@ -297,217 +297,198 @@ const MODS = {
       { id: "m3", t: "Nos désaccords se terminent par une compréhension mutuelle, pas par un silence ou une capitulation." },
       { id: "m4", t: "Il y a des sujets dans notre couple dont nous avons tacitement décidé de ne jamais parler.", inv: true },
       { id: "m5", t: "Mon conjoint écoute vraiment quand je parle, sans préparer sa réponse dans sa tête." },
-      { id: "m6", t: "Il y a des mots ou comportements récurrents de mon conjoint qui me font encore mal.", inv: true }
+      { id: "intimite", label: "Intimité & Connexion", icon: "◉", qs: [
+      { id: "m12", t: "Je me sens profondément connu(e) et accepté(e) par mon conjoint, au-delà de mon image publique." },
+      { id: "m13", t: "Il m'arrive de me sentir seul(e) même quand mon conjoint est physiquement présent.", inv: true },
+      { id: "m14", t: "Mon conjoint est la première personne à qui je pense quand j'ai une bonne ou une mauvaise nouvelle." },
+      { id: "m15", t: "Notre vie intime (émotionnelle et physique) est source de connexion et non de tension." },
+      { id: "m16", t: "Nous avons des conversations profondes sur nos peurs, nos rêves et nos insécurités." },
+      { id: "m17", t: "Je connais les rêves actuels de mon conjoint — pas ceux d'il y a 5 ans." }
     ] },
-    { id: "gouvernance", label: "Gouvernance & Rôles", icon: "◆", qs: [
-      { id: "m7", t: "Les rôles et responsabilités de chacun sont clairement définis et acceptés par les deux." },
-      { id: "m8", t: "Mon conjoint me consulte avant de prendre des décisions importantes qui nous concernent." },
-      { id: "m9", t: "Dans notre couple, il y a une lutte constante pour savoir qui a le dernier mot.", inv: true },
-      { id: "m10", t: "Mon conjoint prend régulièrement des décisions en mon nom sans m'avoir consulté(e).", inv: true },
-      { id: "m11", t: "Je compense souvent l'absence de leadership de mon conjoint sans que nous en ayons parlé.", inv: true }
+    { id: "vision", label: "Vision & Projet Commun", icon: "◎", qs: [
+      { id: "m18", t: "Nous avons une vision claire et partagée de ce pour quoi nous nous battons en tant que couple." },
+      { id: "m19", t: "Nous avons des projets concrets pour l'avenir qui nous motivent tous les deux." },
+      { id: "m20", t: "Notre couple a perdu son cap commun au fil des années.", inv: true },
+      { id: "m21", t: "Nous parlons régulièrement de l'héritage que nous voulons laisser à nos enfants." },
+      { id: "m22", t: "Je nous vois clairement ensemble dans 10 ans avec un projet de vie commun stimulant." }
+    ] },
+    { id: "conflits", label: "Gestion des Conflits", icon: "◐", qs: [
+      { id: "m23", t: "Lors d'un conflit, nous évitons les accusations personnelles et les attaques de caractère." },
+      { id: "m24", t: "Nous avons tendance à nous disputer sur les mêmes sujets encore et encore, sans résolution.", inv: true },
+      { id: "m25", t: "Nous arrivons à résoudre nos conflits de manière satisfaisante pour les deux." },
+      { id: "m26", t: "Mon conjoint me fait régulièrement sentir que mes opinions sont moins importantes.", inv: true },
+      { id: "m27", t: "Quand je résiste à une demande de mon conjoint, l'atmosphère devient tendue jusqu'à ce que je cède.", inv: true },
+      { id: "m28", t: "Je ressens encore de la rancœur envers mon conjoint pour des choses passées.", inv: true },
+      { id: "m29", t: "Mon conjoint a déjà eu des comportements verbalement ou physiquement blessants à mon égard.", inv: true }
+    ] },
+    { id: "spiritualite", label: "Foi & Vie Spirituelle", icon: "✦", qs: [
+      { id: "m30", t: "La foi est véritablement au centre de notre vie conjugale, pas seulement déclarée." },
+      { id: "m31", t: "Nous avons prié ensemble (à deux) au moins une fois au cours du dernier mois." },
+      { id: "m32", t: "Notre relation avec Dieu nous aide à prendre de meilleures décisions ensemble." },
+      { id: "m33", t: "En cas de crise, notre premier réflexe est de prier ensemble avant de chercher d'autres solutions." },
+      { id: "m34", t: "Dieu est une présence active et reconnue dans les décisions de notre foyer." }
+    ] },
+    { id: "equilibre", label: "Équilibre Pro / Famille", icon: "◑", qs: [
+      { id: "m35", t: "Mon conjoint se sent une priorité réelle dans ma vie, au-delà de mes responsabilités professionnelles." },
+      { id: "m36", t: "Je rentre à la maison présent(e) mentalement, pas seulement physiquement." },
+      { id: "m37", t: "Mon travail empiète régulièrement sur notre vie de couple et familiale.", inv: true },
+      { id: "m38", t: "Nous avons des moments réservés uniquement à notre couple, sans enfants ni obligations." }
+    ] },
+    { id: "heritage", label: "Parentalité & Héritage", icon: "◇", qs: [
+      { id: "m39", t: "Nous sommes alignés dans notre approche éducative et présentons un front uni devant les enfants." },
+      { id: "m40", t: "Lorsque des tensions existent entre nous, nos enfants en ressentent régulièrement les effets.", inv: true },
+      { id: "m41", t: "Nous parlons activement à nos enfants des valeurs et de l'héritage que nous voulons transmettre." },
+      { id: "m42", t: "Il m'arrive de me confier à l'un de mes enfants sur des difficultés que je vis dans le couple.", inv: true },
+      { id: "m43", t: "Notre famille maintient des rituels et traditions qui nous ancrent et nous soudent." }
+    ] },
+    { id: "dynamiques", label: "Dynamiques Relationnelles Profondes", icon: "◑", qs: [
+      { id: "m44", t: "Il nous arrive de présenter à l'extérieur une image de couple meilleure que ce que nous vivons.", inv: true },
+      { id: "m45", t: "Mon conjoint critique régulièrement les figures d'autorité dans notre vie.", inv: true },
+      { id: "m46", t: "J'ai peur de la réaction de mon conjoint quand je dis non ou que j'exprime un désaccord.", inv: true },
+      { id: "m47", t: "En observant mes parents, je reconnais des ressemblances avec ce que je vis dans mon couple.", inv: true },
+      { id: "m48", t: "Je regrette parfois de m'être marié(e) avec mon conjoint.", inv: true },
+      { id: "m49", t: "Des personnes proches ont exprimé des préoccupations sérieuses sur notre relation.", inv: true },
+      { id: "m50", t: "Je me projette avec confiance et joie dans l'avenir avec mon conjoint." }
     ] }
+  ], oqs: [
+    { id: "mo1", t: "En une phrase, décrivez ce qui vous préoccupe le plus dans votre vie conjugale en ce moment." },
+    { id: "mo2", t: "Qu'est-ce qui vous a poussé à faire ce bilan aujourd'hui ?" },
+    { id: "mo3", t: "Si vous pouviez changer une seule chose dans votre couple dès demain, ce serait…" }
   ] }
 };
-{ id:"intimite”, label:"Intimité & Connexion”, icon:"◉”, qs:[
-{id:"m12”,t:"Je me sens profondément connu(e) et accepté(e) par mon conjoint, au-delà de mon image publique.”},
-{id:"m13”,t:"Il m'arrive de me sentir seul(e) même quand mon conjoint est physiquement présent.”,inv:true},
-{id:"m14”,t:"Mon conjoint est la première personne à qui je pense quand j'ai une bonne ou une mauvaise nouvelle.”},
-{id:"m15”,t:"Notre vie intime (émotionnelle et physique) est source de connexion et non de tension.”},
-{id:"m16”,t:"Nous avons des conversations profondes sur nos peurs, nos rêves et nos insécurités.”},
-{id:"m17”,t:"Je connais les rêves actuels de mon conjoint — pas ceux d'il y a 5 ans.”},
-]},
-{ id:"vision”, label:"Vision & Projet Commun”, icon:"◎”, qs:[
-{id:"m18”,t:"Nous avons une vision claire et partagée de ce pour quoi nous nous battons en tant que couple.”},
-{id:"m19”,t:"Nous avons des projets concrets pour l'avenir qui nous motivent tous les deux.”},
-{id:"m20”,t:"Notre couple a perdu son cap commun au fil des années.”,inv:true},
-{id:"m21”,t:"Nous parlons régulièrement de l'héritage que nous voulons laisser à nos enfants.”},
-{id:"m22”,t:"Je nous vois clairement ensemble dans 10 ans avec un projet de vie commun stimulant.”},
-]},
-{ id:"conflits”, label:"Gestion des Conflits”, icon:"◐”, qs:[
-{id:"m23”,t:"Lors d'un conflit, nous évitons les accusations personnelles et les attaques de caractère.”},
-{id:"m24”,t:"Nous avons tendance à nous disputer sur les mêmes sujets encore et encore, sans résolution.”,inv:true},
-{id:"m25”,t:"Nous arrivons à résoudre nos conflits de manière satisfaisante pour les deux.”},
-{id:"m26”,t:"Mon conjoint me fait régulièrement sentir que mes opinions sont moins importantes.”,inv:true},
-{id:"m27”,t:"Quand je résiste à une demande de mon conjoint, l'atmosphère devient tendue jusqu'à ce que je cède.”,inv:true},
-{id:"m28”,t:"Je ressens encore de la rancœur envers mon conjoint pour des choses passées.”,inv:true},
-{id:"m29”,t:"Mon conjoint a déjà eu des comportements verbalement ou physiquement blessants à mon égard.”,inv:true},
-]},
-{ id:"spiritualite”, label:"Foi & Vie Spirituelle”, icon:"✦”, qs:[
-{id:"m30”,t:"La foi est véritablement au centre de notre vie conjugale, pas seulement déclarée.”},
-{id:"m31”,t:"Nous avons prié ensemble (à deux) au moins une fois au cours du dernier mois.”},
-{id:"m32”,t:"Notre relation avec Dieu nous aide à prendre de meilleures décisions ensemble.”},
-{id:"m33”,t:"En cas de crise, notre premier réflexe est de prier ensemble avant de chercher d'autres solutions.”},
-{id:"m34”,t:"Dieu est une présence active et reconnue dans les décisions de notre foyer.”},
-]},
-{ id:"equilibre”, label:"Équilibre Pro / Famille”, icon:"◑”, qs:[
-{id:"m35”,t:"Mon conjoint se sent une priorité réelle dans ma vie, au-delà de mes responsabilités professionnelles.”},
-{id:"m36”,t:"Je rentre à la maison présent(e) mentalement, pas seulement physiquement.”},
-{id:"m37”,t:"Mon travail empiète régulièrement sur notre vie de couple et familiale.”,inv:true},
-{id:"m38”,t:"Nous avons des moments réservés uniquement à notre couple, sans enfants ni obligations.”},
-]},
-{ id:"heritage”, label:"Parentalité & Héritage”, icon:"◇”, qs:[
-{id:"m39”,t:"Nous sommes alignés dans notre approche éducative et présentons un front uni devant les enfants.”},
-{id:"m40”,t:"Lorsque des tensions existent entre nous, nos enfants en ressentent régulièrement les effets.”,inv:true},
-{id:"m41”,t:"Nous parlons activement à nos enfants des valeurs et de l'héritage que nous voulons transmettre.”},
-{id:"m42”,t:"Il m'arrive de me confier à l'un de mes enfants sur des difficultés que je vis dans le couple.”,inv:true},
-{id:"m43”,t:"Notre famille maintient des rituels et traditions qui nous ancrent et nous soudent.”},
-]},
-{ id:"dynamiques”, label:"Dynamiques Relationnelles Profondes”, icon:"◑”, qs:[
-{id:"m44”,t:"Il nous arrive de présenter à l'extérieur une image de couple meilleure que ce que nous vivons.”,inv:true},
-{id:"m45”,t:"Mon conjoint critique régulièrement les figures d'autorité dans notre vie.”,inv:true},
-{id:"m46”,t:"J'ai peur de la réaction de mon conjoint quand je dis non ou que j'exprime un désaccord.”,inv:true},
-{id:"m47”,t:"En observant mes parents, je reconnais des ressemblances avec ce que je vis dans mon couple.”,inv:true},
-{id:"m48”,t:"Je regrette parfois de m'être marié(e) avec mon conjoint.”,inv:true},
-{id:"m49”,t:"Des personnes proches ont exprimé des préoccupations sérieuses sur notre relation.”,inv:true},
-{id:"m50”,t:"Je me projette avec confiance et joie dans l'avenir avec mon conjoint.”},
-]},
-], oqs:[
-{id:"mo1”,t:"En une phrase, décrivez ce qui vous préoccupe le plus dans votre vie conjugale en ce moment.”},
-{id:"mo2”,t:"Qu'est-ce qui vous a poussé à faire ce bilan aujourd'hui ?”},
-{id:"mo3”,t:"Si vous pouviez changer une seule chose dans votre couple dès demain, ce serait…”},
-]},
-};
+
 // ═══════════════════════════════════════════════════════════════════════════
 // SECTION 2 — DONNÉES PORTRAIT EAUX·OS·CHAIR
 // ═══════════════════════════════════════════════════════════════════════════
 const ARCHETYPES = {
-"Adam-Ève”:{ ref:"Genèse 3”, color:C.gold, titre:"Le Leader Effacé”, mecanisme:"Le vide de leadership créé par peur du conflit pousse l'autre à porter ce qui ne lui appartient pas.”, dimsFaibles:["gouvernance”,"communication”], orientation:"Restauration de l'identité du leader. Apprendre à entrer sans dominer.” },
-"Samson-Dalila”:{ ref:"Juges 16”, color:C.blue, titre:"L'Excellence Trahie”, mecanisme:"Une vulnérabilité non protégée permet à l'autre de déposséder progressivement le plus fort.”, dimsFaibles:["vision”,"autonomie”], orientation:"Identifier la vulnérabilité non protégée. Restaurer l'excellence.” },
-"Achab-Jézabel”:{ ref:"1 Rois 16-21”, color:C.orange, titre:"L'Autorité Manipulée”, mecanisme:"L'un abandonne une autorité légitime. L'autre, plus fort, prend la place avec manipulation.”, dimsFaibles:["gouvernance”,"confiance”], orientation:"L'autorité légitime doit se redresser. Le conjoint fort apprend à céder.” },
-"Ananias-Saphira”:{ ref:"Actes 5”, color:C.green, titre:"L'Alliance dans le Mensonge”, mecanisme:"Le couple s'unit autour d'une façade. À l'extérieur, image parfaite. À l'intérieur, fracture.”, dimsFaibles:["transparence”,"vision”], orientation:"La vérité doit entrer dans le couple. Créer un espace où l'on peut être vrai.” },
-"Isaac-Rébecca”:{ ref:"Genèse 25-27”, color:C.blue, titre:"La Triangulation Familiale”, mecanisme:"Les enfants deviennent des instruments dans le jeu conjugal. Le couple se divise.”, dimsFaibles:["heritage”,"communication”], orientation:"Réparation des frontières. L'enfant n'est pas le confident du parent.” },
-"Transmission”:{ ref:"Exode 20:5”, color:C.red, titre:"Les Chaînes Invisibles”, mecanisme:"Les mêmes schémas traversent les générations. Ce n'est pas de la fatalité — c'est une invitation.”, dimsFaibles:["dynamiques”,"schemas”], orientation:"Travail sur l'histoire familiale. Guérison transgénérationnelle.” },
-"David-Michal”:{ ref:"2 Samuel 6”, color:C.red, titre:"Le Mépris Qui Stérilise”, mecanisme:"Le mépris disqualifie ce que l'autre a de sacré. Il stérilise l'amour plus sûrement que la haine.”, dimsFaibles:["intimite”,"respect”], orientation:"Travail sur l'honneur mutuel.”, urgence:true },
-"Moïse-Séphora”:{ ref:"Exode 18”, color:C.gold, titre:"La Mission Non Soutenue”, mecanisme:"L'un des conjoints a un appel que l'autre ne comprend pas ou s'y oppose.”, dimsFaibles:["vision”,"spiritualite”], orientation:"Session de vision commune. Apprendre à bénir l'appel de l'autre.” },
-"Jacob-Léa”:{ ref:"Genèse 29”, color:C.red, titre:"L'Amour Non Réciproque”, mecanisme:"L'un donne pour mériter l'amour. L'autre reçoit sans pouvoir répondre de la même manière.”, dimsFaibles:["intimite”,"soutien”], orientation:"L'amour ne se mérite pas. Travail sur la valeur propre.”, urgence:true },
-"Joseph-frères”:{ ref:"Genèse 37”, color:C.green, titre:"Les Rêves Non Soutenus”, mecanisme:"L'un a une vision. L'autre ne la comprend pas, la ridiculise ou l'ignore.”, dimsFaibles:["vision”,"communication”], orientation:"Restaurer la légitimité des rêves. Vision commune.” },
-// ─── 5 archétypes supplémentaires ────────────────────────────────────────
-"Saül-Michal”:{ ref:"1 Samuel 18”, color:C.orange, titre:"La Belle-Famille Instrumentalisante”,
-mecanisme:"Le parent instrumentalise son enfant pour ses propres intérêts conjugaux ou familiaux. Le conjoint reste pris entre deux loyautés — son mariage et sa famille d'origine. Le couple devient le champ de bataille d'une guerre qui ne lui appartient pas.”,
-signaux:["mes parents critiquent mon conjoint”, "je suis un pion”, "ma belle-famille veut contrôler”, "des proches s'inquiètent pour nous”],
-dimsFaibles:["famille”,"gouvernance”], orientation:"Travail sur les frontières. ‘Quitter père et mère' n'est pas une option — c'est une instruction architecturale du mariage. L'enfant doit choisir son conjoint.” },
-"Caïn-Abel”:{ ref:"Genèse 4”, color:C.orange, titre:"La Jalousie du Succès”,
-mecanisme:"Jalousie existentielle — pas romantique. L'un minimise le succès de l'autre, le ridiculise dans ses projets ou ses rêves, ou culpabilise celui qui réussit. Le couple devient un espace où l'on ne peut pas grandir sans mettre l'autre en danger.”,
-signaux:["compétition silencieuse”, "il minimise mes réussites”, "je culpabilise de réussir”, "mes projets ne sont jamais assez bons à ses yeux”],
-dimsFaibles:["vision”,"soutien”], orientation:"Travail sur l'humilité et la bénédiction fraternelle. Apprendre à bénir le succès de l'autre comme le sien propre.” },
-// JOB-FEMME CLASSIQUE — La crise révèle une faille déjà existante
-"Job-femme”:{ ref:"Job 1-2”, color:C.red, titre:"La Crise Qui Révèle”, urgence:true,
-mecanisme:"La crise extérieure (perte d'emploi, deuil, maladie, ruine) ne crée pas la fracture — elle révèle ce qui était déjà fragile et caché sous le fonctionnement apparent. Le couple qui semblait tenir s'effondre sous la pression. L'un veut fuir ou abandonner. L'autre est abasourdi : il croyait que l'alliance était solide. La crise n'est pas l'ennemi — c'est le révélateur de l'état réel du bâtiment. Ce qui tient sous la pression était solide. Ce qui s'effondre était déjà fissuré.”,
-signaux:["dans la crise il/elle s'est éloigné(e)”, "je ne le/la reconnaissais plus”, "j'ai pensé à partir quand les choses sont devenues difficiles”, "la crise a tout révélé”, "avant la crise tout semblait bien aller”, "nous ne prions pas ensemble quand ça va mal”],
-dimsFaibles:["spiritualite”,"conflits”,"vision”,"gouvernance”],
-orientation:"La crise n'est pas l'ennemi — c'est le révélateur. Le travail n'est pas de réparer la crise mais de travailler sur ce qu'elle a révélé. L'alliance doit être bâtie assez solide pour tenir sous la pression.”,
-theologie:"Job ne perd pas la foi dans la crise. Mais le couple peut perdre l'alliance. La crise biblique teste non pas les individus mais les structures : une maison bâtie sur le roc tient sous la tempête. Une maison bâtie sur le sable s'effondre. (Matthieu 7:24-27)”
-},
-// OSÉE-GOMER — Le Médecin Épuisé (archétype inverse de Job-femme)
-// Mêmes acteurs (l'un porte, l'autre est blessé) mais dynamique inverse :
-// ici la blessure est chronique, pas conjoncturelle — et c'est le soignant qui s'effondre
-"Osée-Gomer”:{ ref:"Osée 1-3 · Job 2:9”, color:C.red, titre:"Le Médecin Épuisé”, urgence:true, genreNeutre:true,
-mecanisme:"L'un des conjoints porte une blessure profonde et chronique — trahison, trauma, dépression, addiction, blessures de l'enfance non guéries. L'autre devient naturellement soignant, porteur, parent. Avec le temps, le système se rigidifie : le ‘patient' n'a que des droits, le ‘médecin' n'a que des devoirs. Le médecin s'épuise en silence — ses propres blessures deviennent invisibles car il/elle n'a pas le droit d'être fatigué(e). Son unique issue imaginée devient la disparition du patient — non par méchanceté, mais par épuisement total. Il/elle reste pourtant, fidèle mais à bout. C'est ce que la femme de Job a vécu : elle perd ses enfants, sa sécurité, son mari — mais personne ne lui demande ce qu'elle vit. Son cri ‘Maudis Dieu et meurs' n'est pas un manque de foi. C'est le cri de celle qui ne peut plus porter. Elle serait partie si elle était mauvaise. Elle est restée.”,
-signaux:["je dois toujours être fort(e) pour lui/elle”, "personne ne voit ce que je porte”, "mes propres besoins passent toujours après”, "je reste mais je n'en peux plus”, "j'aimerais que ça s'arrête”, "j'ai parfois pensé que ce serait plus simple s'il/elle disparaissait”, "je n'ai pas le droit d'être fatigué(e)”],
-dimsFaibles:["equilibre”,"spiritualite”,"intimite”,"gouvernance”],
-orientation:"1. Le médecin doit être vu — ses blessures doivent être nommées avant celles du patient. 2. Le patient doit reprendre ses responsabilités même dans la fragilité : être blessé n'est pas être irresponsable. 3. Rester n'est pas s'oublier. La fidélité n'est pas l'épuisement. 4. La guérison vient quand les deux redeviennent deux adultes qui s'aident, et non plus un soignant et un soigné.”,
-theologie:"Osée porte Gomer. Dieu lui demande de l'aimer. Mais Dieu ne lui demande pas de s'oublier. Le vrai modèle biblique n'est pas médecin-patient — c'est deux personnes qui se portent mutuellement. La grâce de Dieu restaure, mais elle ne supprime pas la responsabilité du blessé.”
-},
-"Isaac-Sarah”:{ ref:"Genèse 17-22”, color:C.blue, titre:"L'Enfant-Possession”,
-mecanisme:"L'attente longue ou les conditions exceptionnelles de la naissance transforment l'amour parental en possession. L'enfant ne peut pas grandir sans briser quelque chose dans le parent. Le couple passe au second plan derrière ‘mon enfant'.”,
-signaux:["ma belle-mère traite son fils comme son mari”, "enfant unique”, "enfant après des années d'attente”, "mon conjoint ne peut rien refuser à son enfant”],
-dimsFaibles:["heritage”,"intimite”], orientation:"Aimer sans fusionner. Redéfinir le couple comme centre. L'enfant a besoin de parents qui s'aiment — pas de parents qui le possèdent.” },
-"Éli-ses fils”:{ ref:"1 Samuel 2-3”, color:C.red, titre:"L'Autorité Qui Ne Peut Discipliner”,
-mecanisme:"Le parent sait que l'enfant a tort mais ne peut pas exercer l'autorité nécessaire — par peur, par culpabilité, par évitement. Il justifie, minimise, ou se tait. L'enfant grandit sans frontières. Le couple se divise sur l'éducation sans jamais le résoudre.”,
-signaux:["ses parents justifient tout”, "ma belle-famille me contredit devant les enfants”, "il ne supporte pas d'entendre son enfant pleurer”, "nous ne nous accordons jamais sur l'éducation”],
-dimsFaibles:["gouvernance”,"famille”], orientation:"Réappropriation de l'autorité parentale. Les frontières fermes et aimantes sont un acte d'amour. Un enfant sans limites n'est pas un enfant libre — c'est un enfant en danger.” },
-// ─── 3 archétypes théologiques avancés (Zady Zozoro — janvier 2025) ────────
-"Nabal-Abigaël”:{ ref:"1 Samuel 25”, color:C.gold, titre:"L'Injustice et la Compensation”,
-genreNeutre:true,
-mecanisme:"L'un des conjoints est dans l'injustice — non pas la méchanceté de caractère, mais l'incapacité à discerner la justice divine : il/elle ne reconnaît pas ce qu'il/elle doit à l'autre, prend sans donner, agit sans consulter, est aveugle à la valeur et au travail de son partenaire. Nabal n'est pas fou — son nom signifie l'insensé, celui qui ne voit pas ce que Dieu voit. L'autre conjoint compense en silence : il/elle porte la justice du foyer, gère les crises, protège la maison des conséquences. Extérieurement, tout semble fonctionner. Intérieurement, la fatigue, la rancœur et l'éloignement s'installent progressivement.”,
-signaux:["je dois tout gérer parce que lui/elle ne voit pas les conséquences”, "il/elle ne sait même pas ce que j'ai fait pour éviter le désastre”, "dans les crises c'est toujours moi qui intervient”, "il/elle pense que tout va bien alors que tout craque”, "je ne peux pas compter sur lui/elle pour les décisions importantes”, "pourquoi est-ce que je dois toujours réparer ses erreurs”],
-dimsFaibles:["gouvernance”,"intimite”,"communication”,"vision”,"spiritualite”],
-orientation:"1. Révélation pour celui qui compense : sa sagesse qui protège tout le monde est aussi ce qui empêche l'autre de voir la réalité. 2. Il doit cesser de protéger et laisser la conséquence arriver. 3. Révélation pour celui dans l'injustice : il doit voir le travail invisible de l'autre, reconnaître ce qui est dû, demander pardon. 4. Restauration de la justice : nouvelle gouvernance où l'un a l'autorité ET la sagesse, l'autre a une voix consultée et écoutée.”,
-theologie:"Nabal n'est pas méchant au sens moral. Il est dans l'injustice divine — incapable de voir ce que David a fait pour lui, ce que sa femme fait pour lui, ce que Dieu fait. La guérison ne vient pas d'un redressement brutal mais d'une révélation : voir ce qu'on ne voyait pas.”,
-},
-"Abraham-Sarah”:{ ref:"Genèse 12:10-20, Genèse 20”, color:C.blue, titre:"La Valeur Exhibée”,
-genreNeutre:true,
-mecanisme:"L'un des conjoints possède une ‘valeur extérieure' que l'autre ne se sent pas d'avoir — beauté, intelligence, réussite sociale, réseau, diplômes, charisme. Le conjoint qui se sent en déficit utilise cette valeur pour obtenir reconnaissance, acceptation ou sécurité : il/elle présente l'autre comme un trophée. L'homme riche qui prend une jeune et belle femme pour être accepté dans les cercles où il n'est jamais entré. L'homme sans diplôme qui affiche sa femme intellectuelle pour compenser. La réussite du couple est liée à ce que l'un apporte, pas à qui ils sont ensemble. Celui qui est ‘exhibé' finit par se sentir objet — son identité profonde n'est jamais aimée, seulement sa valeur extérieure. Il/elle vit avec la peur constante de perdre cette valeur.”,
-signaux:["il/elle ne m'aime que pour ce que j'apporte”, "je ne serais rien sans lui/elle”, "on ne me voit pas, on voit mon corps/mon argent/mon statut”, "j'ai peur qu'il/elle parte si je perds ce que j'ai”, "sans moi il/elle ne serait pas accepté(e)”, "ma réussite est liée à qui il/elle est, pas à ce que je vaux”],
-dimsFaibles:["intimite”,"gouvernance”,"vision”,"spiritualite”],
-orientation:"1. Révélation pour celui qui exhibe : tu n'aimes pas ton conjoint, tu aimes ce qu'il/elle t'apporte. Ce n'est pas une relation — c'est une transaction. 2. Révélation pour celui qui est exhibé : tu n'as pas à performer ta valeur pour être aimé. Ta valeur n'est pas dans ce que tu apportes. 3. Restauration : apprendre à s'aimer au-delà des valeurs extérieures. La beauté, l'argent, le statut deviennent des ressources communes, pas des ciments.”,
-theologie:"Abraham avait peur. Il utilisait Sarah pour se protéger. Pas par méchanceté — par peur. La même peur qui pousse un homme à choisir une femme pour ce qu'elle représente plutôt que pour qui elle est. Dieu a dû intervenir deux fois pour révéler le système.”,
-},
-"David-Saül”:{ ref:"1 Samuel 18-19, 24, 26”, color:C.orange, titre:"Le Supérieur Menacé”,
-genreNeutre:true,
-mecanisme:"L'un des conjoints a une position d'autorité établie — âge, ancienneté, rôle de pourvoyeur, statut social, reconnaissance communautaire. L'autre commence à briller : compétence, réussite, promotion, popularité. Le supérieur ne supporte pas que l'autre soit plus célébré, plus visible, plus reconnu. Ce n'est pas une compétition active — David ne cherchait pas la place de Saül. C'est l'existence même du succès de l'autre qui devient insupportable. Cela se manifeste dans le couple contemporain quand l'homme perd son emploi et que la femme obtient une promotion : il devient acariâtre, critique, parfois violent — non parce qu'elle a mal fait, mais parce que son identité était bâtie sur son rôle de pourvoyeur. Quand ce rôle est menacé ou inversé, c'est son identité entière qui vacille.”,
-signaux:["il/elle me fait de l'ombre”, "tout le monde l'aime plus que moi”, "il/elle veut ma place”, "je dois cacher mes réussites pour ne pas le/la blesser”, "plus je réussis, plus il/elle me hait”, "pourquoi tout le monde le/la préfère”, "je dois réparer ses bêtises”, "il est devenu acariâtre depuis que j'ai été promue”],
-dimsFaibles:["gouvernance”,"intimite”,"communication”,"vision”],
-orientation:"1. Le supérieur doit reconnaître que la menace n'est pas réelle — c'est son insécurité. Son identité ne peut pas reposer sur sa position ou son salaire. 2. Le subordonné ne doit pas s'effacer — cacher sa lumière ne guérit pas l'insécurité de l'autre. Mais il/elle doit porter sa réussite avec humilité, sans exhiber comme une victoire. 3. Si la femme gagne plus : elle n'a pas à s'excuser de réussir, mais garder l'humilité évite que les peurs de l'homme soient justifiées. 4. Restauration : deux forces complémentaires, pas deux ennemis. Célébrer le succès de l'autre au lieu de le craindre.”,
-theologie:"Saül avait tout. Il était roi, choisi par Dieu. Mais son identité était dans sa position, pas dans qui il était. David ne voulait pas sa place — il l'épargnait deux fois. Mais même sa fidélité était perçue comme une menace. La jalousie hiérarchique ne se calme pas par l'effacement de l'autre. Elle se calme quand le supérieur trouve son identité en Dieu, pas dans son rang.”,
-urgence:true,
-},
+  "Adam-Eve": { ref: "Genèse 3", color: C.gold, titre: "Le Leader Effacé", mecanisme: "Le vide de leadership créé par peur du conflit pousse l'autre à porter ce qui ne lui appartient pas.", dimsFaibles: ["gouvernance", "communication"], orientation: "Restauration de l'identité du leader. Apprendre à entrer sans dominer." },
+  "Samson-Dalila": { ref: "Juges 16", color: C.blue, titre: "L'Excellence Trahie", mecanisme: "Une vulnérabilité non protégée permet à l'autre de déposséder progressivement le plus fort.", dimsFaibles: ["vision", "autonomie"], orientation: "Identifier la vulnérabilité non protégée. Restaurer l'excellence." },
+  "Achab-Jezabel": { ref: "1 Rois 16-21", color: C.orange, titre: "L'Autorité Manipulée", mecanisme: "L'un abandonne une autorité légitime. L'autre, plus fort, prend la place avec manipulation.", dimsFaibles: ["gouvernance", "confiance"], orientation: "L'autorité légitime doit se redresser. Le conjoint fort apprend à céder." },
+  "Ananias-Saphira": { ref: "Actes 5", color: C.green, titre: "L'Alliance dans le Mensonge", mecanisme: "Le couple s'unit autour d'une façade. À l'extérieur, image parfaite. À l'intérieur, fracture.", dimsFaibles: ["transparence", "vision"], orientation: "La vérité doit entrer dans le couple. Créer un espace où l'on peut être vrai." },
+  "Isaac-Rebecca": { ref: "Genèse 25-27", color: C.blue, titre: "La Triangulation Familiale", mecanisme: "Les enfants deviennent des instruments dans le jeu conjugal. Le couple se divise.", dimsFaibles: ["heritage", "communication"], orientation: "Réparation des frontières. L'enfant n'est pas le confident du parent." },
+  "Transmission": { ref: "Exode 20:5", color: C.red, titre: "Les Chaînes Invisibles", mecanisme: "Les mêmes schémas traversent les générations. Ce n'est pas de la fatalité — c'est une invitation.", dimsFaibles: ["dynamiques", "schemas"], orientation: "Travail sur l'histoire familiale. Guérison transgénérationnelle." },
+  "David-Michal": { ref: "2 Samuel 6", color: C.red, titre: "Le Mépris Qui Stérilise", mecanisme: "Le mépris disqualifie ce que l'autre a de sacré. Il stérilise l'amour plus sûrement que la haine.", dimsFaibles: ["intimite", "respect"], orientation: "Travail sur l'honneur mutuel.", urgence: true },
+  "Moïse-Séphora": { ref: "Exode 18", color: C.gold, titre: "La Mission Non Soutenue", mecanisme: "L'un des conjoints a un appel que l'autre ne comprend pas ou s'y oppose.", dimsFaibles: ["vision", "spiritualite"], orientation: "Session de vision commune. Apprendre à bénir l'appel de l'autre." },
+  "Jacob-Léa": { ref: "Genèse 29", color: C.red, titre: "L'Amour Non Réciproque", mecanisme: "L'un donne pour mériter l'amour. L'autre reçoit sans pouvoir répondre de la même manière.", dimsFaibles: ["intimite", "soutien"], orientation: "L'amour ne se mérite pas. Travail sur la valeur propre.", urgence: true },
+  "Joseph-frères": { ref: "Genèse 37", color: C.green, titre: "Les Rêves Non Soutenus", mecanisme: "L'un a une vision. L'autre ne la comprend pas, la ridiculise ou l'ignore.", dimsFaibles: ["vision", "communication"], orientation: "Restaurer la légitimité des rêves. Vision commune." },
+  // ─── 5 archétypes supplémentaires ────────────────────────────────────────
+  "Saül-Michal": { ref: "1 Samuel 18", color: C.orange, titre: "La Belle-Famille Instrumentalisante",
+    mecanisme: "Le parent instrumentalise son enfant pour ses propres intérêts conjugaux ou familiaux. Le conjoint reste pris entre deux loyautés — son mariage et sa famille d'origine. Le couple devient le champ de bataille d'une guerre qui ne lui appartient pas.",
+    signaux: ["mes parents critiquent mon conjoint", "je suis un pion", "ma belle-famille veut contrôler", "des proches s'inquiètent pour nous"],
+    dimsFaibles: ["famille", "gouvernance"], orientation: "Travail sur les frontières. 'Quitter père et mère' n'est pas une option — c'est une instruction architecturale du mariage. L'enfant doit choisir son conjoint." },
+  "Caïn-Abel": { ref: "Genèse 4", color: C.orange, titre: "La Jalousie du Succès",
+    mecanisme: "Jalousie existentielle — pas romantique. L'un minimise le succès de l'autre, le ridiculise dans ses projets ou ses rêves, ou culpabilise celui qui réussit. Le couple devient un espace où l'on ne peut pas grandir sans mettre l'autre en danger.",
+    signaux: ["compétition silencieuse", "il minimise mes réussites", "je culpabilise de réussir", "mes projets ne sont jamais assez bons à ses yeux"],
+    dimsFaibles: ["vision", "soutien"], orientation: "Travail sur l'humilité et la bénédiction fraternelle. Apprendre à bénir le succès de l'autre comme le sien propre." },
+  // JOB-FEMME CLASSIQUE — La crise révèle une faille déjà existante
+  "Job-femme": { ref: "Job 1-2", color: C.red, titre: "La Crise Qui Révèle", urgence: true,
+    mecanisme: "La crise extérieure (perte d'emploi, deuil, maladie, ruine) ne crée pas la fracture — elle révèle ce qui était déjà fragile et caché sous le fonctionnement apparent. Le couple qui semblait tenir s'effondre sous la pression. L'un veut fuir ou abandonner. L'autre est abasourdi : il croyait que l'alliance était solide. La crise n'est pas l'ennemi — c'est le révélateur de l'état réel du bâtiment. Ce qui tient sous la pression était solide. Ce qui s'effondre était déjà fissuré.",
+    signaux: ["dans la crise il/elle s'est éloigné(e)", "je ne le/la reconnaissais plus", "j'ai pensé à partir quand les choses sont devenues difficiles", "la crise a tout révélé", "avant la crise tout semblait bien aller", "nous ne prions pas ensemble quand ça va mal"],
+    dimsFaibles: ["spiritualite", "conflits", "vision", "gouvernance"],
+    orientation: "La crise n'est pas l'ennemi — c'est le révélateur. Le travail n'est pas de réparer la crise mais de travailler sur ce qu'elle a révélé. L'alliance doit être bâtie assez solide pour tenir sous la pression.",
+    theologie: "Job ne perd pas la foi dans la crise. Mais le couple peut perdre l'alliance. La crise biblique teste non pas les individus mais les structures : une maison bâtie sur le roc tient sous la tempête. Une maison bâtie sur le sable s'effondre. (Matthieu 7:24-27)" },
+  // OSÉE-GOMER — Le Médecin Épuisé
+  "Osée-Gomer": { ref: "Osée 1-3 · Job 2:9", color: C.red, titre: "Le Médecin Épuisé", urgence: true, genreNeutre: true,
+    mecanisme: "L'un des conjoints porte une blessure profonde et chronique — trahison, trauma, dépression, addiction, blessures de l'enfance non guéries. L'autre devient naturellement soignant, porteur, parent. Avec le temps, le système se rigidifie : le 'patient' n'a que des droits, le 'médecin' n'a que des devoirs. Le médecin s'épuise en silence — ses propres blessures deviennent invisibles car il/elle n'a pas le droit d'être fatigué(e). Son unique issue imaginée devient la disparition du patient — non par méchanceté, mais par épuisement total. Il/elle reste pourtant, fidèle mais à bout.",
+    signaux: ["je dois toujours être fort(e) pour lui/elle", "personne ne voit ce que je porte", "mes propres besoins passent toujours après", "je reste mais je n'en peux plus", "j'aimerais que ça s'arrête", "j'ai parfois pensé que ce serait plus simple s'il/elle disparaissait", "je n'ai pas le droit d'être fatigué(e)"],
+    dimsFaibles: ["equilibre", "spiritualite", "intimite", "gouvernance"],
+    orientation: "1. Le médecin doit être vu — ses blessures doivent être nommées avant celles du patient. 2. Le patient doit reprendre ses responsabilités même dans la fragilité : être blessé n'est pas être irresponsable. 3. Rester n'est pas s'oublier. La fidélité n'est pas l'épuisement. 4. La guérison vient quand les deux redeviennent deux adultes qui s'aident, et non plus un soignant et un soigné.",
+    theologie: "Osée porte Gomer. Dieu lui demande de l'aimer. Mais Dieu ne lui demande pas de s'oublier. Le vrai modèle biblique n'est pas médecin-patient — c'est deux personnes qui se portent mutuellement. La grâce de Dieu restaure, mais elle ne supprime pas la responsabilité du blessé." },
+  "Isaac-Sarah": { ref: "Genèse 17-22", color: C.blue, titre: "L'Enfant-Possession",
+    mecanisme: "L'attente longue ou les conditions exceptionnelles de la naissance transforment l'amour parental en possession. L'enfant ne peut pas grandir sans briser quelque chose dans le parent. Le couple passe au second plan derrière 'mon enfant'.",
+    signaux: ["ma belle-mère traite son fils comme son mari", "enfant unique", "enfant après des années d'attente", "mon conjoint ne peut rien refuser à son enfant"],
+    dimsFaibles: ["heritage", "intimite"], orientation: "Aimer sans fusionner. Redéfinir le couple comme centre. L'enfant a besoin de parents qui s'aiment — pas de parents qui le possèdent." },
+  "Éli-ses fils": { ref: "1 Samuel 2-3", color: C.red, titre: "L'Autorité Qui Ne Peut Discipliner",
+    mecanisme: "Le parent sait que l'enfant a tort mais ne peut pas exercer l'autorité nécessaire — par peur, par culpabilité, par évitement. Il justifie, minimise, ou se tait. L'enfant grandit sans frontières. Le couple se divise sur l'éducation sans jamais le résoudre.",
+    signaux: ["ses parents justifient tout", "ma belle-famille me contredit devant les enfants", "il ne supporte pas d'entendre son enfant pleurer", "nous ne nous accordons jamais sur l'éducation"],
+    dimsFaibles: ["gouvernance", "famille"], orientation: "Réappropriation de l'autorité parentale. Les frontières fermes et aimantes sont un acte d'amour. Un enfant sans limites n'est pas un enfant libre — c'est un enfant en danger." },
+  // ─── 3 archétypes théologiques avancés ────────────────────────────────────
+  "Nabal-Abigaël": { ref: "1 Samuel 25", color: C.gold, titre: "L'Injustice et la Compensation", genreNeutre: true,
+    mecanisme: "L'un des conjoints est dans l'injustice — non pas la méchanceté de caractère, mais l'incapacité à discerner la justice divine : il/elle ne reconnaît pas ce qu'il/elle doit à l'autre, prend sans donner, agit sans consulter, est aveugle à la valeur et au travail de son partenaire. Nabal n'est pas fou — son nom signifie l'insensé, celui qui ne voit pas ce que Dieu voit. L'autre conjoint compense en silence : il/elle porte la justice du foyer, gère les crises, protège la maison des conséquences.",
+    signaux: ["je dois tout gérer parce que lui/elle ne voit pas les conséquences", "il/elle ne sait même pas ce que j'ai fait pour éviter le désastre", "dans les crises c'est toujours moi qui intervient", "il/elle pense que tout va bien alors que tout craque", "je ne peux pas compter sur lui/elle pour les décisions importantes", "pourquoi est-ce que je dois toujours réparer ses erreurs"],
+    dimsFaibles: ["gouvernance", "intimite", "communication", "vision", "spiritualite"],
+    orientation: "1. Révélation pour celui qui compense : sa sagesse qui protège tout le monde est aussi ce qui empêche l'autre de voir la réalité. 2. Il doit cesser de protéger et laisser la conséquence arriver. 3. Révélation pour celui dans l'injustice : il doit voir le travail invisible de l'autre, reconnaître ce qui est dû, demander pardon. 4. Restauration de la justice : nouvelle gouvernance où l'un a l'autorité ET la sagesse, l'autre a une voix consultée et écoutée.",
+    theologie: "Nabal n'est pas méchant au sens moral. Il est dans l'injustice divine — incapable de voir ce que David a fait pour lui, ce que sa femme fait pour lui, ce que Dieu fait. La guérison ne vient pas d'un redressement brutal mais d'une révélation : voir ce qu'on ne voyait pas." },
+  "Abraham-Sarah": { ref: "Genèse 12:10-20, Genèse 20", color: C.blue, titre: "La Valeur Exhibée", genreNeutre: true,
+    mecanisme: "L'un des conjoints possède une 'valeur extérieure' que l'autre ne se sent pas d'avoir — beauté, intelligence, réussite sociale, réseau, diplômes, charisme. Le conjoint qui se sent en déficit utilise cette valeur pour obtenir reconnaissance, acceptation ou sécurité : il/elle présente l'autre comme un trophée. Celui qui est 'exhibé' finit par se sentir objet — son identité profonde n'est jamais aimée, seulement sa valeur extérieure.",
+    signaux: ["il/elle ne m'aime que pour ce que j'apporte", "je ne serais rien sans lui/elle", "on ne me voit pas, on voit mon corps/mon argent/mon statut", "j'ai peur qu'il/elle parte si je perds ce que j'ai", "sans moi il/elle ne serait pas accepté(e)", "ma réussite est liée à qui il/elle est, pas à ce que je vaux"],
+    dimsFaibles: ["intimite", "gouvernance", "vision", "spiritualite"],
+    orientation: "1. Révélation pour celui qui exhibe : tu n'aimes pas ton conjoint, tu aimes ce qu'il/elle t'apporte. 2. Révélation pour celui qui est exhibé : tu n'as pas à performer ta valeur pour être aimé. 3. Restauration : apprendre à s'aimer au-delà des valeurs extérieures.",
+    theologie: "Abraham avait peur. Il utilisait Sarah pour se protéger. Pas par méchanceté — par peur. Dieu a dû intervenir deux fois pour révéler le système." },
+  "David-Saül": { ref: "1 Samuel 18-19, 24, 26", color: C.orange, titre: "Le Supérieur Menacé", genreNeutre: true, urgence: true,
+    mecanisme: "L'un des conjoints a une position d'autorité établie. L'autre commence à briller. Le supérieur ne supporte pas que l'autre soit plus célébré. Ce n'est pas une compétition active — c'est l'existence même du succès de l'autre qui devient insupportable.",
+    signaux: ["il/elle me fait de l'ombre", "tout le monde l'aime plus que moi", "il/elle veut ma place", "je dois cacher mes réussites pour ne pas le/la blesser", "plus je réussis, plus il/elle me hait", "pourquoi tout le monde le/la préfère", "je dois réparer ses bêtises", "il est devenu acariâtre depuis que j'ai été promue"],
+    dimsFaibles: ["gouvernance", "intimite", "communication", "vision"],
+    orientation: "1. Le supérieur doit reconnaître que la menace n'est pas réelle — c'est son insécurité. 2. Le subordonné ne doit pas s'effacer. 3. Si la femme gagne plus : elle n'a pas à s'excuser de réussir, mais garder l'humilité. 4. Restauration : deux forces complémentaires, pas deux ennemis.",
+    theologie: "Saül avait tout. Mais son identité était dans sa position, pas dans qui il était. David ne voulait pas sa place. La jalousie hiérarchique se calme quand le supérieur trouve son identité en Dieu, pas dans son rang." }
 };
+
 const QUESTIONS_EAUX = [
-{ id:"e1”, bloc:1, type:"choix”, question:"Dans votre famille d'origine, l'amour s'exprimait principalement…”, options:[
-{val:"paroles”,label:"Par des mots d'affection, d'encouragement, de reconnaissance”},
-{val:"actes”,label:"Par des actes concrets — cuisiner, travailler, donner, protéger”},
-{val:"cadeaux”,label:"Par des attentions matérielles et des cadeaux”},
-{val:"temps”,label:"Par la présence et le temps passé ensemble”},
-{val:"absent”,label:"L'amour ne s'exprimait pas vraiment de manière visible”},
-]},
-{ id:"e2”, bloc:1, type:"choix_ouvert”, question:"Quel rang occupez-vous dans votre fratrie ?”, options:[
-{val:"aine”,label:"Aîné(e)”},{val:"milieu”,label:"Enfant du milieu”},{val:"benjamin”,label:"Benjamin(e)”},{val:"unique”,label:"Enfant unique”},{val:"autre”,label:"Autre situation familiale”},
-], followUp:"Décrivez en deux ou trois phrases ce que ce rang signifiait concrètement dans votre famille.” },
-{ id:"e3”, bloc:1, type:"choix”, question:"Comment les conflits se terminaient-ils généralement dans votre famille ?”, options:[
-{val:"reconciliation”,label:"On se réconciliait ouvertement”},{val:"temps”,label:"Le calme revenait avec le temps, sans vraiment en reparler”},{val:"surface”,label:"Les tensions restaient présentes longtemps sous la surface”},{val:"silence”,label:"Les conflits n'étaient pas visibles — on n'en parlait pas”},
-]},
-{ id:"e4”, bloc:1, type:"choix”, question:"La figure paternelle dans votre vie était…”, options:[
-{val:"present_stable”,label:"Présente, stable, et impliquée dans votre vie quotidienne”},{val:"present_distant”,label:"Présente physiquement mais peu disponible émotionnellement”},{val:"irregulier”,label:"Présente par moments, absente par moments”},{val:"absent_travail”,label:"Absente la plupart du temps pour raisons professionnelles”},{val:"absent_definitif”,label:"Absente de façon définitive — décès, séparation, abandon”},
-]},
-{ id:"e5”, bloc:1, type:"choix”, question:"La figure maternelle dans votre vie était…”, options:[
-{val:"presente_aimante”,label:"Présente, stable, et aimante dans le quotidien”},{val:"presente_distante”,label:"Présente physiquement mais peu disponible émotionnellement”},{val:"irreguliere”,label:"Présente par moments, absente par moments”},{val:"absente”,label:"Absente la plupart du temps”},{val:"absente_definitive”,label:"Absente de façon définitive”},
-]},
-{ id:"e6”, bloc:2, type:"choix_ouvert”, question:"Y a-t-il une personne de votre enfance à laquelle vous pensez avec une douleur encore présente ?”, options:[
-{val:"oui_actif”,label:"Oui, et cette douleur est encore bien présente”},{val:"oui_paix”,label:"Oui, mais j'ai fait la paix avec ça”},{val:"incertain”,label:"Je ne suis pas sûr(e)”},{val:"non”,label:"Non”},
-], followUp:"Sans nommer la personne, quel type de relation était-ce ? Et qu'est-ce que cette douleur vous a appris sur vous-même ?”, condition:(val)=>val==="oui_actif”||val==="oui_paix” },
-{ id:"e13”, bloc:2, type:"choix_ouvert”, question:"Comment décririez-vous la relation entre vos parents — ou les figures parentales que vous avez observées ?”, options:[
-{val:"amour_visible”,label:"Ils s'aimaient visiblement — respect, tendresse, complicité”},{val:"coexistence”,label:"Ils coexistaient correctement — sans conflit majeur mais sans chaleur”},{val:"tensions”,label:"Il y avait des tensions régulières”},{val:"souffrance”,label:"La relation était marquée par une souffrance visible”},{val:"separes”,label:"Je n'ai pas vu mes parents ensemble”},
-], followUp:"Qu'est-ce que cette relation vous a appris — consciemment ou non — sur ce qu'est un couple ?” },
-{ id:"e14”, bloc:2, type:"choix”, question:"Quelle place la foi occupait-elle dans votre maison d'enfance ?”, options:[
-{val:"centrale_vecue”,label:"La foi était centrale et vécue au quotidien”},{val:"rituelle”,label:"La foi était présente dans les rituels — église, fêtes — mais peu vécue”},{val:"personnelle”,label:"La foi était une affaire personnelle de certains membres”},{val:"absente”,label:"La foi n'avait pas vraiment de place dans notre foyer”},{val:"autre_spirituel”,label:"Il y avait des pratiques spirituelles différentes”},
-]},
-{ id:"e7”, bloc:3, type:"choix_ouvert”, question:"Y a-t-il une personne de votre enfance que vous portez avec gratitude ?”, options:[
-{val:"oui_clair”,label:"Oui, clairement”},{val:"oui_plusieurs”,label:"Plusieurs personnes”},{val:"pas_vraiment”,label:"Pas vraiment”},{val:"non”,label:"Non”},
-], followUp:"Qu'est-ce que cette personne vous a donné — même sans le savoir — que vous portez encore aujourd'hui ?”, condition:(val)=>val==="oui_clair”||val==="oui_plusieurs” },
-{ id:"e8”, bloc:3, type:"ouvert”, question:"Y a-t-il un événement de votre vie — heureux ou douloureux — qui a changé profondément qui vous êtes ?”, placeholder:"Décrivez brièvement cet événement et ce qu'il a changé en vous…” },
-{ id:"e9”, bloc:4, type:"ouvert”, question:"Dans votre famille, y avait-il des règles, des valeurs ou des façons de faire que tout le monde suivait sans les questionner ?”, placeholder:"Quelles étaient ces règles ou valeurs ? Comment se manifestaient-elles ?” },
-{ id:"e10”, bloc:4, type:"ouvert”, question:"Y a-t-il quelque chose dans votre histoire familiale que vous observez se répéter dans vos propres comportements ?”, placeholder:"Décrivez ce schéma en vos propres mots…” },
-{ id:"e11”, bloc:4, type:"ouvert”, question:"Y a-t-il quelque chose de beau dans votre histoire familiale — une force, une valeur, une grâce — que vous voulez préserver ?”, placeholder:"Quelle est cette force ou cette grâce ?” },
-{ id:"e12”, bloc:4, type:"ouvert_court”, question:"Si vous deviez décrire l'atmosphère générale de votre maison d'enfance en un seul mot ou une image…”, placeholder:"Un mot ou une image…” },
-{ id:"e16”, bloc:5, type:"choix_multi”, question:"En regardant honnêtement votre histoire familiale sur plusieurs générations, observez-vous l'un de ces schémas récurrents ?”, options:[
-{val:"mariages_echecs”,label:"Des mariages qui échouent de la même façon”},{val:"deuils”,label:"Des deuils prématurés ou des morts au même âge”},{val:"finances”,label:"Des problèmes financiers qui reviennent malgré les efforts”},{val:"ruptures”,label:"Des ruptures ou des trahisons qui se répètent”},{val:"addictions”,label:"Des comportements ou des addictions qui traversent les générations”},{val:"aucun”,label:"Je n'observe pas de schéma particulier”},{val:"ne_sait_pas”,label:"Je n'ai pas assez d'informations sur mon histoire familiale”},
-], followUp:"Si vous avez observé un schéma, décrivez-le brièvement.”, condition:(vals)=>vals&&!vals.includes("aucun”)&&!vals.includes("ne_sait_pas”) },
-{ id:"e17”, bloc:5, type:"choix_ouvert”, question:"La famille dans laquelle vous avez grandi avait-elle des pratiques spirituelles particulières ?”, options:[
-{val:"chretien_pratiquant”,label:"Foyer chrétien pratiquant — la foi était vécue et enseignée”},{val:"chretien_nominal”,label:"Foyer chrétien nominal — église les dimanches mais peu de vécu”},{val:"traditionnel”,label:"Foyer avec des pratiques traditionnelles — rituels, protection ancestrale”},{val:"mixte”,label:"Foyer mixte — plusieurs religions ou pratiques coexistaient”},{val:"sans_pratique”,label:"Foyer sans pratique spirituelle particulière”},{val:"ne_sait_pas”,label:"Je ne sais pas vraiment”},
-], followUp:"Y a-t-il des pratiques, des alliances ou des engagements pris dans votre famille dont vous n'avez jamais vraiment évalué l'impact ?” },
+  { id: "e1", bloc: 1, type: "choix", question: "Dans votre famille d'origine, l'amour s'exprimait principalement…", options: [
+    { val: "paroles", label: "Par des mots d'affection, d'encouragement, de reconnaissance" },
+    { val: "actes", label: "Par des actes concrets — cuisiner, travailler, donner, protéger" },
+    { val: "cadeaux", label: "Par des attentions matérielles et des cadeaux" },
+    { val: "temps", label: "Par la présence et le temps passé ensemble" },
+    { val: "absent", label: "L'amour ne s'exprimait pas vraiment de manière visible" }
+  ] },
+  { id: "e2", bloc: 1, type: "choix_ouvert", question: "Quel rang occupez-vous dans votre fratrie ?", options: [
+    { val: "aine", label: "Aîné(e)" }, { val: "milieu", label: "Enfant du milieu" }, { val: "benjamin", label: "Benjamin(e)" }, { val: "unique", label: "Enfant unique" }, { val: "autre", label: "Autre situation familiale" }
+  ], followUp: "Décrivez en deux ou trois phrases ce que ce rang signifiait concrètement dans votre famille." },
+  { id: "e3", bloc: 1, type: "choix", question: "Comment les conflits se terminaient-ils généralement dans votre famille ?", options: [
+    { val: "reconciliation", label: "On se réconciliait ouvertement" }, { val: "temps", label: "Le calme revenait avec le temps, sans vraiment en reparler" }, { val: "surface", label: "Les tensions restaient présentes longtemps sous la surface" }, { val: "silence", label: "Les conflits n'étaient pas visibles — on n'en parlait pas" }
+  ] },
+  { id: "e4", bloc: 1, type: "choix", question: "La figure paternelle dans votre vie était…", options: [
+    { val: "present_stable", label: "Présente, stable, et impliquée dans votre vie quotidienne" }, { val: "present_distant", label: "Présente physiquement mais peu disponible émotionnellement" }, { val: "irregulier", label: "Présente par moments, absente par moments" }, { val: "absent_travail", label: "Absente la plupart du temps pour raisons professionnelles" }, { val: "absent_definitif", label: "Absente de façon définitive — décès, séparation, abandon" }
+  ] },
+  { id: "e5", bloc: 1, type: "choix", question: "La figure maternelle dans votre vie était…", options: [
+    { val: "presente_aimante", label: "Présente, stable, et aimante dans le quotidien" }, { val: "presente_distante", label: "Présente physiquement mais peu disponible émotionnellement" }, { val: "irreguliere", label: "Présente par moments, absente par moments" }, { val: "absente", label: "Absente la plupart du temps" }, { val: "absente_definitive", label: "Absente de façon définitive" }
+  ] },
+  { id: "e6", bloc: 2, type: "choix_ouvert", question: "Y a-t-il une personne de votre enfance à laquelle vous pensez avec une douleur encore présente ?", options: [
+    { val: "oui_actif", label: "Oui, et cette douleur est encore bien présente" }, { val: "oui_paix", label: "Oui, mais j'ai fait la paix avec ça" }, { val: "incertain", label: "Je ne suis pas sûr(e)" }, { val: "non", label: "Non" }
+  ], followUp: "Sans nommer la personne, quel type de relation était-ce ? Et qu'est-ce que cette douleur vous a appris sur vous-même ?", condition: (val) => val === "oui_actif" || val === "oui_paix" },
+  { id: "e13", bloc: 2, type: "choix_ouvert", question: "Comment décririez-vous la relation entre vos parents — ou les figures parentales que vous avez observées ?", options: [
+    { val: "amour_visible", label: "Ils s'aimaient visiblement — respect, tendresse, complicité" }, { val: "coexistence", label: "Ils coexistaient correctement — sans conflit majeur mais sans chaleur" }, { val: "tensions", label: "Il y avait des tensions régulières" }, { val: "souffrance", label: "La relation était marquée par une souffrance visible" }, { val: "separes", label: "Je n'ai pas vu mes parents ensemble" }
+  ], followUp: "Qu'est-ce que cette relation vous a appris — consciemment ou non — sur ce qu'est un couple ?" },
+  { id: "e14", bloc: 2, type: "choix", question: "Quelle place la foi occupait-elle dans votre maison d'enfance ?", options: [
+    { val: "centrale_vecue", label: "La foi était centrale et vécue au quotidien" }, { val: "rituelle", label: "La foi était présente dans les rituels — église, fêtes — mais peu vécue" }, { val: "personnelle", label: "La foi était une affaire personnelle de certains membres" }, { val: "absente", label: "La foi n'avait pas vraiment de place dans notre foyer" }, { val: "autre_spirituel", label: "Il y avait des pratiques spirituelles différentes" }
+  ] },
+  { id: "e7", bloc: 3, type: "choix_ouvert", question: "Y a-t-il une personne de votre enfance que vous portez avec gratitude ?", options: [
+    { val: "oui_clair", label: "Oui, clairement" }, { val: "oui_plusieurs", label: "Plusieurs personnes" }, { val: "pas_vraiment", label: "Pas vraiment" }, { val: "non", label: "Non" }
+  ], followUp: "Qu'est-ce que cette personne vous a donné — même sans le savoir — que vous portez encore aujourd'hui ?", condition: (val) => val === "oui_clair" || val === "oui_plusieurs" },
+  { id: "e8", bloc: 3, type: "ouvert", question: "Y a-t-il un événement de votre vie — heureux ou douloureux — qui a changé profondément qui vous êtes ?", placeholder: "Décrivez brièvement cet événement et ce qu'il a changé en vous…" },
+  { id: "e9", bloc: 4, type: "ouvert", question: "Dans votre famille, y avait-il des règles, des valeurs ou des façons de faire que tout le monde suivait sans les questionner ?", placeholder: "Quelles étaient ces règles ou valeurs ? Comment se manifestaient-elles ?" },
+  { id: "e10", bloc: 4, type: "ouvert", question: "Y a-t-il quelque chose dans votre histoire familiale que vous observez se répéter dans vos propres comportements ?", placeholder: "Décrivez ce schéma en vos propres mots…" },
+  { id: "e11", bloc: 4, type: "ouvert", question: "Y a-t-il quelque chose de beau dans votre histoire familiale — une force, une valeur, une grâce — que vous voulez préserver ?", placeholder: "Quelle est cette force ou cette grâce ?" },
+  { id: "e12", bloc: 4, type: "ouvert_court", question: "Si vous deviez décrire l'atmosphère générale de votre maison d'enfance en un seul mot ou une image…", placeholder: "Un mot ou une image…" },
+  { id: "e16", bloc: 5, type: "choix_multi", question: "En regardant honnêtement votre histoire familiale sur plusieurs générations, observez-vous l'un de ces schémas récurrents ?", options: [
+    { val: "mariages_echecs", label: "Des mariages qui échouent de la même façon" }, { val: "deuils", label: "Des deuils prématurés ou des morts au même âge" }, { val: "finances", label: "Des problèmes financiers qui reviennent malgré les efforts" }, { val: "ruptures", label: "Des ruptures ou des trahisons qui se répètent" }, { val: "addictions", label: "Des comportements ou des addictions qui traversent les générations" }, { val: "aucun", label: "Je n'observe pas de schéma particulier" }, { val: "ne_sait_pas", label: "Je n'ai pas assez d'informations sur mon histoire familiale" }
+  ], followUp: "Si vous avez observé un schéma, décrivez-le brièvement.", condition: (vals) => vals && !vals.includes("aucun") && !vals.includes("ne_sait_pas") },
+  { id: "e17", bloc: 5, type: "choix_ouvert", question: "La famille dans laquelle vous avez grandi avait-elle des pratiques spirituelles particulières ?", options: [
+    { val: "chretien_pratiquant", label: "Foyer chrétien pratiquant — la foi était vécue et enseignée" }, { val: "chretien_nominal", label: "Foyer chrétien nominal — église les dimanches mais peu de vécu" }, { val: "traditionnel", label: "Foyer avec des pratiques traditionnelles — rituels, protection ancestrale" }, { val: "mixte", label: "Foyer mixte — plusieurs religions ou pratiques coexistaient" }, { val: "sans_pratique", label: "Foyer sans pratique spirituelle particulière" }, { val: "ne_sait_pas", label: "Je ne sais pas vraiment" }
+  ], followUp: "Y a-t-il des pratiques, des alliances ou des engagements pris dans votre famille dont vous n'avez jamais vraiment évalué l'impact ?" }
 ];
+
 const QUESTIONS_OS_COUPLE = [
-{ id:"o1”, bloc:1, type:"ouvert”, question:"Si vous deviez défendre une seule chose dans votre vie quoi qu'il arrive — une valeur absolue — quelle serait-elle ?”, placeholder:"Nommez cette valeur en vos propres mots…” },
-{ id:"o2”, bloc:1, type:"choix”, question:"Y a-t-il quelque chose que vous avez déjà fait dans votre relation qui contredisait vos valeurs profondes ?”, options:[
-{val:"oui_pese”,label:"Oui, et ça me pèse encore aujourd'hui”},{val:"oui_paix”,label:"Oui, mais j'ai fait la paix avec ça”},{val:"parfois”,label:"Parfois, dans des petites choses”},{val:"non”,label:"Non, je reste cohérent avec mes valeurs”},
-]},
-{ id:"o3”, bloc:2, type:"ouvert”, question:"Dans cinq ans, quelle image de votre foyer vous donne de la joie quand vous y pensez ?”, placeholder:"Décrivez cette image en quelques phrases…” },
-{ id:"o4”, bloc:2, type:"choix”, question:"Avez-vous l'impression que votre conjoint(e) et vous construisez vers le même horizon ?”, options:[
-{val:"meme_direction”,label:"Nous construisons clairement ensemble vers la même direction”},{val:"rythmes_differents”,label:"Nous avons une direction commune mais nos rythmes diffèrent”},{val:"incertain”,label:"Je ne suis pas toujours sûr(e) que nous allons au même endroit”},{val:"directions_differentes”,label:"Nous semblons aller dans des directions différentes”},
-]},
-{ id:"o5”, bloc:3, type:"ouvert”, question:"Complétez cette phrase : "Pour moi, être vraiment aimé(e), c'est quand…"”, placeholder:"Complétez en une ou deux phrases sincères…” },
-{ id:"o6”, bloc:3, type:"choix”, question:"Au fond de vous, croyez-vous que vous méritez pleinement l'amour — sans avoir à le mériter ?”, options:[
-{val:"oui_profond”,label:"Oui, profondément et sans hésitation”},{val:"oui_theorie”,label:"Oui en théorie, mais j'ai du mal à le ressentir vraiment”},{val:"parfois_non”,label:"Pas toujours — je sens que je dois mériter ma place”},{val:"non”,label:"Non, j'ai du mal à croire que je mérite d'être aimé(e) gratuitement”},
-]},
-{ id:"o7”, bloc:4, type:"choix”, question:"Votre foi influence-t-elle concrètement les décisions que vous prenez dans votre relation ?”, options:[
-{val:"guide_activement”,label:"Oui, ma foi guide activement mes décisions”},{val:"guide_partiellement”,label:"Ma foi guide certaines décisions mais pas toutes”},{val:"moins_concret”,label:"Ma foi est présente mais moins concrète dans le quotidien du couple”},{val:"separes”,label:"Ma foi et ma vie de couple fonctionnent souvent séparément”},
-]},
-{ id:"o8”, bloc:5, type:"choix”, question:"Pour vous, un mariage réussi c'est principalement…”, options:[
-{val:"stabilite”,label:"Un foyer stable et paisible où chacun est à sa place”},{val:"alliance”,label:"Une alliance spirituelle qui honore Dieu et laisse un héritage”},{val:"croissance”,label:"Une relation où deux personnes grandissent et s'accomplissent”},{val:"loyaute”,label:"Un engagement de loyauté absolue quoi qu'il arrive”},{val:"famille”,label:"Une famille unie qui protège et élève les enfants”},
-]},
-{ id:"o9”, bloc:5, type:"ouvert”, question:"Y a-t-il quelque chose que vous ne seriez jamais prêt(e) à accepter dans votre relation — une limite absolue ?”, placeholder:"Nommez cette limite en vos propres mots…” },
-{ id:"o10”, bloc:5, type:"ouvert”, question:"Si vous pouviez transmettre une seule conviction sur l'amour et le mariage à quelqu'un qui commence, quelle serait-elle ?”, placeholder:"Quelle est cette conviction profonde ?” },
+  { id: "o1", bloc: 1, type: "ouvert", question: "Si vous deviez défendre une seule chose dans votre vie quoi qu'il arrive — une valeur absolue — quelle serait-elle ?", placeholder: "Nommez cette valeur en vos propres mots…" },
+  { id: "o2", bloc: 1, type: "choix", question: "Y a-t-il quelque chose que vous avez déjà fait dans votre relation qui contredisait vos valeurs profondes ?", options: [
+    { val: "oui_pese", label: "Oui, et ça me pèse encore aujourd'hui" }, { val: "oui_paix", label: "Oui, mais j'ai fait la paix avec ça" }, { val: "parfois", label: "Parfois, dans des petites choses" }, { val: "non", label: "Non, je reste cohérent avec mes valeurs" }
+  ] },
+  { id: "o3", bloc: 2, type: "ouvert", question: "Dans cinq ans, quelle image de votre foyer vous donne de la joie quand vous y pensez ?", placeholder: "Décrivez cette image en quelques phrases…" },
+  { id: "o4", bloc: 2, type: "choix", question: "Avez-vous l'impression que votre conjoint(e) et vous construisez vers le même horizon ?", options: [
+    { val: "meme_direction", label: "Nous construisons clairement ensemble vers la même direction" }, { val: "rythmes_differents", label: "Nous avons une direction commune mais nos rythmes diffèrent" }, { val: "incertain", label: "Je ne suis pas toujours sûr(e) que nous allons au même endroit" }, { val: "directions_differentes", label: "Nous semblons aller dans des directions différentes" }
+  ] },
+  { id: "o5", bloc: 3, type: "ouvert", question: "Complétez cette phrase : 'Pour moi, être vraiment aimé(e), c'est quand…'", placeholder: "Complétez en une ou deux phrases sincères…" },
+  { id: "o6", bloc: 3, type: "choix", question: "Au fond de vous, croyez-vous que vous méritez pleinement l'amour — sans avoir à le mériter ?", options: [
+    { val: "oui_profond", label: "Oui, profondément et sans hésitation" }, { val: "oui_theorie", label: "Oui en théorie, mais j'ai du mal à le ressentir vraiment" }, { val: "parfois_non", label: "Pas toujours — je sens que je dois mériter ma place" }, { val: "non", label: "Non, j'ai du mal à croire que je mérite d'être aimé(e) gratuitement" }
+  ] },
+  { id: "o7", bloc: 4, type: "choix", question: "Votre foi influence-t-elle concrètement les décisions que vous prenez dans votre relation ?", options: [
+    { val: "guide_activement", label: "Oui, ma foi guide activement mes décisions" }, { val: "guide_partiellement", label: "Ma foi guide certaines décisions mais pas toutes" }, { val: "moins_concret", label: "Ma foi est présente mais moins concrète dans le quotidien du couple" }, { val: "separes", label: "Ma foi et ma vie de couple fonctionnent souvent séparément" }
+  ] },
+  { id: "o8", bloc: 5, type: "choix", question: "Pour vous, un mariage réussi c'est principalement…", options: [
+    { val: "stabilite", label: "Un foyer stable et paisible où chacun est à sa place" }, { val: "alliance", label: "Une alliance spirituelle qui honore Dieu et laisse un héritage" }, { val: "croissance", label: "Une relation où deux personnes grandissent et s'accomplissent" }, { val: "loyaute", label: "Un engagement de loyauté absolue quoi qu'il arrive" }, { val: "famille", label: "Une famille unie qui protège et élève les enfants" }
+  ] },
+  { id: "o9", bloc: 5, type: "ouvert", question: "Y a-t-il quelque chose que vous ne seriez jamais prêt(e) à accepter dans votre relation — une limite absolue ?", placeholder: "Nommez cette limite en vos propres mots…" },
+  { id: "o10", bloc: 5, type: "ouvert", question: "Si vous pouviez transmettre une seule conviction sur l'amour et le mariage à quelqu'un qui commence, quelle serait-elle ?", placeholder: "Quelle est cette conviction profonde ?" }
 ];
 const QUESTIONS_OS_CELIBATAIRE = [
 { id:"oc1”, bloc:1, type:"ouvert”, question:"Si vous pensez à la personne que vous admirez le plus dans votre vie — pas qui vous attire, mais qui vous inspire — qu'est-ce qui vous attire en elle ?”, placeholder:"Décrivez ce qui vous inspire en elle…” },
