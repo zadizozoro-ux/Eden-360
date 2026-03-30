@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from “react”;
+import { useState, useEffect, useRef } from  “react”;
 
 // ═══════════════════════════════════════════════════════════════════════════
 // EDEN ACADÉMIE — Système Abonné v1.0
