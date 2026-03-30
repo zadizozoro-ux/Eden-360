@@ -2237,7 +2237,7 @@ function AfficherMonRapport({ phase, nom, profil, rapport, appreciationRecevoir,
 const RapportSection = ({ phase, nom, profil, rapport, appreciationRecevoir, appreciationDonner, repAttachement }) => {
 
 // ── RAPPORT ──
-  if (phase === "rapport") {
+  if (phase === "rapport") { }
     const attachStyle = computeAttachementStyle(repAttachement);
     const primaryRecevoir = PROFIL_APPRECIATION_OPTIONS.find(o => o.id === appreciationRecevoir[0])?.label || "Non renseigné";
     const primaryDonner = PROFIL_APPRECIATION_OPTIONS.find(o => o.id === appreciationDonner[0])?.label || "Non renseigné";
