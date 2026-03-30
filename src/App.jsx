@@ -32,14 +32,6 @@ const FEATURES_MAP = {
   futureLetter:       ["simple", "argent", "premium"],
   viralShare:         ["simple", "argent", "premium"],
   microPertes:        ["simple", "argent", "premium"],
-  const FEATURES_MAP = {
-  // Disponible pour tous les abonnés (simple, argent, premium)
-  bilan360:           ["simple", "argent", "premium"],
-  portrait:           ["simple", "argent", "premium"],
-  horloge:            ["simple", "argent", "premium"],
-  futureLetter:       ["simple", "argent", "premium"],
-  viralShare:         ["simple", "argent", "premium"],
-  microPertes:        ["simple", "argent", "premium"],
   lectureMiroir:      ["simple", "argent", "premium"],
   seedOfEden:         ["simple", "argent", "premium"],
   archeEden:          ["simple", "argent", "premium"],
