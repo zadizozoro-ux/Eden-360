@@ -1,6 +1,7 @@
-import { useState, useEffect, useRef } from "react”;
-// NOTE DÉPLOIEMENT : Décommenter cet import lors de l'intégration Vite
-// import EspaceAbonne, { createSubscriberProfile, PILIERS_ANNUELS } from "./EdenSubscriber”;
+import { useState, useEffect, useRef } from "react";
+import EspaceAbonne, { createSubscriberProfile, PILIERS_ANNUELS } from "./EdenSubscriber.jsx";
+
+// EDEN ACADÉMIE — Application Unifiée v2.0
 // ═══════════════════════════════════════════════════════════════════════════
 // EDEN ACADÉMIE — Application Unifiée v2.0
 // Bilan 360° · Portrait Eaux·Os·Chair · Espace Abonné (3 niveaux)
