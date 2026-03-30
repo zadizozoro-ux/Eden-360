@@ -297,7 +297,16 @@ const MODS = {
       { id: "m3", t: "Nos désaccords se terminent par une compréhension mutuelle, pas par un silence ou une capitulation." },
       { id: "m4", t: "Il y a des sujets dans notre couple dont nous avons tacitement décidé de ne jamais parler.", inv: true },
       { id: "m5", t: "Mon conjoint écoute vraiment quand je parle, sans préparer sa réponse dans sa tête." },
-      { id: "intimite", label: "Intimité & Connexion", icon: "◉", qs: [
+      { id: "m6", t: "Il y a des mots ou comportements récurrents de mon conjoint qui me font encore mal.", inv: true }
+    ] },
+    { id: "gouvernance", label: "Gouvernance & Rôles", icon: "◆", qs: [
+      { id: "m7", t: "Les rôles et responsabilités de chacun sont clairement définis et acceptés par les deux." },
+      { id: "m8", t: "Mon conjoint me consulte avant de prendre des décisions importantes qui nous concernent." },
+      { id: "m9", t: "Dans notre couple, il y a une lutte constante pour savoir qui a le dernier mot.", inv: true },
+      { id: "m10", t: "Mon conjoint prend régulièrement des décisions en mon nom sans m'avoir consulté(e).", inv: true },
+      { id: "m11", t: "Je compense souvent l'absence de leadership de mon conjoint sans que nous en ayons parlé.", inv: true }
+    ] },
+    { id: "intimite", label: "Intimité & Connexion", icon: "◉", qs: [
       { id: "m12", t: "Je me sens profondément connu(e) et accepté(e) par mon conjoint, au-delà de mon image publique." },
       { id: "m13", t: "Il m'arrive de me sentir seul(e) même quand mon conjoint est physiquement présent.", inv: true },
       { id: "m14", t: "Mon conjoint est la première personne à qui je pense quand j'ai une bonne ou une mauvaise nouvelle." },
@@ -350,14 +359,12 @@ const MODS = {
       { id: "m49", t: "Des personnes proches ont exprimé des préoccupations sérieuses sur notre relation.", inv: true },
       { id: "m50", t: "Je me projette avec confiance et joie dans l'avenir avec mon conjoint." }
     ] }
-], oqs: [
-      { id: "mo1", t: "En une phrase, décrivez ce qui vous préoccupe le plus dans votre vie conjugale en ce moment." },
-      { id: "mo2", t: "Qu'est-ce qui vous a poussé à faire ce bilan aujourd'hui ?" },
-      { id: "mo3", t: "Si vous pouviez changer une seule chose dans votre couple dès demain, ce serait…" }
-    ]
-  }
+  ], oqs: [
+    { id: "mo1", t: "En une phrase, décrivez ce qui vous préoccupe le plus dans votre vie conjugale en ce moment." },
+    { id: "mo2", t: "Qu'est-ce qui vous a poussé à faire ce bilan aujourd'hui ?" },
+    { id: "mo3", t: "Si vous pouviez changer une seule chose dans votre couple dès demain, ce serait…" }
+  ] }
 };
-
 // ═══════════════════════════════════════════════════════════════════════════
 // ═══════════════════════════════════════════════════════════════════════════
 // SECTION 2 — DONNÉES PORTRAIT EAUX·OS·CHAIR
