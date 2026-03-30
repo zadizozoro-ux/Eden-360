@@ -820,72 +820,71 @@ function buildPortraitPrompt(nom, profil, eaux, os, chair, appreciation, attache
   const attachementStyle = computeAttachementStyle(attachement);
   const archetypesText = Object.entries(ARCHETYPES).map(([k, v]) => `${k} (${v.titre}) — Signaux : ${v.mecanisme.slice(0, 60)}...`).join("\n");
   return `Tu es le Conseiller de l'Académie Eden, fondé par Zady Zozoro — expert en leadership familial.\n\n═══ RÈGLES ABSOLUES ═══\nINTERDIT : "Vous êtes [trouble/blessure]", "Vous souffrez de...", tout diagnostic médical\nOBLIGATOIRE : "Vos réponses suggèrent...", "Ce profil peut indiquer...", "Il est possible que..."\nCroiser minimum 3 indices avant toute conclusion. Ton : pastoral, bienveillant, autoritaire mais jamais accusateur.\n\n═══ CONTEXTE ═══\nPrénom : ${nom} | Profil : ${profileLabel}\n\n═══ LES EAUX ═══\n- Amour exprimé par : ${eaux.e1 || "non renseigné"}\n- Rang fratrie : ${eaux.e2 || "non renseigné"} — ${eaux.e2_open || ""}\n- Conflits familiaux : ${eaux.e3 || "non renseigné"}\n- Figure paternelle : ${eaux.e4 || "non renseigné"}\n- Figure maternelle : ${eaux.e5 || "non renseigné"}\n- Relation des parents : ${eaux.e13 || "non renseigné"} — ${eaux.e13_open || ""}\n- Foi dans le foyer : ${eaux.e14 || "non renseigné"}\n- Mémoire douloureuse : ${eaux.e6 || "non renseigné"} — ${eaux.e6_open || ""}\n- Mémoire de gratitude : ${eaux.e7 || "non renseigné"} — ${eaux.e7_open || ""}\n- Événement formateur : ${eaux.e8 || ""}\n- Règles familiales : ${eaux.e9 || ""}\n- Schéma répété : ${eaux.e10 || ""}\n- Force familiale : ${eaux.e11 || ""}\n- Atmosphère enfance : ${eaux.e12 || ""}\n- Schémas générationnels : ${Array.isArray(eaux.e16) ? eaux.e16.join(", ") : eaux.e16 || "non renseigné"}\n- Pratiques spirituelles : ${eaux.e17 || "non renseigné"} — ${eaux.e17_open || ""}\n\n═══ LES OS ═══\n- Valeur fondamentale : ${os.o1 || os.oc1 || ""}\n- Cohérence valeurs/actions : ${os.o2 || ""}\n- Vision du foyer dans 5 ans : ${os.o3 || os.oc3 || ""}\n- Perception alignement : ${os.o4 || ""}\n- Définition être aimé : ${os.o5 || ""}\n- Mérite l'amour : ${os.o6 || ""}\n- Foi dans décisions : ${os.o7 || ""}\n- Définition mariage réussi : ${os.o8 || ""}\n- Ligne non franchissable : ${os.o9 || os.oc4 || ""}\n- Conviction à transmettre : ${os.o10 || os.oc6 || ""}\n\n═══ LA CHAIR ═══\n- Reçoit l'amour par : ${appreciationPrimaire}\n- Donne l'amour par : ${appreciationDonne}\n- Style d'attachement probable : ${attachementStyle}\n- Communication blessures : ${chair.ch1 || ""}/5\n- Écoute désaccord : ${chair.ch2 || ""}/5\n- Dire sa vérité : ${chair.ch3 || ""}/5\n- Réconciliation : ${chair.ch4 || ""}/5\n- Expression frustration : ${chair.ch5 || ""}/5\n- Introverti/Extraverti : ${chair.ch6 || ""}/5\n- Logique/Émotionnel : ${chair.ch7 || ""}/5\n- Structuré/Flexible : ${chair.ch8 || ""}/5\n\n═══ ARCHÉTYPES DISPONIBLES ═══\n${archetypesText}\n\n═══ STRUCTURE DU PORTRAIT ═══\n**LES EAUX DE ${nom.toUpperCase()}**\nNommez 2-3 eaux marquantes. Chaque eau : nommée, expliquée, reliée aux réponses concrètes.\n\n**LES OS DE ${nom.toUpperCase()}**\n1. Os solides (valeurs formées et cohérentes)\n2. Os fracturés si présents (formulation probabiliste et bienveillante)\n\n**LA CHAIR DE ${nom.toUpperCase()}**\n- Profil d'appréciation : comment ${nom} donne et reçoit l'amour, et le décalage éventuel\n- Style d'attachement probable : ce que ça produit dans la relation\n- Tempérament : introversion/extraversion, logique/émotionnel, structuré/flexible\n\n**PATTERNS RELATIONNELS DÉTECTÉS**\nMaximum 3 archétypes. Pour chaque : Nom + référence + mécanisme spécifique + orientation pastorale.\n\n**ORIENTATION**\nType de travail intérieur prioritaire. Formation Eden recommandée.\n\n**DISCLAIMER**\nTerminer par : "Ce portrait est une analyse indicative basée sur vos réponses. Il ne remplace pas un accompagnement professionnel."\n\nMINIMUM 700 MOTS. Langue : français. Ton : médecin bienveillant. Utiliser le prénom ${nom} naturellement.`;
-}
-// ═══════════════════════════════════════════════════════════════════════════
+}// ═══════════════════════════════════════════════════════════════════════════
 // SECTION 4b — FONCTIONS : ALERTES · RAPPORT INTERNE · TÉMOIGNAGES
 // ═══════════════════════════════════════════════════════════════════════════
 // ── Calcul du niveau d'alerte ────────────────────────────────────────────────
 function computeAlertLevel(gp, patternScores, opens, violenceSignals, ans, profil) {
-// Niveau 3 — CRISE (violence détectée ou signaux linguistiques)
-if (violenceSignals && violenceSignals.length > 0) return ALERT_LEVELS.CRISE;
-const openTexts = opens.map(o => (o.ans||””).toLowerCase()).join(” ");
-const crisisKeywords = ["coups”, "menaces”, "hôpital”, "arme”, "frappé”, "je vais craquer”, "je ne vois pas d'issue”, "je veux mourir”];
-if (crisisKeywords.some(k => openTexts.includes(k))) return ALERT_LEVELS.CRISE;
-// Niveau 2 — VIGILANCE
-const criticalPatterns = ["Samson-Dalila”,"David-Saül”,"Jacob-Léa”,"Osée-Gomer”];
-const hasCritical = Object.keys(patternScores||{}).some(p => criticalPatterns.includes(p) && (patternScores[p]||0) > 60);
-const vigilanceKeywords = ["départ”, "divorce”, "je n'en peux plus”, "séparation”, "je pense à partir”];
-const hasVigilanceText = vigilanceKeywords.some(k => openTexts.includes(k));
-if (gp < 35 || hasCritical || hasVigilanceText) return ALERT_LEVELS.VIGILANCE;
-// Niveau 1 — INFORMATION
-if (gp < 50) return ALERT_LEVELS.INFO;
-return 0; // Pas d'alerte
+  // Niveau 3 — CRISE (violence détectée ou signaux linguistiques)
+  if (violenceSignals && violenceSignals.length > 0) return ALERT_LEVELS.CRISE;
+  const openTexts = opens.map(o => (o.ans || "").toLowerCase()).join(" ");
+  const crisisKeywords = ["coups", "menaces", "hôpital", "arme", "frappé", "je vais craquer", "je ne vois pas d'issue", "je veux mourir"];
+  if (crisisKeywords.some(k => openTexts.includes(k))) return ALERT_LEVELS.CRISE;
+  // Niveau 2 — VIGILANCE
+  const criticalPatterns = ["Samson-Dalila", "David-Saul", "Jacob-Lea", "Osee-Gomer"];
+  const hasCritical = Object.keys(patternScores || {}).some(p => criticalPatterns.includes(p) && (patternScores[p] || 0) > 60);
+  const vigilanceKeywords = ["départ", "divorce", "je n'en peux plus", "séparation", "je pense à partir"];
+  const hasVigilanceText = vigilanceKeywords.some(k => openTexts.includes(k));
+  if (gp < 35 || hasCritical || hasVigilanceText) return ALERT_LEVELS.VIGILANCE;
+  // Niveau 1 — INFORMATION
+  if (gp < 50) return ALERT_LEVELS.INFO;
+  return 0; // Pas d'alerte
 }
+
 // ── Envoi alerte crise au backend ────────────────────────────────────────────
 async function triggerCrisisAlert({ clientName, gp, profil, patternScores, alertLevel, tel }) {
-const label = alertLevel >= ALERT_LEVELS.CRISE ? "🚨 CRISE” : "⚠️ VIGILANCE”;
-const activePatterns = Object.entries(patternScores||{}).filter(([,v])=>v>40).map(([k,v])=>`${k}(${v})`).join(”, ");
-const subject = `${label} EDEN — ${clientName} — Score ${gp}/100`;
-const body = `${label} DÉTECTÉ — Académie Eden
+  const label = alertLevel >= ALERT_LEVELS.CRISE ? "🚨 CRISE" : "⚠️ VIGILANCE";
+  const activePatterns = Object.entries(patternScores || {}).filter(([, v]) => v > 40).map(([k, v]) => `${k}(${v})`).join(", ");
+  const subject = `${label} EDEN — ${clientName} — Score ${gp}/100`;
+  const body = `${label} DÉTECTÉ — Académie Eden
 Client : ${clientName}
 Profil : ${profil}
 Score global : ${gp}/100
-Patterns : ${activePatterns||"Aucun”}
-Date : ${new Date().toLocaleString("fr-FR”)}
-Niveau : ${alertLevel === ALERT_LEVELS.CRISE ? "CRISE — Action dans l'heure” : "VIGILANCE — Action sous 48h”}
+Patterns : ${activePatterns || "Aucun"}
+Date : ${new Date().toLocaleString("fr-FR")}
+Niveau : ${alertLevel === ALERT_LEVELS.CRISE ? "CRISE — Action dans l'heure" : "VIGILANCE — Action sous 48h"}
 Suivi recommandé : Contacter le client et orienter vers les ressources adaptées.`;
-try {
-await fetch(”/api/send-alert”, {
-method: "POST”,
-headers: { "Content-Type”: "application/json” },
-body: JSON.stringify({ to: ALERT_EMAIL, subject, body, level: alertLevel }),
-});
-} catch(e) { console.warn("Alerte email non envoyée:”, e.message); }
+  try {
+    await fetch("/api/send-alert", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ to: ALERT_EMAIL, subject, body, level: alertLevel }),
+    });
+  } catch (e) { console.warn("Alerte email non envoyée:", e.message); }
 }
+
 // ── Construction du rapport interne conseiller ───────────────────────────────
 function buildInternalReportPrompt(clientName, profil, genre, role, annees, enfants, scores, opens, patternScores, gp, rawAns, alertLevel) {
-const pl = profil === "marie” ? "Marié(e)” : profil === "fiance” ? "Fiancé(e)” : "Célibataire”;
-const urgenceLabel = alertLevel >= ALERT_LEVELS.CRISE ? "🔴 CRISE” : alertLevel >= ALERT_LEVELS.VIGILANCE ? "🟠 VIGILANCE” : alertLevel >= ALERT_LEVELS.INFO ? "🟡 INFO” : "🟢 STABLE”;
-const activePatterns = Object.entries(patternScores||{}).filter(([,v])=>v>40).sort(([,a],[,b])=>b-a);
-const scoresText = Object.entries(scores).map(([,v])=>`${v.label}: ${v.p}/100 (${v.lv.l})`).join(” | ");
-const opensText = opens.filter(o=>o.ans?.trim()).map(o=>`Q: "${o.q}" → R: "${o.ans}"`).join(”
-");
-const patternsText = activePatterns.map(([k,v])=>`${k} (${v}/100) — ${ARCHETYPES[k]?.mecanisme?.slice(0,120)||""}...`).join(”
-");
-return `Tu es le Conseiller Senior de l'Académie Eden — Institut du Leadership Familial, fondé par Zady Zozoro.
+  const pl = profil === "marie" ? "Marié(e)" : profil === "fiance" ? "Fiancé(e)" : "Célibataire";
+  const urgenceLabel = alertLevel >= ALERT_LEVELS.CRISE ? "🔴 CRISE" : alertLevel >= ALERT_LEVELS.VIGILANCE ? "🟠 VIGILANCE" : alertLevel >= ALERT_LEVELS.INFO ? "🟡 INFO" : "🟢 STABLE";
+  const activePatterns = Object.entries(patternScores || {}).filter(([, v]) => v > 40).sort(([, a], [, b]) => b - a);
+  const scoresText = Object.entries(scores).map(([, v]) => `${v.label}: ${v.p}/100 (${v.lv.l})`).join(" | ");
+  const opensText = opens.filter(o => o.ans?.trim()).map(o => `Q: "${o.q}" → R: "${o.ans}"`).join("\n");
+  const patternsText = activePatterns.map(([k, v]) => `${k} (${v}/100) — ${ARCHETYPES[k]?.mecanisme?.slice(0, 120) || ""}...`).join("\n");
+  return `Tu es le Conseiller Senior de l'Académie Eden — Institut du Leadership Familial, fondé par Zady Zozoro.
 Ce rapport est INTERNE — pour l'équipe Eden uniquement. Il ne sera PAS lu par le client.
 ═══ DONNÉES CLIENT ═══
-Prénom : ${clientName} | Profil : ${pl} | Genre : ${genre||"N/A”} | Rôle : ${role||"N/A”}
-${annees ? `Années de mariage : ${annees}` : "”} ${enfants ? `| Enfants : ${enfants}` : "”}
-Date du bilan : ${new Date().toLocaleDateString("fr-FR”)}
+Prénom : ${clientName} | Profil : ${pl} | Genre : ${genre || "N/A"} | Rôle : ${role || "N/A"}
+${annees ? `Années de mariage : ${annees}` : ""} ${enfants ? `| Enfants : ${enfants}` : ""}
+Date du bilan : ${new Date().toLocaleDateString("fr-FR")}
 Score global : ${gp}/100
 Urgence : ${urgenceLabel}
 ═══ SCORES PAR DIMENSION ═══
 ${scoresText}
 ═══ PATTERNS DÉTECTÉS ═══
-${patternsText||"Aucun pattern dominant”}
+${patternsText || "Aucun pattern dominant"}
 ═══ RÉPONSES OUVERTES ═══
-${opensText||"Non renseignées”}
+${opensText || "Non renseignées"}
 ═══ GÉNÈRE LE RAPPORT INTERNE CONSEILLER ═══
 Format obligatoire avec sections **EN GRAS** :
 **A. DIAGNOSTIC PRINCIPAL**
@@ -911,44 +910,46 @@ Un paragraphe de 3-4 phrases : schéma principal détecté, point de blocage cen
 Ton : clinique, direct, professionnel. Pas de ton pastoral dans cette version. Zady lit ce document en préparation de séance — il a besoin d'informations actionables, pas d'encouragements.
 MINIMUM 600 MOTS. En français.`;
 }
+
 // ── Génération de témoignages automatiques ────────────────────────────────────
 function buildTestimonialsPrompt(clientName, profil, gp, patternScores, scores) {
-const pl = profil === "marie” ? "marié(e)” : profil === "fiance” ? "fiancé(e)” : "célibataire”;
-const activePatterns = Object.keys(patternScores||{}).filter(p=>(patternScores[p]||0)>40).slice(0,2);
-const topFragile = Object.entries(scores).sort(([,a],[,b])=>a.p-b.p).slice(0,2).map(([,v])=>v.label).join(” et ");
-const trajectory = gp >= 65 ? "encourageant” : gp >= 45 ? "fragile” : "critique”;
-return `Un client vient de compléter son Bilan 360° Eden. Il s'appelle ${clientName}, profil ${pl}, score ${gp}/100 (trajectoire ${trajectory}). Dimensions les plus fragiles : ${topFragile}. ${activePatterns.length > 0 ? `Patterns détectés : ${activePatterns.join(”, ")}.` : "”}
+  const pl = profil === "marie" ? "marié(e)" : profil === "fiance" ? "fiancé(e)" : "célibataire";
+  const activePatterns = Object.keys(patternScores || {}).filter(p => (patternScores[p] || 0) > 40).slice(0, 2);
+  const topFragile = Object.entries(scores).sort(([, a], [, b]) => a.p - b.p).slice(0, 2).map(([, v]) => v.label).join(" et ");
+  const trajectory = gp >= 65 ? "encourageant" : gp >= 45 ? "fragile" : "critique";
+  return `Un client vient de compléter son Bilan 360° Eden. Il s'appelle ${clientName}, profil ${pl}, score ${gp}/100 (trajectoire ${trajectory}). Dimensions les plus fragiles : ${topFragile}. ${activePatterns.length > 0 ? `Patterns détectés : ${activePatterns.join(", ")}.` : ""}
 Génère 3 témoignages distincts que ce client pourrait partager anonymement. Chaque témoignage doit :
 - Être à la PREMIÈRE PERSONNE (Je, moi)
 - Être ÉMOTIONNEL et SPÉCIFIQUE (pas générique)
 - Faire entre 40 et 70 mots
 - Ne PAS mentionner l'Académie Eden ni le prix ni des termes techniques
 - Ne PAS donner de conseils — seulement témoigner de l'expérience
-Version 1 — "Le choc de reconnaissance” (mettre un mot sur ce qui était vécu sans nom)
-Version 2 — "Le déclic émotionnel” (la phrase ou le moment qui a touché)
-Version 3 — "Le résultat concret” (ce qui a changé grâce au plan d'action)
+Version 1 — "Le choc de reconnaissance" (mettre un mot sur ce qui était vécu sans nom)
+Version 2 — "Le déclic émotionnel" (la phrase ou le moment qui a touché)
+Version 3 — "Le résultat concret" (ce qui a changé grâce au plan d'action)
 Formate ta réponse ainsi :
 VERSION_1: [texte]
 VERSION_2: [texte]
 VERSION_3: [texte]
 Langue : français. Ton authentique — pas commercial.`;
 }
+
 // ═══════════════════════════════════════════════════════════════════════════
 // SECTION 5 — CSS UNIFIÉ
 // ═══════════════════════════════════════════════════════════════════════════
 const GLOBAL_CSS = `
-@import url(‘https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@300;400;500;600&display=swap');
 *{box-sizing:border-box;margin:0;padding:0;}
-html,body{background:#080C14;color:#C8C0B0;font-family:‘Jost',sans-serif;-webkit-font-smoothing:antialiased;}
-button{font-family:‘Jost',sans-serif;cursor:pointer;transition:all .2s ease;}
-textarea,input{font-family:‘Jost',sans-serif;}
+html,body{background:#080C14;color:#C8C0B0;font-family:'Jost',sans-serif;-webkit-font-smoothing:antialiased;}
+button{font-family:'Jost',sans-serif;cursor:pointer;transition:all .2s ease;}
+textarea,input{font-family:'Jost',sans-serif;}
 textarea:focus,input:focus{outline:none;}
 .eden-app{min-height:100vh;background:#080C14;}
 .eden-wrap{max-width:640px;margin:0 auto;padding:0 20px 80px;}
 /* Header */
 .eden-header{padding:28px 20px 20px;border-bottom:1px solid #1E2330;background:linear-gradient(180deg,#0B0F1A 0%,#080C14 100%);}
 .eden-logo{font-size:8px;letter-spacing:.3em;text-transform:uppercase;color:#C9A84C;margin-bottom:8px;}
-.eden-title{font-family:‘Cormorant Garamond',serif;font-size:30px;color:#F0EBE0;line-height:1.2;margin-bottom:4px;}
+.eden-title{font-family:'Cormorant Garamond',serif;font-size:30px;color:#F0EBE0;line-height:1.2;margin-bottom:4px;}
 .eden-subtitle{font-size:11px;color:#4A5060;letter-spacing:.06em;}
 /* Phase bar */
 .phase-bar{display:flex;gap:6px;padding:16px 20px 0;}
@@ -962,7 +963,7 @@ textarea:focus,input:focus{outline:none;}
 /* Sections */
 .section{padding-top:24px;}
 .section-tag{font-size:9px;letter-spacing:.26em;text-transform:uppercase;color:#C9A84C;margin-bottom:10px;}
-.section-title{font-family:‘Cormorant Garamond',serif;font-size:24px;color:#F0EBE0;line-height:1.3;margin-bottom:12px;}
+.section-title{font-family:'Cormorant Garamond',serif;font-size:24px;color:#F0EBE0;line-height:1.3;margin-bottom:12px;}
 .section-desc{font-size:12px;color:#8A8070;line-height:1.7;margin-bottom:24px;}
 /* Options */
 .opt{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;border:1px solid #1E2330;background:#0D1018;margin-bottom:8px;cursor:pointer;transition:all .2s;}
@@ -990,12 +991,12 @@ textarea:focus,input:focus{outline:none;}
 .ta-short{min-height:48px;}
 /* Likert */
 .likert{display:flex;gap:6px;margin-top:8px;}
-.likert-btn{flex:1;padding:10px 4px;border:1px solid #1E2330;background:#0D1018;color:#4A5060;font-family:‘Jost',sans-serif;font-size:11px;cursor:pointer;text-align:center;transition:all .2s;line-height:1.4;}
+.likert-btn{flex:1;padding:10px 4px;border:1px solid #1E2330;background:#0D1018;color:#4A5060;font-family:'Jost',sans-serif;font-size:11px;cursor:pointer;text-align:center;transition:all .2s;line-height:1.4;}
 .likert-btn:hover{border-color:#C9A84C44;color:#C8C0B0;}
 .likert-btn.selected{border-color:#C9A84C;background:#C9A84C12;color:#C9A84C;}
 /* Scale (bilan) */
 .scale-row{display:flex;gap:6px;margin:10px 0;}
-.scale-btn{flex:1;padding:12px 4px;border:1px solid #1E2330;background:#0D1018;color:#4A5060;font-family:‘Jost',sans-serif;font-size:10px;cursor:pointer;text-align:center;transition:all .2s;line-height:1.4;}
+.scale-btn{flex:1;padding:12px 4px;border:1px solid #1E2330;background:#0D1018;color:#4A5060;font-family:'Jost',sans-serif;font-size:10px;cursor:pointer;text-align:center;transition:all .2s;line-height:1.4;}
 .scale-btn:hover{border-color:#C9A84C44;color:#C8C0B0;}
 .scale-btn.selected{border-color:#C9A84C;background:#C9A84C12;color:#C9A84C;font-weight:600;}
 /* Ranking */
@@ -1008,15 +1009,15 @@ textarea:focus,input:focus{outline:none;}
 .rank-label{font-size:12px;color:#8A8070;line-height:1.5;flex:1;}
 .rank-item.ranked .rank-label{color:#C8C0B0;}
 /* Buttons */
-.btn-primary{background:#C9A84C;border:none;color:#0B0F1A;padding:14px 20px;font-family:‘Jost',sans-serif;font-size:12px;font-weight:600;letter-spacing:.04em;cursor:pointer;width:100%;}
+.btn-primary{background:#C9A84C;border:none;color:#0B0F1A;padding:14px 20px;font-family:'Jost',sans-serif;font-size:12px;font-weight:600;letter-spacing:.04em;cursor:pointer;width:100%;}
 .btn-primary:hover{background:#D4B86A;}
 .btn-primary:disabled{opacity:.4;cursor:not-allowed;}
-.btn-secondary{background:transparent;border:1px solid #1E2330;color:#4A5060;padding:14px 20px;font-family:‘Jost',sans-serif;font-size:12px;cursor:pointer;}
+.btn-secondary{background:transparent;border:1px solid #1E2330;color:#4A5060;padding:14px 20px;font-family:'Jost',sans-serif;font-size:12px;cursor:pointer;}
 .btn-secondary:hover{border-color:#C9A84C33;color:#8A8070;}
-.btn-gold-outline{background:transparent;border:1px solid #C9A84C66;color:#C9A84C;padding:13px 20px;font-family:‘Jost',sans-serif;font-size:12px;cursor:pointer;}
+.btn-gold-outline{background:transparent;border:1px solid #C9A84C66;color:#C9A84C;padding:13px 20px;font-family:'Jost',sans-serif;font-size:12px;cursor:pointer;}
 .btn-gold-outline:hover{background:#C9A84C12;}
-.btn-wa{background:#25D366;border:none;color:#fff;padding:13px 20px;font-family:‘Jost',sans-serif;font-size:12px;font-weight:600;cursor:pointer;width:100%;}
-.btn-danger{background:#C0614A;border:none;color:#fff;padding:13px 20px;font-family:‘Jost',sans-serif;font-size:12px;cursor:pointer;}
+.btn-wa{background:#25D366;border:none;color:#fff;padding:13px 20px;font-family:'Jost',sans-serif;font-size:12px;font-weight:600;cursor:pointer;width:100%;}
+.btn-danger{background:#C0614A;border:none;color:#fff;padding:13px 20px;font-family:'Jost',sans-serif;font-size:12px;cursor:pointer;}
 .nav-row{display:flex;gap:10px;margin-top:28px;}
 /* Cards */
 .card{background:#0D1018;border:1px solid #1E2330;padding:20px;}
@@ -1029,7 +1030,7 @@ textarea:focus,input:focus{outline:none;}
 .stl{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:#C9A84C;margin-bottom:10px;}
 .rbt{font-size:13px;color:#C8C0B0;line-height:1.9;white-space:pre-wrap;}
 .phrase-box{background:linear-gradient(135deg,#0D1018,#111828);border:1px solid #C9A84C33;border-left:4px solid #C9A84C;padding:20px;margin-bottom:20px;}
-.phrase-text{font-family:‘Cormorant Garamond',serif;font-size:20px;color:#F0EBE0;font-style:italic;line-height:1.5;}
+.phrase-text{font-family:'Cormorant Garamond',serif;font-size:20px;color:#F0EBE0;font-style:italic;line-height:1.5;}
 .plan-box{background:#0A1208;border:1px solid #4A9B6A33;padding:20px;margin-bottom:20px;}
 .plan-title{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:#4A9B6A;margin-bottom:12px;}
 .reco-box{background:#0D1018;border:1px solid #C9A84C33;padding:20px;margin-bottom:20px;}
@@ -1054,7 +1055,7 @@ textarea:focus,input:focus{outline:none;}
 .qa-bubble-label{font-size:9px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:6px;}
 .qa-bubble-text{font-size:13px;color:#C8C0B0;line-height:1.8;white-space:pre-wrap;}
 .qa-input-row{display:flex;gap:8px;align-items:flex-end;}
-.qa-send{background:#C9A84C;color:#0B0F1A;border:none;padding:14px 16px;font-family:‘Jost',sans-serif;font-size:12px;font-weight:600;white-space:nowrap;}
+.qa-send{background:#C9A84C;color:#0B0F1A;border:none;padding:14px 16px;font-family:'Jost',sans-serif;font-size:12px;font-weight:600;white-space:nowrap;}
 .qa-typing{display:flex;align-items:center;gap:6px;padding:12px 16px;background:#0A1410;border:1px solid #4A9B6A22;}
 .qa-dot{width:5px;height:5px;border-radius:50%;background:#4A9B6A;animation:qdot .9s ease-in-out infinite;}
 .qa-dot:nth-child(2){animation-delay:.15s;}
@@ -1063,27 +1064,27 @@ textarea:focus,input:focus{outline:none;}
 /* Modal */
 .modal-overlay{position:fixed;inset:0;background:#000000CC;z-index:200;display:flex;align-items:center;justify-content:center;padding:20px;}
 .modal-box{background:#0D1018;border:1px solid #C9A84C33;max-width:480px;width:100%;padding:28px;}
-.modal-title{font-family:‘Cormorant Garamond',serif;font-size:22px;color:#F0EBE0;margin-bottom:6px;}
+.modal-title{font-family:'Cormorant Garamond',serif;font-size:22px;color:#F0EBE0;margin-bottom:6px;}
 .modal-sub{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#C9A84C;margin-bottom:16px;}
 .modal-body{font-size:13px;color:#C8C0B0;line-height:1.8;white-space:pre-wrap;margin-bottom:20px;}
 /* Premium lock */
 .premium-lock{background:#0D0810;border:1px solid #C9A84C33;border-left:3px solid #C9A84C;padding:20px;margin-bottom:20px;opacity:0.85;}
 .premium-lock-tag{font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:#C9A84C;margin-bottom:8px;}
-.premium-lock-title{font-family:‘Cormorant Garamond',serif;font-size:16px;color:#C8C0B0;margin-bottom:8px;}
+.premium-lock-title{font-family:'Cormorant Garamond',serif;font-size:16px;color:#C8C0B0;margin-bottom:8px;}
 .premium-lock-desc{font-size:12px;color:#6A6070;line-height:1.6;margin-bottom:14px;}
 /* Home */
 .home-module-card{background:#0D1018;border:1px solid #1E2330;padding:24px;cursor:pointer;transition:all .2s;margin-bottom:12px;}
 .home-module-card:hover{border-color:#C9A84C44;background:#111520;}
 .home-module-card.featured{border-color:#C9A84C33;background:#0D1018;}
 .home-module-tag{font-size:8px;letter-spacing:.24em;text-transform:uppercase;color:#C9A84C;margin-bottom:8px;}
-.home-module-title{font-family:‘Cormorant Garamond',serif;font-size:22px;color:#F0EBE0;margin-bottom:8px;}
+.home-module-title{font-family:'Cormorant Garamond',serif;font-size:22px;color:#F0EBE0;margin-bottom:8px;}
 .home-module-desc{font-size:12px;color:#8A8070;line-height:1.6;}
 .home-module-badge{display:inline-block;padding:3px 10px;border:1px solid;font-size:9px;letter-spacing:.14em;text-transform:uppercase;margin-top:12px;}
 /* Loading */
 .loading-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;gap:24px;}
 .loading-ring{width:44px;height:44px;border:1px solid #1E2330;border-top:1px solid #C9A84C;border-radius:50%;animation:spin 1s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg)}}
-.loading-msg{font-family:‘Cormorant Garamond',serif;font-size:20px;color:#C8C0B0;text-align:center;max-width:320px;line-height:1.5;}
+.loading-msg{font-family:'Cormorant Garamond',serif;font-size:20px;color:#C8C0B0;text-align:center;max-width:320px;line-height:1.5;}
 .loading-sub{font-size:10px;color:#3A3E4A;text-align:center;letter-spacing:.1em;text-transform:uppercase;}
 /* Footer */
 .footer{padding:32px 20px;border-top:1px solid #1E2330;text-align:center;}
@@ -1095,12 +1096,12 @@ textarea:focus,input:focus{outline:none;}
 /* Misc */
 .mb16{margin-bottom:16px;}
 .mb24{margin-bottom:24px;}
-.q-text{font-family:‘Cormorant Garamond',serif;font-size:17px;color:#F0EBE0;line-height:1.5;margin-bottom:16px;}
+.q-text{font-family:'Cormorant Garamond',serif;font-size:17px;color:#F0EBE0;line-height:1.5;margin-bottom:16px;}
 .q-follow{font-size:12px;color:#8A8070;font-style:italic;margin:12px 0 8px;}
 .progress-bar{height:3px;background:#1E2330;margin-bottom:20px;}
 .progress-fill{height:100%;background:#C9A84C;transition:width .4s ease;}
 .cta-box{background:#0A1208;border:1px solid #4A9B6A33;border-left:3px solid #4A9B6A;padding:24px;margin-top:24px;}
-.cta-title{font-family:‘Cormorant Garamond',serif;font-size:20px;color:#F0EBE0;margin-bottom:8px;}
+.cta-title{font-family:'Cormorant Garamond',serif;font-size:20px;color:#F0EBE0;margin-bottom:8px;}
 .cta-sub{font-size:12px;color:#8A8070;line-height:1.7;margin-bottom:16px;}
 .pat-box{background:#0D0810;border:1px solid #7BAFC933;padding:14px;margin-bottom:16px;}
 .indices-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px;}
