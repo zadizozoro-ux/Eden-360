@@ -1,10 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import EspaceAbonne, { createSubscriberProfile, PILIERS_ANNUELS } from "./EdenSubscriber.jsx";
-const WHATSAPP_NUM = "2250141800001"; 
 
-import React, { useState, useEffect, useRef } from 'react';
-
-// EDEN ACADÉMIE — Application Unifiée v2.0
 // ═══════════════════════════════════════════════════════════════════════════
 // EDEN ACADÉMIE — Application Unifiée v2.0
 // Bilan 360° · Portrait Eaux·Os·Chair · Espace Abonné (3 niveaux)
@@ -1791,17 +1787,7 @@ const ROLES = [
 const SCALE = [1, 2, 3, 4, 5];
 const SL = { 1: 'Pas du tout', 2: 'Peu', 3: 'Moyennement', 4: 'Beaucoup', 5: 'Totalement' };
 
-const WHATSAPP_NUM = "1234567890";
-const ADMIN_PASSWORD = "eden2025";
-const STORAGE_KEY = "eden_codes_v2";
 
-const GLOBAL_CSS = `
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { background: #05070C; font-family: 'Jost', sans-serif; color: #E8E6E0; line-height: 1.5; }
-  .eden-app { min-height: 100vh; background: radial-gradient(circle at 10% 20%, #0A0C14, #030408); }
-  .eden-header { text-align: center; padding: 48px 20px 32px; border-bottom: 1px solid #1E2330; }
-  .eden-logo { font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: #C9A84C; margin-bottom: 16px; }
-  .eden-title { font-size: 32px; font-weight: 400; font-family: 'Cormorant Garamond', serif; color: #F0EBE0; }
   .eden-title em { font-style: italic; color: #C9A84C; }
   .eden-subtitle { font-size: 12px; color: #6B7280; margin-top: 8px; }
   .eden-wrap { max-width: 720px; margin: 0 auto; padding: 32px 20px 60px; }
