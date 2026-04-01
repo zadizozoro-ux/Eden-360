@@ -2197,20 +2197,7 @@ function ScenarioAttachement({ scenario, value, onChange }) {
           sections={sections}
         />
 
-        <LegalDisclaimer
-          gp={results.gp}
-          hasViolenceSignal={violenceSignals !== null}
-        />
-
-           </div>
-    );
-  }
-
-  return null;
-}
-}
-
-const AffichageResultat = ({ phase, nom, profil, rapport, appreciationRecevoir, appreciationDonner, repAttachement }) => {
+      const AffichageResultat = ({ phase, nom, profil, rapport, appreciationRecevoir, appreciationDonner, repAttachement, results, violenceSignals }) => {
 
   if (phase === "generation") return (
     <div className="loading-screen">
@@ -2220,18 +2207,8 @@ const AffichageResultat = ({ phase, nom, profil, rapport, appreciationRecevoir, 
     </div>
   );
 
-  return (
-    <div className="rapport-container">
-      {/* Le contenu du rapport */}
-    </div>
-  );
-};
-
-export default App;
-  // Le reste du contenu du rapport...
-};
-// ── RAPPORT ──
-  if (phase === "rapport") { }
+  // ── RAPPORT ──
+  if (phase === "rapport") {
     const attachStyle = computeAttachementStyle(repAttachement);
     const primaryRecevoir = PROFIL_APPRECIATION_OPTIONS.find(o => o.id === appreciationRecevoir[0])?.label || "Non renseigné";
     const primaryDonner = PROFIL_APPRECIATION_OPTIONS.find(o => o.id === appreciationDonner[0])?.label || "Non renseigné";
@@ -2244,29 +2221,58 @@ export default App;
       }
       return acc;
     }, []);
+
     return (
-      <div className="section">
-        <div style={{ background: "linear-gradient(135deg,#0B0F1A,#0D1020)", border: "1px solid #C9A84C33", padding: "24px 20px", marginBottom: 20 }}>
-          <div style={{ fontSize: 8, letterSpacing: ".28em", textTransform: "uppercase", color: C.gold, marginBottom: 8 }}>◈ Portrait Eden · Eaux · Os · Chair</div>
-          <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 28, color: "#F0EBE0", marginBottom: 4 }}>{nom}</div>
-          <div style={{ fontSize: 10, color: C.dim }}>{new Date().toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" })}</div>
-        </div>
-        <div className="card" style={{ marginBottom: 20 }}>
-          <div className="stl">Synthèse · Profil d'Appréciation & Attachement</div>
-          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-            <div style={{ fontSize: 12, color: C.text, lineHeight: 1.7 }}><span style={{ color: C.gold }}>Vous recevez l'amour principalement par :</span><br />{primaryRecevoir}</div>
-            <div style={{ fontSize: 12, color: C.text, lineHeight: 1.7 }}><span style={{ color: C.gold }}>Vous exprimez l'amour naturellement par :</span><br />{primaryDonner}</div>
-            {decalage && <div style={{ background: "#1A1000", border: "1px solid #C9A84C33", padding: "10px 14px", fontSize: 11, color: C.gold, lineHeight: 1.6 }}>◈ Décalage interne : vous donnez l'amour différemment de la manière dont vous aimeriez le recevoir. Ce décalage peut créer de l'incompréhension dans vos relations.</div>}
-            <div style={{ fontSize: 12, color: C.text, lineHeight: 1.7 }}><span style={{ color: C.blue }}>Style d'attachement probable :</span><br />{attachStyle}</div>
+      <div className="rapport-container">
+        <div className="section">
+          <div style={{ background: "linear-gradient(135deg,#0B0F1A,#0D1020)", border: "1px solid #C9A84C33", padding: "24px 20px", marginBottom: 20 }}>
+            <div style={{ fontSize: 8, letterSpacing: ".28em", textTransform: "uppercase", color: C.gold, marginBottom: 8 }}>◈ Portrait Eden · Eaux · Os · Chair</div>
+            <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 28, color: "#F0EBE0", marginBottom: 4 }}>{nom}</div>
+            <div style={{ fontSize: 10, color: C.dim }}>{new Date().toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" })}</div>
           </div>
+
+          <div className="card" style={{ marginBottom: 20 }}>
+            <div className="stl">Synthèse · Profil d'Appréciation & Attachement</div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+              <div style={{ fontSize: 12, color: C.text, lineHeight: 1.7 }}>
+                <span style={{ color: C.gold }}>Vous recevez l'amour principalement par :</span><br />{primaryRecevoir}
+              </div>
+              <div style={{ fontSize: 12, color: C.text, lineHeight: 1.7 }}>
+                <span style={{ color: C.gold }}>Vous exprimez l'amour naturellement par :</span><br />{primaryDonner}
+              </div>
+              {decalage && (
+                <div style={{ background: "#1A1000", border: "1px solid #C9A84C33", padding: "10px 14px", fontSize: 11, color: C.gold, lineHeight: 1.6 }}>
+                  ◈ Décalage interne : vous donnez l'amour différemment de la manière dont vous aimeriez le recevoir. Ce décalage peut créer de l'incompréhension dans vos relations.
+                </div>
+              )}
+              <div style={{ fontSize: 12, color: C.text, lineHeight: 1.7 }}>
+                <span style={{ color: C.blue }}>Style d'attachement probable :</span><br />{attachStyle}
+              </div>
+            </div>
+          </div>
+
+          <div className="rb">
+            <div className="stl">Votre Portrait Complet</div>
+            {sections.map((s, i) => (
+              s.type === "title"
+                ? <div key={i} style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 18, color: C.gold, margin: "20px 0 10px" }}>{s.text}</div>
+                : <div key={i} className="rbt" style={{ marginBottom: 12 }}>{s.text}</div>
+            ))}
+          </div>
+
+          <LegalDisclaimer
+            gp={results?.gp}
+            hasViolenceSignal={violenceSignals !== null}
+          />
         </div>
-        <div className="rb">
-          <div className="stl">Votre Portrait Complet</div>
-          {sections.map((s, i) => (
-            s.type === "title"
-              ? <div key={i} style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 18, color: C.gold, margin: "20px 0 10px" }}>{s.text}</div>
-              : <div key={i} className="rbt" style={{ marginBottom: 12 }}>{s.text}</div>
-          ))}
+      </div>
+    );
+  }
+
+  return null;
+};
+
+export default AffichageResultat;
         </div>
         <div style={{ background: "#0A0C12", border: "1px solid #1E2330", padding: "14px", marginBottom: 20, fontSize: 10, color: C.dim, lineHeight: 1.7 }}>Ce portrait est une analyse indicative basée sur vos réponses. Il ne remplace pas un accompagnement professionnel et ne constitue pas un avis médical ou psychologique.</div>
         <div className="cta-box">
