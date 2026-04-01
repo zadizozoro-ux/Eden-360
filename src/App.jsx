@@ -1879,11 +1879,7 @@ const hasAccess = (module, level) => {
   return false;
 };
 
-const Footer = () => (
-  <div className="footer">
-    Académie Eden · Institut de Leadership Familial · Zady Zozoro · Abidjan, Côte d'Ivoire
-  </div>
-);
+
 
 // ============================================
 // FONCTIONS UTILITAIRES
