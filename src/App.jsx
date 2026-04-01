@@ -2208,16 +2208,15 @@ function ScenarioAttachement({ scenario, value, onChange }) {
           <p className="cta-sub">Ce rapport est votre point de départ. Pour un accompagnement personnalisé avec Zady Zozoro, contactez l'Académie Eden directement.</p>
           <button className="btn-wa" onClick={() => window.open(`https://wa.me/${WHATSAPP_NUM}?text=${encodeURIComponent(`Bonjour Académie Eden, je viens de compléter mon Bilan 360°. Score : ${results.gp}/100. Je souhaite aller plus loin.`)}`)}>Contacter l'Académie Eden · WhatsApp</button>
         </div>
-                <LegalDisclaimer gp={results.gp} hasViolenceSignal={violenceSignals !== null} />
+                   <LegalDisclaimer gp={results.gp} hasViolenceSignal={violenceSignals !== null} />
       </div>
     );
   }
   return null; 
-} // <--- C'est cette accolade qui manquait pour fermer la fonction précédente
+}
 
 const AffichageResultat = ({ phase, nom, profil, rapport, appreciationRecevoir, appreciationDonner, repAttachement }) => {
 
-// ── GENERATION ──
   if (phase === "generation") return (
     <div className="loading-screen">
       <div className="loading-ring" />
@@ -2225,6 +2224,7 @@ const AffichageResultat = ({ phase, nom, profil, rapport, appreciationRecevoir, 
       <div className="loading-sub">Académie Eden · Portrait en cours de rédaction</div>
     </div>
   );
+
 
 function AfficherMonRapport({ phase, nom, profil, rapport, appreciationRecevoir, appreciationDonner, repAttachement }) {
 
