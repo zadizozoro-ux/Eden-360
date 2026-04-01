@@ -857,11 +857,7 @@ Date : ${new Date().toLocaleString("fr-FR")}
 Niveau : ${alertLevel === ALERT_LEVELS.CRISE ? "CRISE — Action dans l'heure" : "VIGILANCE — Action sous 48h"}
 Suivi recommandé : Contacter le client et orienter vers les ressources adaptées.`;
   try {
-    await fetch("/api/send-alert", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ to: ALERT_EMAIL, subject, body, level: alertLevel }),
-    });
+    await const res = await fetch(`${import.meta.env.VITE_API_URL}/api/diagnostic-report`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ report }) });
   } catch (e) { console.warn("Alerte email non envoyée:", e.message); }
 }
 
@@ -1405,8 +1401,7 @@ function TestimonialsModal({ clientName, gp, profil, patternScores, scores, onCl
     (async () => {
       const prompt = buildTestimonialsPrompt(clientName, profil, gp, patternScores, scores);
       try {
-        const res = await fetch("/api/diagnostic-report", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ prompt }) });
-        const data = await res.json();
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/diagnostic-report`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ report }) });
         const text = data.text || "";
         const v1 = text.match(/VERSION_1:\s*(.+?)(?=VERSION_2:|$)/s)?.[1]?.trim() || "";
         const v2 = text.match(/VERSION_2:\s*(.+?)(?=VERSION_3:|$)/s)?.[1]?.trim() || "";
@@ -1485,8 +1480,7 @@ function InternalReportModal({ clientName, profil, genre, role, annees, enfants,
     setGenerating(true);
     const prompt = buildInternalReportPrompt(clientName, profil, genre, role, annees, enfants, scores, opens, patternScores, gp, rawAns, alertLevel);
     try {
-      const res = await fetch("/api/diagnostic-report", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ prompt }) });
-      const data = await res.json();
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/diagnostic-report`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ report }) });
       setReportText(data.text || "Erreur de génération.");
     } catch { setReportText("Erreur de connexion. Vérifiez le backend."); }
     setGenerating(false);
