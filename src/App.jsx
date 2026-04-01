@@ -2197,7 +2197,7 @@ function ScenarioAttachement({ scenario, value, onChange }) {
           sections={sections}
         />
 
-      const AffichageResultat = ({ phase, nom, profil, rapport, appreciationRecevoir, appreciationDonner, repAttachement, results, violenceSignals }) => {
+      const AffichageResultat = ({ phase, nom, profil, rapport, appreciationRecevoir, appreciationDonner, repAttachement }) => {
 
   if (phase === "generation") return (
     <div className="loading-screen">
