@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import EspaceAbonne, { createSubscriberProfile, PILIERS_ANNUELS } from "./EdenSubscriber.jsx";
 const WHATSAPP_NUM = "2250141800001"; 
 
+import React, { useState, useEffect, useRef } from 'react';
 
 // EDEN ACADÉMIE — Application Unifiée v2.0
 // ═══════════════════════════════════════════════════════════════════════════
@@ -1756,7 +1757,6 @@ function ShareWithConseiller({ clientName, gp, profil, riskLevel, patterns, scor
   return null;
 }
 
-import React, { useState, useEffect, useRef } from 'react';
 
 // ============================================
 // CONSTANTES ET CONFIGURATIONS
