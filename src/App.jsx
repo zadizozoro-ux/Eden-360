@@ -2212,9 +2212,10 @@ function ScenarioAttachement({ scenario, value, onChange }) {
       </div>
     );
   }
-  return null;
+return null;
 }
-const AffichageResultat = ({ phase, nom, profil, rapport, appreciationRecevoir, appreciationDonner, repAttachement }) => {
+}
+const AffichageResultat = (( phase, nom, profil, rapport, appr)
 
 // ── GENERATION ──
   if (phase === "generation") return (
