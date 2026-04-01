@@ -1756,36 +1756,6 @@ function ShareWithConseiller({ clientName, gp, profil, riskLevel, patterns, scor
   return null;
 }
 
-function SmartWhatsAppCTA({ clientName, gp, profil, riskLevel, patterns }) {
-  const activePatterns = Object.keys(patterns || {}).filter(p => (patterns[p] || 0) > 40).slice(0, 2);
-  const urgency = gp < 40 ? "URGENCE" : gp < 55 ? "PRIORITÉ" : "SUIVI";
-  const formation = profil === "celibataire" ? "Eden Single" : profil === "fiance" ? "Eden Connexion" : gp < 45 ? "RESCUE 90 Jours" : "Les 12 Piliers";
-  const prefilledMessage = `Bonjour Académie Eden,\n\n[${urgency}] Je viens de compléter mon Bilan 360°.\n\n📊 Score global : ${gp}/100 — ${riskLevel?.l || ""}\n👤 Profil : ${profil === "marie" ? "Marié(e)" : profil === "fiance" ? "Fiancé(e)" : "Célibataire"}${activePatterns.length > 0 ? `\n⚠ Patterns identifiés : ${activePatterns.join(", ")}` : ""}\n\nJe souhaite en savoir plus sur la formation "${formation}".\n\nMerci,\n${clientName}`;
-  const buttonColor = gp < 45 ? C.red : gp < 60 ? C.orange : C.green;
-  const buttonLabel = gp < 45 ? "Intervention urgente — Contacter maintenant" : gp < 60 ? "Prendre rendez-vous avec Zady Zozoro" : "Confirmer mon inscription à la formation";
-  return (
-    <div style={{ background: buttonColor + "12", border: `1px solid ${buttonColor}44`, borderLeft: `4px solid ${buttonColor}`, padding: "20px 22px", marginBottom: 24 }}>
-      <div style={{ fontSize: 9, letterSpacing: ".2em", textTransform: "uppercase", color: buttonColor, marginBottom: 10 }}>{gp < 45 ? "⚠ Protocole d'urgence" : "✦ Prochaine étape"}</div>
-      <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 16, color: "#F0EBE0", marginBottom: 8, lineHeight: 1.4 }}>Formation recommandée : <span style={{ color: buttonColor }}>{formation}</span></div>
-      <p style={{ fontSize: 12, color: C.muted, lineHeight: 1.7, marginBottom: 16 }}>Votre profil a été pré-analysé. En cliquant ci-dessous, Zady Zozoro reçoit directement votre résumé avant votre échange. <strong style={{ color: C.text }}>Vous n'avez rien à expliquer.</strong></p>
-      <button onClick={() => window.open(`https://wa.me/${WHATSAPP_NUM}?text=${encodeURIComponent(prefilledMessage)}`)} style={{ background: buttonColor, border: "none", color: "#fff", padding: "14px 24px", cursor: "pointer", fontFamily: "'Jost',sans-serif", fontSize: 12, fontWeight: 600, width: "100%", letterSpacing: ".04em" }}>{buttonLabel}</button>
-      {gp >= 45 && <div style={{ fontSize: 10, color: "#4A5060", marginTop: 10, textAlign: "center" }}>Le montant du bilan (25 000 FCFA) est déduit du prix de la formation</div>}
-    </div>
-  );
-}
-
-function LegalDisclaimer({ gp, hasViolenceSignal }) {
-  const critical = gp < 40 || hasViolenceSignal;
-  return (
-    <div style={{ background: "#080A10", border: "1px solid #1E2230", padding: "16px 18px", marginTop: 32, fontSize: 10, color: "#3A3E4A", lineHeight: 1.8 }}>
-      {critical && <div style={{ background: "#1A0808", border: "1px solid #C0614A33", padding: "10px 14px", marginBottom: 14, fontSize: 11, color: "#E8A090", lineHeight: 1.7 }}>⚠ Situation critique détectée : ce bilan ne remplace pas une intervention professionnelle. Si vous êtes en danger, contactez le 1010 (Côte d'Ivoire), 116 (Sénégal) ou 3919 (France).</div>}
-      <p><strong style={{ color: "#5A5E6A" }}>Avis important ·</strong> Ce bilan est un outil d'auto-évaluation éducatif. Il ne constitue pas un avis médical, psychologique ou thérapeutique, et ne remplace pas l'avis d'un professionnel qualifié. Les résultats reflètent vos perceptions au moment de la réponse.</p>
-      <p style={{ marginTop: 8 }}>Vos données sont traitées conformément aux conditions d'utilisation acceptées lors de l'accès au bilan. Conservation : 24 mois. Droit à l'effacement sur demande via WhatsApp.</p>
-      <p style={{ marginTop: 8, color: "#2A2E3A" }}>Académie Eden · Institut de Leadership Familial · Abidjan, Côte d'Ivoire · Fondée par Zady Zozoro © 2025</p>
-    </div>
-  );
-}
-
 import React, { useState } from 'react';
 
 // ============================================
@@ -1822,7 +1792,6 @@ const SL = { 1: 'Pas du tout', 2: 'Peu', 3: 'Moyennement', 4: 'Beaucoup', 5: 'To
 
 const WHATSAPP_NUM = "1234567890"; // À remplacer par votre numéro
 
-// Fonction de génération de code
 const genCode = () => {
   return Math.random().toString(36).slice(2, 8).toUpperCase();
 };
@@ -1845,294 +1814,39 @@ const computeAttachementStyle = (rep) => {
 // COMPOSANTS UI
 // ============================================
 
-const QuestionChoix = ({ q, value, onChange }) => {
+function SmartWhatsAppCTA({ clientName, gp, profil, riskLevel, patterns }) {
+  const activePatterns = Object.keys(patterns || {}).filter(p => (patterns[p] || 0) > 40).slice(0, 2);
+  const urgency = gp < 40 ? "URGENCE" : gp < 55 ? "PRIORITÉ" : "SUIVI";
+  const formation = profil === "celibataire" ? "Eden Single" : profil === "fiance" ? "Eden Connexion" : gp < 45 ? "RESCUE 90 Jours" : "Les 12 Piliers";
+  const prefilledMessage = `Bonjour Académie Eden,\n\n[${urgency}] Je viens de compléter mon Bilan 360°.\n\n📊 Score global : ${gp}/100 — ${riskLevel?.l || ""}\n👤 Profil : ${profil === "marie" ? "Marié(e)" : profil === "fiance" ? "Fiancé(e)" : "Célibataire"}${activePatterns.length > 0 ? `\n⚠ Patterns identifiés : ${activePatterns.join(", ")}` : ""}\n\nJe souhaite en savoir plus sur la formation "${formation}".\n\nMerci,\n${clientName}`;
+  const buttonColor = gp < 45 ? C.red : gp < 60 ? C.orange : C.green;
+  const buttonLabel = gp < 45 ? "Intervention urgente — Contacter maintenant" : gp < 60 ? "Prendre rendez-vous avec Zady Zozoro" : "Confirmer mon inscription à la formation";
+
   return (
-    <div className="mb24">
-      <div className="q-text">{q.question}</div>
-      {q.options && q.options.map(opt => (
-        <div key={opt.val} className={`opt ${value === opt.val ? "selected" : ""}`} onClick={() => onChange(opt.val)}>
-          <div className="opt-dot" />
-          <div className="opt-label">{opt.label}</div>
-        </div>
-      ))}
-      {q.followUp && value && (!q.condition || q.condition(value)) && (
-        <div>
-          <div className="q-follow">{q.followUp}</div>
-          <textarea className="ta" placeholder="Répondez en vos propres mots…" onChange={e => onChange(value, e.target.value)} />
-        </div>
-      )}
+    <div style={{ background: buttonColor + "12", border: `1px solid ${buttonColor}44`, borderLeft: `4px solid ${buttonColor}`, padding: "20px 22px", marginBottom: 24 }}>
+      <div style={{ fontSize: 9, letterSpacing: ".2em", textTransform: "uppercase", color: buttonColor, marginBottom: 10 }}>{gp < 45 ? "⚠ Protocole d'urgence" : "✦ Prochaine étape"}</div>
+      <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 16, color: "#F0EBE0", marginBottom: 8, lineHeight: 1.4 }}>Formation recommandée : <span style={{ color: buttonColor }}>{formation}</span></div>
+      <p style={{ fontSize: 12, color: C.muted, lineHeight: 1.7, marginBottom: 16 }}>Votre profil a été pré-analysé. En cliquant ci-dessous, Zady Zozoro reçoit directement votre résumé avant votre échange. <strong style={{ color: C.text }}>Vous n'avez rien à expliquer.</strong></p>
+      <button onClick={() => window.open(`https://wa.me/${WHATSAPP_NUM}?text=${encodeURIComponent(prefilledMessage)}`)} style={{ background: buttonColor, border: "none", color: "#fff", padding: "14px 24px", cursor: "pointer", fontFamily: "'Jost',sans-serif", fontSize: 12, fontWeight: 600, width: "100%", letterSpacing: ".04em" }}>{buttonLabel}</button>
+      {gp >= 45 && <div style={{ fontSize: 10, color: "#4A5060", marginTop: 10, textAlign: "center" }}>Le montant du bilan (25 000 FCFA) est déduit du prix de la formation</div>}
     </div>
   );
-};
+}
 
-const QuestionOuvert = ({ q, value, onChange }) => {
+function LegalDisclaimer({ gp, hasViolenceSignal }) {
+  const critical = gp < 40 || hasViolenceSignal;
   return (
-    <div className="mb24">
-      <div className="q-text">{q.question}</div>
-      <textarea className={`ta ${q.type === "ouvert_court" ? "ta-short" : ""}`} placeholder={q.placeholder || "Votre réponse…"} value={value || ""} onChange={e => onChange(e.target.value)} />
+    <div style={{ background: "#080A10", border: "1px solid #1E2230", padding: "16px 18px", marginTop: 32, fontSize: 10, color: "#3A3E4A", lineHeight: 1.8 }}>
+      {critical && <div style={{ background: "#1A0808", border: "1px solid #C0614A33", padding: "10px 14px", marginBottom: 14, fontSize: 11, color: "#E8A090", lineHeight: 1.7 }}>⚠ Situation critique détectée : ce bilan ne remplace pas une intervention professionnelle. Si vous êtes en danger, contactez le 1010 (Côte d'Ivoire), 116 (Sénégal) ou 3919 (France).</div>}
+      <p><strong style={{ color: "#5A5E6A" }}>Avis important ·</strong> Ce bilan est un outil d'auto-évaluation éducatif. Il ne constitue pas un avis médical, psychologique ou thérapeutique, et ne remplace pas l'avis d'un professionnel qualifié. Les résultats reflètent vos perceptions au moment de la réponse.</p>
+      <p style={{ marginTop: 8 }}>Vos données sont traitées conformément aux conditions d'utilisation acceptées lors de l'accès au bilan. Conservation : 24 mois. Droit à l'effacement sur demande via WhatsApp.</p>
+      <p style={{ marginTop: 8, color: "#2A2E3A" }}>Académie Eden · Institut de Leadership Familial · Abidjan, Côte d'Ivoire · Fondée par Zady Zozoro © 2025</p>
     </div>
   );
-};
-
-const QuestionLikert = ({ q, value, onChange }) => {
-  return (
-    <div className="mb24">
-      <div className="q-text">{q.question}</div>
-      <div className="likert">
-        {[1, 2, 3, 4, 5].map(n => (
-          <button key={n} className={`likert-btn ${value === n ? "selected" : ""}`} onClick={() => onChange(n)}>
-            {n}<br />{q.scale ? q.scale[n - 1] : ''}
-          </button>
-        ))}
-      </div>
-    </div>
-  );
-};
-
-const QuestionMultiCheck = ({ q, values, onChange, openValue, onOpenChange }) => {
-  const toggle = val => {
-    const current = values || [];
-    if (current.includes(val)) onChange(current.filter(v => v !== val));
-    else onChange([...current, val]);
-  };
-  return (
-    <div className="mb24">
-      <div className="q-text">{q.question}</div>
-      {q.options && q.options.map(opt => (
-        <div key={opt.val} className={`check-item ${(values || []).includes(opt.val) ? "selected" : ""}`} onClick={() => toggle(opt.val)}>
-          <div className="check-box">{(values || []).includes(opt.val) && "✓"}</div>
-          <div className="opt-label">{opt.label}</div>
-        </div>
-      ))}
-      {q.followUp && q.condition && q.condition(values) && (
-        <div>
-          <div className="q-follow">{q.followUp}</div>
-          <textarea className="ta" placeholder="Décrivez ce schéma…" value={openValue || ""} onChange={e => onOpenChange(e.target.value)} />
-        </div>
-      )}
-    </div>
-  );
-};
-
-const RankingLangages = ({ values, onChange }) => {
-  const [ranked, setRanked] = useState(values || []);
-  const selectItem = id => {
-    setRanked(prev => {
-      if (prev.includes(id)) {
-        const next = prev.filter(v => v !== id);
-        onChange(next);
-        return next;
-      }
-      if (prev.length >= 5) return prev;
-      const next = [...prev, id];
-      onChange(next);
-      return next;
-    });
-  };
-  return (
-    <div className="rank-list">
-      {PROFIL_APPRECIATION_OPTIONS.map(opt => {
-        const pos = ranked.indexOf(opt.id);
-        return (
-          <div key={opt.id} className={`rank-item ${pos >= 0 ? "ranked" : ""}`} onClick={() => selectItem(opt.id)}>
-            <div className="rank-num">{pos >= 0 ? pos + 1 : opt.icon}</div>
-            <div className="rank-label">{opt.label}</div>
-          </div>
-        );
-      })}
-      <div style={{ fontSize: 10, color: "#3A3E4A", marginTop: 4 }}>Cliquez dans l'ordre de vos préférences (1 = le plus important)</div>
-    </div>
-  );
-};
-
-const LegalDisclaimer = ({ gp, hasViolenceSignal }) => (
-  <div style={{ fontSize: 10, color: C.dim, marginTop: 20, padding: 12, borderTop: '1px solid #C9A84C33' }}>
-    Mentions légales - Portrait informatif
-    {hasViolenceSignal && ' ⚠️ Signalement détecté'}
-  </div>
-);
-
-const ScenarioAttachement = ({ scenario, value, onChange }) => {
-  return (
-    <div style={{ background: "#0D1018", border: "1px solid #1E2330", padding: "18px", marginBottom: 16 }}>
-      <div style={{ fontSize: 13, color: C.muted, lineHeight: 1.7, marginBottom: 14, fontStyle: "italic" }}>
-        "{scenario.scenario}"
-      </div>
-      {scenario.reponses && scenario.reponses.map(r => (
-        <div 
-          key={r.val} 
-          className={`opt ${value === r.val ? "selected" : ""}`} 
-          onClick={() => onChange(r.val)}
-        >
-          <div className="opt-dot" />
-          <div className="opt-label">{r.label}</div>
-        </div>
-      ))}
-    </div>
-  );
-};
+}
 
 // ============================================
-// MODULE ADMIN
-// ============================================
-
-const AdminModule = ({ codes, onSaveCodes, onBack }) => {
-  const [genCount, setGenCount] = useState(10);
-  const [newCodes, setNewCodes] = useState([]);
-  const [copied, setCopied] = useState(false);
-  const [tab, setTab] = useState("codes");
-  const total = Object.keys(codes || {}).length;
-  const usedC = Object.values(codes || {}).filter(c => c.used).length;
-  const coupleCount = new Set(Object.values(codes || {}).filter(c => c.coupleId).map(c => c.coupleId)).size;
-  const recentUsed = Object.entries(codes || {}).filter(([, c]) => c.used && c.usedAt).sort(([, a], [, b]) => new Date(b.usedAt) - new Date(a.usedAt)).slice(0, 10);
-
-  async function handleGenerate(isCouple = false) {
-    const fresh = { ...codes };
-    const generated = [];
-    for (let i = 0; i < genCount; i++) {
-      if (isCouple) {
-        let cid; 
-        do { 
-          cid = Math.random().toString(36).slice(2, 8).toUpperCase(); 
-        } while (Object.values(fresh).some(c => c.coupleId === cid));
-        const cA = cid.slice(0, 3) + "-" + cid.slice(3, 6) + "A";
-        const cB = cid.slice(0, 3) + "-" + cid.slice(3, 6) + "B";
-        fresh[cA] = { used: false, createdAt: new Date().toISOString(), coupleId: cid, partnerNum: 1 };
-        fresh[cB] = { used: false, createdAt: new Date().toISOString(), coupleId: cid, partnerNum: 2 };
-        generated.push(cA + " + " + cB);
-      } else {
-        let code; 
-        do { 
-          code = genCode(); 
-        } while (fresh[code]);
-        fresh[code] = { used: false, createdAt: new Date().toISOString() };
-        generated.push(code);
-      }
-    }
-    await onSaveCodes(fresh);
-    setNewCodes(generated);
-  }
-
-  async function handleDelete(code) {
-    const updated = { ...codes };
-    delete updated[code];
-    await onSaveCodes(updated);
-  }
-
-  const available = Object.entries(codes || {}).filter(([, c]) => !c.used);
-  const usedList = Object.entries(codes || {}).filter(([, c]) => c.used);
-
-  return (
-    <div className="section">
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 24 }}>
-        <div>
-          <div className="section-tag">◈ Administration</div>
-          <div className="section-title" style={{ fontSize: 20, marginBottom: 0 }}>Tableau de bord</div>
-        </div>
-        <button className="btn-secondary" onClick={onBack}>← Retour</button>
-      </div>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 8, marginBottom: 24 }}>
-        {[
-          { label: "Codes total", val: total, color: C.gold },
-          { label: "Codes utilisés", val: usedC, color: C.green },
-          { label: "Couples", val: coupleCount, color: C.blue }
-        ].map(stat => (
-          <div key={stat.label} style={{ background: "#0D1018", border: "1px solid #1E2330", padding: "14px 12px" }}>
-            <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 28, color: stat.color, lineHeight: 1 }}>{stat.val}</div>
-            <div style={{ fontSize: 9, color: C.dim, letterSpacing: ".1em", textTransform: "uppercase", marginTop: 4 }}>{stat.label}</div>
-          </div>
-        ))}
-      </div>
-      <div style={{ display: "flex", gap: 0, marginBottom: 20, borderBottom: "1px solid #1E2330" }}>
-        {["codes", "generer", "activite"].map(t => (
-          <button key={t} onClick={() => setTab(t)} style={{ background: "transparent", border: "none", color: tab === t ? C.gold : C.dim, padding: "10px 16px", fontFamily: "'Jost',sans-serif", fontSize: 11, letterSpacing: ".1em", textTransform: "uppercase", borderBottom: tab === t ? `2px solid ${C.gold}` : "2px solid transparent", cursor: "pointer" }}>
-            {t === "codes" ? "Codes disponibles" : t === "generer" ? "Générer" : "Activité récente"}
-          </button>
-        ))}
-      </div>
-      {tab === "codes" && (
-        <div>
-          <div style={{ fontSize: 10, color: C.dim, marginBottom: 12 }}>{available.length} codes disponibles</div>
-          <div style={{ display: "flex", flexDirection: "column", gap: 6, maxHeight: 400, overflowY: "auto" }}>
-            {available.map(([code, data]) => (
-              <div key={code} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "10px 14px", background: "#0D1018", border: "1px solid #1E2330" }}>
-                <div>
-                  <div style={{ fontSize: 13, color: C.gold, letterSpacing: ".08em", fontFamily: "monospace" }}>{code}</div>
-                  <div style={{ fontSize: 9, color: C.dim, marginTop: 2 }}>{new Date(data.createdAt).toLocaleDateString("fr-FR")} {data.coupleId ? `· Couple ${data.coupleId} P${data.partnerNum}` : ""}</div>
-                </div>
-                <button onClick={() => handleDelete(code)} style={{ background: "transparent", border: "1px solid #C0614A33", color: C.red, padding: "4px 10px", cursor: "pointer", fontSize: 10 }}>Supprimer</button>
-              </div>
-            ))}
-            {available.length === 0 && <div style={{ fontSize: 12, color: C.dim, textAlign: "center", padding: 20 }}>Aucun code disponible.</div>}
-          </div>
-          {usedList.length > 0 && (
-            <div style={{ marginTop: 20 }}>
-              <div style={{ fontSize: 10, color: C.dim, marginBottom: 12 }}>{usedList.length} codes utilisés</div>
-              <div style={{ display: "flex", flexDirection: "column", gap: 6, maxHeight: 240, overflowY: "auto" }}>
-                {usedList.map(([code, data]) => (
-                  <div key={code} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "10px 14px", background: "#0D1018", border: "1px solid #1E2330", opacity: .6 }}>
-                    <div>
-                      <div style={{ fontSize: 12, color: C.muted, letterSpacing: ".08em", fontFamily: "monospace" }}>{code}</div>
-                      <div style={{ fontSize: 9, color: C.dim, marginTop: 2 }}>{data.clientName || "—"} · {data.usedAt ? new Date(data.usedAt).toLocaleDateString("fr-FR") : "date inconnue"}</div>
-                    </div>
-                    <div style={{ fontSize: 9, color: C.green }}>✓ Utilisé</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-        </div>
-      )}
-      {tab === "generer" && (
-        <div>
-          <div style={{ marginBottom: 16 }}>
-            <div style={{ fontSize: 10, color: C.gold, letterSpacing: ".16em", textTransform: "uppercase", marginBottom: 8 }}>Nombre de codes à générer</div>
-            <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 12 }}>
-              {[1, 5, 10, 20, 50].map(n => (
-                <button key={n} onClick={() => setGenCount(n)} style={{ background: genCount === n ? C.gold : "transparent", border: `1px solid ${genCount === n ? C.gold : "#1E2330"}`, color: genCount === n ? "#0B0F1A" : C.muted, padding: "8px 14px", cursor: "pointer", fontFamily: "'Jost',sans-serif", fontSize: 12 }}>{n}</button>
-              ))}
-            </div>
-          </div>
-          <div style={{ display: "flex", gap: 8, marginBottom: 24 }}>
-            <button className="btn-primary" style={{ flex: 1 }} onClick={() => handleGenerate(false)}>Générer {genCount} code{genCount > 1 ? "s" : ""} individuels</button>
-            <button className="btn-gold-outline" style={{ flex: 1 }} onClick={() => handleGenerate(true)}>Générer {genCount} paire{genCount > 1 ? "s" : ""} couple</button>
-          </div>
-          {newCodes.length > 0 && (
-            <div className="card-gold">
-              <div className="stl">Codes générés</div>
-              <div style={{ display: "flex", flexDirection: "column", gap: 6, marginBottom: 16, maxHeight: 300, overflowY: "auto" }}>
-                {newCodes.map((c, i) => (
-                  <div key={i} style={{ fontFamily: "monospace", fontSize: 13, color: C.gold, padding: "8px 12px", background: "#080C10", border: "1px solid #C9A84C22" }}>{c}</div>
-                ))}
-              </div>
-              <button className="btn-gold-outline" style={{ width: "100%" }} onClick={() => {
-                navigator.clipboard.writeText(newCodes.join("\n")).then(() => { setCopied(true); setTimeout(() => setCopied(false), 2500); });
-              }}>{copied ? "✓ Copié" : "Copier tous les codes"}</button>
-            </div>
-          )}
-        </div>
-      )}
-      {tab === "activite" && (
-        <div>
-          <div style={{ fontSize: 10, color: C.dim, marginBottom: 12 }}>10 dernières utilisations</div>
-          {recentUsed.length === 0 && <div style={{ fontSize: 12, color: C.dim, textAlign: "center", padding: 20 }}>Aucune activité enregistrée.</div>}
-          {recentUsed.map(([code, data]) => (
-            <div key={code} style={{ padding: "12px 14px", background: "#0D1018", border: "1px solid #1E2330", marginBottom: 6 }}>
-              <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
-                <div style={{ fontSize: 12, color: C.text }}>{data.clientName || "Anonyme"}</div>
-                <div style={{ fontSize: 10, color: C.dim }}>{data.usedAt ? new Date(data.usedAt).toLocaleDateString("fr-FR") : ""}</div>
-              </div>
-              <div style={{ fontSize: 10, color: C.muted }}>{code} {data.coupleId ? "· Couple" : ""}</div>
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-};
-
-// ============================================
-// COMPOSANT PRINCIPAL
+// COMPOSANT PRINCIPAL AFFICHAGE RESULTAT
 // ============================================
 
 const AffichageResultat = ({ 
@@ -2161,110 +1875,25 @@ const AffichageResultat = ({
     const attachStyle = computeAttachementStyle(repAttachement);
     const primaryRecevoir = PROFIL_APPRECIATION_OPTIONS.find(o => o.id === appreciationRecevoir?.[0])?.label || "Non renseigné";
     const primaryDonner = PROFIL_APPRECIATION_OPTIONS.find(o => o.id === appreciationDonner?.[0])?.label || "Non renseigné";
-    const decalage = appreciationRecevoir?.[0] !== appreciationDonner?.[0];
-    
-    const sections = rapport?.split(/\*\*([^*]+)\*\*/).reduce((acc, part, i) => {
-      if (i % 2 === 0) {
-        if (part.trim()) acc.push({ type: "body", text: part.trim() });
-      } else {
-        acc.push({ type: "title", text: part.trim() });
-      }
-      return acc;
-    }, []) || [];
 
     return (
-      <div className="rapport-container">
-        <div className="section">
-          <div style={{ 
-            background: "linear-gradient(135deg,#0B0F1A,#0D1020)", 
-            border: "1px solid #C9A84C33", 
-            padding: "24px 20px", 
-            marginBottom: 20 
-          }}>
-            <div style={{ 
-              fontSize: 8, 
-              letterSpacing: ".28em", 
-              textTransform: "uppercase", 
-              color: C.gold, 
-              marginBottom: 8 
-            }}>
-              ◈ Portrait Eden · Eaux · Os · Chair
-            </div>
-            <div style={{ 
-              fontFamily: "'Cormorant Garamond',serif", 
-              fontSize: 28, 
-              color: "#F0EBE0", 
-              marginBottom: 4 
-            }}>
-              {nom}
-            </div>
-            <div style={{ fontSize: 10, color: C.dim }}>
-              {new Date().toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" })}
-            </div>
-          </div>
-
-          <div className="card" style={{ marginBottom: 20 }}>
-            <div className="stl">Synthèse · Profil d'Appréciation & Attachement</div>
-            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-              <div style={{ fontSize: 12, color: C.text, lineHeight: 1.7 }}>
-                <span style={{ color: C.gold }}>Vous recevez l'amour principalement par :</span><br />
-                {primaryRecevoir}
+      <div style={{ padding: 24 }}>
+        <div style={{ fontSize: 16, fontWeight: 600, color: C.text, marginBottom: 16 }}>Résumé du portrait pour {nom}</div>
+        <div style={{ fontSize: 14, marginBottom: 12 }}>Profil : <strong>{profil}</strong></div>
+        <div style={{ fontSize: 14, marginBottom: 12 }}>Attachement : <strong>{attachStyle}</strong></div>
+        <div style={{ fontSize: 14, marginBottom: 12 }}>Appréciation principale reçue : <strong>{primaryRecevoir}</strong></div>
+        <div style={{ fontSize: 14, marginBottom: 12 }}>Appréciation principale donnée : <strong>{primaryDonner}</strong></div>
+        {results && results.length > 0 && (
+          <div style={{ marginTop: 16 }}>
+            {results.map((r, i) => (
+              <div key={i} style={{ marginBottom: 12 }}>
+                <div style={{ fontSize: 12, fontWeight: 600 }}>{r.title}</div>
+                <div style={{ fontSize: 12, color: C.dim }}>{r.content}</div>
               </div>
-              <div style={{ fontSize: 12, color: C.text, lineHeight: 1.7 }}>
-                <span style={{ color: C.gold }}>Vous exprimez l'amour naturellement par :</span><br />
-                {primaryDonner}
-              </div>
-              {decalage && (
-                <div style={{ 
-                  background: "#1A1000", 
-                  border: "1px solid #C9A84C33", 
-                  padding: "10px 14px", 
-                  fontSize: 11, 
-                  color: C.gold, 
-                  lineHeight: 1.6 
-                }}>
-                  ◈ Décalage interne : vous donnez l'amour différemment de la manière dont vous aimeriez le recevoir.
-                </div>
-              )}
-              <div style={{ fontSize: 12, color: C.text, lineHeight: 1.7 }}>
-                <span style={{ color: C.blue }}>Style d'attachement probable :</span><br />
-                {attachStyle}
-              </div>
-            </div>
-          </div>
-
-          <div className="rb">
-            <div className="stl">Votre Portrait Complet</div>
-            {sections.map((s, i) => (
-              s.type === "title"
-                ? <div key={i} style={{ 
-                    fontFamily: "'Cormorant Garamond',serif", 
-                    fontSize: 18, 
-                    color: C.gold, 
-                    margin: "20px 0 10px" 
-                  }}>
-                    {s.text}
-                  </div>
-                : <div key={i} className="rbt" style={{ marginBottom: 12 }}>
-                    {s.text}
-                  </div>
             ))}
           </div>
-
-          <div style={{ background: "#0A0C12", border: "1px solid #1E2330", padding: "14px", marginBottom: 20, fontSize: 10, color: C.dim, lineHeight: 1.7 }}>
-            Ce portrait est une analyse indicative basée sur vos réponses. Il ne remplace pas un accompagnement professionnel et ne constitue pas un avis médical ou psychologique.
-          </div>
-
-          <div className="cta-box">
-            <div className="cta-title">Aller plus loin, {nom}</div>
-            <p className="cta-sub">Ce portrait est votre point de départ. Pour un accompagnement direct avec Zady Zozoro, contactez l'Académie Eden.</p>
-            <button className="btn-wa" onClick={() => window.open(`https://wa.me/${WHATSAPP_NUM}?text=${encodeURIComponent(`Bonjour Académie Eden,\n\nJe viens de compléter mon Portrait Eden.\nPrénom : ${nom} · Profil : ${profil}\n\nJe souhaite aller plus loin avec un accompagnement.`)}`)}>
-              Contacter l'Académie Eden · WhatsApp
-            </button>
-          </div>
-
-          <LegalDisclaimer gp={results?.gp || 75} hasViolenceSignal={violenceSignals !== null} />
-        </div>
+        )}
+        <LegalDisclaimer gp={rapport?.gp} hasViolenceSignal={violenceSignals?.length > 0} />
       </div>
     );
   }
@@ -2272,347 +1901,15 @@ const AffichageResultat = ({
   return null;
 };
 
-export default AffichageResultat;
-// ═══════════════════════════════════════════════════════════════════════════
-// SECTION 10 — COMPOSANT PRINCIPAL APP
-// ═══════════════════════════════════════════════════════════════════════════
-export default function App() {
-  const [currentModule, setCurrentModule] = useState("home");
-  const [codes, setCodes] = useState({});
-  const [abonnementLevel, setAbonnementLevel] = useState("none");
-  const [subscriberProfile, setSubscriberProfile] = useState(null);
-  const isAbonne = abonnementLevel !== "none";
-  const [adminPwd, setAdminPwd] = useState("");
-  const [adminErr, setAdminErr] = useState("");
-  const [modal, setModal] = useState(null);
-  const [upgradeModal, setUpgradeModal] = useState(false);
-  const codesRef = useRef({});
-  const SUBSCRIBER_KEY = "eden_subscriber_v1";
-
-  useEffect(() => {
-    const s = document.createElement("style");
-    s.textContent = GLOBAL_CSS;
-    document.head.appendChild(s);
-    return () => document.head.removeChild(s);
-  }, []);
-
-  useEffect(() => {
-    (async () => {
-      try {
-        const r = await window.storage.get(STORAGE_KEY, true);
-        if (r && r.value) { const d = JSON.parse(r.value); codesRef.current = d; setCodes(d); }
-      } catch {}
-      try {
-        const rs = await window.storage.get("eden_subscriber_v1", true);
-        if (rs && rs.value) {
-          const p = JSON.parse(rs.value);
-          setSubscriberProfile(p);
-          if (p.actif) setAbonnementLevel(p.abonnementLevel || "simple");
-        }
-      } catch {}
-    })();
-  }, []);
-
-  async function handleSaveSubscriberProfile(profile) {
-    setSubscriberProfile(profile);
-    try { await window.storage.set("eden_subscriber_v1", JSON.stringify(profile), true); } catch {}
-  }
-
-  async function handleSaveCodes(c) {
-    codesRef.current = c;
-    setCodes(c);
-    try { await window.storage.set(STORAGE_KEY, JSON.stringify(c), true); } catch {}
-  }
-
-  function handleAdminLogin() {
-    if (adminPwd === ADMIN_PASSWORD) { setAdminErr(""); setCurrentModule("admin"); }
-    else setAdminErr("Mot de passe incorrect.");
-  }
-
-  if (modal) return (
-    <div className="eden-app">
-      <div className="modal-overlay" onClick={() => setModal(null)}>
-        <div className="modal-box" onClick={e => e.stopPropagation()}>
-          <div className="modal-sub">{modal.sub}</div>
-          <div className="modal-title">{modal.title}</div>
-          <div className="modal-body">{modal.body}</div>
-          <button className="btn-primary" onClick={() => setModal(null)}>Fermer</button>
-        </div>
-      </div>
-    </div>
-  );
-
-  if (upgradeModal) {
-    const TIERS = [
-      {
-        id: "simple", label: "Simple", couleur: "#4A9B6A",
-        prix: "15 000 FCFA/mois",
-        features: ["Bilan 360° illimité", "Portrait Eaux·Os·Chair", "1 diagnostic thématique/mois", "Seed of Eden quotidien", "Arche Eden hebdomadaire", "Groupe WhatsApp privé", "IA illimitée (30 questions/mois)", "1 formation offerte/mois"]
-      },
-      {
-        id: "argent", label: "Argent", couleur: "#7BAFC9",
-        prix: "25 000 FCFA/mois",
-        extra: "Tout Simple +",
-        features: ["Accès à toutes les formations", "Accès à tous les PDF", "Suivi mensuel personnalisé", "Export PDF des rapports"]
-      },
-      {
-        id: "premium", label: "Premium", couleur: "#C9A84C",
-        prix: "40 000 FCFA/mois",
-        extra: "Tout Argent +",
-        features: ["Séance 30 min/mois (accompagnateur)", "Séance trimestrielle avec Zady", "Accès aux replays", "Plan d'action IA mensuel", "Graphiques de progression", "Alertes proactives"]
-      }
-    ];
-    return (
-      <div className="eden-app">
-        <div className="modal-overlay" onClick={() => setUpgradeModal(false)}>
-          <div style={{ background: "#0D1018", border: "1px solid #C9A84C33", maxWidth: 520, width: "100%", padding: "28px 24px", maxHeight: "90vh", overflowY: "auto" }} onClick={e => e.stopPropagation()}>
-            <div style={{ fontSize: 8, letterSpacing: ".28em", textTransform: "uppercase", color: C.gold, marginBottom: 12 }}>✦ Eden — Abonnements</div>
-            <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 22, color: "#F0EBE0", marginBottom: 6 }}>Choisissez votre niveau</div>
-            <p style={{ fontSize: 12, color: C.muted, lineHeight: 1.7, marginBottom: 20 }}>Tous les niveaux incluent les bilans mensuels, seeds quotidiens et l'Arche Eden hebdomadaire.</p>
-            {TIERS.map(tier => (
-              <div key={tier.id} style={{ background: "#080C14", border: `1px solid ${tier.couleur}44`, padding: "16px", marginBottom: 10 }}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 8 }}>
-                  <div>
-                    <div style={{ fontSize: 9, letterSpacing: ".2em", textTransform: "uppercase", color: tier.couleur, marginBottom: 4 }}>✦ Abonnement {tier.label}</div>
-                    {tier.extra && <div style={{ fontSize: 10, color: C.dim, marginBottom: 4 }}>{tier.extra}</div>}
-                    <div style={{ display: "flex", flexDirection: "column", gap: 3 }}>
-                      {tier.features.map((f, i) => <div key={i} style={{ fontSize: 11, color: C.text }}><span style={{ color: tier.couleur, marginRight: 6 }}>✓</span>{f}</div>)}
-                    </div>
-                  </div>
-                  <div style={{ textAlign: "right", flexShrink: 0, marginLeft: 12 }}>
-                    <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 18, color: tier.couleur, lineHeight: 1 }}>{tier.prix.split("/")[0]}</div>
-                    <div style={{ fontSize: 9, color: C.dim }}>/mois</div>
-                  </div>
-                </div>
-                <button onClick={() => { window.open(`https://wa.me/${WHATSAPP_NUM}?text=${encodeURIComponent(`Bonjour, je souhaite activer l'abonnement Eden ${tier.label} (${tier.prix}).`)}`); }} style={{ background: tier.couleur, border: "none", color: "#0B0F1A", padding: "10px 16px", fontFamily: "'Jost',sans-serif", fontSize: 11, fontWeight: 600, cursor: "pointer", width: "100%" }}>
-                  Activer via WhatsApp
-                </button>
-              </div>
-            ))}
-            <button style={{ background: "transparent", border: "1px solid #1E2330", color: C.dim, padding: "10px 16px", fontFamily: "'Jost',sans-serif", fontSize: 11, cursor: "pointer", width: "100%", marginTop: 4 }} onClick={() => setUpgradeModal(false)}>Fermer</button>
-            <div style={{ marginTop: 12, textAlign: "center" }}>
-              <span style={{ fontSize: 10, color: C.dim, cursor: "pointer" }} onClick={() => { setAbonnementLevel("premium"); setUpgradeModal(false); }}>
-                [Mode démo — Activer Premium sans paiement]
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  if (currentModule === "home") return (
-    <div className="eden-app">
-      <div className="eden-header">
-        <div className="eden-logo">Académie Eden · Institut de Leadership Familial</div>
-        <div className="eden-title">Outils d'<em style={{ fontStyle: "italic" }}>évaluation</em></div>
-        <div className="eden-subtitle">Fondé par Zady Zozoro · Abidjan, Côte d'Ivoire</div>
-      </div>
-      <div className="eden-wrap">
-        <div className="section">
-          {isAbonne && (
-            <div className="abonne-banner" style={{ borderColor: `${getLevelColor(abonnementLevel)}44` }}>
-              <div style={{ fontSize: 10, color: getLevelColor(abonnementLevel), letterSpacing: ".12em", textTransform: "uppercase" }}>
-                ✦ Eden {getLevelLabel(abonnementLevel)} actif
-              </div>
-              <button onClick={() => setAbonnementLevel("none")} style={{ background: "transparent", border: "none", color: C.dim, fontSize: 10, cursor: "pointer" }}>Désactiver</button>
-            </div>
-          )}
-          <div style={{ marginBottom: 24 }}>
-            <div style={{ fontSize: 9, color: C.dim, letterSpacing: ".18em", textTransform: "uppercase", marginBottom: 16 }}>Choisissez votre module</div>
-            <div className="home-module-card featured" onClick={() => setCurrentModule("bilan")}>
-              <div className="home-module-tag">◈ Module 1 · Accès par code</div>
-              <div className="home-module-title">Bilan 360° Eden</div>
-              <div className="home-module-desc">Évaluation approfondie sur 12 dimensions relationnelles. 50 questions, rapport personnalisé par le Conseiller Eden, indices composites et patterns archétypaux bibliques.</div>
-              <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 12 }}>
-                {["Marié(e)", "Fiancé(e)", "Célibataire"].map(p => <span key={p} style={{ padding: "3px 10px", border: `1px solid ${C.gold}44`, fontSize: 9, letterSpacing: ".12em", textTransform: "uppercase", color: C.gold }}>{p}</span>)}
-              </div>
-              <div style={{ marginTop: 12, fontSize: 11, color: C.dim }}>25 000 FCFA · Code à usage unique</div>
-            </div>
-            <div className="home-module-card" onClick={() => hasAccess("portrait", abonnementLevel) ? setCurrentModule("portrait") : setUpgradeModal(true)}>
-              <div className="home-module-tag">◆ Module 2 · {isAbonne ? `Inclus — ${getLevelLabel(abonnementLevel)}` : "Abonnement requis"}</div>
-              <div className="home-module-title">Portrait Eaux · Os · Chair</div>
-              <div className="home-module-desc">Exploration en profondeur de votre histoire, vos convictions et votre manière de vivre les relations. Framework propriétaire fondé sur Genèse 2:23. Profil d'attachement + langages de l'amour.</div>
-              <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 12 }}>
-                {["Histoire familiale", "Os constitutifs", "Profil d'attachement", "Archétypes bibliques"].map(t => <span key={t} style={{ padding: "3px 10px", border: "1px solid #1E2330", fontSize: 9, color: C.dim }}>{t}</span>)}
-              </div>
-              <div className="home-module-badge" style={{ borderColor: isAbonne ? `${C.green}44` : `${C.gold}44`, color: isAbonne ? C.green : C.gold }}>
-                {isAbonne ? `✦ Inclus — Eden ${getLevelLabel(abonnementLevel)}` : "✦ Abonnement requis · dès 15 000 FCFA/mois"}
-              </div>
-            </div>
-          </div>
-          {!isAbonne && (
-            <div style={{ background: "linear-gradient(135deg,#0D0E18,#10141E)", border: "1px solid #C9A84C22", padding: "20px", marginBottom: 20 }}>
-              <div style={{ fontSize: 9, letterSpacing: ".22em", textTransform: "uppercase", color: C.gold, marginBottom: 8 }}>✦ Eden Premium</div>
-              <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 18, color: "#F0EBE0", marginBottom: 8 }}>Accès illimité aux deux modules</div>
-              <p style={{ fontSize: 12, color: C.muted, lineHeight: 1.7, marginBottom: 14 }}>Bilan 360° + Portrait Eaux·Os·Chair + 5 fonctionnalités exclusives pour 15 000 FCFA/mois.</p>
-              <button className="btn-primary" onClick={() => setUpgradeModal(true)}>Découvrir l'abonnement Premium</button>
-            </div>
-          )}
-          {isAbonne && (
-            <div style={{ background: "linear-gradient(135deg,#0A1208,#0D1018)", border: "1px solid #4A9B6A44", padding: "20px", marginBottom: 12 }}>
-              <div style={{ fontSize: 9, letterSpacing: ".22em", textTransform: "uppercase", color: C.green, marginBottom: 8 }}>✦ Eden Premium</div>
-              <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 18, color: "#F0EBE0", marginBottom: 8 }}>
-                {subscriberProfile ? `Bienvenue, ${subscriberProfile.nom}` : "Votre espace abonné"}
-              </div>
-              <p style={{ fontSize: 12, color: C.muted, lineHeight: 1.7, marginBottom: 14 }}>Piliers mensuels · Seeds quotidiens · Rapport annuel · Conseiller IA avec mémoire</p>
-              <button style={{ background: C.green, border: "none", color: "#0B0F1A", padding: "12px 20px", fontFamily: "'Jost',sans-serif", fontSize: 12, fontWeight: 600, cursor: "pointer", width: "100%" }} onClick={() => {
-                if (!subscriberProfile) {
-                  const demo = {
-                    abonneId: "demo_" + Date.now(),
-                    nom: "Abonné(e)",
-                    profil: "marie",
-                    dateInscription: new Date().toISOString(),
-                    actif: true,
-                    bilans: [],
-                    formations: [],
-                    seeds: [{
-                      date: new Date().toISOString(),
-                      mois: new Date().getMonth() + 1,
-                      jour: new Date().getDate(),
-                      pilier: "communication",
-                      contenu: "Ce soir, prenez 15 minutes — sans téléphone — pour vous regarder dans les yeux et répondre à cette question : 'Qu'est-ce que tu vis en ce moment que tu ne m'as pas encore dit ?'",
-                      action: "Posez la question. Écoutez sans interrompre. Puis répondez vous aussi."
-                    }],
-                    questions: [],
-                    rapportAnnuel: null,
-                    bilanInitial: null,
-                    notesAdmin: ""
-                  };
-                  handleSaveSubscriberProfile(demo);
-                }
-                setCurrentModule("espace_abonne");
-              }}>
-                Accéder à mon espace →
-              </button>
-            </div>
-          )}
-          <div style={{ display: "flex", gap: 8, marginTop: 8 }}>
-            <button className="btn-secondary" style={{ flex: 1, fontSize: 10 }} onClick={() => setCurrentModule("admin_login")}>Administration</button>
-            <button className="btn-secondary" style={{ flex: 1, fontSize: 10 }} onClick={() => { setAbonnementLevel("premium"); setCurrentModule("bilan"); }}>Démo (Premium)</button>
-          </div>
-        </div>
-        <Footer />
-      </div>
-    </div>
-  );
-
-  if (currentModule === "admin_login") return (
-    <div className="eden-app">
-      <div className="eden-header">
-        <div className="eden-logo">Académie Eden</div>
-        <div className="eden-title">Administration</div>
-      </div>
-      <div className="eden-wrap">
-        <div className="section">
-          <div className="section-tag">◈ Accès sécurisé</div>
-          <div className="section-desc">Accès réservé à l'équipe Eden Académie.</div>
-          <div style={{ marginBottom: 16 }}>
-            <div style={{ fontSize: 10, color: C.gold, letterSpacing: ".16em", textTransform: "uppercase", marginBottom: 8 }}>Mot de passe</div>
-            <input className="inp" type="password" placeholder="••••••••••" value={adminPwd} onChange={e => setAdminPwd(e.target.value)} onKeyDown={e => e.key === "Enter" && handleAdminLogin()} />
-          </div>
-          {adminErr && <div style={{ fontSize: 12, color: C.red, marginBottom: 12 }}>{adminErr}</div>}
-          <div className="nav-row">
-            <button className="btn-secondary" style={{ flex: "0 0 auto" }} onClick={() => { setCurrentModule("home"); setAdminPwd(""); setAdminErr(""); }}>← Retour</button>
-            <button className="btn-primary" onClick={handleAdminLogin}>Accéder →</button>
-          </div>
-        </div>
-        <Footer />
-      </div>
-    </div>
-  );
-
-  if (currentModule === "admin") return (
-    <div className="eden-app">
-      <div className="eden-header">
-        <div className="eden-logo">Académie Eden</div>
-        <div className="eden-title">Administration</div>
-      </div>
-      <div className="eden-wrap">
-        <AdminModule codes={codes} onSaveCodes={handleSaveCodes} onBack={() => setCurrentModule("home")} />
-        <Footer />
-      </div>
-    </div>
-  );
-
-  if (currentModule === "bilan") return (
-    <div className="eden-app">
-      <div className="eden-header">
-        <div className="eden-logo">Académie Eden · Institut de Leadership Familial</div>
-        <div className="eden-title">Bilan <em style={{ fontStyle: "italic" }}>360°</em></div>
-        <div className="eden-subtitle">Évaluation relationnelle approfondie</div>
-        {isAbonne && <div style={{ marginTop: 6, display: "inline-block", padding: "2px 10px", border: `1px solid ${getLevelColor(abonnementLevel)}44`, fontSize: 9, color: getLevelColor(abonnementLevel), letterSpacing: ".12em", textTransform: "uppercase" }}>✦ Eden {getLevelLabel(abonnementLevel)}</div>}
-      </div>
-      <div style={{ padding: "10px 20px", borderBottom: "1px solid #1E2330", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <button onClick={() => setCurrentModule("home")} style={{ background: "transparent", border: "none", color: C.dim, cursor: "pointer", fontSize: 11, fontFamily: "'Jost',sans-serif" }}>← Accueil</button>
-        {isAbonne ? <div style={{ fontSize: 9, color: getLevelColor(abonnementLevel), letterSpacing: ".12em", textTransform: "uppercase" }}>✦ {getLevelLabel(abonnementLevel)}</div> : <button onClick={() => setUpgradeModal(true)} style={{ background: "transparent", border: `1px solid ${C.gold}44`, color: C.gold, padding: "4px 12px", cursor: "pointer", fontSize: 9, letterSpacing: ".12em", textTransform: "uppercase", fontFamily: "'Jost',sans-serif" }}>✦ S'abonner</button>}
-      </div>
-      <div className="eden-wrap">
-        <DiagnosticModule codes={codes} onSaveCodes={handleSaveCodes} isAbonne={isAbonne} abonnementLevel={abonnementLevel} onRequestUpgrade={() => setUpgradeModal(true)} subscriberProfile={subscriberProfile} onUpdateSubscriber={handleSaveSubscriberProfile} />
-        <Footer />
-      </div>
-    </div>
-  );
-
-  if (currentModule === "portrait") return (
-    <div className="eden-app">
-      <div className="eden-header">
-        <div className="eden-logo">Académie Eden · Institut de Leadership Familial</div>
-        <div className="eden-title">Portrait <em style={{ fontStyle: "italic" }}>de Personne</em></div>
-        <div className="eden-subtitle">Eaux · Os · Chair · Framework propriétaire Zady Zozoro</div>
-        {isAbonne && <div style={{ marginTop: 6, display: "inline-block", padding: "2px 10px", border: `1px solid ${getLevelColor(abonnementLevel)}44`, fontSize: 9, color: getLevelColor(abonnementLevel), letterSpacing: ".12em", textTransform: "uppercase" }}>✦ Eden {getLevelLabel(abonnementLevel)}</div>}
-      </div>
-      <div style={{ padding: "10px 20px", borderBottom: "1px solid #1E2330" }}>
-        <button onClick={() => setCurrentModule("home")} style={{ background: "transparent", border: "none", color: C.dim, cursor: "pointer", fontSize: 11, fontFamily: "'Jost',sans-serif" }}>← Accueil</button>
-      </div>
-      <div className="eden-wrap">
-        <PortraitModule isAbonne={isAbonne} abonnementLevel={abonnementLevel} onRequestUpgrade={() => setUpgradeModal(true)} />
-        <Footer />
-      </div>
-    </div>
-  );
-
-  if (currentModule === "espace_abonne" && subscriberProfile) return (
-    <div className="eden-app">
-      <div style={{ padding: "10px 20px", borderBottom: "1px solid #1E2330", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <button onClick={() => setCurrentModule("home")} style={{ background: "transparent", border: "none", color: C.dim, cursor: "pointer", fontSize: 11, fontFamily: "'Jost',sans-serif" }}>← Accueil</button>
-        <div style={{ fontSize: 9, color: C.green, letterSpacing: ".12em", textTransform: "uppercase" }}>✦ Premium</div>
-      </div>
-      {typeof EspaceAbonne !== "undefined"
-        ? <EspaceAbonne profile={subscriberProfile} abonnementLevel={abonnementLevel} onUpdateProfile={handleSaveSubscriberProfile} />
-        : (
-          <div style={{ maxWidth: 640, margin: "0 auto", padding: "40px 20px", textAlign: "center" }}>
-            <div style={{ fontSize: 9, color: C.gold, letterSpacing: ".3em", textTransform: "uppercase", marginBottom: 16 }}>✦ Espace Abonné</div>
-            <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 24, color: "#F0EBE0", marginBottom: 12 }}>
-              {subscriberProfile?.nom ? `Bienvenue, ${subscriberProfile.nom}` : "Espace Abonné"}
-            </div>
-            <p style={{ fontSize: 13, color: C.muted, lineHeight: 1.8, marginBottom: 20 }}>
-              Import EdenSubscriber.jsx requis en production Vite.
-            </p>
-            <div style={{ background: "#0D1018", border: "1px solid #4A9B6A33", padding: "16px 20px", textAlign: "left", marginBottom: 20 }}>
-              <div style={{ fontSize: 10, color: C.green, letterSpacing: ".14em", textTransform: "uppercase", marginBottom: 8 }}>Activation</div>
-              <div style={{ fontFamily: "monospace", fontSize: 12, color: C.text, lineHeight: 2 }}>
-                1. EdenSubscriber.jsx → src/<br />
-                2. Décommenter ligne 2 : import EspaceAbonne from "./EdenSubscriber"
-              </div>
-            </div>
-            <button onClick={() => setCurrentModule("home")} style={{ background: C.gold, border: "none", color: "#0B0F1A", padding: "12px 24px", fontFamily: "'Jost',sans-serif", fontSize: 12, fontWeight: 600, cursor: "pointer" }}>Retour</button>
-          </div>
-        )}
-      <Footer />
-    </div>
-  );
-
-    // Remplacez "return null;" par ceci :
-  return (
-    <div className="eden-app" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', textAlign: 'center', padding: 20 }}>
-      <div>
-        <div style={{ color: C.gold, fontSize: 10, letterSpacing: '.2em', marginBottom: 20 }}>✦ ACADÉMIE EDEN ✦</div>
-        <p style={{ color: C.text, marginBottom: 20 }}>Une erreur de navigation est survenue.</p>
-        <button className="btn-primary" onClick={() => setCurrentModule("home")}>
-          Retourner à l'accueil
-        </button>
-      </div>
-    </div>
-  );
-}
+export {
+  SmartWhatsAppCTA,
+  LegalDisclaimer,
+  AffichageResultat,
+  QuestionChoix,
+  QuestionOuvert,
+  QuestionLikert,
+  QuestionMultiCheck,
+  RankingLangages,
+  ScenarioAttachement,
+  AdminModule
+};
