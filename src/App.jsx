@@ -2214,7 +2214,6 @@ function ScenarioAttachement({ scenario, value, onChange }) {
   }
 return null;
 }
-}
 const AffichageResultat = (( phase, nom, profil, rapport, appr)
 
 // ── GENERATION ──
