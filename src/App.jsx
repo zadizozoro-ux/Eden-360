@@ -1786,99 +1786,7 @@ function LegalDisclaimer({ gp, hasViolenceSignal }) {
   );
 }
 
-// Question UI components for Portrait
-function QuestionChoix({ q, value, onChange }) {
-  return (
-    <div className="mb24">
-      <div className="q-text">{q.question}</div>
-      {q.options.map(opt => (
-        <div key={opt.val} className={`opt ${value === opt.val ? "selected" : ""}`} onClick={() => onChange(opt.val)}>
-          <div className="opt-dot" /><div className="opt-label">{opt.label}</div>
-        </div>
-      ))}
-      {q.followUp && value && (!q.condition || q.condition(value)) && (
-        <div>
-          <div className="q-follow">{q.followUp}</div>
-          <textarea className="ta" placeholder="Répondez en vos propres mots…" onChange={e => onChange(value, e.target.value)} />
-        </div>
-      )}
-    </div>
-  );
-}
-
-function QuestionOuvert({ q, value, onChange }) {
-  return (
-    <div className="mb24">
-      <div className="q-text">{q.question}</div>
-      <textarea className={`ta ${q.type === "ouvert_court" ? "ta-short" : ""}`} placeholder={q.placeholder || "Votre réponse…"} value={value || ""} onChange={e => onChange(e.target.value)} />
-    </div>
-  );
-}
-
-function QuestionLikert({ q, value, onChange }) {
-  return (
-    <div className="mb24">
-      <div className="q-text">{q.question}</div>
-      <div className="likert">
-        {[1, 2, 3, 4, 5].map(n => (
-          <button key={n} className={`likert-btn ${value === n ? "selected" : ""}`} onClick={() => onChange(n)}>{n}<br />{q.scale[n - 1]}</button>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function QuestionMultiCheck({ q, values, onChange, openValue, onOpenChange }) {
-  const toggle = val => {
-    const current = values || [];
-    if (current.includes(val)) onChange(current.filter(v => v !== val));
-    else onChange([...current, val]);
-  };
-  return (
-    <div className="mb24">
-      <div className="q-text">{q.question}</div>
-      {q.options.map(opt => (
-        <div key={opt.val} className={`check-item ${(values || []).includes(opt.val) ? "selected" : ""}`} onClick={() => toggle(opt.val)}>
-          <div className="check-box">{(values || []).includes(opt.val) && "✓"}</div>
-          <div className="opt-label">{opt.label}</div>
-        </div>
-      ))}
-      {q.followUp && q.condition && q.condition(values) && (
-        <div>
-          <div className="q-follow">{q.followUp}</div>
-          <textarea className="ta" placeholder="Décrivez ce schéma…" value={openValue || ""} onChange={e => onOpenChange(e.target.value)} />
-        </div>
-      )}
-    </div>
-  );
-}
-
-function RankingLangages({ values, onChange }) {
-  const [ranked, setRanked] = useState(values || []);
-  const selectItem = id => {
-    setRanked(prev => {
-      if (prev.includes(id)) { const next = prev.filter(v => v !== id); onChange(next); return next; }
-      if (prev.length >= 5) return prev;
-      const next = [...prev, id]; onChange(next); return next;
-    });
-  };
-  return (
-    <div className="rank-list">
-      {PROFIL_APPRECIATION_OPTIONS.map(opt => {
-        const pos = ranked.indexOf(opt.id);
-        return (
-          <div key={opt.id} className={`rank-item ${pos >= 0 ? "ranked" : ""}`} onClick={() => selectItem(opt.id)}>
-            <div className="rank-num">{pos >= 0 ? pos + 1 : opt.icon}</div>
-            <div className="rank-label">{opt.label}</div>
-          </div>
-        );
-      })}
-      <div style={{ fontSize: 10, color: "#3A3E4A", marginTop: 4 }}>Cliquez dans l'ordre de vos préférences (1 = le plus important)</div>
-    </div>
-  );
-}
-
-import React from 'react';
+import React, { useState } from 'react';
 
 // ============================================
 // CONSTANTES ET CONFIGURATIONS
@@ -1897,11 +1805,11 @@ const C = {
 const loadMsg = "Génération du portrait en cours...";
 
 const PROFIL_APPRECIATION_OPTIONS = [
-  { id: 'paroles', label: 'Paroles valorisantes' },
-  { id: 'temps', label: 'Temps de qualité' },
-  { id: 'cadeaux', label: 'Cadeaux' },
-  { id: 'services', label: 'Services rendus' },
-  { id: 'physique', label: 'Contact physique' }
+  { id: 'paroles', label: 'Paroles valorisantes', icon: '💬' },
+  { id: 'temps', label: 'Temps de qualité', icon: '⏰' },
+  { id: 'cadeaux', label: 'Cadeaux', icon: '🎁' },
+  { id: 'services', label: 'Services rendus', icon: '🤝' },
+  { id: 'physique', label: 'Contact physique', icon: '🤗' }
 ];
 
 const ROLES = [
@@ -1911,6 +1819,13 @@ const ROLES = [
 
 const SCALE = [1, 2, 3, 4, 5];
 const SL = { 1: 'Pas du tout', 2: 'Peu', 3: 'Moyennement', 4: 'Beaucoup', 5: 'Totalement' };
+
+const WHATSAPP_NUM = "1234567890"; // À remplacer par votre numéro
+
+// Fonction de génération de code
+const genCode = () => {
+  return Math.random().toString(36).slice(2, 8).toUpperCase();
+};
 
 // ============================================
 // FONCTIONS UTILITAIRES
@@ -1927,8 +1842,108 @@ const computeAttachementStyle = (rep) => {
 };
 
 // ============================================
-// COMPOSANTS
+// COMPOSANTS UI
 // ============================================
+
+const QuestionChoix = ({ q, value, onChange }) => {
+  return (
+    <div className="mb24">
+      <div className="q-text">{q.question}</div>
+      {q.options && q.options.map(opt => (
+        <div key={opt.val} className={`opt ${value === opt.val ? "selected" : ""}`} onClick={() => onChange(opt.val)}>
+          <div className="opt-dot" />
+          <div className="opt-label">{opt.label}</div>
+        </div>
+      ))}
+      {q.followUp && value && (!q.condition || q.condition(value)) && (
+        <div>
+          <div className="q-follow">{q.followUp}</div>
+          <textarea className="ta" placeholder="Répondez en vos propres mots…" onChange={e => onChange(value, e.target.value)} />
+        </div>
+      )}
+    </div>
+  );
+};
+
+const QuestionOuvert = ({ q, value, onChange }) => {
+  return (
+    <div className="mb24">
+      <div className="q-text">{q.question}</div>
+      <textarea className={`ta ${q.type === "ouvert_court" ? "ta-short" : ""}`} placeholder={q.placeholder || "Votre réponse…"} value={value || ""} onChange={e => onChange(e.target.value)} />
+    </div>
+  );
+};
+
+const QuestionLikert = ({ q, value, onChange }) => {
+  return (
+    <div className="mb24">
+      <div className="q-text">{q.question}</div>
+      <div className="likert">
+        {[1, 2, 3, 4, 5].map(n => (
+          <button key={n} className={`likert-btn ${value === n ? "selected" : ""}`} onClick={() => onChange(n)}>
+            {n}<br />{q.scale ? q.scale[n - 1] : ''}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+const QuestionMultiCheck = ({ q, values, onChange, openValue, onOpenChange }) => {
+  const toggle = val => {
+    const current = values || [];
+    if (current.includes(val)) onChange(current.filter(v => v !== val));
+    else onChange([...current, val]);
+  };
+  return (
+    <div className="mb24">
+      <div className="q-text">{q.question}</div>
+      {q.options && q.options.map(opt => (
+        <div key={opt.val} className={`check-item ${(values || []).includes(opt.val) ? "selected" : ""}`} onClick={() => toggle(opt.val)}>
+          <div className="check-box">{(values || []).includes(opt.val) && "✓"}</div>
+          <div className="opt-label">{opt.label}</div>
+        </div>
+      ))}
+      {q.followUp && q.condition && q.condition(values) && (
+        <div>
+          <div className="q-follow">{q.followUp}</div>
+          <textarea className="ta" placeholder="Décrivez ce schéma…" value={openValue || ""} onChange={e => onOpenChange(e.target.value)} />
+        </div>
+      )}
+    </div>
+  );
+};
+
+const RankingLangages = ({ values, onChange }) => {
+  const [ranked, setRanked] = useState(values || []);
+  const selectItem = id => {
+    setRanked(prev => {
+      if (prev.includes(id)) {
+        const next = prev.filter(v => v !== id);
+        onChange(next);
+        return next;
+      }
+      if (prev.length >= 5) return prev;
+      const next = [...prev, id];
+      onChange(next);
+      return next;
+    });
+  };
+  return (
+    <div className="rank-list">
+      {PROFIL_APPRECIATION_OPTIONS.map(opt => {
+        const pos = ranked.indexOf(opt.id);
+        return (
+          <div key={opt.id} className={`rank-item ${pos >= 0 ? "ranked" : ""}`} onClick={() => selectItem(opt.id)}>
+            <div className="rank-num">{pos >= 0 ? pos + 1 : opt.icon}</div>
+            <div className="rank-label">{opt.label}</div>
+          </div>
+        );
+      })}
+      <div style={{ fontSize: 10, color: "#3A3E4A", marginTop: 4 }}>Cliquez dans l'ordre de vos préférences (1 = le plus important)</div>
+    </div>
+  );
+};
 
 const LegalDisclaimer = ({ gp, hasViolenceSignal }) => (
   <div style={{ fontSize: 10, color: C.dim, marginTop: 20, padding: 12, borderTop: '1px solid #C9A84C33' }}>
@@ -1953,6 +1968,165 @@ const ScenarioAttachement = ({ scenario, value, onChange }) => {
           <div className="opt-label">{r.label}</div>
         </div>
       ))}
+    </div>
+  );
+};
+
+// ============================================
+// MODULE ADMIN
+// ============================================
+
+const AdminModule = ({ codes, onSaveCodes, onBack }) => {
+  const [genCount, setGenCount] = useState(10);
+  const [newCodes, setNewCodes] = useState([]);
+  const [copied, setCopied] = useState(false);
+  const [tab, setTab] = useState("codes");
+  const total = Object.keys(codes || {}).length;
+  const usedC = Object.values(codes || {}).filter(c => c.used).length;
+  const coupleCount = new Set(Object.values(codes || {}).filter(c => c.coupleId).map(c => c.coupleId)).size;
+  const recentUsed = Object.entries(codes || {}).filter(([, c]) => c.used && c.usedAt).sort(([, a], [, b]) => new Date(b.usedAt) - new Date(a.usedAt)).slice(0, 10);
+
+  async function handleGenerate(isCouple = false) {
+    const fresh = { ...codes };
+    const generated = [];
+    for (let i = 0; i < genCount; i++) {
+      if (isCouple) {
+        let cid; 
+        do { 
+          cid = Math.random().toString(36).slice(2, 8).toUpperCase(); 
+        } while (Object.values(fresh).some(c => c.coupleId === cid));
+        const cA = cid.slice(0, 3) + "-" + cid.slice(3, 6) + "A";
+        const cB = cid.slice(0, 3) + "-" + cid.slice(3, 6) + "B";
+        fresh[cA] = { used: false, createdAt: new Date().toISOString(), coupleId: cid, partnerNum: 1 };
+        fresh[cB] = { used: false, createdAt: new Date().toISOString(), coupleId: cid, partnerNum: 2 };
+        generated.push(cA + " + " + cB);
+      } else {
+        let code; 
+        do { 
+          code = genCode(); 
+        } while (fresh[code]);
+        fresh[code] = { used: false, createdAt: new Date().toISOString() };
+        generated.push(code);
+      }
+    }
+    await onSaveCodes(fresh);
+    setNewCodes(generated);
+  }
+
+  async function handleDelete(code) {
+    const updated = { ...codes };
+    delete updated[code];
+    await onSaveCodes(updated);
+  }
+
+  const available = Object.entries(codes || {}).filter(([, c]) => !c.used);
+  const usedList = Object.entries(codes || {}).filter(([, c]) => c.used);
+
+  return (
+    <div className="section">
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 24 }}>
+        <div>
+          <div className="section-tag">◈ Administration</div>
+          <div className="section-title" style={{ fontSize: 20, marginBottom: 0 }}>Tableau de bord</div>
+        </div>
+        <button className="btn-secondary" onClick={onBack}>← Retour</button>
+      </div>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 8, marginBottom: 24 }}>
+        {[
+          { label: "Codes total", val: total, color: C.gold },
+          { label: "Codes utilisés", val: usedC, color: C.green },
+          { label: "Couples", val: coupleCount, color: C.blue }
+        ].map(stat => (
+          <div key={stat.label} style={{ background: "#0D1018", border: "1px solid #1E2330", padding: "14px 12px" }}>
+            <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 28, color: stat.color, lineHeight: 1 }}>{stat.val}</div>
+            <div style={{ fontSize: 9, color: C.dim, letterSpacing: ".1em", textTransform: "uppercase", marginTop: 4 }}>{stat.label}</div>
+          </div>
+        ))}
+      </div>
+      <div style={{ display: "flex", gap: 0, marginBottom: 20, borderBottom: "1px solid #1E2330" }}>
+        {["codes", "generer", "activite"].map(t => (
+          <button key={t} onClick={() => setTab(t)} style={{ background: "transparent", border: "none", color: tab === t ? C.gold : C.dim, padding: "10px 16px", fontFamily: "'Jost',sans-serif", fontSize: 11, letterSpacing: ".1em", textTransform: "uppercase", borderBottom: tab === t ? `2px solid ${C.gold}` : "2px solid transparent", cursor: "pointer" }}>
+            {t === "codes" ? "Codes disponibles" : t === "generer" ? "Générer" : "Activité récente"}
+          </button>
+        ))}
+      </div>
+      {tab === "codes" && (
+        <div>
+          <div style={{ fontSize: 10, color: C.dim, marginBottom: 12 }}>{available.length} codes disponibles</div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 6, maxHeight: 400, overflowY: "auto" }}>
+            {available.map(([code, data]) => (
+              <div key={code} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "10px 14px", background: "#0D1018", border: "1px solid #1E2330" }}>
+                <div>
+                  <div style={{ fontSize: 13, color: C.gold, letterSpacing: ".08em", fontFamily: "monospace" }}>{code}</div>
+                  <div style={{ fontSize: 9, color: C.dim, marginTop: 2 }}>{new Date(data.createdAt).toLocaleDateString("fr-FR")} {data.coupleId ? `· Couple ${data.coupleId} P${data.partnerNum}` : ""}</div>
+                </div>
+                <button onClick={() => handleDelete(code)} style={{ background: "transparent", border: "1px solid #C0614A33", color: C.red, padding: "4px 10px", cursor: "pointer", fontSize: 10 }}>Supprimer</button>
+              </div>
+            ))}
+            {available.length === 0 && <div style={{ fontSize: 12, color: C.dim, textAlign: "center", padding: 20 }}>Aucun code disponible.</div>}
+          </div>
+          {usedList.length > 0 && (
+            <div style={{ marginTop: 20 }}>
+              <div style={{ fontSize: 10, color: C.dim, marginBottom: 12 }}>{usedList.length} codes utilisés</div>
+              <div style={{ display: "flex", flexDirection: "column", gap: 6, maxHeight: 240, overflowY: "auto" }}>
+                {usedList.map(([code, data]) => (
+                  <div key={code} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "10px 14px", background: "#0D1018", border: "1px solid #1E2330", opacity: .6 }}>
+                    <div>
+                      <div style={{ fontSize: 12, color: C.muted, letterSpacing: ".08em", fontFamily: "monospace" }}>{code}</div>
+                      <div style={{ fontSize: 9, color: C.dim, marginTop: 2 }}>{data.clientName || "—"} · {data.usedAt ? new Date(data.usedAt).toLocaleDateString("fr-FR") : "date inconnue"}</div>
+                    </div>
+                    <div style={{ fontSize: 9, color: C.green }}>✓ Utilisé</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+      {tab === "generer" && (
+        <div>
+          <div style={{ marginBottom: 16 }}>
+            <div style={{ fontSize: 10, color: C.gold, letterSpacing: ".16em", textTransform: "uppercase", marginBottom: 8 }}>Nombre de codes à générer</div>
+            <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 12 }}>
+              {[1, 5, 10, 20, 50].map(n => (
+                <button key={n} onClick={() => setGenCount(n)} style={{ background: genCount === n ? C.gold : "transparent", border: `1px solid ${genCount === n ? C.gold : "#1E2330"}`, color: genCount === n ? "#0B0F1A" : C.muted, padding: "8px 14px", cursor: "pointer", fontFamily: "'Jost',sans-serif", fontSize: 12 }}>{n}</button>
+              ))}
+            </div>
+          </div>
+          <div style={{ display: "flex", gap: 8, marginBottom: 24 }}>
+            <button className="btn-primary" style={{ flex: 1 }} onClick={() => handleGenerate(false)}>Générer {genCount} code{genCount > 1 ? "s" : ""} individuels</button>
+            <button className="btn-gold-outline" style={{ flex: 1 }} onClick={() => handleGenerate(true)}>Générer {genCount} paire{genCount > 1 ? "s" : ""} couple</button>
+          </div>
+          {newCodes.length > 0 && (
+            <div className="card-gold">
+              <div className="stl">Codes générés</div>
+              <div style={{ display: "flex", flexDirection: "column", gap: 6, marginBottom: 16, maxHeight: 300, overflowY: "auto" }}>
+                {newCodes.map((c, i) => (
+                  <div key={i} style={{ fontFamily: "monospace", fontSize: 13, color: C.gold, padding: "8px 12px", background: "#080C10", border: "1px solid #C9A84C22" }}>{c}</div>
+                ))}
+              </div>
+              <button className="btn-gold-outline" style={{ width: "100%" }} onClick={() => {
+                navigator.clipboard.writeText(newCodes.join("\n")).then(() => { setCopied(true); setTimeout(() => setCopied(false), 2500); });
+              }}>{copied ? "✓ Copié" : "Copier tous les codes"}</button>
+            </div>
+          )}
+        </div>
+      )}
+      {tab === "activite" && (
+        <div>
+          <div style={{ fontSize: 10, color: C.dim, marginBottom: 12 }}>10 dernières utilisations</div>
+          {recentUsed.length === 0 && <div style={{ fontSize: 12, color: C.dim, textAlign: "center", padding: 20 }}>Aucune activité enregistrée.</div>}
+          {recentUsed.map(([code, data]) => (
+            <div key={code} style={{ padding: "12px 14px", background: "#0D1018", border: "1px solid #1E2330", marginBottom: 6 }}>
+              <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
+                <div style={{ fontSize: 12, color: C.text }}>{data.clientName || "Anonyme"}</div>
+                <div style={{ fontSize: 10, color: C.dim }}>{data.usedAt ? new Date(data.usedAt).toLocaleDateString("fr-FR") : ""}</div>
+              </div>
+              <div style={{ fontSize: 10, color: C.muted }}>{code} {data.coupleId ? "· Couple" : ""}</div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
@@ -2077,10 +2251,19 @@ const AffichageResultat = ({
             ))}
           </div>
 
-          <LegalDisclaimer
-            gp={results?.gp}
-            hasViolenceSignal={violenceSignals !== null}
-          />
+          <div style={{ background: "#0A0C12", border: "1px solid #1E2330", padding: "14px", marginBottom: 20, fontSize: 10, color: C.dim, lineHeight: 1.7 }}>
+            Ce portrait est une analyse indicative basée sur vos réponses. Il ne remplace pas un accompagnement professionnel et ne constitue pas un avis médical ou psychologique.
+          </div>
+
+          <div className="cta-box">
+            <div className="cta-title">Aller plus loin, {nom}</div>
+            <p className="cta-sub">Ce portrait est votre point de départ. Pour un accompagnement direct avec Zady Zozoro, contactez l'Académie Eden.</p>
+            <button className="btn-wa" onClick={() => window.open(`https://wa.me/${WHATSAPP_NUM}?text=${encodeURIComponent(`Bonjour Académie Eden,\n\nJe viens de compléter mon Portrait Eden.\nPrénom : ${nom} · Profil : ${profil}\n\nJe souhaite aller plus loin avec un accompagnement.`)}`)}>
+              Contacter l'Académie Eden · WhatsApp
+            </button>
+          </div>
+
+          <LegalDisclaimer gp={results?.gp || 75} hasViolenceSignal={violenceSignals !== null} />
         </div>
       </div>
     );
@@ -2090,171 +2273,6 @@ const AffichageResultat = ({
 };
 
 export default AffichageResultat;
-export default AffichageResultat;
-        </div>
-        <div style={{ background: "#0A0C12", border: "1px solid #1E2330", padding: "14px", marginBottom: 20, fontSize: 10, color: C.dim, lineHeight: 1.7 }}>Ce portrait est une analyse indicative basée sur vos réponses. Il ne remplace pas un accompagnement professionnel et ne constitue pas un avis médical ou psychologique.</div>
-        <div className="cta-box">
-          <div className="cta-title">Aller plus loin, {nom}</div>
-          <p className="cta-sub">Ce portrait est votre point de départ. Pour un accompagnement direct avec Zady Zozoro, contactez l'Académie Eden.</p>
-          <button className="btn-wa" onClick={() => window.open(`https://wa.me/${WHATSAPP_NUM}?text=${encodeURIComponent(`Bonjour Académie Eden,\n\nJe viens de compléter mon Portrait Eden.\nPrénom : ${nom} · Profil : ${profil}\n\nJe souhaite aller plus loin avec un accompagnement.`)}`)}>Contacter l'Académie Eden · WhatsApp</button>
-        </div>
-        <LegalDisclaimer gp={75} hasViolenceSignal={false} />
-      </div>
-    );
-  }
-  }
-  };
-// ═══════════════════════════════════════════════════════════════════════════
-// SECTION 9 — MODULE ADMIN
-// ═══════════════════════════════════════════════════════════════════════════
-function AdminModule({ codes, onSaveCodes, onBack }) {
-  const [genCount, setGenCount] = useState(10);
-  const [newCodes, setNewCodes] = useState([]);
-  const [copied, setCopied] = useState(false);
-  const [tab, setTab] = useState("codes");
-  const total = Object.keys(codes).length;
-  const usedC = Object.values(codes).filter(c => c.used).length;
-  const coupleCount = new Set(Object.values(codes).filter(c => c.coupleId).map(c => c.coupleId)).size;
-  const recentUsed = Object.entries(codes).filter(([, c]) => c.used && c.usedAt).sort(([, a], [, b]) => new Date(b.usedAt) - new Date(a.usedAt)).slice(0, 10);
-
-  async function handleGenerate(isCouple = false) {
-    const fresh = { ...codes };
-    const generated = [];
-    for (let i = 0; i < genCount; i++) {
-      if (isCouple) {
-        let cid; do { cid = Math.random().toString(36).slice(2, 8).toUpperCase(); } while (Object.values(fresh).some(c => c.coupleId === cid));
-        const cA = cid.slice(0, 3) + "-" + cid.slice(3, 6) + "A";
-        const cB = cid.slice(0, 3) + "-" + cid.slice(3, 6) + "B";
-        fresh[cA] = { used: false, createdAt: new Date().toISOString(), coupleId: cid, partnerNum: 1 };
-        fresh[cB] = { used: false, createdAt: new Date().toISOString(), coupleId: cid, partnerNum: 2 };
-        generated.push(cA + " + " + cB);
-      } else {
-        let code; do { code = genCode(); } while (fresh[code]);
-        fresh[code] = { used: false, createdAt: new Date().toISOString() };
-        generated.push(code);
-      }
-    }
-    await onSaveCodes(fresh);
-    setNewCodes(generated);
-  }
-
-  async function handleDelete(code) {
-    const updated = { ...codes };
-    delete updated[code];
-    await onSaveCodes(updated);
-  }
-
-  const available = Object.entries(codes).filter(([, c]) => !c.used);
-  const usedList = Object.entries(codes).filter(([, c]) => c.used);
-
-  return (
-    <div className="section">
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 24 }}>
-        <div>
-          <div className="section-tag">◈ Administration</div>
-          <div className="section-title" style={{ fontSize: 20, marginBottom: 0 }}>Tableau de bord</div>
-        </div>
-        <button className="btn-secondary" onClick={onBack}>← Retour</button>
-      </div>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 8, marginBottom: 24 }}>
-        {[
-          { label: "Codes total", val: total, color: C.gold },
-          { label: "Codes utilisés", val: usedC, color: C.green },
-          { label: "Couples", val: coupleCount, color: C.blue }
-        ].map(stat => (
-          <div key={stat.label} style={{ background: "#0D1018", border: "1px solid #1E2330", padding: "14px 12px" }}>
-            <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 28, color: stat.color, lineHeight: 1 }}>{stat.val}</div>
-            <div style={{ fontSize: 9, color: C.dim, letterSpacing: ".1em", textTransform: "uppercase", marginTop: 4 }}>{stat.label}</div>
-          </div>
-        ))}
-      </div>
-      <div style={{ display: "flex", gap: 0, marginBottom: 20, borderBottom: "1px solid #1E2330" }}>
-        {["codes", "generer", "activite"].map(t => (
-          <button key={t} onClick={() => setTab(t)} style={{ background: "transparent", border: "none", color: tab === t ? C.gold : C.dim, padding: "10px 16px", fontFamily: "'Jost',sans-serif", fontSize: 11, letterSpacing: ".1em", textTransform: "uppercase", borderBottom: tab === t ? `2px solid ${C.gold}` : "2px solid transparent", cursor: "pointer" }}>
-            {t === "codes" ? "Codes disponibles" : t === "generer" ? "Générer" : "Activité récente"}
-          </button>
-        ))}
-      </div>
-      {tab === "codes" && (
-        <div>
-          <div style={{ fontSize: 10, color: C.dim, marginBottom: 12 }}>{available.length} codes disponibles</div>
-          <div style={{ display: "flex", flexDirection: "column", gap: 6, maxHeight: 400, overflowY: "auto" }}>
-            {available.map(([code, data]) => (
-              <div key={code} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "10px 14px", background: "#0D1018", border: "1px solid #1E2330" }}>
-                <div>
-                  <div style={{ fontSize: 13, color: C.gold, letterSpacing: ".08em", fontFamily: "monospace" }}>{code}</div>
-                  <div style={{ fontSize: 9, color: C.dim, marginTop: 2 }}>{new Date(data.createdAt).toLocaleDateString("fr-FR")} {data.coupleId ? `· Couple ${data.coupleId} P${data.partnerNum}` : ""}</div>
-                </div>
-                <button onClick={() => handleDelete(code)} style={{ background: "transparent", border: "1px solid #C0614A33", color: C.red, padding: "4px 10px", cursor: "pointer", fontSize: 10 }}>Supprimer</button>
-              </div>
-            ))}
-            {available.length === 0 && <div style={{ fontSize: 12, color: C.dim, textAlign: "center", padding: 20 }}>Aucun code disponible.</div>}
-          </div>
-          {usedList.length > 0 && (
-            <div style={{ marginTop: 20 }}>
-              <div style={{ fontSize: 10, color: C.dim, marginBottom: 12 }}>{usedList.length} codes utilisés</div>
-              <div style={{ display: "flex", flexDirection: "column", gap: 6, maxHeight: 240, overflowY: "auto" }}>
-                {usedList.map(([code, data]) => (
-                  <div key={code} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "10px 14px", background: "#0D1018", border: "1px solid #1E2330", opacity: .6 }}>
-                    <div>
-                      <div style={{ fontSize: 12, color: C.muted, letterSpacing: ".08em", fontFamily: "monospace" }}>{code}</div>
-                      <div style={{ fontSize: 9, color: C.dim, marginTop: 2 }}>{data.clientName || "—"} · {data.usedAt ? new Date(data.usedAt).toLocaleDateString("fr-FR") : "date inconnue"}</div>
-                    </div>
-                    <div style={{ fontSize: 9, color: C.green }}>✓ Utilisé</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-        </div>
-      )}
-      {tab === "generer" && (
-        <div>
-          <div style={{ marginBottom: 16 }}>
-            <div style={{ fontSize: 10, color: C.gold, letterSpacing: ".16em", textTransform: "uppercase", marginBottom: 8 }}>Nombre de codes à générer</div>
-            <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 12 }}>
-              {[1, 5, 10, 20, 50].map(n => (
-                <button key={n} onClick={() => setGenCount(n)} style={{ background: genCount === n ? C.gold : "transparent", border: `1px solid ${genCount === n ? C.gold : "#1E2330"}`, color: genCount === n ? "#0B0F1A" : C.muted, padding: "8px 14px", cursor: "pointer", fontFamily: "'Jost',sans-serif", fontSize: 12 }}>{n}</button>
-              ))}
-            </div>
-          </div>
-          <div style={{ display: "flex", gap: 8, marginBottom: 24 }}>
-            <button className="btn-primary" style={{ flex: 1 }} onClick={() => handleGenerate(false)}>Générer {genCount} code{genCount > 1 ? "s" : ""} individuels</button>
-            <button className="btn-gold-outline" style={{ flex: 1 }} onClick={() => handleGenerate(true)}>Générer {genCount} paire{genCount > 1 ? "s" : ""} couple</button>
-          </div>
-          {newCodes.length > 0 && (
-            <div className="card-gold">
-              <div className="stl">Codes générés</div>
-              <div style={{ display: "flex", flexDirection: "column", gap: 6, marginBottom: 16, maxHeight: 300, overflowY: "auto" }}>
-                {newCodes.map((c, i) => (
-                  <div key={i} style={{ fontFamily: "monospace", fontSize: 13, color: C.gold, padding: "8px 12px", background: "#080C10", border: "1px solid #C9A84C22" }}>{c}</div>
-                ))}
-              </div>
-              <button className="btn-gold-outline" style={{ width: "100%" }} onClick={() => {
-                navigator.clipboard.writeText(newCodes.join("\n")).then(() => { setCopied(true); setTimeout(() => setCopied(false), 2500); });
-              }}>{copied ? "✓ Copié" : "Copier tous les codes"}</button>
-            </div>
-          )}
-        </div>
-      )}
-      {tab === "activite" && (
-        <div>
-          <div style={{ fontSize: 10, color: C.dim, marginBottom: 12 }}>10 dernières utilisations</div>
-          {recentUsed.length === 0 && <div style={{ fontSize: 12, color: C.dim, textAlign: "center", padding: 20 }}>Aucune activité enregistrée.</div>}
-          {recentUsed.map(([code, data]) => (
-            <div key={code} style={{ padding: "12px 14px", background: "#0D1018", border: "1px solid #1E2330", marginBottom: 6 }}>
-              <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
-                <div style={{ fontSize: 12, color: C.text }}>{data.clientName || "Anonyme"}</div>
-                <div style={{ fontSize: 10, color: C.dim }}>{data.usedAt ? new Date(data.usedAt).toLocaleDateString("fr-FR") : ""}</div>
-              </div>
-              <div style={{ fontSize: 10, color: C.muted }}>{code} {data.coupleId ? "· Couple" : ""}</div>
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-}
 // ═══════════════════════════════════════════════════════════════════════════
 // SECTION 10 — COMPOSANT PRINCIPAL APP
 // ═══════════════════════════════════════════════════════════════════════════
