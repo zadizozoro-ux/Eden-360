@@ -2185,15 +2185,8 @@ function ScenarioAttachement({ scenario, value, onChange }) {
               <div style={{ fontSize: 11, color: C.muted }}>Pour un accompagnement personnalisé, contactez l'Académie Eden.</div>
             </div>
           )}
-        </div>
-        <div style={{ display: "flex", gap: 8, marginBottom: 16 }}>
-          <button onClick={() => setTestimonialsOpen(true)} style={{ flex: 1, background: "transparent", border: "1px solid #C9A84C44", color: C.gold, padding: "11px 14px", fontFamily: "'Jost',sans-serif", fontSize: 11, cursor: "pointer" }}>
-            ✦ Partager mon témoignage
-          </button>
-          <button onClick={() => setInternalReportOpen(true)} style={{ flex: 1, background: "transparent", border: "1px solid #1E2330", color: C.dim, padding: "11px 14px", fontFamily: "'Jost',sans-serif", fontSize: 10, cursor: "pointer" }}>
-            🔒 Rapport Conseiller
-          </button>
-        </div>
+            </div>
+
         <ShareWithConseiller
           clientName={clientName}
           gp={results.gp}
@@ -2203,8 +2196,12 @@ function ScenarioAttachement({ scenario, value, onChange }) {
           scores={results.scores}
           sections={sections}
         />
-              </div>
-        <LegalDisclaimer gp={results.gp} hasViolenceSignal={violenceSignals !== null} />
+
+        <LegalDisclaimer
+          gp={results.gp}
+          hasViolenceSignal={violenceSignals !== null}
+        />
+
       </div>
     );
   } catch (error) {
@@ -2213,7 +2210,6 @@ function ScenarioAttachement({ scenario, value, onChange }) {
 
   return null;
 }
-
 const AffichageResultat = ({ phase, nom, profil, rapport, appreciationRecevoir, appreciationDonner, repAttachement }) => {
 
   if (phase === "generation") return (
