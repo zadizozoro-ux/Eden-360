@@ -2309,7 +2309,7 @@ const AffichageResultat = ({ phase, nom, profil, rapport, appreciationRecevoir, 
   return null;
 };
 
-export default AffichageResultat;import React from 'react';
+export default AffichageResultat;
 
 // Définitions nécessaires
 const C = {
