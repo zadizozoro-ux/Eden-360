@@ -857,9 +857,7 @@ Date : ${new Date().toLocaleString("fr-FR")}
 Niveau : ${alertLevel === ALERT_LEVELS.CRISE ? "CRISE — Action dans l'heure" : "VIGILANCE — Action sous 48h"}
 Suivi recommandé : Contacter le client et orienter vers les ressources adaptées.`;
   try {
-    await const res = await fetch(`${import.meta.env.VITE_API_URL}/api/diagnostic-report`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ report }) });
-  } catch (e) { console.warn("Alerte email non envoyée:", e.message); }
-}
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/diagnostic-report`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ report }) });
 
 // ── Construction du rapport interne conseiller ───────────────────────────────
 function buildInternalReportPrompt(clientName, profil, genre, role, annees, enfants, scores, opens, patternScores, gp, rawAns, alertLevel) {
