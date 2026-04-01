@@ -1878,333 +1878,20 @@ function RankingLangages({ values, onChange }) {
   );
 }
 
-function ScenarioAttachement({ scenario, value, onChange }) {
-  return (
-    <div style={{ background: "#0D1018", border: "1px solid #1E2330", padding: "18px", marginBottom: 16 }}>
-      <div style={{ fontSize: 13, color: C.muted, lineHeight: 1.7, marginBottom: 14, fontStyle: "italic" }}>"{scenario.scenario}"</div>
-      {scenario.reponses.map(r => (
-        <div key={r.val} className={`opt ${value === r.val ? "selected" : ""}`} onClick={() => onChange(r.val)}>
-          <div className="opt-dot" /><div className="opt-label">{r.label}</div>
-        </div>
-      ))}
-    </div>
-  );
-}
-// ── RENDER VIEWS ──
-  if (view === "code_entry") {
-    return (
-      <div className="section">
-        <div className="section-tag">◈ Bilan 360° Eden</div>
-        <div className="section-title">Entrez votre code d'accès</div>
-        <div className="section-desc">Votre code vous a été remis par l'Académie Eden. Il est à usage unique et personnel.</div>
-        <div style={{ marginBottom: 16 }}>
-          <div style={{ fontSize: 10, color: C.gold, letterSpacing: ".16em", textTransform: "uppercase", marginBottom: 8 }}>Votre prénom</div>
-          <input className="inp" placeholder="Jean-Marc" value={clientName} onChange={e => setClientName(e.target.value)} />
-        </div>
-        <div style={{ marginBottom: 16 }}>
-          <div style={{ fontSize: 10, color: C.gold, letterSpacing: ".16em", textTransform: "uppercase", marginBottom: 8 }}>Genre</div>
-          <div style={{ display: "flex", gap: 8 }}>
-            {["Homme", "Femme"].map(g => <div key={g} className={`opt ${clientGenre === g ? "selected" : ""}`} style={{ flex: 1 }} onClick={() => setClientGenre(g)}><div className="opt-dot" /><div className="opt-label">{g}</div></div>)}
-          </div>
-        </div>
-        <div style={{ marginBottom: 16 }}>
-          <div style={{ fontSize: 10, color: C.gold, letterSpacing: ".16em", textTransform: "uppercase", marginBottom: 8 }}>Profil</div>
-          {[{ id: "marie", label: "Marié(e)" }, { id: "fiance", label: "Fiancé(e)" }, { id: "celibataire", label: "Célibataire" }].map(p => (
-            <div key={p.id} className={`opt ${clientProfil === p.id ? "selected" : ""}`} onClick={() => setClientProfil(p.id)}><div className="opt-dot" /><div className="opt-label">{p.label}</div></div>
-          ))}
-        </div>
-        {clientProfil === "marie" && (
-          <div style={{ display: "flex", gap: 8, marginBottom: 16 }}>
-            <div style={{ flex: 1 }}>
-              <div style={{ fontSize: 10, color: C.gold, letterSpacing: ".16em", textTransform: "uppercase", marginBottom: 8 }}>Années de mariage</div>
-              <input className="inp" placeholder="Ex: 7" inputMode="numeric" pattern="[0-9]*" maxLength={2} value={clientAnnees} onChange={e => setClientAnnees(e.target.value.replace(/[^0-9]/g, ""))} />
-            </div>
-            <div style={{ flex: 1 }}>
-              <div style={{ fontSize: 10, color: C.gold, letterSpacing: ".16em", textTransform: "uppercase", marginBottom: 8 }}>Nombre d'enfants</div>
-              <input className="inp" placeholder="Ex: 2" inputMode="numeric" pattern="[0-9]*" maxLength={2} value={clientEnfants} onChange={e => setClientEnfants(e.target.value.replace(/[^0-9]/g, ""))} />
-            </div>
-          </div>
-        )}
-        <div style={{ marginBottom: 16 }}>
-          <div style={{ fontSize: 10, color: C.gold, letterSpacing: ".16em", textTransform: "uppercase", marginBottom: 8 }}>Profession (optionnel)</div>
-          <select className="inp" style={{ cursor: "pointer" }} value={clientRole} onChange={e => setClientRole(e.target.value)}>
-            <option value="">Sélectionner…</option>
-            {ROLES.map(r => <option key={r} value={r}>{r}</option>)}
-          </select>
-          {clientRole === "Autre" && <input className="inp" placeholder="Précisez votre profession" value={clientRoleCustom} onChange={e => setClientRoleCustom(e.target.value)} />}
-        </div>
-        <div style={{ marginBottom: 16 }}>
-          <div style={{ fontSize: 10, color: C.gold, letterSpacing: ".16em", textTransform: "uppercase", marginBottom: 8 }}>Code d'accès</div>
-          <input className="inp" placeholder="XXXX-XXXX" value={enteredCode} onChange={e => setEnteredCode(e.target.value)} onKeyDown={e => e.key === "Enter" && handleCodeEntry()} />
-        </div>
-        {codeMsg.text && <div style={{ fontSize: 12, color: codeMsg.ok ? C.green : C.red, marginBottom: 12 }}>{codeMsg.text}</div>}
-        <button className="btn-primary" onClick={handleCodeEntry}>Commencer mon bilan →</button>
-        <div style={{ marginTop: 16, fontSize: 11, color: C.dim, lineHeight: 1.6 }}>Vous n'avez pas de code ? <span style={{ color: C.gold, cursor: "pointer", textDecoration: "underline" }} onClick={() => window.open(`https://wa.me/${WHATSAPP_NUM}?text=${encodeURIComponent("Bonjour, je souhaite obtenir un code d'accès pour le Bilan 360° Eden.")}`)}>Contactez l'Académie Eden sur WhatsApp</span></div>
-      </div>
-    );
-  }
-  if (view === "diagnostic" && mod) {
-    const progress = (dimIdx / dims.length) * 85;
-    if (phase === "q") {
-      const dimOk = dim?.qs.every(q => ans[q.id] !== undefined);
-      const allOk = dims.every(d => d.qs.every(q => ans[q.id] !== undefined));
-      return (
-        <div className="section">
-          {facadeActive && <FacadeAlert ans={ans} profil={clientProfil} onContinue={() => handleCheckViolence()} onRevise={() => setFacadeActive(false)} />}
-          {violenceSignals && <ViolenceProtocol signals={violenceSignals} onContinue={() => handleSubmit()} />}
-          <div className="progress-bar"><div className="progress-fill" style={{ width: `${progress}%` }} /></div>
-          <div style={{ fontSize: 9, color: C.dim, letterSpacing: ".14em", textTransform: "uppercase", marginBottom: 16 }}>Dimension {dimIdx + 1}/{dims.length} — {dim?.label}</div>
-          {dim && (
-            <div>
-              {dim.qs.map(q => (
-                <div key={q.id} style={{ marginBottom: 24 }}>
-                  <div className="q-text">{q.t}</div>
-                  <div className="scale-row">
-                    {SCALE.map(v => (
-                      <button key={v} className={`scale-btn ${ans[q.id] === v ? "selected" : ""}`} onClick={() => doAns(q.id, v)}>
-                        {v}<br /><span style={{ fontSize: 9 }}>{SL[v]}</span>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-          <div className="nav-row">
-            <button className="btn-secondary" style={{ flex: "0 0 auto" }} onClick={() => { if (dimIdx === 0) setView("code_entry"); else setDimIdx(i => i - 1); }}>← Retour</button>
-            <button className="btn-primary" disabled={!dimOk} onClick={() => {
-              if (dimIdx < dims.length - 1) setDimIdx(i => i + 1);
-              else if (allOk) setPhase("oq");
-            }}>{dimIdx < dims.length - 1 ? "Suivant →" : "Questions ouvertes →"}</button>
-          </div>
-        </div>
-      );
-    }
-    if (phase === "oq") {
-      return (
-        <div className="section">
-          <div className="section-tag">◈ Questions ouvertes</div>
-          <div className="section-title">Quelques mots de vous</div>
-          <div className="section-desc">Ces questions permettent au Conseiller Eden de personnaliser davantage votre rapport. Répondez librement — ou passez si vous préférez.</div>
-          {mod.oqs.map(q => (
-            <div key={q.id} style={{ marginBottom: 24 }}>
-              <div className="q-text">{q.t}</div>
-              <textarea className="ta" value={oAns[q.id] || ""} onChange={e => doOAns(q.id, e.target.value)} />
-            </div>
-          ))}
-          <div className="nav-row">
-            <button className="btn-secondary" style={{ flex: "0 0 auto" }} onClick={() => setPhase("q")}>← Retour</button>
-            <button className="btn-primary" onClick={handleCheckFacade}>Générer mon rapport →</button>
-          </div>
-        </div>
-      );
-    }
-  }
-  if (view === "loading") {
-    const msgs = LOADING_MSGS[clientProfil] || LOADING_MSGS.marie;
-    const safeIdx = loadIdx % msgs.length;
-    return (
-      <div className="loading-screen">
-        <div className="loading-ring" />
-        <div style={{ textAlign: "center" }}>
-          <div style={{ fontSize: 9, color: C.gold, letterSpacing: ".2em", textTransform: "uppercase", marginBottom: 12 }}>{msgs[safeIdx][0]}</div>
-          <div className="loading-msg">{msgs[safeIdx][1]}</div>
-        </div>
-        <div className="loading-sub">Académie Eden · Analyse en cours</div>
-      </div>
-    );
-  }
-  if (view === "results" && results) {
-    const sections = parseReport(results.text);
-    const gl = lvl(results.gp);
-    const formations = FORMATIONS.filter(f => f.profil.includes(results.profil));
-    const activePatterns = results.patternScores ? Object.entries(results.patternScores).filter(([, v]) => v > 40).sort(([, a], [, b]) => b - a) : [];
-    const entries = Object.entries(results.scores);
-    const N = entries.length;
-    const CX = 200, CY = 200, R = 140, RINT = 28;
-    const radarPts = entries.map(([k, d], i) => { const angle = (2 * Math.PI * i / N) - Math.PI / 2; const r2 = RINT + (d.p / 100) * (R - RINT); return { x: CX + r2 * Math.cos(angle), y: CY + r2 * Math.sin(angle), k, d, angle }; });
-    const poly = radarPts.map(p => `${p.x},${p.y}`).join(" ");
-    const bm = BM[results.profil] || {};
-    const remaining = MAX_QUESTIONS - questionsUsed;
-    const clockData = canHorloge ? computeRelationshipClock(results.gp, results.patternScores || {}, clientAnnees, results.profil) : null;
-    return (
-      <div className="section">
-        {activeLetterModal && (
-          letterLoading ? (
-            <div style={{ position: "fixed", inset: 0, background: "#000000F0", zIndex: 400, display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", gap: 20 }}>
-              <div className="loading-ring" /><div style={{ fontSize: 12, color: C.muted }}>Génération de votre lettre…</div>
-            </div>
-          ) : (
-            <FutureLetter letter={letterText} clientName={clientName} gp={results.gp} onClose={() => setActiveLetterModal(false)} />
-          )
-        )}
-        {shareCardActive && canViralShare && <ViralShareCard clientName={clientName} gp={results.gp} profil={results.profil} riskLevel={gl} onClose={() => setShareCardActive(false)} />}
-        <div style={{ background: "linear-gradient(135deg,#0B0F1A,#0D1020,#080A10)", border: "1px solid #1E2330", padding: "24px 20px", marginBottom: 20 }}>
-          <div style={{ fontSize: 8, letterSpacing: ".3em", textTransform: "uppercase", color: C.gold, marginBottom: 8 }}>Bilan 360° Eden — {MODS[results.profil]?.label}</div>
-          <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 28, color: "#F0EBE0", marginBottom: 4 }}>Rapport de {clientName}</div>
-          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-            <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 48, color: gl.c, lineHeight: 1 }}>{results.gp}</div>
-            <div>
-              <div style={{ fontSize: 14, color: gl.c }}>/100</div>
-              <div style={{ fontSize: 10, color: C.muted, letterSpacing: ".1em", textTransform: "uppercase" }}>{gl.l}</div>
-            </div>
-          </div>
-        </div>
-        <AlertBanner alertLevel={results.alertLevel || 0} clientName={clientName} gp={results.gp} />
-        {testimonialsOpen && <TestimonialsModal clientName={clientName} gp={results.gp} profil={results.profil} patternScores={results.patternScores || {}} scores={results.scores} onClose={() => setTestimonialsOpen(false)} />}
-        {internalReportOpen && <InternalReportModal clientName={clientName} profil={results.profil} genre={clientGenre} role={clientRole === "Autre" && clientRoleCustom ? clientRoleCustom : clientRole} annees={clientAnnees} enfants={clientEnfants} scores={results.scores} opens={results.openAns || []} patternScores={results.patternScores || {}} gp={results.gp} rawAns={results.rawAns || {}} alertLevel={results.alertLevel || 0} onClose={() => setInternalReportOpen(false)} />}
-        {activePatterns.length > 0 && (
-          <div className="pat-box" style={{ marginBottom: 16 }}>
-            <div style={{ fontSize: 9, color: C.muted, letterSpacing: ".16em", textTransform: "uppercase", marginBottom: 8 }}>Patterns archétypaux détectés</div>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
-              {activePatterns.map(([k, v]) => <span key={k} style={{ padding: "3px 10px", border: `1px solid ${ARCHETYPES[k]?.color || C.gold}66`, fontSize: 10, color: ARCHETYPES[k]?.color || C.gold }}>{k}</span>)}
-            </div>
-          </div>
-        )}
-        {results.indices && Object.keys(results.indices).length > 0 && (
-          <div className="indices-grid">
-            {Object.entries(results.indices).map(([k, v]) => (
-              <div key={k} className="index-card" onClick={() => setModal({ title: IE[k]?.titre || k, sub: "Indice composite", body: IE[k]?.def || "", danger: false })}>
-                <div style={{ fontSize: 9, color: v.color, letterSpacing: ".14em", textTransform: "uppercase", marginBottom: 6 }}>{k}</div>
-                <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 28, color: v.color, lineHeight: 1 }}>{v.p}</div>
-                <div style={{ fontSize: 10, color: C.muted }}>{v.label}</div>
-              </div>
-            ))}
-          </div>
-        )}
-        <div className="radar-wrap">
-          <div style={{ fontSize: 10, letterSpacing: ".18em", textTransform: "uppercase", color: C.gold, marginBottom: 12 }}>◈ Carte dimensionnelle</div>
-          <div style={{ fontSize: 9, color: C.muted, marginBottom: 12 }}>Cliquez sur une dimension pour l'analyser</div>
-          <svg viewBox="0 0 400 400" style={{ width: "100%", maxWidth: 380, display: "block", margin: "0 auto" }}>
-            {[20, 40, 60, 80, 100].map(pp => {
-              const r2 = RINT + (pp / 100) * (R - RINT);
-              const rp = Array.from({ length: N }, (_, i) => { const a = (2 * Math.PI * i / N) - Math.PI / 2; return `${CX + r2 * Math.cos(a)},${CY + r2 * Math.sin(a)}`; }).join(" ");
-              return <polygon key={pp} points={rp} fill="none" stroke="#1E2330" strokeWidth="1" />;
-            })}
-            {entries.map(([k], i) => { const a = (2 * Math.PI * i / N) - Math.PI / 2; return <line key={k} x1={CX} y1={CY} x2={CX + (R + 12) * Math.cos(a)} y2={CY + (R + 12) * Math.sin(a)} stroke="#1E2330" strokeWidth="1" />; })}
-            <polygon points={poly} fill="#C9A84C18" stroke="#C9A84C" strokeWidth="1.5" />
-            {radarPts.map((p, i) => (
-              <g key={i} style={{ cursor: "pointer" }} onClick={() => setModal({ title: DE[p.k]?.titre || p.d.label, sub: `Score : ${p.d.p}/100 — ${p.d.lv.l}`, body: DE[p.k]?.texte || "", danger: false })}>
-                <circle cx={p.x} cy={p.y} r="5" fill={p.d.lv.c} />
-              </g>
-            ))}
-            {radarPts.map((p, i) => { const isR = Math.cos(p.angle) > 0.1, isL = Math.cos(p.angle) < -0.1; const anchor = isR ? "start" : isL ? "end" : "middle"; const lx = CX + (R + 26) * Math.cos(p.angle), ly = CY + (R + 26) * Math.sin(p.angle); return <text key={i} x={lx} y={ly} textAnchor={anchor} fontSize="9" fill={C.dim}>{p.d.label.split(" ")[0]}</text>; })}
-          </svg>
-        </div>
-        <div className="sg">
-          {entries.map(([k, d]) => {
-            const sp = bm[k]?.stable || null;
-            return (
-              <div key={k} className="score-bar-item" onClick={() => setModal({ title: DE[k]?.titre || d.label, sub: `Score : ${d.p}/100 — ${d.lv.l}`, body: DE[k]?.texte || "", danger: false })}>
-                <div className="score-bar-header">
-                  <span className="score-bar-label">{d.label}</span>
-                  <span className="score-bar-value" style={{ color: d.lv.c }}>{d.p}/100</span>
-                </div>
-                <div className="score-bar-track">
-                  <div className="score-bar-fill" style={{ width: `${d.p}%`, background: d.lv.c }} />
-                </div>
-                {sp && <div style={{ fontSize: 9, color: C.dim, marginTop: 3 }}>Référence stable : {sp}/100{d.p >= sp ? " ✓" : ` (${d.p - sp})`}</div>}
-              </div>
-            );
-          })}
-        </div>
-        {sections.map((s, i) => {
-          const t = (s.title || "").toUpperCase();
-          const isPlan = t.includes("PLAN") || t.includes("7 JOURS") || t.includes("ACTION");
-          const isReco = t.includes("PRESCRIPTION") || t.includes("RECOMMANDATION");
-          const isPhrase = t.includes("PHRASE") || t.includes("CLÉ") || t.includes("CLE");
-          if (isPlan) return <div key={i} className="plan-box"><div className="plan-title">✦ {s.title}</div><div className="rbt">{s.body}</div></div>;
-          if (isReco) return <div key={i} className="reco-box"><div className="reco-title">✦ {s.title}</div><div className="rbt">{s.body}</div></div>;
-          if (isPhrase) return <div key={i} className="phrase-box"><div className="phrase-text">"{s.body}"</div></div>;
-          return <div key={i} className="rb">{s.title && <div className="stl">{s.title}</div>}<div className="rbt">{s.body}</div></div>;
-        })}
-        {clockData && canHorloge && <RelationshipClock clockData={clockData} />}
-        {!canHorloge && results.profil === "marie" && (
-          <PremiumGate feature="Horloge Relationnelle — Projection temporelle Gottman" onUpgrade={onRequestUpgrade} />
-        )}
-        {canMicroPertes ? (
-          <MicroPertesSection scores={results.scores} profil={results.profil} />
-        ) : results.profil !== "celibataire" && (
-          <PremiumGate feature="Micro-Pertes Invisibles — Ce que vous perdez déjà" onUpgrade={onRequestUpgrade} />
-        )}
-        {!canLectureMiroir && results.profil !== "celibataire" && (
-          <PremiumGate feature="Lecture Miroir Enrichie — Ce que votre partenaire ressent probablement" onUpgrade={onRequestUpgrade} />
-        )}
-        <SmartWhatsAppCTA clientName={clientName} gp={results.gp} profil={results.profil} riskLevel={gl} patterns={results.patternScores || {}} />
-        {canFutureLetter ? (
-          <div className="card-gold-left" style={{ marginBottom: 24 }}>
-            <div style={{ fontSize: 9, color: C.gold, letterSpacing: ".2em", textTransform: "uppercase", marginBottom: 10 }}>◈ Lettre du Moi dans 5 ans</div>
-            <p style={{ fontSize: 12, color: C.muted, lineHeight: 1.7, marginBottom: 14 }}>Une lettre générée à la première personne, depuis votre futur possible. Technique utilisée en thérapie cognitive émotionnelle.</p>
-            <button onClick={handleGenerateLetter} className="btn-gold-outline" style={{ width: "100%" }}>Recevoir la lettre de mon futur</button>
-          </div>
-        ) : (
-          <PremiumGate feature="Lettre du Moi Futur — Impact émotionnel maximal" onUpgrade={onRequestUpgrade} />
-        )}
-        {canViralShare ? (
-          <div className="card-gold" style={{ marginBottom: 24 }}>
-            <div style={{ fontSize: 9, color: C.gold, letterSpacing: ".2em", textTransform: "uppercase", marginBottom: 10 }}>◈ Partager votre révélation</div>
-            <p style={{ fontSize: 12, color: C.muted, lineHeight: 1.7, marginBottom: 14 }}>Partagez votre score et votre verdict sans révéler votre rapport complet.</p>
-            <button className="btn-wa" onClick={() => setShareCardActive(true)}>Générer ma carte de partage</button>
-          </div>
-        ) : (
-          <PremiumGate feature="Carte Virale de Partage — Moteur de vente autonome" onUpgrade={onRequestUpgrade} />
-        )}
-        <div style={{ marginBottom: 8 }}><div className="stl">Formations recommandées</div></div>
-        <div className="form-grid">
-          {formations.map(f => (
-            <div key={f.id} className="form-card" onClick={() => setModal({ title: f.nom, sub: f.detail || "Formation Eden Académie", body: `${f.desc}\n\nPrix : ${f.prix}`, danger: false })}>
-              <div className="form-card-name">{f.nom}</div>
-              <div className="form-card-prix">{f.prix}</div>
-              <div className="form-card-desc">{f.desc.slice(0, 80)}…</div>
-            </div>
-          ))}
-        </div>
-        <div className="qa-section">
-          <div className="qa-header">✦ Approfondissez votre bilan<span className={`qa-counter ${remaining === 0 ? "exhausted" : ""}`}>{remaining} question{remaining > 1 ? "s" : ""} restante{remaining > 1 ? "s" : ""}</span></div>
-          <div style={{ fontSize: 11, color: C.muted, marginBottom: 16, lineHeight: 1.6 }}>Posez jusqu'à {MAX_QUESTIONS} questions personnalisées sur votre rapport.</div>
-          {chatHistory.length > 0 && (
-            <div className="qa-history">
-              {chatHistory.map((msg, i) => (
-                <div key={i} className={msg.role === "user" ? "qa-bubble-user" : "qa-bubble-ai"}>
-                  <div className="qa-bubble-label" style={{ color: msg.role === "user" ? C.gold : C.green }}>{msg.role === "user" ? clientName : "Eden Académie"}</div>
-                  <div className="qa-bubble-text">{msg.content}</div>
-                </div>
-              ))}
-              {chatLoading && <div className="qa-typing"><span style={{ fontSize: 9, color: C.green, letterSpacing: ".12em", textTransform: "uppercase", marginRight: 6 }}>Eden</span><span className="qa-dot" /><span className="qa-dot" /><span className="qa-dot" /></div>}
-              <div ref={chatEndRef} />
-            </div>
-          )}
-          {remaining > 0 ? (
-            <div className="qa-input-row">
-              <textarea className="ta" style={{ marginBottom: 0, minHeight: 56 }} placeholder="Posez votre question…" value={chatInput} onChange={e => setChatInput(e.target.value)} onKeyDown={e => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); handleAskQuestion(); } }} disabled={chatLoading} />
-              <button className="qa-send" onClick={handleAskQuestion} disabled={!chatInput.trim() || chatLoading}>{chatLoading ? "…" : "Envoyer"}</button>
-            </div>
-          ) : (
-            <div style={{ textAlign: "center", padding: "16px 0" }}>
-              <div style={{ fontSize: 13, color: C.gold, fontFamily: "'Cormorant Garamond',serif", marginBottom: 6 }}>Vous avez utilisé vos {MAX_QUESTIONS} questions</div>
-              <div style={{ fontSize: 11, color: C.muted }}>Pour un accompagnement personnalisé, contactez l'Académie Eden.</div>
-            </div>
-          )}
-            </div>
+import React from 'react';
 
-        <ShareWithConseiller
-          clientName={clientName}
-          gp={results.gp}
-          profil={results.profil}
-          riskLevel={gl}
-          patterns={results.patternScores || {}}
-          scores={results.scores}
-          sections={sections}
-        />
+// ============================================
+// CONSTANTES ET CONFIGURATIONS
+// ============================================
 
-      import React from 'react';
-
-// Définitions nécessaires
 const C = {
   gold: '#C9A84C',
   blue: '#3B82F6',
   text: '#F0EBE0',
-  dim: '#9CA3AF'
+  dim: '#9CA3AF',
+  muted: '#6B7280',
+  green: '#10B981',
+  red: '#EF4444'
 };
 
 const loadMsg = "Génération du portrait en cours...";
@@ -2217,6 +1904,18 @@ const PROFIL_APPRECIATION_OPTIONS = [
   { id: 'physique', label: 'Contact physique' }
 ];
 
+const ROLES = [
+  'Cadre', 'Entrepreneur', 'Artiste', 'Étudiant', 
+  'Enseignant', 'Santé', 'Commercial', 'Autre'
+];
+
+const SCALE = [1, 2, 3, 4, 5];
+const SL = { 1: 'Pas du tout', 2: 'Peu', 3: 'Moyennement', 4: 'Beaucoup', 5: 'Totalement' };
+
+// ============================================
+// FONCTIONS UTILITAIRES
+// ============================================
+
 const computeAttachementStyle = (rep) => {
   if (!rep) return 'Non déterminé';
   const styles = {
@@ -2227,6 +1926,10 @@ const computeAttachementStyle = (rep) => {
   return styles[rep] || rep;
 };
 
+// ============================================
+// COMPOSANTS
+// ============================================
+
 const LegalDisclaimer = ({ gp, hasViolenceSignal }) => (
   <div style={{ fontSize: 10, color: C.dim, marginTop: 20, padding: 12, borderTop: '1px solid #C9A84C33' }}>
     Mentions légales - Portrait informatif
@@ -2234,22 +1937,58 @@ const LegalDisclaimer = ({ gp, hasViolenceSignal }) => (
   </div>
 );
 
-// COMPOSANT PRINCIPAL
-const AffichageResultat = ({ phase, nom, profil, rapport, appreciationRecevoir, appreciationDonner, repAttachement, results, violenceSignals }) => {
-
-  if (phase === "generation") return (
-    <div className="loading-screen">
-      <div className="loading-ring" />
-      <div className="loading-msg">{loadMsg}</div>
-      <div className="loading-sub">Académie Eden · Portrait en cours de rédaction</div>
+const ScenarioAttachement = ({ scenario, value, onChange }) => {
+  return (
+    <div style={{ background: "#0D1018", border: "1px solid #1E2330", padding: "18px", marginBottom: 16 }}>
+      <div style={{ fontSize: 13, color: C.muted, lineHeight: 1.7, marginBottom: 14, fontStyle: "italic" }}>
+        "{scenario.scenario}"
+      </div>
+      {scenario.reponses && scenario.reponses.map(r => (
+        <div 
+          key={r.val} 
+          className={`opt ${value === r.val ? "selected" : ""}`} 
+          onClick={() => onChange(r.val)}
+        >
+          <div className="opt-dot" />
+          <div className="opt-label">{r.label}</div>
+        </div>
+      ))}
     </div>
   );
+};
+
+// ============================================
+// COMPOSANT PRINCIPAL
+// ============================================
+
+const AffichageResultat = ({ 
+  phase, 
+  nom, 
+  profil, 
+  rapport, 
+  appreciationRecevoir, 
+  appreciationDonner, 
+  repAttachement, 
+  results, 
+  violenceSignals 
+}) => {
+
+  if (phase === "generation") {
+    return (
+      <div className="loading-screen">
+        <div className="loading-ring" />
+        <div className="loading-msg">{loadMsg}</div>
+        <div className="loading-sub">Académie Eden · Portrait en cours de rédaction</div>
+      </div>
+    );
+  }
 
   if (phase === "rapport") {
     const attachStyle = computeAttachementStyle(repAttachement);
     const primaryRecevoir = PROFIL_APPRECIATION_OPTIONS.find(o => o.id === appreciationRecevoir?.[0])?.label || "Non renseigné";
     const primaryDonner = PROFIL_APPRECIATION_OPTIONS.find(o => o.id === appreciationDonner?.[0])?.label || "Non renseigné";
     const decalage = appreciationRecevoir?.[0] !== appreciationDonner?.[0];
+    
     const sections = rapport?.split(/\*\*([^*]+)\*\*/).reduce((acc, part, i) => {
       if (i % 2 === 0) {
         if (part.trim()) acc.push({ type: "body", text: part.trim() });
@@ -2262,28 +2001,60 @@ const AffichageResultat = ({ phase, nom, profil, rapport, appreciationRecevoir, 
     return (
       <div className="rapport-container">
         <div className="section">
-          <div style={{ background: "linear-gradient(135deg,#0B0F1A,#0D1020)", border: "1px solid #C9A84C33", padding: "24px 20px", marginBottom: 20 }}>
-            <div style={{ fontSize: 8, letterSpacing: ".28em", textTransform: "uppercase", color: C.gold, marginBottom: 8 }}>◈ Portrait Eden · Eaux · Os · Chair</div>
-            <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 28, color: "#F0EBE0", marginBottom: 4 }}>{nom}</div>
-            <div style={{ fontSize: 10, color: C.dim }}>{new Date().toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" })}</div>
+          <div style={{ 
+            background: "linear-gradient(135deg,#0B0F1A,#0D1020)", 
+            border: "1px solid #C9A84C33", 
+            padding: "24px 20px", 
+            marginBottom: 20 
+          }}>
+            <div style={{ 
+              fontSize: 8, 
+              letterSpacing: ".28em", 
+              textTransform: "uppercase", 
+              color: C.gold, 
+              marginBottom: 8 
+            }}>
+              ◈ Portrait Eden · Eaux · Os · Chair
+            </div>
+            <div style={{ 
+              fontFamily: "'Cormorant Garamond',serif", 
+              fontSize: 28, 
+              color: "#F0EBE0", 
+              marginBottom: 4 
+            }}>
+              {nom}
+            </div>
+            <div style={{ fontSize: 10, color: C.dim }}>
+              {new Date().toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" })}
+            </div>
           </div>
 
           <div className="card" style={{ marginBottom: 20 }}>
             <div className="stl">Synthèse · Profil d'Appréciation & Attachement</div>
             <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
               <div style={{ fontSize: 12, color: C.text, lineHeight: 1.7 }}>
-                <span style={{ color: C.gold }}>Vous recevez l'amour principalement par :</span><br />{primaryRecevoir}
+                <span style={{ color: C.gold }}>Vous recevez l'amour principalement par :</span><br />
+                {primaryRecevoir}
               </div>
               <div style={{ fontSize: 12, color: C.text, lineHeight: 1.7 }}>
-                <span style={{ color: C.gold }}>Vous exprimez l'amour naturellement par :</span><br />{primaryDonner}
+                <span style={{ color: C.gold }}>Vous exprimez l'amour naturellement par :</span><br />
+                {primaryDonner}
               </div>
               {decalage && (
-                <div style={{ background: "#1A1000", border: "1px solid #C9A84C33", padding: "10px 14px", fontSize: 11, color: C.gold, lineHeight: 1.6 }}>
+                <div style={{ 
+                  background: "#1A1000", 
+                  border: "1px solid #C9A84C33", 
+                  padding: "10px 14px", 
+                  fontSize: 11, 
+                  color: C.gold, 
+                  lineHeight: 1.6 
+                }}>
                   ◈ Décalage interne : vous donnez l'amour différemment de la manière dont vous aimeriez le recevoir.
                 </div>
               )}
               <div style={{ fontSize: 12, color: C.text, lineHeight: 1.7 }}>
-                <span style={{ color: C.blue }}>Style d'attachement probable :</span><br />{attachStyle}
+                <span style={{ color: C.blue }}>Style d'attachement probable :</span><br />
+                {attachStyle}
               </div>
             </div>
           </div>
@@ -2292,8 +2063,17 @@ const AffichageResultat = ({ phase, nom, profil, rapport, appreciationRecevoir, 
             <div className="stl">Votre Portrait Complet</div>
             {sections.map((s, i) => (
               s.type === "title"
-                ? <div key={i} style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 18, color: C.gold, margin: "20px 0 10px" }}>{s.text}</div>
-                : <div key={i} className="rbt" style={{ marginBottom: 12 }}>{s.text}</div>
+                ? <div key={i} style={{ 
+                    fontFamily: "'Cormorant Garamond',serif", 
+                    fontSize: 18, 
+                    color: C.gold, 
+                    margin: "20px 0 10px" 
+                  }}>
+                    {s.text}
+                  </div>
+                : <div key={i} className="rbt" style={{ marginBottom: 12 }}>
+                    {s.text}
+                  </div>
             ))}
           </div>
 
@@ -2310,117 +2090,6 @@ const AffichageResultat = ({ phase, nom, profil, rapport, appreciationRecevoir, 
 };
 
 export default AffichageResultat;
-
-// Définitions nécessaires
-const C = {
-  gold: '#C9A84C',
-  blue: '#3B82F6',
-  text: '#F0EBE0',
-  dim: '#9CA3AF'
-};
-
-const loadMsg = "Génération du portrait en cours...";
-
-const PROFIL_APPRECIATION_OPTIONS = [
-  { id: 'paroles', label: 'Paroles valorisantes' },
-  { id: 'temps', label: 'Temps de qualité' },
-  { id: 'cadeaux', label: 'Cadeaux' },
-  { id: 'services', label: 'Services rendus' },
-  { id: 'physique', label: 'Contact physique' }
-];
-
-const computeAttachementStyle = (rep) => {
-  if (!rep) return 'Non déterminé';
-  const styles = {
-    secure: 'Sécure',
-    anxious: 'Anxieux',
-    avoidant: 'Évitant'
-  };
-  return styles[rep] || rep;
-};
-
-const LegalDisclaimer = ({ gp, hasViolenceSignal }) => (
-  <div style={{ fontSize: 10, color: C.dim, marginTop: 20, padding: 12, borderTop: '1px solid #C9A84C33' }}>
-    Mentions légales - Portrait informatif
-    {hasViolenceSignal && ' ⚠️ Signalement détecté'}
-  </div>
-);
-
-// COMPOSANT PRINCIPAL
-const AffichageResultat = ({ phase, nom, profil, rapport, appreciationRecevoir, appreciationDonner, repAttachement, results, violenceSignals }) => {
-
-  if (phase === "generation") return (
-    <div className="loading-screen">
-      <div className="loading-ring" />
-      <div className="loading-msg">{loadMsg}</div>
-      <div className="loading-sub">Académie Eden · Portrait en cours de rédaction</div>
-    </div>
-  );
-
-  if (phase === "rapport") {
-    const attachStyle = computeAttachementStyle(repAttachement);
-    const primaryRecevoir = PROFIL_APPRECIATION_OPTIONS.find(o => o.id === appreciationRecevoir?.[0])?.label || "Non renseigné";
-    const primaryDonner = PROFIL_APPRECIATION_OPTIONS.find(o => o.id === appreciationDonner?.[0])?.label || "Non renseigné";
-    const decalage = appreciationRecevoir?.[0] !== appreciationDonner?.[0];
-    const sections = rapport?.split(/\*\*([^*]+)\*\*/).reduce((acc, part, i) => {
-      if (i % 2 === 0) {
-        if (part.trim()) acc.push({ type: "body", text: part.trim() });
-      } else {
-        acc.push({ type: "title", text: part.trim() });
-      }
-      return acc;
-    }, []) || [];
-
-    return (
-      <div className="rapport-container">
-        <div className="section">
-          <div style={{ background: "linear-gradient(135deg,#0B0F1A,#0D1020)", border: "1px solid #C9A84C33", padding: "24px 20px", marginBottom: 20 }}>
-            <div style={{ fontSize: 8, letterSpacing: ".28em", textTransform: "uppercase", color: C.gold, marginBottom: 8 }}>◈ Portrait Eden · Eaux · Os · Chair</div>
-            <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 28, color: "#F0EBE0", marginBottom: 4 }}>{nom}</div>
-            <div style={{ fontSize: 10, color: C.dim }}>{new Date().toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" })}</div>
-          </div>
-
-          <div className="card" style={{ marginBottom: 20 }}>
-            <div className="stl">Synthèse · Profil d'Appréciation & Attachement</div>
-            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-              <div style={{ fontSize: 12, color: C.text, lineHeight: 1.7 }}>
-                <span style={{ color: C.gold }}>Vous recevez l'amour principalement par :</span><br />{primaryRecevoir}
-              </div>
-              <div style={{ fontSize: 12, color: C.text, lineHeight: 1.7 }}>
-                <span style={{ color: C.gold }}>Vous exprimez l'amour naturellement par :</span><br />{primaryDonner}
-              </div>
-              {decalage && (
-                <div style={{ background: "#1A1000", border: "1px solid #C9A84C33", padding: "10px 14px", fontSize: 11, color: C.gold, lineHeight: 1.6 }}>
-                  ◈ Décalage interne : vous donnez l'amour différemment de la manière dont vous aimeriez le recevoir.
-                </div>
-              )}
-              <div style={{ fontSize: 12, color: C.text, lineHeight: 1.7 }}>
-                <span style={{ color: C.blue }}>Style d'attachement probable :</span><br />{attachStyle}
-              </div>
-            </div>
-          </div>
-
-          <div className="rb">
-            <div className="stl">Votre Portrait Complet</div>
-            {sections.map((s, i) => (
-              s.type === "title"
-                ? <div key={i} style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 18, color: C.gold, margin: "20px 0 10px" }}>{s.text}</div>
-                : <div key={i} className="rbt" style={{ marginBottom: 12 }}>{s.text}</div>
-            ))}
-          </div>
-
-          <LegalDisclaimer
-            gp={results?.gp}
-            hasViolenceSignal={violenceSignals !== null}
-          />
-        </div>
-      </div>
-    );
-  }
-
-  return null;
-};
-
 export default AffichageResultat;
         </div>
         <div style={{ background: "#0A0C12", border: "1px solid #1E2330", padding: "14px", marginBottom: 20, fontSize: 10, color: C.dim, lineHeight: 1.7 }}>Ce portrait est une analyse indicative basée sur vos réponses. Il ne remplace pas un accompagnement professionnel et ne constitue pas un avis médical ou psychologique.</div>
