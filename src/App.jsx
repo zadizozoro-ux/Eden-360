@@ -2197,7 +2197,45 @@ function ScenarioAttachement({ scenario, value, onChange }) {
           sections={sections}
         />
 
-      const AffichageResultat = ({ phase, nom, profil, rapport, appreciationRecevoir, appreciationDonner, repAttachement }) => {
+      import React from 'react';
+
+// Définitions nécessaires
+const C = {
+  gold: '#C9A84C',
+  blue: '#3B82F6',
+  text: '#F0EBE0',
+  dim: '#9CA3AF'
+};
+
+const loadMsg = "Génération du portrait en cours...";
+
+const PROFIL_APPRECIATION_OPTIONS = [
+  { id: 'paroles', label: 'Paroles valorisantes' },
+  { id: 'temps', label: 'Temps de qualité' },
+  { id: 'cadeaux', label: 'Cadeaux' },
+  { id: 'services', label: 'Services rendus' },
+  { id: 'physique', label: 'Contact physique' }
+];
+
+const computeAttachementStyle = (rep) => {
+  if (!rep) return 'Non déterminé';
+  const styles = {
+    secure: 'Sécure',
+    anxious: 'Anxieux',
+    avoidant: 'Évitant'
+  };
+  return styles[rep] || rep;
+};
+
+const LegalDisclaimer = ({ gp, hasViolenceSignal }) => (
+  <div style={{ fontSize: 10, color: C.dim, marginTop: 20, padding: 12, borderTop: '1px solid #C9A84C33' }}>
+    Mentions légales - Portrait informatif
+    {hasViolenceSignal && ' ⚠️ Signalement détecté'}
+  </div>
+);
+
+// COMPOSANT PRINCIPAL - CORRIGÉ
+const AffichageResultat = ({ phase, nom, profil, rapport, appreciationRecevoir, appreciationDonner, repAttachement, results, violenceSignals }) => {
 
   if (phase === "generation") return (
     <div className="loading-screen">
@@ -2207,20 +2245,19 @@ function ScenarioAttachement({ scenario, value, onChange }) {
     </div>
   );
 
-  // ── RAPPORT ──
   if (phase === "rapport") {
     const attachStyle = computeAttachementStyle(repAttachement);
-    const primaryRecevoir = PROFIL_APPRECIATION_OPTIONS.find(o => o.id === appreciationRecevoir[0])?.label || "Non renseigné";
-    const primaryDonner = PROFIL_APPRECIATION_OPTIONS.find(o => o.id === appreciationDonner[0])?.label || "Non renseigné";
-    const decalage = appreciationRecevoir[0] !== appreciationDonner[0];
-    const sections = rapport.split(/\*\*([^*]+)\*\*/).reduce((acc, part, i) => {
+    const primaryRecevoir = PROFIL_APPRECIATION_OPTIONS.find(o => o.id === appreciationRecevoir?.[0])?.label || "Non renseigné";
+    const primaryDonner = PROFIL_APPRECIATION_OPTIONS.find(o => o.id === appreciationDonner?.[0])?.label || "Non renseigné";
+    const decalage = appreciationRecevoir?.[0] !== appreciationDonner?.[0];
+    const sections = rapport?.split(/\*\*([^*]+)\*\*/).reduce((acc, part, i) => {
       if (i % 2 === 0) {
         if (part.trim()) acc.push({ type: "body", text: part.trim() });
       } else {
         acc.push({ type: "title", text: part.trim() });
       }
       return acc;
-    }, []);
+    }, []) || [];
 
     return (
       <div className="rapport-container">
@@ -2242,7 +2279,7 @@ function ScenarioAttachement({ scenario, value, onChange }) {
               </div>
               {decalage && (
                 <div style={{ background: "#1A1000", border: "1px solid #C9A84C33", padding: "10px 14px", fontSize: 11, color: C.gold, lineHeight: 1.6 }}>
-                  ◈ Décalage interne : vous donnez l'amour différemment de la manière dont vous aimeriez le recevoir. Ce décalage peut créer de l'incompréhension dans vos relations.
+                  ◈ Décalage interne : vous donnez l'amour différemment de la manière dont vous aimeriez le recevoir.
                 </div>
               )}
               <div style={{ fontSize: 12, color: C.text, lineHeight: 1.7 }}>
