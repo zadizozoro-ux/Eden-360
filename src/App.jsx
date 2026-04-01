@@ -2206,8 +2206,9 @@ function ScenarioAttachement({ scenario, value, onChange }) {
     );
   }
 
-  return null;
+return null;
 }
+
 const AffichageResultat = ({ phase, nom, profil, rapport, appreciationRecevoir, appreciationDonner, repAttachement }) => {
 
   if (phase === "generation") return (
@@ -2218,10 +2219,8 @@ const AffichageResultat = ({ phase, nom, profil, rapport, appreciationRecevoir, 
     </div>
   );
 
-function AfficherMonRapport({ phase, nom, profil, rapport, appreciationRecevoir, appreciationDonner, repAttachement }) {
-
-const RapportSection = ({ phase, nom, profil, rapport, appreciationRecevoir, appreciationDonner, repAttachement }) => {
-
+  // Le reste du contenu du rapport...
+};
 // ── RAPPORT ──
   if (phase === "rapport") { }
     const attachStyle = computeAttachementStyle(repAttachement);
