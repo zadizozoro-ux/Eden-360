@@ -2202,10 +2202,8 @@ function ScenarioAttachement({ scenario, value, onChange }) {
           hasViolenceSignal={violenceSignals !== null}
         />
 
-      </div>
+           </div>
     );
-  } catch (error) {
-    console.error(error);
   }
 
   return null;
