@@ -2206,7 +2206,8 @@ function ScenarioAttachement({ scenario, value, onChange }) {
     );
   }
 
-return null;
+  return null;
+}
 }
 
 const AffichageResultat = ({ phase, nom, profil, rapport, appreciationRecevoir, appreciationDonner, repAttachement }) => {
@@ -2219,6 +2220,14 @@ const AffichageResultat = ({ phase, nom, profil, rapport, appreciationRecevoir, 
     </div>
   );
 
+  return (
+    <div className="rapport-container">
+      {/* Le contenu du rapport */}
+    </div>
+  );
+};
+
+export default App;
   // Le reste du contenu du rapport...
 };
 // ── RAPPORT ──
