@@ -2234,7 +2234,119 @@ const LegalDisclaimer = ({ gp, hasViolenceSignal }) => (
   </div>
 );
 
-// COMPOSANT PRINCIPAL - CORRIGÉ
+// COMPOSANT PRINCIPAL
+const AffichageResultat = ({ phase, nom, profil, rapport, appreciationRecevoir, appreciationDonner, repAttachement, results, violenceSignals }) => {
+
+  if (phase === "generation") return (
+    <div className="loading-screen">
+      <div className="loading-ring" />
+      <div className="loading-msg">{loadMsg}</div>
+      <div className="loading-sub">Académie Eden · Portrait en cours de rédaction</div>
+    </div>
+  );
+
+  if (phase === "rapport") {
+    const attachStyle = computeAttachementStyle(repAttachement);
+    const primaryRecevoir = PROFIL_APPRECIATION_OPTIONS.find(o => o.id === appreciationRecevoir?.[0])?.label || "Non renseigné";
+    const primaryDonner = PROFIL_APPRECIATION_OPTIONS.find(o => o.id === appreciationDonner?.[0])?.label || "Non renseigné";
+    const decalage = appreciationRecevoir?.[0] !== appreciationDonner?.[0];
+    const sections = rapport?.split(/\*\*([^*]+)\*\*/).reduce((acc, part, i) => {
+      if (i % 2 === 0) {
+        if (part.trim()) acc.push({ type: "body", text: part.trim() });
+      } else {
+        acc.push({ type: "title", text: part.trim() });
+      }
+      return acc;
+    }, []) || [];
+
+    return (
+      <div className="rapport-container">
+        <div className="section">
+          <div style={{ background: "linear-gradient(135deg,#0B0F1A,#0D1020)", border: "1px solid #C9A84C33", padding: "24px 20px", marginBottom: 20 }}>
+            <div style={{ fontSize: 8, letterSpacing: ".28em", textTransform: "uppercase", color: C.gold, marginBottom: 8 }}>◈ Portrait Eden · Eaux · Os · Chair</div>
+            <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 28, color: "#F0EBE0", marginBottom: 4 }}>{nom}</div>
+            <div style={{ fontSize: 10, color: C.dim }}>{new Date().toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" })}</div>
+          </div>
+
+          <div className="card" style={{ marginBottom: 20 }}>
+            <div className="stl">Synthèse · Profil d'Appréciation & Attachement</div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+              <div style={{ fontSize: 12, color: C.text, lineHeight: 1.7 }}>
+                <span style={{ color: C.gold }}>Vous recevez l'amour principalement par :</span><br />{primaryRecevoir}
+              </div>
+              <div style={{ fontSize: 12, color: C.text, lineHeight: 1.7 }}>
+                <span style={{ color: C.gold }}>Vous exprimez l'amour naturellement par :</span><br />{primaryDonner}
+              </div>
+              {decalage && (
+                <div style={{ background: "#1A1000", border: "1px solid #C9A84C33", padding: "10px 14px", fontSize: 11, color: C.gold, lineHeight: 1.6 }}>
+                  ◈ Décalage interne : vous donnez l'amour différemment de la manière dont vous aimeriez le recevoir.
+                </div>
+              )}
+              <div style={{ fontSize: 12, color: C.text, lineHeight: 1.7 }}>
+                <span style={{ color: C.blue }}>Style d'attachement probable :</span><br />{attachStyle}
+              </div>
+            </div>
+          </div>
+
+          <div className="rb">
+            <div className="stl">Votre Portrait Complet</div>
+            {sections.map((s, i) => (
+              s.type === "title"
+                ? <div key={i} style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 18, color: C.gold, margin: "20px 0 10px" }}>{s.text}</div>
+                : <div key={i} className="rbt" style={{ marginBottom: 12 }}>{s.text}</div>
+            ))}
+          </div>
+
+          <LegalDisclaimer
+            gp={results?.gp}
+            hasViolenceSignal={violenceSignals !== null}
+          />
+        </div>
+      </div>
+    );
+  }
+
+  return null;
+};
+
+export default AffichageResultat;import React from 'react';
+
+// Définitions nécessaires
+const C = {
+  gold: '#C9A84C',
+  blue: '#3B82F6',
+  text: '#F0EBE0',
+  dim: '#9CA3AF'
+};
+
+const loadMsg = "Génération du portrait en cours...";
+
+const PROFIL_APPRECIATION_OPTIONS = [
+  { id: 'paroles', label: 'Paroles valorisantes' },
+  { id: 'temps', label: 'Temps de qualité' },
+  { id: 'cadeaux', label: 'Cadeaux' },
+  { id: 'services', label: 'Services rendus' },
+  { id: 'physique', label: 'Contact physique' }
+];
+
+const computeAttachementStyle = (rep) => {
+  if (!rep) return 'Non déterminé';
+  const styles = {
+    secure: 'Sécure',
+    anxious: 'Anxieux',
+    avoidant: 'Évitant'
+  };
+  return styles[rep] || rep;
+};
+
+const LegalDisclaimer = ({ gp, hasViolenceSignal }) => (
+  <div style={{ fontSize: 10, color: C.dim, marginTop: 20, padding: 12, borderTop: '1px solid #C9A84C33' }}>
+    Mentions légales - Portrait informatif
+    {hasViolenceSignal && ' ⚠️ Signalement détecté'}
+  </div>
+);
+
+// COMPOSANT PRINCIPAL
 const AffichageResultat = ({ phase, nom, profil, rapport, appreciationRecevoir, appreciationDonner, repAttachement, results, violenceSignals }) => {
 
   if (phase === "generation") return (
