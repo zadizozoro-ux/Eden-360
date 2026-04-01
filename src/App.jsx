@@ -2203,16 +2203,15 @@ function ScenarioAttachement({ scenario, value, onChange }) {
           scores={results.scores}
           sections={sections}
         />
-        <div className="cta-box">
-          <div className="cta-title">Aller plus loin, {clientName}</div>
-          <p className="cta-sub">Ce rapport est votre point de départ. Pour un accompagnement personnalisé avec Zady Zozoro, contactez l'Académie Eden directement.</p>
-          <button className="btn-wa" onClick={() => window.open(`https://wa.me/${WHATSAPP_NUM}?text=${encodeURIComponent(`Bonjour Académie Eden, je viens de compléter mon Bilan 360°. Score : ${results.gp}/100. Je souhaite aller plus loin.`)}`)}>Contacter l'Académie Eden · WhatsApp</button>
-        </div>
-                   <LegalDisclaimer gp={results.gp} hasViolenceSignal={violenceSignals !== null} />
+              </div>
+        <LegalDisclaimer gp={results.gp} hasViolenceSignal={violenceSignals !== null} />
       </div>
     );
+  } catch (error) {
+    console.error(error);
   }
-  return null; 
+
+  return null;
 }
 
 const AffichageResultat = ({ phase, nom, profil, rapport, appreciationRecevoir, appreciationDonner, repAttachement }) => {
@@ -2224,7 +2223,6 @@ const AffichageResultat = ({ phase, nom, profil, rapport, appreciationRecevoir, 
       <div className="loading-sub">Académie Eden · Portrait en cours de rédaction</div>
     </div>
   );
-
 
 function AfficherMonRapport({ phase, nom, profil, rapport, appreciationRecevoir, appreciationDonner, repAttachement }) {
 
