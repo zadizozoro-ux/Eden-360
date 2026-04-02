@@ -1270,8 +1270,28 @@ function RelationshipClock({ clockData }) {
   const nx = cx + r * 0.75 * Math.cos(needleRad);
   const ny = cy + r * 0.75 * Math.sin(needleRad);
 
+  function RelationshipClock({ clockData }) {
+  const [visible, setVisible] = useState(false);
+  const [angle, setAngle] = useState(0);
+
+  useEffect(() => {
+    setTimeout(() => setVisible(true), 300);
+    const target = clockData.urgency === "critique" ? 280 : clockData.urgency === "élevée" ? 200 : 130;
+    const t = setTimeout(() => setAngle(target), 500);
+    return () => clearTimeout(t);
+  }, [clockData]);
+
+  if (!clockData) return null;
+
+  const urgencyColor = clockData.urgency === "critique" ? C.red : clockData.urgency === "élevée" ? C.orange : C.gold;
+  const needleRad = (angle - 90) * (Math.PI / 180);
+  const cx = 80, cy = 80, r = 60;
+  const nx = cx + r * 0.75 * Math.cos(needleRad);
+  const ny = cy + r * 0.75 * Math.sin(needleRad);
+
   return (
-<div style={{ opacity: visible ? 1 : 0, transform: visible ? "translateY(0px)" : "translateY(20px)", transition: "all 0.6s", background: "#0D0810", border: "1px solid " + urgencyColor + "44", borderLeft: "4px solid " + urgencyColor, padding: "24px 22px", marginBottom: 24 }}>
+    <div style={{ opacity: visible ? 1 : 0, transform: visible ? "translateY(0px)" : "translateY(20px)", transition: "all 0.6s", background: "#0D0810", border: "1px solid " + urgencyColor + "44", borderLeft: "4px solid " + urgencyColor, padding: "24px 22px", marginBottom: 24 }}>
+      <div style={{ fontSize: 9, color: urgencyColor, letterSpacing: ".22em", textTransform: "uppercase", marginBottom: 16 }}>◎ Projection temporelle — Modèle Gottman</div>
       <div style={{ display: "flex", gap: 20, alignItems: "center" }}>
         <svg width="160" height="160" viewBox="0 0 160 160" style={{ flexShrink: 0 }}>
           <circle cx="80" cy="80" r="75" fill="#0A060C" stroke="#1E1828" strokeWidth="1" />
@@ -1290,29 +1310,13 @@ function RelationshipClock({ clockData }) {
           <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: clockData.months <= 24 ? 32 : 24, color: urgencyColor, lineHeight: 1, marginBottom: 4 }}>{clockData.months} mois</div>
           <div style={{ fontSize: 11, color: C.muted, marginBottom: 12 }}>projection sans intervention structurée</div>
           <div style={{ fontSize: 12, color: C.text, lineHeight: 1.7 }}>À ce rythme ({clockData.effectiveDecline} pts/an), votre relation atteindra la zone de rupture difficile à inverser{clockData.urgency === "critique" ? " dans moins de 2 ans." : clockData.urgency === "élevée" ? " dans 2 à 3 ans." : " dans 3 à 5 ans."}</div>
-          {clockData.activeCritical.length > 0 && <div style={{ fontSize: 10, color: urgencyColor, marginTop: 8, padding: "6px 10px", background: urgencyColor + "12", border: `1px solid ${urgencyColor}33` }}>Patterns accélérateurs : {clockData.activeCritical.join(", ")}</div>}
+          {clockData.activeCritical.length > 0 && <div style={{ fontSize: 10, color: urgencyColor, marginTop: 8, padding: "6px 10px", background: urgencyColor + "12", border: "1px solid " + urgencyColor + "33" }}>Patterns accélérateurs : {clockData.activeCritical.join(", ")}</div>}
         </div>
       </div>
       <div style={{ fontSize: 9, color: "#3A3444", marginTop: 16, lineHeight: 1.6, fontStyle: "italic" }}>Basé sur les modèles de recherche de John Gottman (40 ans d'étude sur 3000 couples).</div>
     </div>
   );
 }
-function MicroPertesSection({ scores, profil }) {
-  const [revealed, setRevealed] = useState(false);
-  
-  if (profil === "celibataire") return null;
-  
-  const fragiles = Object.entries(scores).filter(([k]) => MICRO_PERTES_MAP[k]).sort(([, a], [, b]) => a.p - b.p).slice(0, 3).filter(([, v]) => v.p < 65);
-  if (fragiles.length === 0) return null;
-  
-  const pertes = fragiles.flatMap(([k, v]) => {
-    const map = MICRO_PERTES_MAP[k];
-    if (v.p < 40) return map.low.slice(0, 2);
-    return map.low.slice(0, 1);
-  }).slice(0, 5);
-  
-  if (pertes.length === 0) return null;
-  
   return (
     <div style={{ marginBottom: 24, background: "#0D0008", border: "1px solid #C0614A66", padding: "24px 22px" }}>
       <div style={{ fontSize: 9, letterSpacing: ".22em", textTransform: "uppercase", color: C.red, marginBottom: 12 }}>◉ Ce que vous perdez déjà — invisiblement</div>
