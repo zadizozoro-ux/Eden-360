@@ -72,7 +72,7 @@ const styles = `
 const ALERT_LEVELS = { INFO: 1, VIGILANCE: 2, CRISE: 3, SYSTEM: 4 };
 const STORAGE_KEY = "eden_unified_v2";
 const MAX_QUESTIONS_FREE = 5;
-const MAX_QUESTIONS_PREMIUM = 30; // Tous les niveaux abonnés = 30 questions IA/mois
+const MAX_QUESTIONS_PREMIUM = 50; // Tous les niveaux abonnés = 30 questions IA/mois
 // ─── NIVEAUX D'ABONNEMENT ────────────────────────────────────────────────
 // "none"    = Non-abonné
 // "simple"  = Abonnement Simple  — 15 000 FCFA/mois
