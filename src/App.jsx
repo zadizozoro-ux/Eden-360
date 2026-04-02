@@ -1252,49 +1252,52 @@ return (
 }
 
 function RelationshipClock({ clockData }) {
-const [visible, setVisible] = useState(false);
-const [angle, setAngle] = useState(0);
-useEffect(() => {
-setTimeout(() => setVisible(true), 300);
-const target = clockData.urgency === “critique” ? 280 : clockData.urgency === “élevée” ? 200 : 130;
-const t = setTimeout(() => setAngle(target), 500);
-return () => clearTimeout(t);
-}, [clockData]);
-if (!clockData) return null;
-const urgencyColor = clockData.urgency === “critique” ? C.red : clockData.urgency === “élevée” ? C.orange : C.gold;
-const needleRad = (angle - 90) * (Math.PI / 180);
-const cx = 80, cy = 80, r = 60;
-const nx = cx + r * 0.75 * Math.cos(needleRad);
-const ny = cy + r * 0.75 * Math.sin(needleRad);
-return (
-<div style={{ opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(20px)", transition: "all 0.6s ease", background: "#0D0810", border: `1px solid ${urgencyColor}44`, borderLeft: `4px solid ${urgencyColor}`, padding: "24px 22px", marginBottom: 24 }}>
-<div style={{ fontSize:9, color:urgencyColor, letterSpacing:”.22em”, textTransform:“uppercase”, marginBottom:16 }}>◎ Projection temporelle — Modèle Gottman</div>
-<div style={{ display:“flex”, gap:20, alignItems:“center” }}>
-<svg width=“160” height=“160” viewBox=“0 0 160 160” style={{ flexShrink:0 }}>
-<circle cx="80" cy="80" r="75" fill="#0A060C" stroke="#1E1828" strokeWidth="1" />
-{[0,30,60,90,120,150,180,210,240,270,300,330].map(a => {
-const rad = (a - 90) * Math.PI / 180;
-const x1 = 80 + 55 * Math.cos(rad), y1 = 80 + 55 * Math.sin(rad);
-const x2 = 80 + 62 * Math.cos(rad), y2 = 80 + 62 * Math.sin(rad);
-return <line key={a} x1={x1} y1={y1} x2={x2} y2={y2} stroke=”#2A2040” strokeWidth={a % 90 === 0 ? 2 : 1} />;
-})}
-<line x1=“80” y1=“80” x2={nx} y2={ny} stroke={urgencyColor} strokeWidth=“2.5” strokeLinecap=“round” style={{ transition:“all 1.5s cubic-bezier(.34,1.56,.64,1)” }} />
-<circle cx="80" cy="80" r="5" fill={urgencyColor} />
-<text x="80" y="18" textAnchor="middle" fontSize="8" fill="#6A6070">Stable</text>
-<text x="147" y="84" textAnchor="start" fontSize="8" fill={C.red}>Crise</text>
-</svg>
-<div style={{ flex:1 }}>
-<div style={{ fontFamily:”‘Cormorant Garamond’,serif”, fontSize:clockData.months <= 24 ? 32 : 24, color:urgencyColor, lineHeight:1, marginBottom:4 }}>{clockData.months} mois</div>
-<div style={{ fontSize:11, color:C.muted, marginBottom:12 }}>projection sans intervention structurée</div>
-<div style={{ fontSize:12, color:C.text, lineHeight:1.7 }}>À ce rythme ({clockData.effectiveDecline} pts/an), votre relation atteindra la zone de rupture difficile à inverser{clockData.urgency === “critique” ? “ dans moins de 2 ans.” : clockData.urgency === “élevée” ? “ dans 2 à 3 ans.” : “ dans 3 à 5 ans.”}</div>
-{clockData.activeCritical.length > 0 && <div style={{ fontSize:10, color:urgencyColor, marginTop:8, padding:“6px 10px”, background:urgencyColor+“12”, border:`1px solid ${urgencyColor}33` }}>Patterns accélérateurs : {clockData.activeCritical.join(”, “)}</div>}
-</div>
-</div>
-<div style={{ fontSize:9, color:”#3A3444”, marginTop:16, lineHeight:1.6, fontStyle:“italic” }}>Basé sur les modèles de recherche de John Gottman (40 ans d’étude sur 3000 couples).</div>
-</div>
-);
-}
+  const [visible, setVisible] = useState(false);
+  const [angle, setAngle] = useState(0);
 
+  useEffect(() => {
+    setTimeout(() => setVisible(true), 300);
+    const target = clockData.urgency === "critique" ? 280 : clockData.urgency === "élevée" ? 200 : 130;
+    const t = setTimeout(() => setAngle(target), 500);
+    return () => clearTimeout(t);
+  }, [clockData]);
+
+  if (!clockData) return null;
+
+  const urgencyColor = clockData.urgency === "critique" ? C.red : clockData.urgency === "élevée" ? C.orange : C.gold;
+  const needleRad = (angle - 90) * (Math.PI / 180);
+  const cx = 80, cy = 80, r = 60;
+  const nx = cx + r * 0.75 * Math.cos(needleRad);
+  const ny = cy + r * 0.75 * Math.sin(needleRad);
+
+  return (
+    <div style={{ opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(20px)", transition: "all 0.6s ease", background: "#0D0810", border: `1px solid ${urgencyColor}44`, borderLeft: `4px solid ${urgencyColor}`, padding: "24px 22px", marginBottom: 24 }}>
+      <div style={{ fontSize: 9, color: urgencyColor, letterSpacing: ".22em", textTransform: "uppercase", marginBottom: 16 }}>◎ Projection temporelle — Modèle Gottman</div>
+      <div style={{ display: "flex", gap: 20, alignItems: "center" }}>
+        <svg width="160" height="160" viewBox="0 0 160 160" style={{ flexShrink: 0 }}>
+          <circle cx="80" cy="80" r="75" fill="#0A060C" stroke="#1E1828" strokeWidth="1" />
+          {[0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330].map(a => {
+            const rad = (a - 90) * Math.PI / 180;
+            const x1 = 80 + 55 * Math.cos(rad), y1 = 80 + 55 * Math.sin(rad);
+            const x2 = 80 + 62 * Math.cos(rad), y2 = 80 + 62 * Math.sin(rad);
+            return <line key={a} x1={x1} y1={y1} x2={x2} y2={y2} stroke="#2A2040" strokeWidth={a % 90 === 0 ? 2 : 1} />;
+          })}
+          <line x1="80" y1="80" x2={nx} y2={ny} stroke={urgencyColor} strokeWidth="2.5" strokeLinecap="round" style={{ transition: "all 1.5s cubic-bezier(.34,1.56,.64,1)" }} />
+          <circle cx="80" cy="80" r="5" fill={urgencyColor} />
+          <text x="80" y="18" textAnchor="middle" fontSize="8" fill="#6A6070">Stable</text>
+          <text x="147" y="84" textAnchor="start" fontSize="8" fill={C.red}>Crise</text>
+        </svg>
+        <div style={{ flex: 1 }}>
+          <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: clockData.months <= 24 ? 32 : 24, color: urgencyColor, lineHeight: 1, marginBottom: 4 }}>{clockData.months} mois</div>
+          <div style={{ fontSize: 11, color: C.muted, marginBottom: 12 }}>projection sans intervention structurée</div>
+          <div style={{ fontSize: 12, color: C.text, lineHeight: 1.7 }}>À ce rythme ({clockData.effectiveDecline} pts/an), votre relation atteindra la zone de rupture difficile à inverser{clockData.urgency === "critique" ? " dans moins de 2 ans." : clockData.urgency === "élevée" ? " dans 2 à 3 ans." : " dans 3 à 5 ans."}</div>
+          {clockData.activeCritical.length > 0 && <div style={{ fontSize: 10, color: urgencyColor, marginTop: 8, padding: "6px 10px", background: urgencyColor + "12", border: `1px solid ${urgencyColor}33` }}>Patterns accélérateurs : {clockData.activeCritical.join(", ")}</div>}
+        </div>
+      </div>
+      <div style={{ fontSize: 9, color: "#3A3444", marginTop: 16, lineHeight: 1.6, fontStyle: "italic" }}>Basé sur les modèles de recherche de John Gottman (40 ans d'étude sur 3000 couples).</div>
+    </div>
+  );
+}
 function MicroPertesSection({ scores, profil }) {
 const [revealed, setRevealed] = useState(false);
 if (profil === “celibataire”) return null;
