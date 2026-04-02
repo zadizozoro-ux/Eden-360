@@ -1171,1051 +1171,2137 @@ textarea:focus,input:focus{outline:none;}
 .form-card-prix{font-size:11px;color:#C9A84C;margin-bottom:4px;}
 .form-card-desc{font-size:11px;color:#6A6070;line-height:1.5;}
 .abonne-banner{background:linear-gradient(135deg,#0A1208,#0D1018);border:1px solid #4A9B6A44;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;}
-`;// ═══════════════════════════════════════════════════════════════════════════
+═══════════════════════════════════════════════════════════════════════════
 // SECTION 6 — COMPOSANTS PARTAGÉS
 // ═══════════════════════════════════════════════════════════════════════════
 
 function Footer() {
-  return (
-    <div className="footer">
-      <div className="footer-logo">Académie Eden · Institut de Leadership Familial</div>
-      <div className="footer-copy">Fondé par Zady Zozoro · Abidjan, Côte d'Ivoire · © 2025</div>
-    </div>
-  );
+return (
+<div className="footer">
+<div className="footer-logo">Académie Eden · Institut de Leadership Familial</div>
+<div className="footer-copy">Fondé par Zady Zozoro · Abidjan, Côte d’Ivoire · © 2025</div>
+</div>
+);
 }
 
 function PremiumGate({ feature, onUpgrade, children }) {
-  return (
-    <div className="premium-lock">
-      <div className="premium-lock-tag">✦ Fonctionnalité Premium</div>
-      <div className="premium-lock-title">{feature}</div>
-      <div className="premium-lock-desc">Disponible avec l'abonnement Eden Premium (15 000 FCFA/mois). Accès illimité aux deux modules + 5 fonctionnalités exclusives.</div>
-      <button className="btn-gold-outline" style={{ width: "100%" }} onClick={onUpgrade}>
-        Activer l'abonnement Premium
-      </button>
-    </div>
-  );
+return (
+<div className="premium-lock">
+<div className="premium-lock-tag">✦ Fonctionnalité Premium</div>
+<div className="premium-lock-title">{feature}</div>
+<div className="premium-lock-desc">Disponible avec l’abonnement Eden Premium (15 000 FCFA/mois). Accès illimité aux deux modules + 5 fonctionnalités exclusives.</div>
+<button className=“btn-gold-outline” style={{ width: “100%” }} onClick={onUpgrade}>
+Activer l’abonnement Premium
+</button>
+</div>
+);
 }
 
 function FacadeAlert({ ans, profil, onContinue, onRevise }) {
-  const facade = computeFacadeScore(ans, profil);
-  if (!facade || facade.level === "faible" || !facade.message) {
-    if (onContinue) onContinue();
-    return null;
-  }
-  return (
-    <div style={{ position: "fixed", inset: 0, background: "#000000EE", zIndex: 300, display: "flex", alignItems: "center", justifyContent: "center", padding: 24 }}>
-      <div style={{ background: "#0D1018", border: "1px solid #C9A84C66", maxWidth: 480, width: "100%", padding: "32px 28px" }}>
-        <div style={{ fontSize: 9, letterSpacing: ".22em", textTransform: "uppercase", color: C.gold, marginBottom: 16 }}>◈ Lecture de cohérence</div>
-        <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 22, color: "#F0EBE0", marginBottom: 8, lineHeight: 1.3 }}>Avant de continuer…</div>
-        <p style={{ fontSize: 13, color: C.text, lineHeight: 1.8, marginBottom: 24 }}>{facade.message}</p>
-        <p style={{ fontSize: 12, color: C.muted, lineHeight: 1.7, marginBottom: 28 }}>Un bilan honnête vous servira davantage qu'un rapport flatteur. La qualité de votre rapport dépend directement de la qualité de vos réponses.</p>
-        <div style={{ display: "flex", gap: 10, flexDirection: "column" }}>
-          <button onClick={onRevise} className="btn-gold-outline" style={{ width: "100%" }}>Revoir mes réponses avec plus de nuance</button>
-          <button onClick={onContinue} className="btn-primary">Continuer — mes réponses sont authentiques</button>
-        </div>
-      </div>
-    </div>
-  );
+const facade = computeFacadeScore(ans, profil);
+if (!facade || facade.level === “faible” || !facade.message) { onContinue(); return null; }
+return (
+<div style={{ position:“fixed”, inset:0, background:”#000000EE”, zIndex:300, display:“flex”, alignItems:“center”, justifyContent:“center”, padding:24 }}>
+<div style={{ background:”#0D1018”, border:“1px solid #C9A84C66”, maxWidth:480, width:“100%”, padding:“32px 28px” }}>
+<div style={{ fontSize:9, letterSpacing:”.22em”, textTransform:“uppercase”, color:C.gold, marginBottom:16 }}>◈ Lecture de cohérence</div>
+<div style={{ fontFamily:”‘Cormorant Garamond’,serif”, fontSize:22, color:”#F0EBE0”, marginBottom:8, lineHeight:1.3 }}>Avant de continuer…</div>
+<p style={{ fontSize:13, color:C.text, lineHeight:1.8, marginBottom:24 }}>{facade.message}</p>
+<p style={{ fontSize:12, color:C.muted, lineHeight:1.7, marginBottom:28 }}>Un bilan honnête vous servira davantage qu’un rapport flatteur. La qualité de votre rapport dépend directement de la qualité de vos réponses.</p>
+<div style={{ display:“flex”, gap:10, flexDirection:“column” }}>
+<button onClick={onRevise} className=“btn-gold-outline” style={{ width:“100%” }}>Revoir mes réponses avec plus de nuance</button>
+<button onClick={onContinue} className="btn-primary">Continuer — mes réponses sont authentiques</button>
+</div>
+</div>
+</div>
+);
 }
 
 function ViolenceProtocol({ signals, onContinue }) {
-  if (!signals || signals.length === 0) return null;
-  const resources = [
-    { pays: "Côte d'Ivoire", num: "1010 / +225 27 21 24 53 53" },
-    { pays: "Sénégal", num: "116" },
-    { pays: "Cameroun", num: "+237 222 23 40 89" },
-    { pays: "France (diaspora)", num: "3919" },
-    { pays: "International", num: "wa.me/+12134046022" },
-  ];
-  return (
-    <div style={{ position: "fixed", inset: 0, background: "linear-gradient(135deg,#0A0005,#120008)", zIndex: 500, display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}>
-      <div style={{ background: "#0D0008", border: "1px solid #C0614A66", maxWidth: 500, width: "100%", padding: "32px 28px" }}>
-        <div style={{ width: 40, height: 40, borderRadius: "50%", background: "#C0614A22", border: "1px solid #C0614A", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18, marginBottom: 20 }}>⚠</div>
-        <div style={{ fontSize: 9, letterSpacing: ".22em", textTransform: "uppercase", color: C.red, marginBottom: 12 }}>Message important</div>
-        <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 20, color: "#F0EBE0", marginBottom: 16, lineHeight: 1.35 }}>Certaines de vos réponses nous préoccupent</div>
-        <p style={{ fontSize: 13, color: C.text, lineHeight: 1.8, marginBottom: 20 }}>Ce que vous avez décrit peut indiquer une situation où votre sécurité ou votre liberté est compromise. Aucun diagnostic ne vaut votre sécurité.</p>
-        <p style={{ fontSize: 12, color: "#A0906A", lineHeight: 1.7, marginBottom: 24, fontStyle: "italic" }}>L'Académie Eden ne peut pas vous accompagner seul(e) dans cette situation. Un professionnel formé à cela peut faire la différence.</p>
-        <div style={{ background: "#0A0005", border: "1px solid #C0614A33", padding: "16px 18px", marginBottom: 24 }}>
-          <div style={{ fontSize: 9, color: C.red, letterSpacing: ".18em", textTransform: "uppercase", marginBottom: 12 }}>Ressources confidentielles — 24h/24</div>
-          {resources.map((r, i) => (
-            <div key={i} style={{ display: "flex", justifyContent: "space-between", padding: "6px 0", borderBottom: i < resources.length - 1 ? "1px solid #1A0A10" : "none" }}>
-              <div style={{ fontSize: 11, color: C.text }}>{r.pays}</div>
-              <div style={{ fontSize: 12, color: "#E8A0A0", fontWeight: 600 }}>{r.num}</div>
-            </div>
-          ))}
-        </div>
-        <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-          <button className="btn-wa" onClick={() => window.open(`https://wa.me/${WHATSAPP_NUM}?text=${encodeURIComponent("Bonjour, j'ai besoin d'aide urgente suite à mon bilan Eden.")}`)}>Contacter l'Académie Eden maintenant</button>
-          <button onClick={onContinue} style={{ background: "transparent", border: "1px solid #3A2A2A", color: "#6A5050", padding: "11px 20px", cursor: "pointer", fontFamily: "'Jost',sans-serif", fontSize: 11 }}>Continuer quand même</button>
-        </div>
-      </div>
-    </div>
-  );
+if (!signals || signals.length === 0) return null;
+const resources = [
+{ pays:“Côte d’Ivoire”, num:“1010 / +225 27 21 24 53 53” },
+{ pays:“Sénégal”, num:“116” },
+{ pays:“Cameroun”, num:”+237 222 23 40 89” },
+{ pays:“France (diaspora)”, num:“3919” },
+{ pays:“International”, num:“wa.me/+12134046022” },
+];
+return (
+<div style={{ position:“fixed”, inset:0, background:“linear-gradient(135deg,#0A0005,#120008)”, zIndex:500, display:“flex”, alignItems:“center”, justifyContent:“center”, padding:20 }}>
+<div style={{ background:”#0D0008”, border:“1px solid #C0614A66”, maxWidth:500, width:“100%”, padding:“32px 28px” }}>
+<div style={{ width:40, height:40, borderRadius:“50%”, background:”#C0614A22”, border:“1px solid #C0614A”, display:“flex”, alignItems:“center”, justifyContent:“center”, fontSize:18, marginBottom:20 }}>⚠</div>
+<div style={{ fontSize:9, letterSpacing:”.22em”, textTransform:“uppercase”, color:C.red, marginBottom:12 }}>Message important</div>
+<div style={{ fontFamily:”‘Cormorant Garamond’,serif”, fontSize:20, color:”#F0EBE0”, marginBottom:16, lineHeight:1.35 }}>Certaines de vos réponses nous préoccupent</div>
+<p style={{ fontSize:13, color:C.text, lineHeight:1.8, marginBottom:20 }}>Ce que vous avez décrit peut indiquer une situation où votre sécurité ou votre liberté est compromise. Aucun diagnostic ne vaut votre sécurité.</p>
+<p style={{ fontSize:12, color:”#A0906A”, lineHeight:1.7, marginBottom:24, fontStyle:“italic” }}>L’Académie Eden ne peut pas vous accompagner seul(e) dans cette situation. Un professionnel formé à cela peut faire la différence.</p>
+<div style={{ background:”#0A0005”, border:“1px solid #C0614A33”, padding:“16px 18px”, marginBottom:24 }}>
+<div style={{ fontSize:9, color:C.red, letterSpacing:”.18em”, textTransform:“uppercase”, marginBottom:12 }}>Ressources confidentielles — 24h/24</div>
+{resources.map((r, i) => (
+<div key={i} style={{ display:“flex”, justifyContent:“space-between”, padding:“6px 0”, borderBottom: i < resources.length - 1 ? “1px solid #1A0A10” : “none” }}>
+<div style={{ fontSize:11, color:C.text }}>{r.pays}</div>
+<div style={{ fontSize:12, color:”#E8A0A0”, fontWeight:600 }}>{r.num}</div>
+</div>
+))}
+</div>
+<div style={{ display:“flex”, flexDirection:“column”, gap:10 }}>
+<button className=“btn-wa” onClick={() => window.open(`https://wa.me/${WHATSAPP_NUM}?text=${encodeURIComponent("Bonjour, j'ai besoin d'aide urgente suite à mon bilan Eden.")}`)}>Contacter l’Académie Eden maintenant</button>
+<button onClick={onContinue} style={{ background:“transparent”, border:“1px solid #3A2A2A”, color:”#6A5050”, padding:“11px 20px”, cursor:“pointer”, fontFamily:”‘Jost’,sans-serif”, fontSize:11 }}>Continuer quand même</button>
+</div>
+</div>
+</div>
+);
 }
 
 function RelationshipClock({ clockData }) {
-  const [visible, setVisible] = useState(false);
-  const [angle, setAngle] = useState(0);
-  useEffect(() => {
-    setTimeout(() => setVisible(true), 300);
-    const target = clockData.urgency === "critique" ? 280 : clockData.urgency === "élevée" ? 200 : 130;
-    const t = setTimeout(() => setAngle(target), 500);
-    return () => clearTimeout(t);
-  }, [clockData]);
-  if (!clockData) return null;
-  const urgencyColor = clockData.urgency === "critique" ? C.red : clockData.urgency === "élevée" ? C.orange : C.gold;
-  const needleRad = (angle - 90) * (Math.PI / 180);
-  const cx = 80, cy = 80, r = 60;
-  const nx = cx + r * 0.75 * Math.cos(needleRad);
-  const ny = cy + r * 0.75 * Math.sin(needleRad);
-  return (
-    <div style={{ opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(20px)", transition: "all 0.6s ease", background: "#0D0810", border: `1px solid ${urgencyColor}44`, borderLeft: `4px solid ${urgencyColor}`, padding: "24px 22px", marginBottom: 24 }}>
-      <div style={{ fontSize: 9, color: urgencyColor, letterSpacing: ".22em", textTransform: "uppercase", marginBottom: 16 }}>◎ Projection temporelle — Modèle Gottman</div>
-      <div style={{ display: "flex", gap: 20, alignItems: "center" }}>
-        <svg width="160" height="160" viewBox="0 0 160 160" style={{ flexShrink: 0 }}>
-          <circle cx="80" cy="80" r="75" fill="#0A060C" stroke="#1E1828" strokeWidth="1" />
-          {[0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330].map(a => {
-            const rad = (a - 90) * Math.PI / 180;
-            const x1 = 80 + 55 * Math.cos(rad), y1 = 80 + 55 * Math.sin(rad);
-            const x2 = 80 + 62 * Math.cos(rad), y2 = 80 + 62 * Math.sin(rad);
-            return <line key={a} x1={x1} y1={y1} x2={x2} y2={y2} stroke="#2A2040" strokeWidth={a % 90 === 0 ? 2 : 1} />;
-          })}
-          <line x1="80" y1="80" x2={nx} y2={ny} stroke={urgencyColor} strokeWidth="2.5" strokeLinecap="round" style={{ transition: "all 1.5s cubic-bezier(.34,1.56,.64,1)" }} />
-          <circle cx="80" cy="80" r="5" fill={urgencyColor} />
-          <text x="80" y="18" textAnchor="middle" fontSize="8" fill="#6A6070">Stable</text>
-          <text x="147" y="84" textAnchor="start" fontSize="8" fill={C.red}>Crise</text>
-        </svg>
-        <div style={{ flex: 1 }}>
-          <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: clockData.months <= 24 ? 32 : 24, color: urgencyColor, lineHeight: 1, marginBottom: 4 }}>{clockData.months} mois</div>
-          <div style={{ fontSize: 11, color: C.muted, marginBottom: 12 }}>projection sans intervention structurée</div>
-          <div style={{ fontSize: 12, color: C.text, lineHeight: 1.7 }}>À ce rythme ({clockData.effectiveDecline} pts/an), votre relation atteindra la zone de rupture difficile à inverser{clockData.urgency === "critique" ? " dans moins de 2 ans." : clockData.urgency === "élevée" ? " dans 2 à 3 ans." : " dans 3 à 5 ans."}</div>
-          {clockData.activeCritical.length > 0 && <div style={{ fontSize: 10, color: urgencyColor, marginTop: 8, padding: "6px 10px", background: urgencyColor + "12", border: `1px solid ${urgencyColor}33` }}>Patterns accélérateurs : {clockData.activeCritical.join(", ")}</div>}
-        </div>
-      </div>
-      <div style={{ fontSize: 9, color: "#3A3444", marginTop: 16, lineHeight: 1.6, fontStyle: "italic" }}>Basé sur les modèles de recherche de John Gottman (40 ans d'étude sur 3000 couples).</div>
-    </div>
-  );
+const [visible, setVisible] = useState(false);
+const [angle, setAngle] = useState(0);
+useEffect(() => {
+setTimeout(() => setVisible(true), 300);
+const target = clockData.urgency === “critique” ? 280 : clockData.urgency === “élevée” ? 200 : 130;
+const t = setTimeout(() => setAngle(target), 500);
+return () => clearTimeout(t);
+}, [clockData]);
+if (!clockData) return null;
+const urgencyColor = clockData.urgency === “critique” ? C.red : clockData.urgency === “élevée” ? C.orange : C.gold;
+const needleRad = (angle - 90) * (Math.PI / 180);
+const cx = 80, cy = 80, r = 60;
+const nx = cx + r * 0.75 * Math.cos(needleRad);
+const ny = cy + r * 0.75 * Math.sin(needleRad);
+return (
+<div style={{ opacity:visible?1:0, transform:visible?“translateY(0)”:“translateY(20px)”, transition:“all 0.6s ease”, background:”#0D0810”, border:`1px solid ${urgencyColor}44`, borderLeft:`4px solid ${urgencyColor}`, padding:“24px 22px”, marginBottom:24 }}>
+<div style={{ fontSize:9, color:urgencyColor, letterSpacing:”.22em”, textTransform:“uppercase”, marginBottom:16 }}>◎ Projection temporelle — Modèle Gottman</div>
+<div style={{ display:“flex”, gap:20, alignItems:“center” }}>
+<svg width=“160” height=“160” viewBox=“0 0 160 160” style={{ flexShrink:0 }}>
+<circle cx="80" cy="80" r="75" fill="#0A060C" stroke="#1E1828" strokeWidth="1" />
+{[0,30,60,90,120,150,180,210,240,270,300,330].map(a => {
+const rad = (a - 90) * Math.PI / 180;
+const x1 = 80 + 55 * Math.cos(rad), y1 = 80 + 55 * Math.sin(rad);
+const x2 = 80 + 62 * Math.cos(rad), y2 = 80 + 62 * Math.sin(rad);
+return <line key={a} x1={x1} y1={y1} x2={x2} y2={y2} stroke=”#2A2040” strokeWidth={a % 90 === 0 ? 2 : 1} />;
+})}
+<line x1=“80” y1=“80” x2={nx} y2={ny} stroke={urgencyColor} strokeWidth=“2.5” strokeLinecap=“round” style={{ transition:“all 1.5s cubic-bezier(.34,1.56,.64,1)” }} />
+<circle cx="80" cy="80" r="5" fill={urgencyColor} />
+<text x="80" y="18" textAnchor="middle" fontSize="8" fill="#6A6070">Stable</text>
+<text x="147" y="84" textAnchor="start" fontSize="8" fill={C.red}>Crise</text>
+</svg>
+<div style={{ flex:1 }}>
+<div style={{ fontFamily:”‘Cormorant Garamond’,serif”, fontSize:clockData.months <= 24 ? 32 : 24, color:urgencyColor, lineHeight:1, marginBottom:4 }}>{clockData.months} mois</div>
+<div style={{ fontSize:11, color:C.muted, marginBottom:12 }}>projection sans intervention structurée</div>
+<div style={{ fontSize:12, color:C.text, lineHeight:1.7 }}>À ce rythme ({clockData.effectiveDecline} pts/an), votre relation atteindra la zone de rupture difficile à inverser{clockData.urgency === “critique” ? “ dans moins de 2 ans.” : clockData.urgency === “élevée” ? “ dans 2 à 3 ans.” : “ dans 3 à 5 ans.”}</div>
+{clockData.activeCritical.length > 0 && <div style={{ fontSize:10, color:urgencyColor, marginTop:8, padding:“6px 10px”, background:urgencyColor+“12”, border:`1px solid ${urgencyColor}33` }}>Patterns accélérateurs : {clockData.activeCritical.join(”, “)}</div>}
+</div>
+</div>
+<div style={{ fontSize:9, color:”#3A3444”, marginTop:16, lineHeight:1.6, fontStyle:“italic” }}>Basé sur les modèles de recherche de John Gottman (40 ans d’étude sur 3000 couples).</div>
+</div>
+);
 }
 
 function MicroPertesSection({ scores, profil }) {
-  const [revealed, setRevealed] = useState(false);
-  if (profil === "celibataire") return null;
-  const fragiles = Object.entries(scores).filter(([k]) => MICRO_PERTES_MAP[k]).sort(([, a], [, b]) => a.p - b.p).slice(0, 3).filter(([, v]) => v.p < 65);
-  if (fragiles.length === 0) return null;
-  const pertes = fragiles.flatMap(([k, v]) => {
-    const map = MICRO_PERTES_MAP[k];
-    if (v.p < 40) return map.low.slice(0, 2);
-    return map.low.slice(0, 1);
-  }).slice(0, 5);
-  if (pertes.length === 0) return null;
-  return (
-    <div className="card-red" style={{ marginBottom: 24 }}>
-      <div style={{ fontSize: 9, letterSpacing: ".22em", textTransform: "uppercase", color: C.red, marginBottom: 12 }}>◉ Ce que vous perdez déjà — invisiblement</div>
-      <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 17, color: "#F0EBE0", marginBottom: 16, lineHeight: 1.35 }}>Avant même la rupture, le manque est déjà là</div>
-      {!revealed ? (
-        <div>
-          <p style={{ fontSize: 13, color: C.muted, lineHeight: 1.7, marginBottom: 16 }}>Votre bilan a identifié {pertes.length} zones de perte quotidienne que vous ne nommez peut-être pas encore explicitement.</p>
-          <button onClick={() => setRevealed(true)} className="btn-gold-outline" style={{ width: "100%" }}>Révéler les pertes identifiées</button>
-        </div>
-      ) : (
-        <div>
-          <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 20 }}>
-            {pertes.map((perte, i) => (
-              <div key={i} style={{ display: "flex", gap: 12, alignItems: "flex-start", padding: "12px 14px", background: "#08050C", border: "1px solid #1A0A14" }}>
-                <div style={{ color: C.red, fontSize: 14, flexShrink: 0 }}>◉</div>
-                <div style={{ fontSize: 13, color: C.text, lineHeight: 1.7 }}>{perte}</div>
-              </div>
-            ))}
-          </div>
-          <p style={{ fontSize: 12, color: "#8A6070", lineHeight: 1.7, fontStyle: "italic" }}>Ces pertes ne s'annoncent pas. Elles s'accumulent. Jusqu'au jour où l'une d'elles manque si profondément qu'on ne se souvient plus quand elle a commencé à disparaître.</p>
-        </div>
-      )}
-    </div>
-  );
+const [revealed, setRevealed] = useState(false);
+if (profil === “celibataire”) return null;
+const fragiles = Object.entries(scores).filter(([k]) => MICRO_PERTES_MAP[k]).sort(([, a], [, b]) => a.p - b.p).slice(0, 3).filter(([, v]) => v.p < 65);
+if (fragiles.length === 0) return null;
+const pertes = fragiles.flatMap(([k, v]) => {
+const map = MICRO_PERTES_MAP[k];
+if (v.p < 40) return map.low.slice(0, 2);
+return map.low.slice(0, 1);
+}).slice(0, 5);
+if (pertes.length === 0) return null;
+return (
+<div className=“card-red” style={{ marginBottom:24 }}>
+<div style={{ fontSize:9, letterSpacing:”.22em”, textTransform:“uppercase”, color:C.red, marginBottom:12 }}>◉ Ce que vous perdez déjà — invisiblement</div>
+<div style={{ fontFamily:”‘Cormorant Garamond’,serif”, fontSize:17, color:”#F0EBE0”, marginBottom:16, lineHeight:1.35 }}>Avant même la rupture, le manque est déjà là</div>
+{!revealed ? (
+<div>
+<p style={{ fontSize:13, color:C.muted, lineHeight:1.7, marginBottom:16 }}>Votre bilan a identifié {pertes.length} zones de perte quotidienne que vous ne nommez peut-être pas encore explicitement.</p>
+<button onClick={() => setRevealed(true)} className=“btn-gold-outline” style={{ width:“100%” }}>Révéler les pertes identifiées</button>
+</div>
+) : (
+<div>
+<div style={{ display:“flex”, flexDirection:“column”, gap:10, marginBottom:20 }}>
+{pertes.map((perte, i) => (
+<div key={i} style={{ display:“flex”, gap:12, alignItems:“flex-start”, padding:“12px 14px”, background:”#08050C”, border:“1px solid #1A0A14” }}>
+<div style={{ color:C.red, fontSize:14, flexShrink:0 }}>◉</div>
+<div style={{ fontSize:13, color:C.text, lineHeight:1.7 }}>{perte}</div>
+</div>
+))}
+</div>
+<p style={{ fontSize:12, color:”#8A6070”, lineHeight:1.7, fontStyle:“italic” }}>Ces pertes ne s’annoncent pas. Elles s’accumulent. Jusqu’au jour où l’une d’elles manque si profondément qu’on ne se souvient plus quand elle a commencé à disparaître.</p>
+</div>
+)}
+</div>
+);
 }
 
 function FutureLetter({ letter, clientName, gp, onClose }) {
-  const [visible, setVisible] = useState(false);
-  useEffect(() => { setTimeout(() => setVisible(true), 100); }, []);
-  const isPositive = gp >= 65;
-  const accentColor = isPositive ? C.green : C.orange;
-  return (
-    <div style={{ position: "fixed", inset: 0, background: "#000000F0", zIndex: 400, display: "flex", alignItems: "center", justifyContent: "center", padding: 16, overflowY: "auto" }}>
-      <div style={{ background: "#080C10", border: `1px solid ${accentColor}44`, maxWidth: 520, width: "100%", opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(30px)", transition: "all 0.8s ease" }}>
-        <div style={{ padding: "28px 28px 0" }}>
-          <div style={{ fontSize: 8, letterSpacing: ".28em", textTransform: "uppercase", color: accentColor, marginBottom: 12 }}>{isPositive ? "✦ Lettre de votre futur possible" : "◈ Lettre de votre futur probable"}</div>
-          <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 17, color: "#F0EBE0", fontStyle: "italic", marginBottom: 8 }}>{isPositive ? "Si vous agissez courageusement aujourd'hui…" : "Si rien ne change à partir d'aujourd'hui…"}</div>
-          <div style={{ width: 40, height: 1, background: accentColor + "55", marginBottom: 24 }} />
-        </div>
-        <div style={{ padding: "0 28px 28px" }}>
-          <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 14, color: C.text, lineHeight: 2.1, fontStyle: "italic", whiteSpace: "pre-wrap", borderLeft: `2px solid ${accentColor}33`, paddingLeft: 20 }}>{letter}</div>
-        </div>
-        <div style={{ padding: "20px 28px", borderTop: "1px solid #1E2230", display: "flex", gap: 10, flexDirection: "column" }}>
-          <div style={{ fontSize: 11, color: "#6A6070", lineHeight: 1.6, fontStyle: "italic", marginBottom: 4 }}>Cette lettre est générée à partir des dynamiques identifiées dans votre bilan. Elle n'est pas une prédiction — c'est un miroir de vos trajectoires possibles.</div>
-          <button onClick={onClose} className="btn-primary" style={{ background: accentColor }}>Retour à mon rapport</button>
-        </div>
-      </div>
-    </div>
-  );
+const [visible, setVisible] = useState(false);
+useEffect(() => { setTimeout(() => setVisible(true), 100); }, []);
+const isPositive = gp >= 65;
+const accentColor = isPositive ? C.green : C.orange;
+return (
+<div style={{ position:“fixed”, inset:0, background:”#000000F0”, zIndex:400, display:“flex”, alignItems:“center”, justifyContent:“center”, padding:16, overflowY:“auto” }}>
+<div style={{ background:”#080C10”, border:`1px solid ${accentColor}44`, maxWidth:520, width:“100%”, opacity:visible?1:0, transform:visible?“translateY(0)”:“translateY(30px)”, transition:“all 0.8s ease” }}>
+<div style={{ padding:“28px 28px 0” }}>
+<div style={{ fontSize:8, letterSpacing:”.28em”, textTransform:“uppercase”, color:accentColor, marginBottom:12 }}>{isPositive ? “✦ Lettre de votre futur possible” : “◈ Lettre de votre futur probable”}</div>
+<div style={{ fontFamily:”‘Cormorant Garamond’,serif”, fontSize:17, color:”#F0EBE0”, fontStyle:“italic”, marginBottom:8 }}>{isPositive ? “Si vous agissez courageusement aujourd’hui…” : “Si rien ne change à partir d’aujourd’hui…”}</div>
+<div style={{ width:40, height:1, background:accentColor+“55”, marginBottom:24 }} />
+</div>
+<div style={{ padding:“0 28px 28px” }}>
+<div style={{ fontFamily:”‘Cormorant Garamond’,serif”, fontSize:14, color:C.text, lineHeight:2.1, fontStyle:“italic”, whiteSpace:“pre-wrap”, borderLeft:`2px solid ${accentColor}33`, paddingLeft:20 }}>{letter}</div>
+</div>
+<div style={{ padding:“20px 28px”, borderTop:“1px solid #1E2230”, display:“flex”, gap:10, flexDirection:“column” }}>
+<div style={{ fontSize:11, color:”#6A6070”, lineHeight:1.6, fontStyle:“italic”, marginBottom:4 }}>Cette lettre est générée à partir des dynamiques identifiées dans votre bilan. Elle n’est pas une prédiction — c’est un miroir de vos trajectoires possibles.</div>
+<button onClick={onClose} className=“btn-primary” style={{ background:accentColor }}>Retour à mon rapport</button>
+</div>
+</div>
+</div>
+);
 }
 
 function ViralShareCard({ clientName, gp, profil, riskLevel, onClose }) {
-  const [copied, setCopied] = useState(false);
-  const verdict = getVerdict3Mots(gp);
-  const scoreColor = gp >= 65 ? C.green : gp >= 50 ? C.gold : gp >= 35 ? C.orange : C.red;
-  const profilLabel = profil === "marie" ? "Couple marié" : profil === "fiance" ? "Fiancé(e)" : "Célibataire";
-  const shareText = `Mon Bilan 360° Eden révèle :\n\n"${verdict}"\n\nScore global : ${gp}/100 · ${riskLevel?.l || ""}\n\nDécouvrez le vôtre → academie-eden.com\n(Bilan · 25 000 FCFA)`;
-  return (
-    <div style={{ position: "fixed", inset: 0, background: "#000000EE", zIndex: 400, display: "flex", alignItems: "center", justifyContent: "center", padding: 16 }}>
-      <div style={{ background: "#0B0F1A", border: "1px solid #C9A84C44", maxWidth: 420, width: "100%" }}>
-        <div style={{ background: "linear-gradient(135deg,#080C14,#0D1020,#080A10)", padding: "32px 28px", position: "relative", overflow: "hidden" }}>
-          <div style={{ position: "absolute", top: -40, right: -40, width: 180, height: 180, borderRadius: "50%", background: scoreColor + "08", border: `1px solid ${scoreColor}15` }} />
-          <div style={{ fontSize: 8, letterSpacing: ".3em", textTransform: "uppercase", color: C.gold, marginBottom: 20 }}>Académie Eden · Bilan 360°</div>
-          <div style={{ display: "flex", alignItems: "flex-end", gap: 8, marginBottom: 16 }}>
-            <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 72, color: scoreColor, lineHeight: 1, fontWeight: 100 }}>{gp}</div>
-            <div style={{ paddingBottom: 12 }}>
-              <div style={{ fontSize: 18, color: scoreColor }}>/ 100</div>
-              <div style={{ fontSize: 9, color: C.muted, letterSpacing: ".1em", textTransform: "uppercase" }}>{profilLabel}</div>
-            </div>
-          </div>
-          <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 22, color: "#F0EBE0", fontStyle: "italic", marginBottom: 20, lineHeight: 1.3, borderLeft: `3px solid ${scoreColor}`, paddingLeft: 16 }}>"{verdict}"</div>
-          <div style={{ display: "inline-block", padding: "4px 12px", border: `1px solid ${scoreColor}44`, fontSize: 9, letterSpacing: ".16em", textTransform: "uppercase", color: scoreColor }}>{riskLevel?.l || "Bilan complété"}</div>
-          <div style={{ marginTop: 24, paddingTop: 16, borderTop: "1px solid #1E2230", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <div style={{ fontSize: 10, color: "#4A5060" }}>Découvrez le vôtre → academie-eden.com</div>
-            <div style={{ fontSize: 8, color: C.gold, letterSpacing: ".12em" }}>◈ EDEN</div>
-          </div>
-        </div>
-        <div style={{ padding: "20px 24px" }}>
-          <div style={{ fontSize: 11, color: C.muted, marginBottom: 14, lineHeight: 1.6 }}>Partagez votre révélation sans exposer votre rapport complet. Chaque partage peut aider quelqu'un à faire le premier pas.</div>
-          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-            <button className="btn-wa" onClick={() => window.open(`https://wa.me/?text=${encodeURIComponent(shareText)}`)}>Partager sur WhatsApp</button>
-            <button className="btn-gold-outline" style={{ width: "100%" }} onClick={() => { navigator.clipboard.writeText(shareText).then(() => { setCopied(true); setTimeout(() => setCopied(false), 2500); }); }}>{copied ? "✓ Copié" : "Copier le texte"}</button>
-            <button onClick={onClose} style={{ background: "transparent", border: "1px solid #1E2330", color: "#4A5060", padding: "9px 20px", cursor: "pointer", fontFamily: "'Jost',sans-serif", fontSize: 11 }}>Fermer</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+const [copied, setCopied] = useState(false);
+const verdict = getVerdict3Mots(gp);
+const scoreColor = gp >= 65 ? C.green : gp >= 50 ? C.gold : gp >= 35 ? C.orange : C.red;
+const profilLabel = profil === “marie” ? “Couple marié” : profil === “fiance” ? “Fiancé(e)” : “Célibataire”;
+const shareText = `Mon Bilan 360° Eden révèle :\n\n"${verdict}"\n\nScore global : ${gp}/100 · ${riskLevel?.l || ""}\n\nDécouvrez le vôtre → academie-eden.com\n(Bilan · 25 000 FCFA)`;
+return (
+<div style={{ position:“fixed”, inset:0, background:”#000000EE”, zIndex:400, display:“flex”, alignItems:“center”, justifyContent:“center”, padding:16 }}>
+<div style={{ background:”#0B0F1A”, border:“1px solid #C9A84C44”, maxWidth:420, width:“100%” }}>
+<div style={{ background:“linear-gradient(135deg,#080C14,#0D1020,#080A10)”, padding:“32px 28px”, position:“relative”, overflow:“hidden” }}>
+<div style={{ position:“absolute”, top:-40, right:-40, width:180, height:180, borderRadius:“50%”, background:scoreColor+“08”, border:`1px solid ${scoreColor}15` }} />
+<div style={{ fontSize:8, letterSpacing:”.3em”, textTransform:“uppercase”, color:C.gold, marginBottom:20 }}>Académie Eden · Bilan 360°</div>
+<div style={{ display:“flex”, alignItems:“flex-end”, gap:8, marginBottom:16 }}>
+<div style={{ fontFamily:”‘Cormorant Garamond’,serif”, fontSize:72, color:scoreColor, lineHeight:1, fontWeight:100 }}>{gp}</div>
+<div style={{ paddingBottom:12 }}>
+<div style={{ fontSize:18, color:scoreColor }}>/ 100</div>
+<div style={{ fontSize:9, color:C.muted, letterSpacing:”.1em”, textTransform:“uppercase” }}>{profilLabel}</div>
+</div>
+</div>
+<div style={{ fontFamily:”‘Cormorant Garamond’,serif”, fontSize:22, color:”#F0EBE0”, fontStyle:“italic”, marginBottom:20, lineHeight:1.3, borderLeft:`3px solid ${scoreColor}`, paddingLeft:16 }}>”{verdict}”</div>
+<div style={{ display:“inline-block”, padding:“4px 12px”, border:`1px solid ${scoreColor}44`, fontSize:9, letterSpacing:”.16em”, textTransform:“uppercase”, color:scoreColor }}>{riskLevel?.l || “Bilan complété”}</div>
+<div style={{ marginTop:24, paddingTop:16, borderTop:“1px solid #1E2230”, display:“flex”, justifyContent:“space-between”, alignItems:“center” }}>
+<div style={{ fontSize:10, color:”#4A5060” }}>Découvrez le vôtre → academie-eden.com</div>
+<div style={{ fontSize:8, color:C.gold, letterSpacing:”.12em” }}>◈ EDEN</div>
+</div>
+</div>
+<div style={{ padding:“20px 24px” }}>
+<div style={{ fontSize:11, color:C.muted, marginBottom:14, lineHeight:1.6 }}>Partagez votre révélation sans exposer votre rapport complet. Chaque partage peut aider quelqu’un à faire le premier pas.</div>
+<div style={{ display:“flex”, flexDirection:“column”, gap:10 }}>
+<button className=“btn-wa” onClick={() => window.open(`https://wa.me/?text=${encodeURIComponent(shareText)}`)}>Partager sur WhatsApp</button>
+<button className=“btn-gold-outline” style={{ width:“100%” }} onClick={() => { navigator.clipboard.writeText(shareText).then(() => { setCopied(true); setTimeout(() => setCopied(false), 2500); }); }}>{copied ? “✓ Copié” : “Copier le texte”}</button>
+<button onClick={onClose} style={{ background:“transparent”, border:“1px solid #1E2330”, color:”#4A5060”, padding:“9px 20px”, cursor:“pointer”, fontFamily:”‘Jost’,sans-serif”, fontSize:11 }}>Fermer</button>
+</div>
+</div>
+</div>
+</div>
+);
 }
 
-// ─── COMPOSANT : BANNIÈRE D'ALERTE (niveaux 1, 2, 3) ────────────────────────
+// ─── COMPOSANT : BANNIÈRE D’ALERTE (niveaux 1, 2, 3) ────────────────────────
 function AlertBanner({ alertLevel, clientName, gp }) {
-  const [wantsContact, setWantsContact] = useState(false);
-  const [contactSent, setContactSent] = useState(false);
-  if (!alertLevel || alertLevel === 0) return null;
-  if (alertLevel >= ALERT_LEVELS.CRISE) return null;
-  if (alertLevel === ALERT_LEVELS.VIGILANCE) return (
-    <div style={{ background: "#140A00", border: "1px solid #C0784A44", borderLeft: "4px solid #C0784A", padding: "20px 22px", marginBottom: 24 }}>
-      <div style={{ fontSize: 9, color: C.orange, letterSpacing: ".22em", textTransform: "uppercase", marginBottom: 8 }}>⚠ Attention — Situation à surveiller</div>
-      <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 17, color: "#F0EBE0", marginBottom: 10, lineHeight: 1.4 }}>
-        Votre situation nécessite une attention rapide
-      </div>
-      <p style={{ fontSize: 12, color: C.muted, lineHeight: 1.7, marginBottom: 16 }}>
-        Certains signaux de votre bilan indiquent une dynamique qui peut évoluer rapidement sans accompagnement. Un conseiller peut vous recontacter dans les 48h si vous le souhaitez — sans engagement, juste pour échanger.
-      </p>
-      {!contactSent ? (
-        !wantsContact ? (
-          <button onClick={() => setWantsContact(true)} style={{ background: C.orange, border: "none", color: "#fff", padding: "11px 18px", fontFamily: "'Jost',sans-serif", fontSize: 12, fontWeight: 600, cursor: "pointer", width: "100%" }}>
-            Je souhaite être recontacté(e) dans les 48h
-          </button>
-        ) : (
-          <div style={{ background: "#0A0805", border: "1px solid #C0784A33", padding: "14px" }}>
-            <div style={{ fontSize: 12, color: C.text, marginBottom: 10 }}>Sur quel numéro WhatsApp peut-on vous joindre ?</div>
-            <div style={{ display: "flex", gap: 8 }}>
-              <input id="contact-tel" className="inp" placeholder="+225 XX XX XX XX" style={{ flex: 1, marginBottom: 0 }} />
-              <button onClick={() => {
-                const tel = document.getElementById("contact-tel")?.value || "";
-                triggerCrisisAlert({ clientName, gp, profil: "", patternScores: {}, alertLevel, tel });
-                setContactSent(true);
-              }} style={{ background: C.orange, border: "none", color: "#fff", padding: "10px 16px", fontFamily: "'Jost',sans-serif", fontSize: 12, fontWeight: 600, cursor: "pointer" }}>
-                Envoyer
-              </button>
-            </div>
-          </div>
-        )
-      ) : (
-        <div style={{ fontSize: 12, color: C.green, padding: "10px 0" }}>✓ Demande envoyée — Un conseiller vous contactera sous 48h.</div>
-      )}
-    </div>
-  );
-  if (alertLevel === ALERT_LEVELS.INFO) return (
-    <div style={{ background: "#0A0C08", border: "1px solid #C9A84C22", padding: "12px 16px", marginBottom: 16 }}>
-      <div style={{ fontSize: 11, color: C.muted, lineHeight: 1.6 }}>
-        ◈ Certaines dimensions de votre bilan méritent une attention régulière. Le programme mensuel abonné vous permettra de suivre votre progression sur 12 mois.
-      </div>
-    </div>
-  );
-  return null;
+const [wantsContact, setWantsContact] = useState(false);
+const [contactSent, setContactSent] = useState(false);
+
+if (!alertLevel || alertLevel === 0) return null;
+
+// Niveau 3 — déjà géré par ViolenceProtocol, pas de bannière ici
+if (alertLevel >= ALERT_LEVELS.CRISE) return null;
+
+// Niveau 2 — VIGILANCE
+if (alertLevel === ALERT_LEVELS.VIGILANCE) return (
+<div style={{ background:”#140A00”, border:“1px solid #C0784A44”, borderLeft:“4px solid #C0784A”, padding:“20px 22px”, marginBottom:24 }}>
+<div style={{ fontSize:9, color:C.orange, letterSpacing:”.22em”, textTransform:“uppercase”, marginBottom:8 }}>⚠ Attention — Situation à surveiller</div>
+<div style={{ fontFamily:”‘Cormorant Garamond’,serif”, fontSize:17, color:”#F0EBE0”, marginBottom:10, lineHeight:1.4 }}>
+Votre situation nécessite une attention rapide
+</div>
+<p style={{ fontSize:12, color:C.muted, lineHeight:1.7, marginBottom:16 }}>
+Certains signaux de votre bilan indiquent une dynamique qui peut évoluer rapidement sans accompagnement. Un conseiller peut vous recontacter dans les 48h si vous le souhaitez — sans engagement, juste pour échanger.
+</p>
+{!contactSent ? (
+!wantsContact ? (
+<button onClick={() => setWantsContact(true)} style={{ background:C.orange, border:“none”, color:”#fff”, padding:“11px 18px”, fontFamily:”‘Jost’,sans-serif”, fontSize:12, fontWeight:600, cursor:“pointer”, width:“100%” }}>
+Je souhaite être recontacté(e) dans les 48h
+</button>
+) : (
+<div style={{ background:”#0A0805”, border:“1px solid #C0784A33”, padding:“14px” }}>
+<div style={{ fontSize:12, color:C.text, marginBottom:10 }}>Sur quel numéro WhatsApp peut-on vous joindre ?</div>
+<div style={{ display:“flex”, gap:8 }}>
+<input id=“contact-tel” className=“inp” placeholder=”+225 XX XX XX XX” style={{ flex:1, marginBottom:0 }} />
+<button onClick={() => {
+const tel = document.getElementById(“contact-tel”)?.value || “”;
+triggerCrisisAlert({ clientName, gp, profil:””, patternScores:{}, alertLevel, tel });
+setContactSent(true);
+}} style={{ background:C.orange, border:“none”, color:”#fff”, padding:“10px 16px”, fontFamily:”‘Jost’,sans-serif”, fontSize:12, fontWeight:600, cursor:“pointer” }}>
+Envoyer
+</button>
+</div>
+</div>
+)
+) : (
+<div style={{ fontSize:12, color:C.green, padding:“10px 0” }}>✓ Demande envoyée — Un conseiller vous contactera sous 48h.</div>
+)}
+</div>
+);
+
+// Niveau 1 — INFORMATION (discret)
+if (alertLevel === ALERT_LEVELS.INFO) return (
+<div style={{ background:”#0A0C08”, border:“1px solid #C9A84C22”, padding:“12px 16px”, marginBottom:16 }}>
+<div style={{ fontSize:11, color:C.muted, lineHeight:1.6 }}>
+◈ Certaines dimensions de votre bilan méritent une attention régulière. Le programme mensuel abonné vous permettra de suivre votre progression sur 12 mois.
+</div>
+</div>
+);
+
+return null;
 }
 
 // ─── COMPOSANT : TÉMOIGNAGES AUTO-GÉNÉRÉS ────────────────────────────────────
 function TestimonialsModal({ clientName, gp, profil, patternScores, scores, onClose }) {
-  const [loading, setLoading] = useState(true);
-  const [versions, setVersions] = useState({ v1: "", v2: "", v3: "" });
-  const [selected, setSelected] = useState(null);
-  const [edited, setEdited] = useState("");
-  const [shared, setShared] = useState(false);
-  useEffect(() => {
-    (async () => {
-      const prompt = buildTestimonialsPrompt(clientName, profil, gp, patternScores, scores);
-      try {
-        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/diagnostic-report`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ report }) });
-        const text = data.text || "";
-        const v1 = text.match(/VERSION_1:\s*(.+?)(?=VERSION_2:|$)/s)?.[1]?.trim() || "";
-        const v2 = text.match(/VERSION_2:\s*(.+?)(?=VERSION_3:|$)/s)?.[1]?.trim() || "";
-        const v3 = text.match(/VERSION_3:\s*(.+?)$/s)?.[1]?.trim() || "";
-        setVersions({ v1, v2, v3 });
-      } catch { setVersions({ v1: "Le bilan m'a permis de nommer ce que je vivais sans pouvoir le dire.", v2: "", v3: "" }); }
-      setLoading(false);
-    })();
-  }, []);
-  const labels = ["Le choc de reconnaissance", "Le déclic émotionnel", "Le résultat concret"];
-  const vList = [versions.v1, versions.v2, versions.v3];
-  const handleShare = () => {
-    const msg = `"${edited || vList[selected]}"
+const [loading, setLoading] = useState(true);
+const [versions, setVersions] = useState({ v1:””, v2:””, v3:”” });
+const [selected, setSelected] = useState(null);
+const [edited, setEdited] = useState(””);
+const [shared, setShared] = useState(false);
+
+useEffect(() => {
+(async () => {
+const prompt = buildTestimonialsPrompt(clientName, profil, gp, patternScores, scores);
+try {
+const text = await edenAI({ prompt });
+const v1 = text.match(/VERSION_1:[\s\S]*?(.+?)(?=VERSION_2:|$)/)?.[1]?.trim() || “”;
+const v2 = text.match(/VERSION_2:[\s\S]*?(.+?)(?=VERSION_3:|$)/)?.[1]?.trim() || “”;
+const v3 = text.match(/VERSION_3:[\s\S]*?(.+?)$/)?.[1]?.trim() || “”;
+setVersions({ v1, v2, v3 });
+} catch { setVersions({ v1:“Le bilan m’a permis de nommer ce que je vivais sans pouvoir le dire.”, v2:””, v3:”” }); }
+setLoading(false);
+})();
+}, []);
+
+const labels = [“Le choc de reconnaissance”,“Le déclic émotionnel”,“Le résultat concret”];
+const vList = [versions.v1, versions.v2, versions.v3];
+
+const handleShare = () => {
+const msg = `”${edited || vList[selected]}”
+
 — ${clientName.charAt(0)}., Bilan Eden 360°
-academie-eden.com`;
-    window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`);
-    setShared(true);
-  };
-  return (
-    <div style={{ position: "fixed", inset: 0, background: "#000000EE", zIndex: 400, display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}>
-      <div style={{ background: "#0D1018", border: "1px solid #C9A84C44", maxWidth: 500, width: "100%", padding: "28px 24px", maxHeight: "90vh", overflowY: "auto" }}>
-        <div style={{ fontSize: 9, letterSpacing: ".26em", textTransform: "uppercase", color: C.gold, marginBottom: 12 }}>◈ Votre témoignage</div>
-        <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 20, color: "#F0EBE0", marginBottom: 8 }}>Partagez votre expérience</div>
-        <p style={{ fontSize: 12, color: C.muted, lineHeight: 1.7, marginBottom: 20 }}>
-          Votre parcours peut aider d'autres personnes à faire le premier pas. Choisissez la version qui vous ressemble le plus — vous pouvez la modifier avant de partager.
-        </p>
-        {loading ? (
-          <div style={{ textAlign: "center", padding: "24px 0" }}>
-            <div className="loading-ring" style={{ margin: "0 auto 12px" }} />
-            <div style={{ fontSize: 12, color: C.muted }}>Génération de vos témoignages…</div>
-          </div>
-        ) : (
-          <div>
-            {vList.filter(v => v).map((v, i) => (
-              <div key={i} onClick={() => { setSelected(i); setEdited(v); }} style={{ background: selected === i ? "#0A1208" : "#080C10", border: `1px solid ${selected === i ? "#4A9B6A" : "#1E2330"}`, padding: "14px 16px", marginBottom: 10, cursor: "pointer", transition: "all .2s" }}>
-                <div style={{ fontSize: 9, color: selected === i ? C.green : C.dim, letterSpacing: ".16em", textTransform: "uppercase", marginBottom: 6 }}>{labels[i]}</div>
-                <div style={{ fontSize: 13, color: selected === i ? "#F0EBE0" : C.muted, lineHeight: 1.7, fontStyle: "italic" }}>"{v}"</div>
-              </div>
-            ))}
-            {selected !== null && (
-              <div style={{ marginTop: 16 }}>
-                <div style={{ fontSize: 10, color: C.gold, letterSpacing: ".14em", textTransform: "uppercase", marginBottom: 8 }}>Modifier si souhaité</div>
-                <textarea className="ta" value={edited} onChange={e => setEdited(e.target.value)} style={{ minHeight: 80 }} />
-              </div>
-            )}
-            <div style={{ display: "flex", gap: 8, marginTop: 16 }}>
-              <button onClick={onClose} style={{ flex: 1, background: "transparent", border: "1px solid #1E2330", color: C.dim, padding: "11px", fontFamily: "'Jost',sans-serif", fontSize: 11, cursor: "pointer" }}>Fermer</button>
-              <button onClick={handleShare} disabled={selected === null} style={{ flex: 2, background: selected !== null ? "#25D366" : "#1E2330", border: "none", color: "#fff", padding: "11px", fontFamily: "'Jost',sans-serif", fontSize: 12, fontWeight: 600, cursor: selected !== null ? "pointer" : "not-allowed" }}>
-                {shared ? "✓ Partagé" : "Partager sur WhatsApp"}
-              </button>
-            </div>
-          </div>
-        )}
-      </div>
-    </div>
-  );
+academie-eden.com`; window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`);
+setShared(true);
+};
+
+return (
+<div style={{ position:“fixed”, inset:0, background:”#000000EE”, zIndex:400, display:“flex”, alignItems:“center”, justifyContent:“center”, padding:20 }}>
+<div style={{ background:”#0D1018”, border:“1px solid #C9A84C44”, maxWidth:500, width:“100%”, padding:“28px 24px”, maxHeight:“90vh”, overflowY:“auto” }}>
+<div style={{ fontSize:9, letterSpacing:”.26em”, textTransform:“uppercase”, color:C.gold, marginBottom:12 }}>◈ Votre témoignage</div>
+<div style={{ fontFamily:”‘Cormorant Garamond’,serif”, fontSize:20, color:”#F0EBE0”, marginBottom:8 }}>Partagez votre expérience</div>
+<p style={{ fontSize:12, color:C.muted, lineHeight:1.7, marginBottom:20 }}>
+Votre parcours peut aider d’autres personnes à faire le premier pas. Choisissez la version qui vous ressemble le plus — vous pouvez la modifier avant de partager.
+</p>
+{loading ? (
+<div style={{ textAlign:“center”, padding:“24px 0” }}>
+<div className=“loading-ring” style={{ margin:“0 auto 12px” }} />
+<div style={{ fontSize:12, color:C.muted }}>Génération de vos témoignages…</div>
+</div>
+) : (
+<div>
+{vList.filter(v=>v).map((v, i) => (
+<div key={i} onClick={() => { setSelected(i); setEdited(v); }} style={{ background:selected===i?”#0A1208”:”#080C10”, border:`1px solid ${selected===i?"#4A9B6A":"#1E2330"}`, padding:“14px 16px”, marginBottom:10, cursor:“pointer”, transition:“all .2s” }}>
+<div style={{ fontSize:9, color:selected===i?C.green:C.dim, letterSpacing:”.16em”, textTransform:“uppercase”, marginBottom:6 }}>{labels[i]}</div>
+<div style={{ fontSize:13, color:selected===i?”#F0EBE0”:C.muted, lineHeight:1.7, fontStyle:“italic” }}>« {v} »</div>
+</div>
+))}
+{selected !== null && (
+<div style={{ marginTop:16 }}>
+<div style={{ fontSize:10, color:C.gold, letterSpacing:”.14em”, textTransform:“uppercase”, marginBottom:8 }}>Modifier si souhaité</div>
+<textarea className=“ta” value={edited} onChange={e=>setEdited(e.target.value)} style={{ minHeight:80 }} />
+</div>
+)}
+<div style={{ display:“flex”, gap:8, marginTop:16 }}>
+<button onClick={onClose} style={{ flex:1, background:“transparent”, border:“1px solid #1E2330”, color:C.dim, padding:“11px”, fontFamily:”‘Jost’,sans-serif”, fontSize:11, cursor:“pointer” }}>Fermer</button>
+<button onClick={handleShare} disabled={selected===null} style={{ flex:2, background:selected!==null?”#25D366”:”#1E2330”, border:“none”, color:”#fff”, padding:“11px”, fontFamily:”‘Jost’,sans-serif”, fontSize:12, fontWeight:600, cursor:selected!==null?“pointer”:“not-allowed” }}>
+{shared ? “✓ Partagé” : “Partager sur WhatsApp”}
+</button>
+</div>
+</div>
+)}
+</div>
+</div>
+);
 }
+
 // ─── COMPOSANT : RAPPORT INTERNE CONSEILLER ──────────────────────────────────
 // Protégé par mot de passe + téléchargeable en PDF
 function InternalReportModal({ clientName, profil, genre, role, annees, enfants, scores, opens, patternScores, gp, rawAns, alertLevel, onClose }) {
-  const [step, setStep] = useState("auth");
-  const [pwd, setPwd] = useState("");
-  const [pwdErr, setPwdErr] = useState("");
-  const [reportText, setReportText] = useState("");
-  const [generating, setGenerating] = useState(false);
-  const reportRef = useRef(null);
+const [step, setStep] = useState(“auth”); // auth | loading | report
+const [pwd, setPwd] = useState(””);
+const [pwdErr, setPwdErr] = useState(””);
+const [reportText, setReportText] = useState(””);
+const [generating, setGenerating] = useState(false);
+const reportRef = useRef(null);
 
-  const authenticate = () => {
-    if (pwd === INTERNAL_REPORT_PASSWORD) { 
-      setStep("loading"); 
-      generateInternalReport(); 
-    } else setPwdErr("Mot de passe incorrect.");
-  };
+const authenticate = () => {
+if (pwd === INTERNAL_REPORT_PASSWORD) { setStep(“loading”); generateInternalReport(); }
+else setPwdErr(“Mot de passe incorrect.”);
+};
 
-  const generateInternalReport = async () => {
-    setGenerating(true);
-    const prompt = buildInternalReportPrompt(clientName, profil, genre, role, annees, enfants, scores, opens, patternScores, gp, rawAns, alertLevel);
-    try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/diagnostic-report`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ report }) });
-      setReportText(data.text || "Erreur de génération.");
-    } catch { setReportText("Erreur de connexion. Vérifiez le backend."); }
-    setGenerating(false);
-    setStep("report");
-  };
+const generateInternalReport = async () => {
+setGenerating(true);
+const prompt = buildInternalReportPrompt(clientName, profil, genre, role, annees, enfants, scores, opens, patternScores, gp, rawAns, alertLevel);
+try {
+const text2 = await edenAI({ prompt });
+setReportText(text2 || “Erreur de génération.”);
+} catch { setReportText(“Erreur de connexion. Vérifiez le backend.”); }
+setGenerating(false);
+setStep(“report”);
+};
 
-  const handlePrintPDF = () => {
-    const printWin = window.open("", "_blank");
-    const urgenceLabel = alertLevel >= ALERT_LEVELS.CRISE ? "🔴 CRISE" : alertLevel >= ALERT_LEVELS.VIGILANCE ? "🟠 VIGILANCE" : alertLevel >= ALERT_LEVELS.INFO ? "🟡 INFO" : "🟢 STABLE";
-    const scoresHtml = Object.entries(scores).map(([, v]) => 
-      `<tr><td>${v.label}</td><td style="text-align:center;font-weight:bold;color:${v.p >= 65 ? "#2D6A4F" : v.p >= 50 ? "#8B6914" : v.p >= 35 ? "#C0784A" : "#C0614A"}">${v.p}/100</td><td>${v.lv.l}</td></tr>`
-    ).join("");
-    const patternsHtml = Object.entries(patternScores || {}).filter(([, v]) => v > 40).map(([k, v]) => 
-      `<tr><td><strong>${k}</strong></td><td style="text-align:center">${v}/100</td><td>${ARCHETYPES[k]?.titre || ""}</td><td style="font-size:11px;color:#555">${ARCHETYPES[k]?.mecanisme?.slice(0, 150) || ""}...</td></tr>`
-    ).join("");
-    const opensHtml = opens.filter(o => o.ans?.trim()).map(o => 
-      `<tr><td style="font-size:11px;color:#555">${o.q}</td><td style="font-size:12px">${o.ans}</td></tr>`
-    ).join("");
-    const reportHtml = reportText.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>").replace(/\n/g, "<br>");
-    
-    printWin.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8"><title>Rapport Interne — ${clientName}</title><style> body{font-family:Arial,sans-serif;font-size:13px;color:#222;margin:0;padding:0} .page{max-width:700px;margin:0 auto;padding:32px} h1{font-size:22px;color:#0B0F1A;border-bottom:3px solid #C9A84C;padding-bottom:8px} h2{font-size:16px;color:#0B0F1A;margin-top:28px;margin-bottom:10px;background:#F5F3EE;padding:8px 12px} table{width:100%;border-collapse:collapse;margin-bottom:16px} td,th{border:1px solid #ddd;padding:7px 10px;vertical-align:top} th{background:#0B0F1A;color:#C9A84C;font-weight:bold;font-size:12px} .badge-crise{background:#C0614A;color:#fff;padding:3px 10px;font-weight:bold} .badge-vigilance{background:#C0784A;color:#fff;padding:3px 10px;font-weight:bold} .badge-info{background:#C9A84C;color:#0B0F1A;padding:3px 10px;font-weight:bold} .badge-stable{background:#4A9B6A;color:#fff;padding:3px 10px;font-weight:bold} .report-body{line-height:1.9;background:#FAFAF8;padding:16px;border-left:4px solid #C9A84C} .confidential{background:#0B0F1A;color:#C9A84C;text-align:center;padding:10px;font-size:11px;letter-spacing:.2em} @media print{.no-print{display:none}} </style></head><body> <div class="confidential">CONFIDENTIEL — USAGE INTERNE ACADÉMIE EDEN — NE PAS PARTAGER AVEC LE CLIENT</div> <div class="page"> <h1>Rapport Interne Conseiller</h1> <table><tr><th colspan="2">Fiche Signalétique</th></tr> <tr><td><strong>Client</strong></td><td>${clientName}</td></tr> <tr><td><strong>Profil</strong></td><td>${profil === "marie" ? "Marié(e)" : profil === "fiance" ? "Fiancé(e)" : "Célibataire"}${genre ? " · " + genre : ""}${role ? " · " + role : ""}</td></tr> <tr><td><strong>Score global</strong></td><td><strong>${gp}/100</strong></td></tr> <tr><td><strong>Urgence</strong></td><td><span class="${alertLevel >= ALERT_LEVELS.CRISE ? "badge-crise" : alertLevel >= ALERT_LEVELS.VIGILANCE ? "badge-vigilance" : alertLevel >= ALERT_LEVELS.INFO ? "badge-info" : "badge-stable"}">${urgenceLabel}</span></td></tr> <tr><td><strong>Date du bilan</strong></td><td>${new Date().toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" })}</td></tr>${annees ? `<tr><td><strong>Années mariage</strong></td><td>${annees} ans</td></tr>` : ""}${enfants ? `<tr><td><strong>Enfants</strong></td><td>${enfants}</td></tr>` : ""}
+// Export PDF via impression navigateur (sans dépendance)
+const handlePrintPDF = () => {
+const printWin = window.open(””, “_blank”);
+const urgenceLabel = alertLevel >= ALERT_LEVELS.CRISE ? “🔴 CRISE” : alertLevel >= ALERT_LEVELS.VIGILANCE ? “🟠 VIGILANCE” : alertLevel >= ALERT_LEVELS.INFO ? “🟡 INFO” : “🟢 STABLE”;
+const scoresHtml = Object.entries(scores).map(([,v]) => `<tr><td>${v.label}</td><td style="text-align:center;font-weight:bold;color:${v.p>=65?"#2D6A4F":v.p>=50?"#8B6914":v.p>=35?"#C0784A":"#C0614A"}">${v.p}/100</td><td>${v.lv.l}</td></tr>`).join(””);
+const patternsHtml = Object.entries(patternScores||{}).filter(([,v])=>v>40).map(([k,v]) => `<tr><td><strong>${k}</strong></td><td style="text-align:center">${v}/100</td><td>${ARCHETYPES[k]?.titre||""}</td><td style="font-size:11px;color:#555">${ARCHETYPES[k]?.mecanisme?.slice(0,150)||""}...</td></tr>`).join(””);
+const opensHtml = opens.filter(o=>o.ans?.trim()).map(o=>`<tr><td style="font-size:11px;color:#555">${o.q}</td><td style="font-size:12px">${o.ans}</td></tr>`).join(””);
+const reportHtml = reportText.replace(/**([^*]+)**/g, “<strong>$1</strong>”).replace(/
+/g, “<br>”);
+printWin.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8"><title>Rapport Interne — ${clientName}</title><style> body{font-family:Arial,sans-serif;font-size:13px;color:#222;margin:0;padding:0} .page{max-width:700px;margin:0 auto;padding:32px} h1{font-size:22px;color:#0B0F1A;border-bottom:3px solid #C9A84C;padding-bottom:8px} h2{font-size:16px;color:#0B0F1A;margin-top:28px;margin-bottom:10px;background:#F5F3EE;padding:8px 12px} table{width:100%;border-collapse:collapse;margin-bottom:16px} td,th{border:1px solid #ddd;padding:7px 10px;vertical-align:top} th{background:#0B0F1A;color:#C9A84C;font-weight:bold;font-size:12px} .badge-crise{background:#C0614A;color:#fff;padding:3px 10px;font-weight:bold} .badge-vigilance{background:#C0784A;color:#fff;padding:3px 10px;font-weight:bold} .badge-info{background:#C9A84C;color:#0B0F1A;padding:3px 10px;font-weight:bold} .badge-stable{background:#4A9B6A;color:#fff;padding:3px 10px;font-weight:bold} .report-body{line-height:1.9;background:#FAFAF8;padding:16px;border-left:4px solid #C9A84C} .confidential{background:#0B0F1A;color:#C9A84C;text-align:center;padding:10px;font-size:11px;letter-spacing:.2em} @media print{.no-print{display:none}} </style></head><body> <div class="confidential">CONFIDENTIEL — USAGE INTERNE ACADÉMIE EDEN — NE PAS PARTAGER AVEC LE CLIENT</div> <div class="page"> <h1>Rapport Interne Conseiller</h1> <table><tr><th colspan="2">Fiche Signalétique</th></tr> <tr><td><strong>Client</strong></td><td>${clientName}</td></tr> <tr><td><strong>Profil</strong></td><td>${profil === "marie" ? "Marié(e)" : profil === "fiance" ? "Fiancé(e)" : "Célibataire"}${genre?" · "+genre:""}${role?" · "+role:""}</td></tr> <tr><td><strong>Score global</strong></td><td><strong>${gp}/100</strong></td></tr> <tr><td><strong>Urgence</strong></td><td><span class="${alertLevel>=ALERT_LEVELS.CRISE?"badge-crise":alertLevel>=ALERT_LEVELS.VIGILANCE?"badge-vigilance":alertLevel>=ALERT_LEVELS.INFO?"badge-info":"badge-stable"}">${urgenceLabel}</span></td></tr> <tr><td><strong>Date du bilan</strong></td><td>${new Date().toLocaleDateString("fr-FR",{day:"numeric",month:"long",year:"numeric"})}</td></tr> ${annees?`<tr><td><strong>Années mariage</strong></td><td>${annees} ans</td></tr>`:""} ${enfants?`<tr><td><strong>Enfants</strong></td><td>${enfants}</td></tr>`:””}
 </table>
-<h2>Scores par Dimension</h2>
-<table><tr><th>Dimension</th><th>Score</th><th>Niveau</th></tr>${scoresHtml}</table>
-${patternsHtml ? `<h2>Patterns Bibliques Détectés</h2><table><tr><th>Pattern</th><th>Score</th><th>Titre</th><th>Mécanisme</th></tr>${patternsHtml}</table>` : "<h2>Patterns</h2><p>Aucun pattern dominant détecté.</p>"}
-${opensHtml ? `<h2>Réponses Ouvertes</h2><table><tr><th>Question</th><th>Réponse</th></tr>${opensHtml}</table>` : ""}
-<h2>Analyse Clinique — Plan d'Action Conseiller</h2>
-<div class="report-body">${reportHtml}</div>
-<p style="margin-top:32px;font-size:10px;color:#888;text-align:center">Académie Eden · Institut de Leadership Familial · Fondé par Zady Zozoro · Document confidentiel généré le ${new Date().toLocaleDateString("fr-FR")}</p>
+
+```
+  <h2>Scores par Dimension</h2>
+  <table><tr><th>Dimension</th><th>Score</th><th>Niveau</th></tr>${scoresHtml}</table>
+
+  ${patternsHtml ? `<h2>Patterns Bibliques Détectés</h2><table><tr><th>Pattern</th><th>Score</th><th>Titre</th><th>Mécanisme</th></tr>${patternsHtml}</table>` : "<h2>Patterns</h2><p>Aucun pattern dominant détecté.</p>"}
+
+  ${opensHtml ? `<h2>Réponses Ouvertes</h2><table><tr><th>Question</th><th>Réponse</th></tr>${opensHtml}</table>` : ""}
+
+  <h2>Analyse Clinique — Plan d'Action Conseiller</h2>
+  <div class="report-body">${reportHtml}</div>
+
+  <p style="margin-top:32px;font-size:10px;color:#888;text-align:center">Académie Eden · Institut de Leadership Familial · Fondé par Zady Zozoro · Document confidentiel généré le ${new Date().toLocaleDateString("fr-FR")}</p>
 </div>
 <div class="confidential">CONFIDENTIEL — USAGE INTERNE ACADÉMIE EDEN</div>
 </body></html>`);
-    printWin.document.close();
-    setTimeout(() => printWin.print(), 500);
-  };
+printWin.document.close();
+setTimeout(() => printWin.print(), 500);
+```
 
-  // Auth
-  if (step === "auth") return (
-    <div style={{ position: "fixed", inset: 0, background: "#000000F2", zIndex: 500, display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}>
-      <div style={{ background: "#0D1018", border: "1px solid #1E2330", maxWidth: 400, width: "100%", padding: "28px 24px" }}>
-        <div style={{ fontSize: 9, letterSpacing: ".24em", textTransform: "uppercase", color: C.dim, marginBottom: 12 }}>◈ Rapport Interne — Accès Équipe</div>
-        <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 20, color: "#F0EBE0", marginBottom: 16 }}>Accès Conseiller</div>
-        <p style={{ fontSize: 12, color: C.muted, lineHeight: 1.6, marginBottom: 20 }}>Ce rapport est réservé à l'équipe Eden. Mot de passe requis.</p>
-        <input className="inp" type="password" placeholder="Mot de passe conseiller" value={pwd} onChange={e => { setPwd(e.target.value); setPwdErr(""); }} onKeyDown={e => e.key === "Enter" && authenticate()} />
-        {pwdErr && <div style={{ fontSize: 11, color: C.red, marginBottom: 8 }}>{pwdErr}</div>}
-        <div style={{ display: "flex", gap: 8, marginTop: 8 }}>
-          <button onClick={onClose} style={{ flex: 1, background: "transparent", border: "1px solid #1E2330", color: C.dim, padding: "11px", fontFamily: "'Jost',sans-serif", fontSize: 11, cursor: "pointer" }}>Annuler</button>
-          <button onClick={authenticate} style={{ flex: 2, background: C.gold, border: "none", color: "#0B0F1A", padding: "11px", fontFamily: "'Jost',sans-serif", fontSize: 12, fontWeight: 600, cursor: "pointer" }}>Accéder →</button>
-        </div>
-      </div>
-    </div>
-  );
+};
 
-  // Loading
-  if (step === "loading") return (
-    <div style={{ position: "fixed", inset: 0, background: "#000000F2", zIndex: 500, display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", gap: 16 }}>
-      <div className="loading-ring" />
-      <div style={{ fontSize: 12, color: C.muted }}>Génération du rapport interne conseiller…</div>
-    </div>
-  );
+// ── Auth ──
+if (step === “auth”) return (
+<div style={{ position:“fixed”, inset:0, background:”#000000F2”, zIndex:500, display:“flex”, alignItems:“center”, justifyContent:“center”, padding:20 }}>
+<div style={{ background:”#0D1018”, border:“1px solid #1E2330”, maxWidth:400, width:“100%”, padding:“28px 24px” }}>
+<div style={{ fontSize:9, letterSpacing:”.24em”, textTransform:“uppercase”, color:C.dim, marginBottom:12 }}>◈ Rapport Interne — Accès Équipe</div>
+<div style={{ fontFamily:”‘Cormorant Garamond’,serif”, fontSize:20, color:”#F0EBE0”, marginBottom:16 }}>Accès Conseiller</div>
+<p style={{ fontSize:12, color:C.muted, lineHeight:1.6, marginBottom:20 }}>Ce rapport est réservé à l’équipe Eden. Mot de passe requis.</p>
+<input className=“inp” type=“password” placeholder=“Mot de passe conseiller” value={pwd} onChange={e=>{setPwd(e.target.value);setPwdErr(””);}} onKeyDown={e=>e.key===“Enter”&&authenticate()} />
+{pwdErr && <div style={{ fontSize:11, color:C.red, marginBottom:8 }}>{pwdErr}</div>}
+<div style={{ display:“flex”, gap:8, marginTop:8 }}>
+<button onClick={onClose} style={{ flex:1, background:“transparent”, border:“1px solid #1E2330”, color:C.dim, padding:“11px”, fontFamily:”‘Jost’,sans-serif”, fontSize:11, cursor:“pointer” }}>Annuler</button>
+<button onClick={authenticate} style={{ flex:2, background:C.gold, border:“none”, color:”#0B0F1A”, padding:“11px”, fontFamily:”‘Jost’,sans-serif”, fontSize:12, fontWeight:600, cursor:“pointer” }}>Accéder →</button>
+</div>
+</div>
+</div>
+);
 
-  // Report
-  const reportSections = parseReport(reportText);
-  return (
-    <div style={{ position: "fixed", inset: 0, background: "#000000F2", zIndex: 500, display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}>
-      <div ref={reportRef} style={{ background: "#0D1018", border: "1px solid #C9A84C33", maxWidth: 620, width: "100%", maxHeight: "92vh", overflowY: "auto" }}>
-        <div style={{ background: "#080C10", borderBottom: "1px solid #1E2330", padding: "16px 20px", position: "sticky", top: 0, zIndex: 2, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <div>
-            <div style={{ fontSize: 8, letterSpacing: ".24em", textTransform: "uppercase", color: C.red, marginBottom: 4 }}>🔒 CONFIDENTIEL — USAGE INTERNE UNIQUEMENT</div>
-            <div style={{ fontSize: 14, color: "#F0EBE0", fontWeight: 600 }}>Rapport Conseiller — {clientName}</div>
-          </div>
-          <div style={{ display: "flex", gap: 8 }}>
-            <button onClick={handlePrintPDF} style={{ background: C.gold, border: "none", color: "#0B0F1A", padding: "8px 14px", fontFamily: "'Jost',sans-serif", fontSize: 11, fontWeight: 600, cursor: "pointer" }}>⬇ PDF</button>
-            <button onClick={onClose} style={{ background: "transparent", border: "1px solid #1E2330", color: C.dim, padding: "8px 12px", fontFamily: "'Jost',sans-serif", fontSize: 11, cursor: "pointer" }}>✕</button>
-          </div>
-        </div>
-        <div style={{ padding: "20px" }}>
-          <div style={{ background: "#080C10", border: "1px solid #1E2330", padding: "14px 16px", marginBottom: 20 }}>
-            <div style={{ fontSize: 9, color: C.gold, letterSpacing: ".18em", textTransform: "uppercase", marginBottom: 10 }}>Fiche Signalétique</div>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "6px 20px" }}>
-              {[
-                ["Client", clientName],
-                ["Profil", profil === "marie" ? "Marié(e)" : profil === "fiance" ? "Fiancé(e)" : "Célibataire"],
-                ["Score global", `${gp}/100`],
-                ["Urgence", alertLevel >= ALERT_LEVELS.CRISE ? "🔴 CRISE" : alertLevel >= ALERT_LEVELS.VIGILANCE ? "🟠 VIGILANCE" : alertLevel >= ALERT_LEVELS.INFO ? "🟡 INFO" : "🟢 STABLE"],
-                ["Date", new Date().toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" })],
-                ["Rôle", role || "N/A"],
-              ].map(([k, v]) => <div key={k}><span style={{ fontSize: 10, color: C.dim }}>{k} : </span><span style={{ fontSize: 12, color: C.text, fontWeight: 600 }}>{v}</span></div>)}
-            </div>
-          </div>
+// ── Loading ──
+if (step === “loading”) return (
+<div style={{ position:“fixed”, inset:0, background:”#000000F2”, zIndex:500, display:“flex”, alignItems:“center”, justifyContent:“center”, flexDirection:“column”, gap:16 }}>
+<div className="loading-ring" />
+<div style={{ fontSize:12, color:C.muted }}>Génération du rapport interne conseiller…</div>
+</div>
+);
 
-          <div style={{ marginBottom: 16 }}>
-            <div style={{ fontSize: 9, color: C.gold, letterSpacing: ".18em", textTransform: "uppercase", marginBottom: 8 }}>Scores par Dimension</div>
-            {Object.entries(scores).map(([, v]) => (
-              <div key={v.label} style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 5 }}>
-                <div style={{ fontSize: 11, color: C.muted, width: 160, flexShrink: 0 }}>{v.label}</div>
-                <div style={{ flex: 1, height: 4, background: "#1E2330" }}><div style={{ width: `${v.p}%`, height: "100%", background: v.p >= 65 ? C.green : v.p >= 50 ? C.gold : v.p >= 35 ? C.orange : C.red }} /></div>
-                <div style={{ fontSize: 11, color: v.lv.c, width: 50, textAlign: "right", fontWeight: 600 }}>{v.p}/100</div>
-              </div>
-            ))}
-          </div>
-
-          {Object.entries(patternScores || {}).filter(([, v]) => v > 40).length > 0 && (
-            <div style={{ marginBottom: 16 }}>
-              <div style={{ fontSize: 9, color: C.gold, letterSpacing: ".18em", textTransform: "uppercase", marginBottom: 8 }}>Patterns Détectés — Preuves</div>
-              {Object.entries(patternScores || {}).filter(([, v]) => v > 40).sort(([, a], [, b]) => b - a).map(([k, v]) => {
-                const arch = ARCHETYPES[k];
-                return (
-                  <div key={k} style={{ background: "#080C10", border: `1px solid ${arch?.color || C.gold}33`, padding: "12px 14px", marginBottom: 8 }}>
-                    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
-                      <div style={{ fontSize: 13, color: arch?.color || C.gold, fontWeight: 600 }}>{k} — {arch?.titre}</div>
-                      <div style={{ fontSize: 11, color: arch?.color || C.gold }}>{v}/100</div>
-                    </div>
-                    <div style={{ fontSize: 11, color: C.muted, lineHeight: 1.6 }}>{arch?.mecanisme?.slice(0, 200)}…</div>
-                    <div style={{ fontSize: 10, color: C.dim, marginTop: 4, fontStyle: "italic" }}>{arch?.ref} · {arch?.orientation?.slice(0, 120)}</div>
-                  </div>
-                );
-              })}
-            </div>
-          )}
-
-          {opens.filter(o => o.ans?.trim()).length > 0 && (
-            <div style={{ marginBottom: 16 }}>
-              <div style={{ fontSize: 9, color: C.gold, letterSpacing: ".18em", textTransform: "uppercase", marginBottom: 8 }}>Réponses Ouvertes</div>
-              {opens.filter(o => o.ans?.trim()).map((o, i) => (
-                <div key={i} style={{ background: "#080C10", border: "1px solid #1E2330", padding: "10px 14px", marginBottom: 6 }}>
-                  <div style={{ fontSize: 10, color: C.dim, marginBottom: 4 }}>{o.q}</div>
-                  <div style={{ fontSize: 13, color: C.text, lineHeight: 1.7, fontStyle: "italic" }}>"{o.ans}"</div>
-                </div>
-              ))}
-            </div>
-          )}
-
-          <div style={{ marginBottom: 16 }}>
-            <div style={{ fontSize: 9, color: C.gold, letterSpacing: ".18em", textTransform: "uppercase", marginBottom: 12 }}>Plan d'Action Conseiller</div>
-            {reportSections.map((s, i) => (
-              s.title
-                ? <div key={i} style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 17, color: C.gold, margin: "18px 0 8px", borderLeft: `3px solid ${C.gold}44`, paddingLeft: 12 }}>{s.title}</div>
-                : <div key={i} style={{ fontSize: 13, color: C.text, lineHeight: 1.9, whiteSpace: "pre-wrap", marginBottom: 10 }}>{s.body}</div>
-            ))}
-          </div>
-          <div style={{ fontSize: 9, color: C.dim, textAlign: "center", padding: "12px 0", borderTop: "1px solid #1E2330", marginTop: 16 }}>
-            Académie Eden · Rapport confidentiel — Usage interne uniquement — {new Date().toLocaleDateString("fr-FR")}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+// ── Rapport ──
+const reportSections = parseReport(reportText);
+return (
+<div style={{ position:“fixed”, inset:0, background:”#000000F2”, zIndex:500, display:“flex”, alignItems:“center”, justifyContent:“center”, padding:20 }}>
+<div ref={reportRef} style={{ background:”#0D1018”, border:“1px solid #C9A84C33”, maxWidth:620, width:“100%”, maxHeight:“92vh”, overflowY:“auto” }}>
+{/* Header */}
+<div style={{ background:”#080C10”, borderBottom:“1px solid #1E2330”, padding:“16px 20px”, position:“sticky”, top:0, zIndex:2, display:“flex”, justifyContent:“space-between”, alignItems:“center” }}>
+<div>
+<div style={{ fontSize:8, letterSpacing:”.24em”, textTransform:“uppercase”, color:C.red, marginBottom:4 }}>🔒 CONFIDENTIEL — USAGE INTERNE UNIQUEMENT</div>
+<div style={{ fontSize:14, color:”#F0EBE0”, fontWeight:600 }}>Rapport Conseiller — {clientName}</div>
+</div>
+<div style={{ display:“flex”, gap:8 }}>
+<button onClick={handlePrintPDF} style={{ background:C.gold, border:“none”, color:”#0B0F1A”, padding:“8px 14px”, fontFamily:”‘Jost’,sans-serif”, fontSize:11, fontWeight:600, cursor:“pointer” }}>⬇ PDF</button>
+<button onClick={onClose} style={{ background:“transparent”, border:“1px solid #1E2330”, color:C.dim, padding:“8px 12px”, fontFamily:”‘Jost’,sans-serif”, fontSize:11, cursor:“pointer” }}>✕</button>
+</div>
+</div>
+<div style={{ padding:“20px” }}>
+{/* Fiche signalétique */}
+<div style={{ background:”#080C10”, border:“1px solid #1E2330”, padding:“14px 16px”, marginBottom:20 }}>
+<div style={{ fontSize:9, color:C.gold, letterSpacing:”.18em”, textTransform:“uppercase”, marginBottom:10 }}>Fiche Signalétique</div>
+<div style={{ display:“grid”, gridTemplateColumns:“1fr 1fr”, gap:“6px 20px” }}>
+{[
+[“Client”, clientName],
+[“Profil”, profil===“marie”?“Marié(e)”:profil===“fiance”?“Fiancé(e)”:“Célibataire”],
+[“Score global”, `${gp}/100`],
+[“Urgence”, alertLevel>=ALERT_LEVELS.CRISE?“🔴 CRISE”:alertLevel>=ALERT_LEVELS.VIGILANCE?“🟠 VIGILANCE”:alertLevel>=ALERT_LEVELS.INFO?“🟡 INFO”:“🟢 STABLE”],
+[“Date”, new Date().toLocaleDateString(“fr-FR”,{day:“numeric”,month:“long”,year:“numeric”})],
+[“Rôle”, role||“N/A”],
+].map(([k,v]) => <div key={k}><span style={{fontSize:10,color:C.dim}}>{k} : </span><span style={{fontSize:12,color:C.text,fontWeight:600}}>{v}</span></div>)}
+</div>
+</div>
+{/* Scores */}
+<div style={{ marginBottom:16 }}>
+<div style={{ fontSize:9, color:C.gold, letterSpacing:”.18em”, textTransform:“uppercase”, marginBottom:8 }}>Scores par Dimension</div>
+{Object.entries(scores).map(([,v]) => (
+<div key={v.label} style={{ display:“flex”, alignItems:“center”, gap:8, marginBottom:5 }}>
+<div style={{ fontSize:11, color:C.muted, width:160, flexShrink:0 }}>{v.label}</div>
+<div style={{ flex:1, height:4, background:”#1E2330” }}><div style={{ width:`${v.p}%`, height:“100%”, background:v.p>=65?C.green:v.p>=50?C.gold:v.p>=35?C.orange:C.red }} /></div>
+<div style={{ fontSize:11, color:v.lv.c, width:50, textAlign:“right”, fontWeight:600 }}>{v.p}/100</div>
+</div>
+))}
+</div>
+{/* Patterns */}
+{Object.entries(patternScores||{}).filter(([,v])=>v>40).length > 0 && (
+<div style={{ marginBottom:16 }}>
+<div style={{ fontSize:9, color:C.gold, letterSpacing:”.18em”, textTransform:“uppercase”, marginBottom:8 }}>Patterns Détectés — Preuves</div>
+{Object.entries(patternScores||{}).filter(([,v])=>v>40).sort(([,a],[,b])=>b-a).map(([k,v]) => {
+const arch = ARCHETYPES[k];
+return (
+<div key={k} style={{ background:”#080C10”, border:`1px solid ${arch?.color||C.gold}33`, padding:“12px 14px”, marginBottom:8 }}>
+<div style={{ display:“flex”, justifyContent:“space-between”, marginBottom:4 }}>
+<div style={{ fontSize:13, color:arch?.color||C.gold, fontWeight:600 }}>{k} — {arch?.titre}</div>
+<div style={{ fontSize:11, color:arch?.color||C.gold }}>{v}/100</div>
+</div>
+<div style={{ fontSize:11, color:C.muted, lineHeight:1.6 }}>{arch?.mecanisme?.slice(0,200)}…</div>
+<div style={{ fontSize:10, color:C.dim, marginTop:4, fontStyle:“italic” }}>{arch?.ref} · {arch?.orientation?.slice(0,120)}</div>
+</div>
+);
+})}
+</div>
+)}
+{/* Réponses ouvertes */}
+{opens.filter(o=>o.ans?.trim()).length > 0 && (
+<div style={{ marginBottom:16 }}>
+<div style={{ fontSize:9, color:C.gold, letterSpacing:”.18em”, textTransform:“uppercase”, marginBottom:8 }}>Réponses Ouvertes</div>
+{opens.filter(o=>o.ans?.trim()).map((o,i) => (
+<div key={i} style={{ background:”#080C10”, border:“1px solid #1E2330”, padding:“10px 14px”, marginBottom:6 }}>
+<div style={{ fontSize:10, color:C.dim, marginBottom:4 }}>{o.q}</div>
+<div style={{ fontSize:13, color:C.text, lineHeight:1.7, fontStyle:“italic” }}>« {o.ans} »</div>
+</div>
+))}
+</div>
+)}
+{/* Rapport IA interne */}
+<div style={{ marginBottom:16 }}>
+<div style={{ fontSize:9, color:C.gold, letterSpacing:”.18em”, textTransform:“uppercase”, marginBottom:12 }}>Plan d’Action Conseiller</div>
+{reportSections.map((s,i) => (
+s.title
+? <div key={i} style={{ fontFamily:”‘Cormorant Garamond’,serif”, fontSize:17, color:C.gold, margin:“18px 0 8px”, borderLeft:`3px solid ${C.gold}44`, paddingLeft:12 }}>{s.title}</div>
+: <div key={i} style={{ fontSize:13, color:C.text, lineHeight:1.9, whiteSpace:“pre-wrap”, marginBottom:10 }}>{s.body}</div>
+))}
+</div>
+<div style={{ fontSize:9, color:C.dim, textAlign:“center”, padding:“12px 0”, borderTop:“1px solid #1E2330”, marginTop:16 }}>
+Académie Eden · Rapport confidentiel — Usage interne uniquement — {new Date().toLocaleDateString(“fr-FR”)}
+</div>
+</div>
+</div>
+</div>
+);
 }
 
 // ─── COMPOSANT : PARTAGER RAPPORT AVEC CONSEILLER ──────────────────────────
+// Bouton avec consentement explicite + message WhatsApp formaté complet
 function ShareWithConseiller({ clientName, gp, profil, riskLevel, patterns, scores, sections }) {
-  const [step, setStep] = useState("closed");
-  const [consentGiven, setConsentGiven] = useState(false);
-  const [includeScores, setIncludeScores] = useState(true);
-  const [includePatterns, setIncludePatterns] = useState(true);
-  const [includeKeyPhrase, setIncludeKeyPhrase] = useState(true);
-  const activePatterns = Object.entries(patterns || {})
-    .filter(([, v]) => v > 40)
-    .sort(([, a], [, b]) => b - a)
-    .slice(0, 3);
-  const profilLabel = profil === "marie" ? "Marié(e)" : profil === "fiance" ? "Fiancé(e)" : "Célibataire";
-  const phraseCle = sections?.find(s => (s.title || "").toUpperCase().includes("PHRASE") || (s.title || "").toUpperCase().includes("CLÉ"))?.body || "";
+const [step, setStep] = useState(“closed”); // closed | consent | confirm | done
+const [consentGiven, setConsentGiven] = useState(false);
+const [includeScores, setIncludeScores] = useState(true);
+const [includePatterns, setIncludePatterns] = useState(true);
+const [includeKeyPhrase, setIncludeKeyPhrase] = useState(true);
 
-  function buildShareMessage() {
-    let msg = `Bonjour Académie Eden,\n\n`;
-    msg += `Je partage mon rapport Bilan 360° pour accompagnement.\n\n`;
-    msg += `► PROFIL : ${clientName} · ${profilLabel}\n`;
-    msg += `► SCORE GLOBAL : ${gp}/100 — ${riskLevel?.l || ""}\n`;
-    if (includeScores && scores) {
-      msg += `\n► SCORES PAR DIMENSION :\n`;
-      Object.entries(scores).slice(0, 6).forEach(([, v]) => {
-        const bar = v.p >= 65 ? "●●●●●" : v.p >= 50 ? "●●●●○" : v.p >= 35 ? "●●●○○" : "●●○○○";
-        msg += `  ${v.label} : ${v.p}/100 ${bar}\n`;
-      });
-    }
-    if (includePatterns && activePatterns.length > 0) {
-      msg += `\n► PATTERNS DÉTECTÉS :\n`;
-      activePatterns.forEach(([k, v]) => {
-        msg += `  • ${k} (${v}/100)\n`;
-      });
-    }
-    if (includeKeyPhrase && phraseCle) {
-      msg += `\n► PHRASE CLÉ DE MON RAPPORT :\n"${phraseCle.slice(0, 200).trim()}${phraseCle.length > 200 ? "…" : ""}"\n`;
-    }
-    msg += `\n► CONSENTEMENT : Je consens explicitement au partage de ces données avec le Conseiller Eden pour un accompagnement personnalisé.\n`;
-    msg += `► DATE DE CONSENTEMENT : ${new Date().toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric", hour: "2-digit", minute: "2-digit" })}\n\n`;
-    msg += `Je souhaite aller plus loin avec un accompagnement.`;
-    return msg;
-  }
+const activePatterns = Object.entries(patterns || {})
+.filter(([, v]) => v > 40)
+.sort(([, a], [, b]) => b - a)
+.slice(0, 3);
 
-  if (step === "closed") return (
-    <div style={{ background: "#0A1208", border: "1px solid #4A9B6A33", borderLeft: "3px solid #4A9B6A", padding: "16px 20px", marginBottom: 16 }}>
-      <div style={{ fontSize: 9, color: "#4A9B6A", letterSpacing: ".2em", textTransform: "uppercase", marginBottom: 8 }}>◈ Partager avec le Conseiller</div>
-      <p style={{ fontSize: 12, color: C.muted, lineHeight: 1.7, marginBottom: 12 }}>
-        Envoyez votre rapport complet à l'équipe Eden pour un accompagnement personnalisé. Vous choisissez ce que vous partagez.
-      </p>
-      <button onClick={() => setStep("consent")} style={{ background: "#4A9B6A", border: "none", color: "#fff", padding: "11px 18px", fontFamily: "'Jost',sans-serif", fontSize: 12, fontWeight: 600, cursor: "pointer", width: "100%" }}>
-        Partager mon rapport avec un Conseiller →
-      </button>
-    </div>
-  );
+const profilLabel = profil === “marie” ? “Marié(e)” : profil === “fiance” ? “Fiancé(e)” : “Célibataire”;
 
-  if (step === "consent") return (
-    <div style={{ position: "fixed", inset: 0, background: "#000000EE", zIndex: 300, display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}>
-      <div style={{ background: "#0D1018", border: "1px solid #C9A84C44", maxWidth: 480, width: "100%", padding: "28px 24px", maxHeight: "90vh", overflowY: "auto" }}>
-        <div style={{ fontSize: 9, letterSpacing: ".22em", textTransform: "uppercase", color: C.gold, marginBottom: 12 }}>◈ Consentement de partage</div>
-        <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 20, color: "#F0EBE0", marginBottom: 16, lineHeight: 1.35 }}>
-          Choisissez ce que vous partagez
-        </div>
-        <p style={{ fontSize: 12, color: C.muted, lineHeight: 1.7, marginBottom: 20 }}>
-          Ces informations seront transmises à l'équipe de l'Académie Eden uniquement, pour vous accompagner dans votre démarche. Elles ne seront jamais partagées avec des tiers.
-        </p>
-        {[
-          { key: "scores", label: "Mes scores par dimension", sub: "Les 8-9 résultats chiffrés de mon bilan", val: includeScores, set: setIncludeScores, required: false },
-          { key: "patterns", label: "Les patterns relationnels détectés", sub: "Les archétypes bibliques identifiés dans mon profil", val: includePatterns, set: setIncludePatterns, required: false },
-          { key: "phrase", label: "La phrase clé de mon rapport", sub: "La phrase personnalisée générée par le Conseiller", val: includeKeyPhrase, set: setIncludeKeyPhrase, required: false },
-        ].map(item => (
-          <div key={item.key} style={{ display: "flex", gap: 12, alignItems: "flex-start", padding: "12px 14px", background: "#080C14", border: "1px solid #1E2330", marginBottom: 8, cursor: "pointer" }} onClick={() => item.set(!item.val)}>
-            <div style={{ width: 18, height: 18, border: `1px solid ${item.val ? "#C9A84C" : "#2A2E3A"}`, background: item.val ? "#C9A84C" : "transparent", flexShrink: 0, marginTop: 2, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, color: "#0B0F1A", fontWeight: 700 }}>
-              {item.val ? "✓" : ""}
-            </div>
-            <div>
-              <div style={{ fontSize: 13, color: item.val ? "#F0EBE0" : C.muted }}>{item.label}</div>
-              <div style={{ fontSize: 11, color: C.dim, marginTop: 2 }}>{item.sub}</div>
-            </div>
-          </div>
-        ))}
-        <div style={{ display: "flex", gap: 12, alignItems: "flex-start", padding: "12px 14px", background: "#0A0C10", border: `1px solid ${consentGiven ? "#C9A84C44" : "#1E2330"}`, marginBottom: 20, cursor: "pointer", marginTop: 12 }} onClick={() => setConsentGiven(!consentGiven)}>
-          <div style={{ width: 18, height: 18, border: `1px solid ${consentGiven ? "#C9A84C" : "#C0614A"}`, background: consentGiven ? "#C9A84C" : "transparent", flexShrink: 0, marginTop: 2, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, color: "#0B0F1A", fontWeight: 700 }}>
-            {consentGiven ? "✓" : ""}
-          </div>
-          <div>
-            <div style={{ fontSize: 12, color: consentGiven ? "#F0EBE0" : C.muted, fontWeight: 600 }}>Je consens au partage de ces informations avec l'équipe Eden</div>
-            <div style={{ fontSize: 11, color: C.dim, marginTop: 2 }}>Obligatoire — Ces données sont traitées de façon confidentielle conformément aux conditions d'utilisation.</div>
-          </div>
-        </div>
-        <div style={{ display: "flex", gap: 8 }}>
-          <button onClick={() => setStep("closed")} style={{ flex: 1, background: "transparent", border: "1px solid #1E2330", color: C.dim, padding: "12px", fontFamily: "'Jost',sans-serif", fontSize: 11, cursor: "pointer" }}>Annuler</button>
-          <button onClick={() => { if (consentGiven) setStep("confirm"); }} disabled={!consentGiven} style={{ flex: 2, background: consentGiven ? "#C9A84C" : "#1E2330", border: "none", color: consentGiven ? "#0B0F1A" : "#3A3E4A", padding: "12px", fontFamily: "'Jost',sans-serif", fontSize: 12, fontWeight: 600, cursor: consentGiven ? "pointer" : "not-allowed" }}>
-            Prévisualiser mon message →
-          </button>
-        </div>
-      </div>
-    </div>
-  );
+// Trouver la phrase clé dans le rapport
+const phraseCle = sections?.find(s => (s.title||””).toUpperCase().includes(“PHRASE”) || (s.title||””).toUpperCase().includes(“CLÉ”))?.body || “”;
 
-  if (step === "confirm") {
-    const msg = buildShareMessage();
-    return (
-      <div style={{ position: "fixed", inset: 0, background: "#000000EE", zIndex: 300, display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}>
-        <div style={{ background: "#0D1018", border: "1px solid #4A9B6A44", maxWidth: 480, width: "100%", padding: "28px 24px", maxHeight: "90vh", overflowY: "auto" }}>
-          <div style={{ fontSize: 9, letterSpacing: ".22em", textTransform: "uppercase", color: "#4A9B6A", marginBottom: 12 }}>◈ Prévisualisation du message</div>
-          <div style={{ background: "#080C10", border: "1px solid #1E2330", padding: "14px", marginBottom: 20, borderRadius: 2 }}>
-            <div style={{ fontSize: 12, color: C.text, lineHeight: 1.8, whiteSpace: "pre-wrap", fontFamily: "monospace" }}>{msg}</div>
-          </div>
-          <p style={{ fontSize: 11, color: C.muted, lineHeight: 1.6, marginBottom: 16 }}>Ce message s'ouvrira dans WhatsApp, adressé à l'Académie Eden. Vous pouvez le modifier avant d'envoyer.</p>
-          <div style={{ display: "flex", gap: 8 }}>
-            <button onClick={() => setStep("consent")} style={{ flex: 1, background: "transparent", border: "1px solid #1E2330", color: C.dim, padding: "12px", fontFamily: "'Jost',sans-serif", fontSize: 11, cursor: "pointer" }}>← Modifier</button>
-            <button onClick={() => { window.open(`https://wa.me/${WHATSAPP_NUM}?text=${encodeURIComponent(msg)}`); setStep("done"); }} style={{ flex: 2, background: "#25D366", border: "none", color: "#fff", padding: "12px", fontFamily: "'Jost',sans-serif", fontSize: 12, fontWeight: 600, cursor: "pointer" }}>
-              Envoyer sur WhatsApp →
-            </button>
-          </div>
-        </div>
-      </div>
-    );
-  }
+// Construire le message WhatsApp complet
+function buildShareMessage() {
+let msg = `Bonjour Académie Eden,\n\n`;
+msg += `Je partage mon rapport Bilan 360° pour accompagnement.\n\n`;
+msg += `► PROFIL : ${clientName} · ${profilLabel}\n`;
+msg += `► SCORE GLOBAL : ${gp}/100 — ${riskLevel?.l || ""}\n`;
 
-  if (step === "done") return (
-    <div style={{ background: "#0A1208", border: "1px solid #4A9B6A44", borderLeft: "3px solid #4A9B6A", padding: "16px 20px", marginBottom: 16 }}>
-      <div style={{ fontSize: 9, color: "#4A9B6A", letterSpacing: ".2em", textTransform: "uppercase", marginBottom: 8 }}>✓ Rapport partagé</div>
-      <p style={{ fontSize: 12, color: C.muted, lineHeight: 1.7 }}>Votre rapport a été transmis à l'Académie Eden. Un Conseiller vous contactera sous 24-48h.</p>
-    </div>
-  );
-  return null;
+```
+if (includeScores && scores) {
+  msg += `\n► SCORES PAR DIMENSION :\n`;
+  Object.entries(scores).slice(0, 6).forEach(([, v]) => {
+    const bar = v.p >= 65 ? "●●●●●" : v.p >= 50 ? "●●●●○" : v.p >= 35 ? "●●●○○" : "●●○○○";
+    msg += `  ${v.label} : ${v.p}/100 ${bar}\n`;
+  });
 }
 
+if (includePatterns && activePatterns.length > 0) {
+  msg += `\n► PATTERNS DÉTECTÉS :\n`;
+  activePatterns.forEach(([k, v]) => {
+    msg += `  • ${k} (${v}/100)\n`;
+  });
+}
 
-// ============================================
-// CONSTANTES ET CONFIGURATIONS
-// ============================================
+if (includeKeyPhrase && phraseCle) {
+  msg += `\n► PHRASE CLÉ DE MON RAPPORT :\n"${phraseCle.slice(0, 200).trim()}${phraseCle.length > 200 ? "…" : ""}"\n`;
+}
 
-const C = {
-  gold: '#C9A84C',
-  blue: '#3B82F6',
-  text: '#F0EBE0',
-  dim: '#9CA3AF',
-  muted: '#6B7280',
-  green: '#10B981',
-  red: '#EF4444',
-  orange: '#F59E0B'
-};
+msg += `\n► CONSENTEMENT : Je consens explicitement au partage de ces données avec le Conseiller Eden pour un accompagnement personnalisé.\n`;
+msg += `► DATE DE CONSENTEMENT : ${new Date().toLocaleDateString("fr-FR", { day:"numeric", month:"long", year:"numeric", hour:"2-digit", minute:"2-digit" })}\n\n`;
+msg += `Je souhaite aller plus loin avec un accompagnement.`;
+return msg;
+```
 
+}
 
-const getLevelColor = (level) => {
-  if (level === "simple") return "#4A9B6A";
-  if (level === "argent") return "#7BAFC9";
-  if (level === "premium") return "#C9A84C";
-  return "#6B7280";
-};
+if (step === “closed”) return (
+<div style={{ background:”#0A1208”, border:“1px solid #4A9B6A33”, borderLeft:“3px solid #4A9B6A”, padding:“16px 20px”, marginBottom:16 }}>
+<div style={{ fontSize:9, color:”#4A9B6A”, letterSpacing:”.2em”, textTransform:“uppercase”, marginBottom:8 }}>◈ Partager avec le Conseiller</div>
+<p style={{ fontSize:12, color:C.muted, lineHeight:1.7, marginBottom:12 }}>
+Envoyez votre rapport complet à l’équipe Eden pour un accompagnement personnalisé. Vous choisissez ce que vous partagez.
+</p>
+<button onClick={() => setStep(“consent”)} style={{ background:”#4A9B6A”, border:“none”, color:”#fff”, padding:“11px 18px”, fontFamily:”‘Jost’,sans-serif”, fontSize:12, fontWeight:600, cursor:“pointer”, width:“100%” }}>
+Partager mon rapport avec un Conseiller →
+</button>
+</div>
+);
 
-const getLevelLabel = (level) => {
-  if (level === "simple") return "Simple";
-  if (level === "argent") return "Argent";
-  if (level === "premium") return "Premium";
-  return "Inactif";
-};
+if (step === “consent”) return (
+<div style={{ position:“fixed”, inset:0, background:”#000000EE”, zIndex:300, display:“flex”, alignItems:“center”, justifyContent:“center”, padding:20 }}>
+<div style={{ background:”#0D1018”, border:“1px solid #C9A84C44”, maxWidth:480, width:“100%”, padding:“28px 24px”, maxHeight:“90vh”, overflowY:“auto” }}>
+<div style={{ fontSize:9, letterSpacing:”.22em”, textTransform:“uppercase”, color:C.gold, marginBottom:12 }}>◈ Consentement de partage</div>
+<div style={{ fontFamily:”‘Cormorant Garamond’,serif”, fontSize:20, color:”#F0EBE0”, marginBottom:16, lineHeight:1.35 }}>
+Choisissez ce que vous partagez
+</div>
+<p style={{ fontSize:12, color:C.muted, lineHeight:1.7, marginBottom:20 }}>
+Ces informations seront transmises à l’équipe de l’Académie Eden uniquement, pour vous accompagner dans votre démarche. Elles ne seront jamais partagées avec des tiers.
+</p>
+{/* Cases de consentement */}
+{[
+{ key:“scores”, label:“Mes scores par dimension”, sub:“Les 8-9 résultats chiffrés de mon bilan”, val:includeScores, set:setIncludeScores, required:false },
+{ key:“patterns”, label:“Les patterns relationnels détectés”, sub:“Les archétypes bibliques identifiés dans mon profil”, val:includePatterns, set:setIncludePatterns, required:false },
+{ key:“phrase”, label:“La phrase clé de mon rapport”, sub:“La phrase personnalisée générée par le Conseiller”, val:includeKeyPhrase, set:setIncludeKeyPhrase, required:false },
+].map(item => (
+<div key={item.key} style={{ display:“flex”, gap:12, alignItems:“flex-start”, padding:“12px 14px”, background:”#080C14”, border:“1px solid #1E2330”, marginBottom:8, cursor:“pointer” }} onClick={() => item.set(!item.val)}>
+<div style={{ width:18, height:18, border:`1px solid ${item.val?"#C9A84C":"#2A2E3A"}`, background:item.val?”#C9A84C”:“transparent”, flexShrink:0, marginTop:2, display:“flex”, alignItems:“center”, justifyContent:“center”, fontSize:11, color:”#0B0F1A”, fontWeight:700 }}>
+{item.val ? “✓” : “”}
+</div>
+<div>
+<div style={{ fontSize:13, color:item.val?”#F0EBE0”:C.muted }}>{item.label}</div>
+<div style={{ fontSize:11, color:C.dim, marginTop:2 }}>{item.sub}</div>
+</div>
+</div>
+))}
+{/* Consentement obligatoire */}
+<div style={{ display:“flex”, gap:12, alignItems:“flex-start”, padding:“12px 14px”, background:”#0A0C10”, border:`1px solid ${consentGiven?"#C9A84C44":"#1E2330"}`, marginBottom:20, cursor:“pointer”, marginTop:12 }} onClick={() => setConsentGiven(!consentGiven)}>
+<div style={{ width:18, height:18, border:`1px solid ${consentGiven?"#C9A84C":"#C0614A"}`, background:consentGiven?”#C9A84C”:“transparent”, flexShrink:0, marginTop:2, display:“flex”, alignItems:“center”, justifyContent:“center”, fontSize:11, color:”#0B0F1A”, fontWeight:700 }}>
+{consentGiven ? “✓” : “”}
+</div>
+<div>
+<div style={{ fontSize:12, color:consentGiven?”#F0EBE0”:C.muted, fontWeight:600 }}>Je consens au partage de ces informations avec l’équipe Eden</div>
+<div style={{ fontSize:11, color:C.dim, marginTop:2 }}>Obligatoire — Ces données sont traitées de façon confidentielle conformément aux conditions d’utilisation.</div>
+</div>
+</div>
+<div style={{ display:“flex”, gap:8 }}>
+<button onClick={() => setStep(“closed”)} style={{ flex:1, background:“transparent”, border:“1px solid #1E2330”, color:C.dim, padding:“12px”, fontFamily:”‘Jost’,sans-serif”, fontSize:11, cursor:“pointer” }}>Annuler</button>
+<button onClick={() => { if(consentGiven) setStep(“confirm”); }} disabled={!consentGiven} style={{ flex:2, background:consentGiven?”#C9A84C”:”#1E2330”, border:“none”, color:consentGiven?”#0B0F1A”:”#3A3E4A”, padding:“12px”, fontFamily:”‘Jost’,sans-serif”, fontSize:12, fontWeight:600, cursor:consentGiven?“pointer”:“not-allowed” }}>
+Prévisualiser mon message →
+</button>
+</div>
+</div>
+</div>
+);
 
-const hasAccess = (module, level) => {
-  if (level === "premium") return true;
-  if (level === "argent") return module !== "portrait";
-  if (level === "simple") return module === "bilan";
-  return false;
-};
+if (step === “confirm”) {
+const msg = buildShareMessage();
+return (
+<div style={{ position:“fixed”, inset:0, background:”#000000EE”, zIndex:300, display:“flex”, alignItems:“center”, justifyContent:“center”, padding:20 }}>
+<div style={{ background:”#0D1018”, border:“1px solid #4A9B6A44”, maxWidth:480, width:“100%”, padding:“28px 24px”, maxHeight:“90vh”, overflowY:“auto” }}>
+<div style={{ fontSize:9, letterSpacing:”.22em”, textTransform:“uppercase”, color:”#4A9B6A”, marginBottom:12 }}>◈ Prévisualisation du message</div>
+<div style={{ background:”#080C10”, border:“1px solid #1E2330”, padding:“14px”, marginBottom:20, borderRadius:2 }}>
+<div style={{ fontSize:12, color:C.text, lineHeight:1.8, whiteSpace:“pre-wrap”, fontFamily:“monospace” }}>{msg}</div>
+</div>
+<p style={{ fontSize:11, color:C.muted, lineHeight:1.6, marginBottom:16 }}>Ce message s’ouvrira dans WhatsApp, adressé à l’Académie Eden. Vous pouvez le modifier avant d’envoyer.</p>
+<div style={{ display:“flex”, gap:8 }}>
+<button onClick={() => setStep(“consent”)} style={{ flex:1, background:“transparent”, border:“1px solid #1E2330”, color:C.dim, padding:“12px”, fontFamily:”‘Jost’,sans-serif”, fontSize:11, cursor:“pointer” }}>← Modifier</button>
+<button onClick={() => { window.open(`https://wa.me/${WHATSAPP_NUM}?text=${encodeURIComponent(msg)}`); setStep(“done”); }} style={{ flex:2, background:”#25D366”, border:“none”, color:”#fff”, padding:“12px”, fontFamily:”‘Jost’,sans-serif”, fontSize:12, fontWeight:600, cursor:“pointer” }}>
+Envoyer sur WhatsApp →
+</button>
+</div>
+</div>
+</div>
+);
+}
 
+if (step === “done”) return (
+<div style={{ background:”#0A1208”, border:“1px solid #4A9B6A44”, borderLeft:“3px solid #4A9B6A”, padding:“16px 20px”, marginBottom:16 }}>
+<div style={{ fontSize:9, color:”#4A9B6A”, letterSpacing:”.2em”, textTransform:“uppercase”, marginBottom:8 }}>✓ Rapport partagé</div>
+<p style={{ fontSize:12, color:C.muted, lineHeight:1.7 }}>Votre rapport a été transmis à l’Académie Eden. Un Conseiller vous contactera sous 24-48h.</p>
+</div>
+);
 
-
-// ============================================
-// FONCTIONS UTILITAIRES
-// ============================================
-
-const computeAttachementStyle = (rep) => {
-  if (!rep) return 'Non déterminé';
-  const styles = {
-    secure: 'Sécure',
-    anxious: 'Anxieux',
-    avoidant: 'Évitant'
-  };
-  return styles[rep] || rep;
-};
-
-// ============================================
-// COMPOSANTS UI - À CONSERVER TELS QUELS
-// ============================================
+return null;
+}
 
 function SmartWhatsAppCTA({ clientName, gp, profil, riskLevel, patterns }) {
-  const activePatterns = Object.keys(patterns || {}).filter(p => (patterns[p] || 0) > 40).slice(0, 2);
-  const urgency = gp < 40 ? "URGENCE" : gp < 55 ? "PRIORITÉ" : "SUIVI";
-  const formation = profil === "celibataire" ? "Eden Single" : profil === "fiance" ? "Eden Connexion" : gp < 45 ? "RESCUE 90 Jours" : "Les 12 Piliers";
-  const prefilledMessage = `Bonjour Académie Eden,\n\n[${urgency}] Je viens de compléter mon Bilan 360°.\n\n📊 Score global : ${gp}/100 — ${riskLevel?.l || ""}\n👤 Profil : ${profil === "marie" ? "Marié(e)" : profil === "fiance" ? "Fiancé(e)" : "Célibataire"}${activePatterns.length > 0 ? `\n⚠ Patterns identifiés : ${activePatterns.join(", ")}` : ""}\n\nJe souhaite en savoir plus sur la formation "${formation}".\n\nMerci,\n${clientName}`;
-  const buttonColor = gp < 45 ? C.red : gp < 60 ? C.orange : C.green;
-  const buttonLabel = gp < 45 ? "Intervention urgente — Contacter maintenant" : gp < 60 ? "Prendre rendez-vous avec Zady Zozoro" : "Confirmer mon inscription à la formation";
-  return (
-    <div style={{ background: buttonColor + "12", border: `1px solid ${buttonColor}44`, borderLeft: `4px solid ${buttonColor}`, padding: "20px 22px", marginBottom: 24 }}>
-      <div style={{ fontSize: 9, letterSpacing: ".2em", textTransform: "uppercase", color: buttonColor, marginBottom: 10 }}>{gp < 45 ? "⚠ Protocole d'urgence" : "✦ Prochaine étape"}</div>
-      <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 16, color: "#F0EBE0", marginBottom: 8, lineHeight: 1.4 }}>Formation recommandée : <span style={{ color: buttonColor }}>{formation}</span></div>
-      <p style={{ fontSize: 12, color: C.muted, lineHeight: 1.7, marginBottom: 16 }}>Votre profil a été pré-analysé. En cliquant ci-dessous, Zady Zozoro reçoit directement votre résumé avant votre échange. <strong style={{ color: C.text }}>Vous n'avez rien à expliquer.</strong></p>
-      <button onClick={() => window.open(`https://wa.me/${WHATSAPP_NUM}?text=${encodeURIComponent(prefilledMessage)}`)} style={{ background: buttonColor, border: "none", color: "#fff", padding: "14px 24px", cursor: "pointer", fontFamily: "'Jost',sans-serif", fontSize: 12, fontWeight: 600, width: "100%", letterSpacing: ".04em" }}>{buttonLabel}</button>
-      {gp >= 45 && <div style={{ fontSize: 10, color: "#4A5060", marginTop: 10, textAlign: "center" }}>Le montant du bilan (25 000 FCFA) est déduit du prix de la formation</div>}
-    </div>
-  );
+const activePatterns = Object.keys(patterns || {}).filter(p => (patterns[p] || 0) > 40).slice(0, 2);
+const urgency = gp < 40 ? “URGENCE” : gp < 55 ? “PRIORITÉ” : “SUIVI”;
+const formation = profil === “celibataire” ? “Eden Single” : profil === “fiance” ? “Eden Connexion” : gp < 45 ? “RESCUE 90 Jours” : “Les 12 Piliers”;
+const prefilledMessage = `Bonjour Académie Eden,\n\n[${urgency}] Je viens de compléter mon Bilan 360°.\n\n📊 Score global : ${gp}/100 — ${riskLevel?.l || ""}\n👤 Profil : ${profil === "marie" ? "Marié(e)" : profil === "fiance" ? "Fiancé(e)" : "Célibataire"}${activePatterns.length > 0 ? `\n⚠ Patterns identifiés : ${activePatterns.join(”, “)}` : ""}\n\nJe souhaite en savoir plus sur la formation "${formation}".\n\nMerci,\n${clientName}`;
+const buttonColor = gp < 45 ? C.red : gp < 60 ? C.orange : C.green;
+const buttonLabel = gp < 45 ? “Intervention urgente — Contacter maintenant” : gp < 60 ? “Prendre rendez-vous avec Zady Zozoro” : “Confirmer mon inscription à la formation”;
+return (
+<div style={{ background:buttonColor+“12”, border:`1px solid ${buttonColor}44`, borderLeft:`4px solid ${buttonColor}`, padding:“20px 22px”, marginBottom:24 }}>
+<div style={{ fontSize:9, letterSpacing:”.2em”, textTransform:“uppercase”, color:buttonColor, marginBottom:10 }}>{gp < 45 ? “⚠ Protocole d’urgence” : “✦ Prochaine étape”}</div>
+<div style={{ fontFamily:”‘Cormorant Garamond’,serif”, fontSize:16, color:”#F0EBE0”, marginBottom:8, lineHeight:1.4 }}>Formation recommandée : <span style={{ color:buttonColor }}>{formation}</span></div>
+<p style={{ fontSize:12, color:C.muted, lineHeight:1.7, marginBottom:16 }}>Votre profil a été pré-analysé. En cliquant ci-dessous, Zady Zozoro reçoit directement votre résumé avant votre échange. <strong style={{ color:C.text }}>Vous n’avez rien à expliquer.</strong></p>
+<button onClick={() => window.open(`https://wa.me/${WHATSAPP_NUM}?text=${encodeURIComponent(prefilledMessage)}`)} style={{ background:buttonColor, border:“none”, color:”#fff”, padding:“14px 24px”, cursor:“pointer”, fontFamily:”‘Jost’,sans-serif”, fontSize:12, fontWeight:600, width:“100%”, letterSpacing:”.04em” }}>{buttonLabel}</button>
+{gp >= 45 && <div style={{ fontSize:10, color:”#4A5060”, marginTop:10, textAlign:“center” }}>Le montant du bilan (25 000 FCFA) est déduit du prix de la formation</div>}
+</div>
+);
 }
 
 function LegalDisclaimer({ gp, hasViolenceSignal }) {
-  const critical = gp < 40 || hasViolenceSignal;
-  return (
-    <div style={{ background: "#080A10", border: "1px solid #1E2230", padding: "16px 18px", marginTop: 32, fontSize: 10, color: "#3A3E4A", lineHeight: 1.8 }}>
-      {critical && <div style={{ background: "#1A0808", border: "1px solid #C0614A33", padding: "10px 14px", marginBottom: 14, fontSize: 11, color: "#E8A090", lineHeight: 1.7 }}>⚠ Situation critique détectée : ce bilan ne remplace pas une intervention professionnelle. Si vous êtes en danger, contactez le 1010 (Côte d'Ivoire), 116 (Sénégal) ou 3919 (France).</div>}
-      <p><strong style={{ color: "#5A5E6A" }}>Avis important ·</strong> Ce bilan est un outil d'auto-évaluation éducatif. Il ne constitue pas un avis médical, psychologique ou thérapeutique, et ne remplace pas l'avis d'un professionnel qualifié. Les résultats reflètent vos perceptions au moment de la réponse.</p>
-      <p style={{ marginTop: 8 }}>Vos données sont traitées conformément aux conditions d'utilisation acceptées lors de l'accès au bilan. Conservation : 24 mois. Droit à l'effacement sur demande via WhatsApp.</p>
-      <p style={{ marginTop: 8, color: "#2A2E3A" }}>Académie Eden · Institut de Leadership Familial · Abidjan, Côte d'Ivoire · Fondée par Zady Zozoro © 2025</p>
-    </div>
-  );
+const critical = gp < 40 || hasViolenceSignal;
+return (
+<div style={{ background:”#080A10”, border:“1px solid #1E2230”, padding:“16px 18px”, marginTop:32, fontSize:10, color:”#3A3E4A”, lineHeight:1.8 }}>
+{critical && <div style={{ background:”#1A0808”, border:“1px solid #C0614A33”, padding:“10px 14px”, marginBottom:14, fontSize:11, color:”#E8A090”, lineHeight:1.7 }}>⚠ Situation critique détectée : ce bilan ne remplace pas une intervention professionnelle. Si vous êtes en danger, contactez le 1010 (Côte d’Ivoire), 116 (Sénégal) ou 3919 (France).</div>}
+<p><strong style={{ color:”#5A5E6A” }}>Avis important ·</strong> Ce bilan est un outil d’auto-évaluation éducatif. Il ne constitue pas un avis médical, psychologique ou thérapeutique, et ne remplace pas l’avis d’un professionnel qualifié. Les résultats reflètent vos perceptions au moment de la réponse.</p>
+<p style={{ marginTop:8 }}>Vos données sont traitées conformément aux conditions d’utilisation acceptées lors de l’accès au bilan. Conservation : 24 mois. Droit à l’effacement sur demande via WhatsApp.</p>
+<p style={{ marginTop:8, color:”#2A2E3A” }}>Académie Eden · Institut de Leadership Familial · Abidjan, Côte d’Ivoire · Fondée par Zady Zozoro © 2025</p>
+</div>
+);
 }
 
-const QuestionChoix = ({ q, value, onChange }) => {
-  return (
-    <div className="mb24">
-      <div className="q-text">{q.question}</div>
-      {q.options && q.options.map(opt => (
-        <div key={opt.val} className={`opt ${value === opt.val ? "selected" : ""}`} onClick={() => onChange(opt.val)}>
-          <div className="opt-dot" />
-          <div className="opt-label">{opt.label}</div>
-        </div>
-      ))}
-      {q.followUp && value && (!q.condition || q.condition(value)) && (
-        <div>
-          <div className="q-follow">{q.followUp}</div>
-          <textarea className="ta" placeholder="Répondez en vos propres mots…" onChange={e => onChange(value, e.target.value)} />
-        </div>
-      )}
-    </div>
-  );
+// Question UI components for Portrait
+function QuestionChoix({ q, value, onChange }) {
+return (
+<div className="mb24">
+<div className="q-text">{q.question}</div>
+{q.options.map(opt => (
+<div key={opt.val} className={`opt ${value === opt.val ? "selected" : ""}`} onClick={() => onChange(opt.val)}>
+<div className="opt-dot" /><div className="opt-label">{opt.label}</div>
+</div>
+))}
+{q.followUp && value && (!q.condition || q.condition(value)) && (
+<div>
+<div className="q-follow">{q.followUp}</div>
+<textarea className=“ta” placeholder=“Répondez en vos propres mots…” onChange={e => onChange(value, e.target.value)} />
+</div>
+)}
+</div>
+);
+}
+
+function QuestionOuvert({ q, value, onChange }) {
+return (
+<div className="mb24">
+<div className="q-text">{q.question}</div>
+<textarea className={`ta ${q.type === "ouvert_court" ? "ta-short" : ""}`} placeholder={q.placeholder || “Votre réponse…”} value={value || “”} onChange={e => onChange(e.target.value)} />
+</div>
+);
+}
+
+function QuestionLikert({ q, value, onChange }) {
+return (
+<div className="mb24">
+<div className="q-text">{q.question}</div>
+<div className="likert">
+{[1,2,3,4,5].map(n => (
+<button key={n} className={`likert-btn ${value === n ? "selected" : ""}`} onClick={() => onChange(n)}>{n}<br />{q.scale[n-1]}</button>
+))}
+</div>
+</div>
+);
+}
+
+function QuestionMultiCheck({ q, values, onChange, openValue, onOpenChange }) {
+const toggle = val => {
+const current = values || [];
+if (current.includes(val)) onChange(current.filter(v => v !== val));
+else onChange([…current, val]);
+};
+return (
+<div className="mb24">
+<div className="q-text">{q.question}</div>
+{q.options.map(opt => (
+<div key={opt.val} className={`check-item ${(values || []).includes(opt.val) ? "selected" : ""}`} onClick={() => toggle(opt.val)}>
+<div className="check-box">{(values || []).includes(opt.val) && “✓”}</div>
+<div className="opt-label">{opt.label}</div>
+</div>
+))}
+{q.followUp && q.condition && q.condition(values) && (
+<div>
+<div className="q-follow">{q.followUp}</div>
+<textarea className=“ta” placeholder=“Décrivez ce schéma…” value={openValue || “”} onChange={e => onOpenChange(e.target.value)} />
+</div>
+)}
+</div>
+);
+}
+
+function RankingLangages({ values, onChange }) {
+const [ranked, setRanked] = useState(values || []);
+const selectItem = id => {
+setRanked(prev => {
+if (prev.includes(id)) { const next = prev.filter(v => v !== id); onChange(next); return next; }
+if (prev.length >= 5) return prev;
+const next = […prev, id]; onChange(next); return next;
+});
+};
+return (
+<div className="rank-list">
+{PROFIL_APPRECIATION_OPTIONS.map(opt => {
+const pos = ranked.indexOf(opt.id);
+return (
+<div key={opt.id} className={`rank-item ${pos >= 0 ? "ranked" : ""}`} onClick={() => selectItem(opt.id)}>
+<div className="rank-num">{pos >= 0 ? pos + 1 : opt.icon}</div>
+<div className="rank-label">{opt.label}</div>
+</div>
+);
+})}
+<div style={{ fontSize:10, color:”#3A3E4A”, marginTop:4 }}>Cliquez dans l’ordre de vos préférences (1 = le plus important)</div>
+</div>
+);
+}
+
+function ScenarioAttachement({ scenario, value, onChange }) {
+return (
+<div style={{ background:”#0D1018”, border:“1px solid #1E2330”, padding:“18px”, marginBottom:16 }}>
+<div style={{ fontSize:13, color:C.muted, lineHeight:1.7, marginBottom:14, fontStyle:“italic” }}>« {scenario.scenario} »</div>
+{scenario.reponses.map(r => (
+<div key={r.val} className={`opt ${value === r.val ? "selected" : ""}`} onClick={() => onChange(r.val)}>
+<div className="opt-dot" /><div className="opt-label">{r.label}</div>
+</div>
+))}
+</div>
+);
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// SECTION 7 — MODULE BILAN 360°
+// ═══════════════════════════════════════════════════════════════════════════
+
+const LOADING_MSGS = {
+marie:[[“L’amour ne suffit pas”,“Deux personnes peuvent s’aimer profondément et pourtant se blesser profondément.”],[“Le temps ne guérit pas”,“Le temps seul ne répare pas un couple. C’est ce qu’on fait avec le temps qui compte.”],[“La routine est le piège”,“Après 5 ans, le couple ne meurt pas d’un grand drame — il meurt de petites absences accumulées.”]],
+fiance:[[“Vous n’épousez pas une personne”,“Vous épousez une histoire familiale, des blessures non guéries, des schémas transgénérationnels.”],[“Le oui le plus important”,”‘Oui’ dit sans préparation est un pari. ‘Oui’ dit en connaissance de cause est une alliance.”],[“Ce que vous ne voyez pas encore”,“Les problèmes du mariage commencent avant le mariage — dans les zones que vous n’avez pas explorées.”]],
+celibataire:[[“On ne peut pas donner ce qu’on n’a pas”,“Celui qui ne se connaît pas choisit par défaut.”],[“La solitude n’est pas l’ennemi”,“C’est une école d’identité. Celui qui fuit la solitude entre en relation par manque, pas par force.”],[“Prêt(e) ou pressé(e) ?”,“Il y a une différence entre être prêt(e) à aimer et être pressé(e) de ne plus être seul(e).”]]
 };
 
-const QuestionOuvert = ({ q, value, onChange }) => {
-  return (
-    <div className="mb24">
-      <div className="q-text">{q.question}</div>
-      <textarea className={`ta ${q.type === "ouvert_court" ? "ta-short" : ""}`} placeholder={q.placeholder || "Votre réponse…"} value={value || ""} onChange={e => onChange(e.target.value)} />
-    </div>
-  );
-};
+function DiagnosticModule({ codes, onSaveCodes, isAbonne, abonnementLevel, onRequestUpgrade, subscriberProfile, onUpdateSubscriber }) {
+const MAX_QUESTIONS = isAbonne ? MAX_QUESTIONS_PREMIUM : MAX_QUESTIONS_FREE;
+// Accès granulaire par feature
+const canHorloge       = hasAccess(“horloge”, abonnementLevel);
+const canFutureLetter  = hasAccess(“futureLetter”, abonnementLevel);
+const canViralShare    = hasAccess(“viralShare”, abonnementLevel);
+const canMicroPertes   = hasAccess(“microPertes”, abonnementLevel);
+const canLectureMiroir = hasAccess(“lectureMiroir”, abonnementLevel);
+const canExportPDF     = hasAccess(“exportPDF”, abonnementLevel);
+const [view, setView] = useState(“code_entry”);
+const [enteredCode, setEnteredCode] = useState(””);
+const [codeMsg, setCodeMsg] = useState({ text:””, ok:false });
+const [clientName, setClientName] = useState(””);
+const [clientGenre, setClientGenre] = useState(””);
+const [clientRole, setClientRole] = useState(””);
+const [clientRoleCustom, setClientRoleCustom] = useState(””);
+const [clientAnnees, setClientAnnees] = useState(””);
+const [clientEnfants, setClientEnfants] = useState(””);
+const [clientProfil, setClientProfil] = useState(””);
+const [currentCode, setCurrentCode] = useState(null);
+const [coupleId, setCoupleId] = useState(null);
+const [partnerNum, setPartnerNum] = useState(null);
+const [dimIdx, setDimIdx] = useState(0);
+const [phase, setPhase] = useState(“q”);
+const [ans, setAns] = useState({});
+const [oAns, setOAns] = useState({});
+const [results, setResults] = useState(null);
+const [modal, setModal] = useState(null);
+const [loadIdx, setLoadIdx] = useState(0);
+const [facadeActive, setFacadeActive] = useState(false);
+const [violenceSignals, setViolenceSignals] = useState(null);
+const [activeLetterModal, setActiveLetterModal] = useState(false);
+const [letterText, setLetterText] = useState(””);
+const [letterLoading, setLetterLoading] = useState(false);
+const [shareCardActive, setShareCardActive] = useState(false);
+const [testimonialsOpen, setTestimonialsOpen] = useState(false);
+const [internalReportOpen, setInternalReportOpen] = useState(false);
+const [chatHistory, setChatHistory] = useState([]);
+const [chatInput, setChatInput] = useState(””);
+const [chatLoading, setChatLoading] = useState(false);
+const [questionsUsed, setQuestionsUsed] = useState(0);
+const chatEndRef = useRef(null);
+const codesRef = useRef({});
 
-const QuestionLikert = ({ q, value, onChange }) => {
-  return (
-    <div className="mb24">
-      <div className="q-text">{q.question}</div>
-      <div className="likert">
-        {[1, 2, 3, 4, 5].map(n => (
-          <button key={n} className={`likert-btn ${value === n ? "selected" : ""}`} onClick={() => onChange(n)}>
-            {n}<br />{q.scale ? q.scale[n - 1] : ''}
-          </button>
+useEffect(() => { chatEndRef.current?.scrollIntoView({ behavior:“smooth” }); }, [chatHistory, chatLoading]);
+
+useEffect(() => {
+if (view !== “loading”) return;
+const msgs = LOADING_MSGS[clientProfil] || LOADING_MSGS.marie;
+const iv = setInterval(() => setLoadIdx(i => (i + 1) % msgs.length), 4200);
+return () => clearInterval(iv);
+}, [view, clientProfil]);
+
+const mod = clientProfil ? MODS[clientProfil] : null;
+const dims = mod?.dims || [];
+const dim = dims[dimIdx];
+
+async function readFreshCodes() {
+try {
+const r = await window.storage.get(STORAGE_KEY, true);
+if (r && r.value) {
+const d = JSON.parse(r.value);
+codesRef.current = d;
+return d;
+}
+} catch {}
+// Fallback 1 : codes passés en prop (chargés au démarrage de l’App)
+if (Object.keys(codes).length > 0) {
+codesRef.current = { …codes };
+return codesRef.current;
+}
+// Fallback 2 : ref locale (dernier état connu)
+return codesRef.current;
+}
+
+async function saveCodes(c) { codesRef.current = c; onSaveCodes(c); try { await window.storage.set(STORAGE_KEY, JSON.stringify(c), true); } catch {} }
+
+async function handleCodeEntry() {
+const raw = enteredCode.trim().toUpperCase().replace(/\s/g, “”);
+const code = raw.includes(”-”) ? raw : (raw.length >= 8 ? raw.slice(0,4)+”-”+raw.slice(4) : raw);
+if (!clientName.trim()) { setCodeMsg({ text:“Veuillez entrer votre prénom.”, ok:false }); return; }
+if (!clientGenre) { setCodeMsg({ text:“Veuillez sélectionner votre genre.”, ok:false }); return; }
+if (!clientProfil) { setCodeMsg({ text:“Veuillez sélectionner votre profil.”, ok:false }); return; }
+if (code.length < 5) { setCodeMsg({ text:“Code incomplet.”, ok:false }); return; }
+setCodeMsg({ text:“Vérification en cours…”, ok:false });
+const fresh = await readFreshCodes();
+if (Object.keys(fresh).length === 0) { setCodeMsg({ text:“Aucun code actif. Contactez Eden Académie.”, ok:false }); return; }
+if (!fresh[code]) { setCodeMsg({ text:“Code non reconnu. Vérifiez lettre par lettre.”, ok:false }); return; }
+if (fresh[code].used) { setCodeMsg({ text:“Ce code a déjà été utilisé.”, ok:false }); return; }
+setCurrentCode(code);
+if (fresh[code].coupleId) { setCoupleId(fresh[code].coupleId); setPartnerNum(fresh[code].partnerNum); }
+else { setCoupleId(null); setPartnerNum(null); }
+setChatHistory([]); setChatInput(””); setQuestionsUsed(0);
+setCodeMsg({ text:””, ok:false }); setDimIdx(0); setPhase(“q”); setAns({}); setOAns({});
+setView(“diagnostic”);
+}
+
+function doAns(id, val) { setAns(p => ({ …p, [id]:val })); }
+function doOAns(id, val) { setOAns(p => ({ …p, [id]:val })); }
+
+function computeScores() {
+if (!mod) return {};
+const bm = BM[clientProfil] || {};
+const res = {};
+dims.forEach(d => {
+let raw = 0; d.qs.forEach(q => { const v = ans[q.id] || 3; raw += q.inv ? (6-v) : v; });
+const p = pct(raw, d.qs.length * 5);
+res[d.id] = { label:d.label, p, lv:lvl(p), bm:bm[d.id]||null };
+});
+return res;
+}
+
+async function getPartnerData(cid, pnum) {
+try {
+const r = await window.storage.get(`eden_couple_${cid}_${pnum}`, true);
+if (r && r.value) return JSON.parse(r.value);
+} catch {}
+return null;
+}
+
+async function handleCheckFacade() {
+const facade = computeFacadeScore(ans, clientProfil);
+if (facade && facade.level !== “faible” && facade.message) {
+setFacadeActive(true);
+} else {
+await handleCheckViolence();
+}
+}
+
+async function handleCheckViolence() {
+const signals = checkViolenceSignals(ans, clientProfil);
+if (signals) { setViolenceSignals(signals); }
+else { await handleSubmit(); }
+}
+
+async function handleSubmit() {
+setFacadeActive(false); setViolenceSignals(null);
+const fresh = await readFreshCodes();
+const updated = { …fresh, [currentCode]: { …fresh[currentCode], used:true, usedAt:new Date().toISOString(), clientName } };
+await saveCodes(updated);
+const scores = computeScores();
+const opens = mod.oqs.map(q => ({ q:q.t, ans:oAns[q.id]||”” }));
+const indices = computeIndices(scores, clientProfil);
+const patternScores = computePatterns(ans, clientProfil);
+if (coupleId) { try { await window.storage.set(`eden_couple_${coupleId}_${partnerNum}`, JSON.stringify({ scores, name:clientName }), true); } catch {} }
+setView(“loading”);
+const bm = BM[clientProfil] || {};
+const roleDisplay = clientRole === “Autre” && clientRoleCustom ? clientRoleCustom : clientRole;
+let partnerData = null;
+if (coupleId) partnerData = await getPartnerData(coupleId, partnerNum === 1 ? 2 : 1);
+const prompt = buildDiagnosticPrompt(clientName, clientProfil, clientGenre, roleDisplay, clientAnnees, clientEnfants, scores, opens, bm, patternScores, partnerData);
+try {
+const text = await edenAI({ prompt });
+const gp = Math.round(Object.values(scores).reduce((s,v)=>s+v.p,0)/Object.values(scores).length);
+// Calcul du niveau d’alerte
+const alertLevel = computeAlertLevel(gp, patternScores, opens, violenceSignals, ans, clientProfil);
+// Notification alerte niveau 3 (crise) → backend email
+if (alertLevel >= ALERT_LEVELS.CRISE) {
+triggerCrisisAlert({ clientName, gp, profil:clientProfil, patternScores, alertLevel, tel:”” });
+}
+setResults({ text, scores, gp, profil:clientProfil, indices, patternScores, rawAns:ans, openAns:opens, alertLevel });
+setView(“results”);
+} catch {
+const scores2 = computeScores();
+const demoText = `**PROFIL ARCHÉTYPAL**\n\n${clientName} présente le profil "Illusion de paix". En surface, ce couple semble fonctionnel. Mais sous la surface, des tensions structurelles s'accumulent silencieusement.\n\n**PHRASE CLÉ**\n\nVous gérez la paix, ${clientName}. Vous ne la vivez pas.\n\n**VOS FORCES**\n\nVos dimensions les plus élevées montrent une capacité réelle à maintenir une structure. ${clientName}, vous avez les ressources nécessaires pour transformer ce bilan en action.\n\n**VOS FRAGILITÉS CRITIQUES**\n\nLes zones identifiées nécessitent une attention urgente et structurée.\n\n**PATTERN RELATIONNEL DOMINANT**\n\nPlusieurs signaux convergent vers un pattern qui mérite d'être exploré en profondeur.\n\n**CE QUE VOUS NE VOYEZ PAS ENCORE**\n\nLa connexion entre les dimensions fragilisées révèle une dynamique systémique.\n\n**TRAJECTOIRE**\n\nSans action : la dégradation continuera progressivement. Avec engagement : une transformation est possible.\n\n**PRESCRIPTION**\n\nFormation recommandée : Les 12 Piliers d'un Mariage Solide (75 000 FCFA).\n\nPlan d'action 7 jours :\nJour 1-2 : Contactez l'Académie Eden pour un premier échange.\nJour 3-5 : Partagez ce rapport avec votre conjoint(e).\nJour 6-7 : Prenez une décision concrète sur la prochaine étape.`;
+setResults({ text:demoText, scores:scores2, gp:Math.round(Object.values(scores2).reduce((s,v)=>s+v.p,0)/Object.values(scores2).length), profil:clientProfil, indices, patternScores });
+setView(“results”);
+}
+}
+
+async function handleGenerateLetter() {
+setLetterLoading(true); setActiveLetterModal(true);
+const trajectory = results.gp >= 65 ? “modérément positif” : results.gp >= 45 ? “fragile” : “critique”;
+const topFragile = Object.entries(results.scores).sort(([,a],[,b]) => a.p - b.p).slice(0, 2).map(([,v]) => v.label).join(” et “);
+const activePatterns = Object.keys(results.patternScores || {}).filter(p => (results.patternScores[p] || 0) > 40);
+const prompt = `Tu es ${clientName} dans 5 ans. Tu écris une lettre à toi-même aujourd'hui.\nProfil : ${results.profil === "marie" ? "Marié(e)" : results.profil === "fiance" ? "Fiancé(e)" : "Célibataire"} · Score actuel : ${results.gp}/100 · Trajectoire : ${trajectory}\nFragilités principales : ${topFragile}\n${activePatterns.length > 0 ? `Patterns actifs : ${activePatterns.join(”, “)}` : ""}\n\nRÈGLES ABSOLUES :\n- La lettre est écrite à la PREMIÈRE personne\n- Elle est ÉMOTIONNELLE, pas analytique\n- Elle nomme des DÉTAILS CONCRETS de la vie quotidienne\n- Elle est en FRANÇAIS, entre 150 et 200 mots maximum\n- Elle commence par "Cher(e) ${clientName},"\n- Elle ne mentionne JAMAIS l'Académie Eden ni aucune formation\n- Elle se termine par une question qui force une décision\n${results.gp < 65 ? "La lettre vient d'un futur où rien n'a changé. Elle décrit avec douceur les pertes concrètes accumulées." : "La lettre vient d'un futur transformé. Elle décrit les gains concrets obtenus grâce à un travail courageux."}\nGénère UNIQUEMENT la lettre. Rien d'autre.`;
+try {
+const letterResult = await edenAI({ prompt });
+setLetterText(letterResult || “”);
+} catch { setLetterText(`Cher(e) ${clientName},\n\nJe t'écris depuis dans 5 ans. Je veux que tu saches que les choix que tu fais aujourd'hui comptent plus que tu ne le réalises.\n\nLa vraie question est : es-tu prêt(e) à agir maintenant ?`); }
+setLetterLoading(false);
+}
+
+async function handleAskQuestion() {
+if (!chatInput.trim() || questionsUsed >= MAX_QUESTIONS || chatLoading) return;
+const question = chatInput.trim();
+setChatInput(””);
+const newHistory = […chatHistory, { role:“user”, content:question }];
+setChatHistory(newHistory);
+setQuestionsUsed(q => q + 1);
+setChatLoading(true);
+const scoresText = results ? Object.entries(results.scores).map(([,v]) => `${v.label}: ${v.p}/100 (${v.lv.l})`).join(”, “) : “”;
+const profilLabel = results?.profil === “marie” ? “Marié(e)” : results?.profil === “fiance” ? “Fiancé(e)” : “Célibataire”;
+const systemPrompt = `Tu es le Conseiller de l'Académie Eden — Institut du Leadership Familial fondé par Zady Zozoro.\nTu réponds à ${clientName}, profil : ${profilLabel}, score global : ${results?.gp||"N/A"}/100.\nScores : ${scoresText}\nExtrait du rapport : ${results?.text?.slice(0,1500)||""}\nRôle : Répondre de façon personnalisée, experte et bienveillante. Max 280 mots. Utiliser le prénom ${clientName} naturellement. Ne propose jamais de formations dans la réponse. Références bibliques si pertinent. Jamais de jargon clinique ou médical.`;
+try {
+const answer = await edenAI({ prompt:question, systemPrompt, history:newHistory.map(m=>({role:m.role,content:m.content})) });
+setChatHistory(h => […h, { role:“assistant”, content:answer || “Je n’ai pas pu générer une réponse.” }]);
+} catch {
+setChatHistory(h => […h, { role:“assistant”, content:“Une erreur s’est produite. Vérifiez votre connexion.” }]);
+}
+setChatLoading(false);
+}
+
+// ── RENDER VIEWS ──
+
+if (view === “code_entry”) {
+return (
+<div className="section">
+<div className="section-tag">◈ Bilan 360° Eden</div>
+<div className="section-title">Entrez votre code d’accès</div>
+<div className="section-desc">Votre code vous a été remis par l’Académie Eden. Il est à usage unique et personnel.</div>
+<div style={{ marginBottom:16 }}>
+<div style={{ fontSize:10, color:C.gold, letterSpacing:”.16em”, textTransform:“uppercase”, marginBottom:8 }}>Votre prénom</div>
+<input className=“inp” placeholder=“Jean-Marc” value={clientName} onChange={e => setClientName(e.target.value)} />
+</div>
+<div style={{ marginBottom:16 }}>
+<div style={{ fontSize:10, color:C.gold, letterSpacing:”.16em”, textTransform:“uppercase”, marginBottom:8 }}>Genre</div>
+<div style={{ display:“flex”, gap:8 }}>
+{[“Homme”,“Femme”].map(g => <div key={g} className={`opt ${clientGenre === g ? "selected" : ""}`} style={{ flex:1 }} onClick={() => setClientGenre(g)}><div className="opt-dot"/><div className="opt-label">{g}</div></div>)}
+</div>
+</div>
+<div style={{ marginBottom:16 }}>
+<div style={{ fontSize:10, color:C.gold, letterSpacing:”.16em”, textTransform:“uppercase”, marginBottom:8 }}>Profil</div>
+{[{id:“marie”,label:“Marié(e)”},{id:“fiance”,label:“Fiancé(e)”},{id:“celibataire”,label:“Célibataire”}].map(p => (
+<div key={p.id} className={`opt ${clientProfil === p.id ? "selected" : ""}`} onClick={() => setClientProfil(p.id)}><div className="opt-dot"/><div className="opt-label">{p.label}</div></div>
+))}
+</div>
+{clientProfil === “marie” && (
+<div style={{ display:“flex”, gap:8, marginBottom:16 }}>
+<div style={{ flex:1 }}>
+<div style={{ fontSize:10, color:C.gold, letterSpacing:”.16em”, textTransform:“uppercase”, marginBottom:8 }}>Années de mariage</div>
+<input className=“inp” placeholder=“Ex: 7” inputMode=“numeric” pattern=”[0-9]*” maxLength={2} value={clientAnnees} onChange={e => setClientAnnees(e.target.value.replace(/[^0-9]/g, “”))} />
+</div>
+<div style={{ flex:1 }}>
+<div style={{ fontSize:10, color:C.gold, letterSpacing:”.16em”, textTransform:“uppercase”, marginBottom:8 }}>Nombre d’enfants</div>
+<input className=“inp” placeholder=“Ex: 2” inputMode=“numeric” pattern=”[0-9]*” maxLength={2} value={clientEnfants} onChange={e => setClientEnfants(e.target.value.replace(/[^0-9]/g, “”))} />
+</div>
+</div>
+)}
+<div style={{ marginBottom:16 }}>
+<div style={{ fontSize:10, color:C.gold, letterSpacing:”.16em”, textTransform:“uppercase”, marginBottom:8 }}>Profession (optionnel)</div>
+<select className=“inp” style={{ cursor:“pointer” }} value={clientRole} onChange={e => setClientRole(e.target.value)}>
+<option value="">Sélectionner…</option>
+{ROLES.map(r => <option key={r} value={r}>{r}</option>)}
+</select>
+{clientRole === “Autre” && <input className=“inp” placeholder=“Précisez votre profession” value={clientRoleCustom} onChange={e => setClientRoleCustom(e.target.value)} />}
+</div>
+<div style={{ marginBottom:16 }}>
+<div style={{ fontSize:10, color:C.gold, letterSpacing:”.16em”, textTransform:“uppercase”, marginBottom:8 }}>Code d’accès</div>
+<input className=“inp” placeholder=“XXXX-XXXX” value={enteredCode} onChange={e => setEnteredCode(e.target.value)} onKeyDown={e => e.key === “Enter” && handleCodeEntry()} />
+</div>
+{codeMsg.text && <div style={{ fontSize:12, color:codeMsg.ok ? C.green : C.red, marginBottom:12 }}>{codeMsg.text}</div>}
+<button className="btn-primary" onClick={handleCodeEntry}>Commencer mon bilan →</button>
+<div style={{ marginTop:16, fontSize:11, color:C.dim, lineHeight:1.6 }}>Vous n’avez pas de code ? <span style={{ color:C.gold, cursor:“pointer”, textDecoration:“underline” }} onClick={() => window.open(`https://wa.me/${WHATSAPP_NUM}?text=${encodeURIComponent("Bonjour, je souhaite obtenir un code d'accès pour le Bilan 360° Eden.")}`)}>Contactez l’Académie Eden sur WhatsApp</span></div>
+</div>
+);
+}
+
+if (view === “diagnostic” && mod) {
+const progress = (dimIdx / dims.length) * 85;
+if (phase === “q”) {
+const dimOk = dim?.qs.every(q => ans[q.id] !== undefined);
+const allOk = dims.every(d => d.qs.every(q => ans[q.id] !== undefined));
+return (
+<div className="section">
+{facadeActive && <FacadeAlert ans={ans} profil={clientProfil} onContinue={() => handleCheckViolence()} onRevise={() => setFacadeActive(false)} />}
+{violenceSignals && <ViolenceProtocol signals={violenceSignals} onContinue={() => handleSubmit()} />}
+<div className="progress-bar"><div className=“progress-fill” style={{ width:`${progress}%` }} /></div>
+<div style={{ fontSize:9, color:C.dim, letterSpacing:”.14em”, textTransform:“uppercase”, marginBottom:16 }}>Dimension {dimIdx+1}/{dims.length} — {dim?.label}</div>
+{dim && (
+<div>
+{dim.qs.map(q => (
+<div key={q.id} style={{ marginBottom:24 }}>
+<div className="q-text">{q.t}</div>
+<div className="scale-row">
+{SCALE.map(v => (
+<button key={v} className={`scale-btn ${ans[q.id] === v ? "selected" : ""}`} onClick={() => doAns(q.id, v)}>
+{v}<br /><span style={{ fontSize:9 }}>{SL[v]}</span>
+</button>
+))}
+</div>
+</div>
+))}
+</div>
+)}
+<div className="nav-row">
+<button className=“btn-secondary” style={{ flex:“0 0 auto” }} onClick={() => { if (dimIdx === 0) setView(“code_entry”); else setDimIdx(i => i-1); }}>← Retour</button>
+<button className=“btn-primary” disabled={!dimOk} onClick={() => {
+if (dimIdx < dims.length - 1) setDimIdx(i => i+1);
+else if (allOk) setPhase(“oq”);
+}}>{dimIdx < dims.length - 1 ? “Suivant →” : “Questions ouvertes →”}</button>
+</div>
+</div>
+);
+}
+if (phase === “oq”) {
+return (
+<div className="section">
+<div className="section-tag">◈ Questions ouvertes</div>
+<div className="section-title">Quelques mots de vous</div>
+<div className="section-desc">Ces questions permettent au Conseiller Eden de personnaliser davantage votre rapport. Répondez librement — ou passez si vous préférez.</div>
+{mod.oqs.map(q => (
+<div key={q.id} style={{ marginBottom:24 }}>
+<div className="q-text">{q.t}</div>
+<textarea className=“ta” value={oAns[q.id]||””} onChange={e => doOAns(q.id, e.target.value)} />
+</div>
+))}
+<div className="nav-row">
+<button className=“btn-secondary” style={{ flex:“0 0 auto” }} onClick={() => setPhase(“q”)}>← Retour</button>
+<button className="btn-primary" onClick={handleCheckFacade}>Générer mon rapport →</button>
+</div>
+</div>
+);
+}
+}
+
+if (view === “loading”) {
+const msgs = LOADING_MSGS[clientProfil] || LOADING_MSGS.marie;
+const safeIdx = loadIdx % msgs.length;
+return (
+<div className="loading-screen">
+<div className="loading-ring" />
+<div style={{ textAlign:“center” }}>
+<div style={{ fontSize:9, color:C.gold, letterSpacing:”.2em”, textTransform:“uppercase”, marginBottom:12 }}>{msgs[safeIdx][0]}</div>
+<div className="loading-msg">{msgs[safeIdx][1]}</div>
+</div>
+<div className="loading-sub">Académie Eden · Analyse en cours</div>
+</div>
+);
+}
+
+if (view === “results” && results) {
+const sections = parseReport(results.text);
+const gl = lvl(results.gp);
+const formations = FORMATIONS.filter(f => f.profil.includes(results.profil));
+const activePatterns = results.patternScores ? Object.entries(results.patternScores).filter(([,v]) => v > 40).sort(([,a],[,b]) => b-a) : [];
+const entries = Object.entries(results.scores);
+const N = entries.length;
+const CX = 200, CY = 200, R = 140, RINT = 28;
+const radarPts = entries.map(([k,d],i) => { const angle=(2*Math.PI*i/N)-Math.PI/2; const r2=RINT+(d.p/100)*(R-RINT); return { x:CX+r2*Math.cos(angle), y:CY+r2*Math.sin(angle), k, d, angle }; });
+const poly = radarPts.map(p=>`${p.x},${p.y}`).join(” “);
+const bm = BM[results.profil] || {};
+const remaining = MAX_QUESTIONS - questionsUsed;
+const clockData = canHorloge ? computeRelationshipClock(results.gp, results.patternScores || {}, clientAnnees, results.profil) : null;
+return (
+<div className="section">
+{activeLetterModal && (
+letterLoading ? (
+<div style={{ position:“fixed”, inset:0, background:”#000000F0”, zIndex:400, display:“flex”, alignItems:“center”, justifyContent:“center”, flexDirection:“column”, gap:20 }}>
+<div className="loading-ring" /><div style={{ fontSize:12, color:C.muted }}>Génération de votre lettre…</div>
+</div>
+) : (
+<FutureLetter letter={letterText} clientName={clientName} gp={results.gp} onClose={() => setActiveLetterModal(false)} />
+)
+)}
+{shareCardActive && canViralShare && <ViralShareCard clientName={clientName} gp={results.gp} profil={results.profil} riskLevel={gl} onClose={() => setShareCardActive(false)} />}
+{/* Header */}
+<div style={{ background:“linear-gradient(135deg,#0B0F1A,#0D1020,#080A10)”, border:“1px solid #1E2330”, padding:“24px 20px”, marginBottom:20 }}>
+<div style={{ fontSize:8, letterSpacing:”.3em”, textTransform:“uppercase”, color:C.gold, marginBottom:8 }}>Bilan 360° Eden — {MODS[results.profil]?.label}</div>
+<div style={{ fontFamily:”‘Cormorant Garamond’,serif”, fontSize:28, color:”#F0EBE0”, marginBottom:4 }}>Rapport de {clientName}</div>
+<div style={{ display:“flex”, alignItems:“center”, gap:12 }}>
+<div style={{ fontFamily:”‘Cormorant Garamond’,serif”, fontSize:48, color:gl.c, lineHeight:1 }}>{results.gp}</div>
+<div>
+<div style={{ fontSize:14, color:gl.c }}>/100</div>
+<div style={{ fontSize:10, color:C.muted, letterSpacing:”.1em”, textTransform:“uppercase” }}>{gl.l}</div>
+</div>
+</div>
+</div>
+{/* Alerte niveau 1/2 */}
+<AlertBanner alertLevel={results.alertLevel||0} clientName={clientName} gp={results.gp} />
+
+```
+    {/* Témoignages */}
+    {testimonialsOpen && <TestimonialsModal clientName={clientName} gp={results.gp} profil={results.profil} patternScores={results.patternScores||{}} scores={results.scores} onClose={() => setTestimonialsOpen(false)} />}
+
+    {/* Rapport interne */}
+    {internalReportOpen && <InternalReportModal clientName={clientName} profil={results.profil} genre={clientGenre} role={clientRole==="Autre"&&clientRoleCustom?clientRoleCustom:clientRole} annees={clientAnnees} enfants={clientEnfants} scores={results.scores} opens={results.openAns||[]} patternScores={results.patternScores||{}} gp={results.gp} rawAns={results.rawAns||{}} alertLevel={results.alertLevel||0} onClose={() => setInternalReportOpen(false)} />}
+
+    {/* Patterns */}
+    {activePatterns.length > 0 && (
+      <div className="pat-box" style={{ marginBottom:16 }}>
+        <div style={{ fontSize:9, color:C.muted, letterSpacing:".16em", textTransform:"uppercase", marginBottom:8 }}>Patterns archétypaux détectés</div>
+        <div style={{ display:"flex", flexWrap:"wrap", gap:6 }}>
+          {activePatterns.map(([k,v]) => <span key={k} style={{ padding:"3px 10px", border:`1px solid ${ARCHETYPES[k]?.color||C.gold}66`, fontSize:10, color:ARCHETYPES[k]?.color||C.gold }}>{k}</span>)}
+        </div>
+      </div>
+    )}
+    {/* Indices */}
+    {results.indices && Object.keys(results.indices).length > 0 && (
+      <div className="indices-grid">
+        {Object.entries(results.indices).map(([k,v]) => (
+          <div key={k} className="index-card" onClick={() => setModal({ title:IE[k]?.titre||k, sub:"Indice composite", body:IE[k]?.def||"", danger:false })}>
+            <div style={{ fontSize:9, color:v.color, letterSpacing:".14em", textTransform:"uppercase", marginBottom:6 }}>{k}</div>
+            <div style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:28, color:v.color, lineHeight:1 }}>{v.p}</div>
+            <div style={{ fontSize:10, color:C.muted }}>{v.label}</div>
+          </div>
         ))}
       </div>
+    )}
+    {/* Radar */}
+    <div className="radar-wrap">
+      <div style={{ fontSize:10, letterSpacing:".18em", textTransform:"uppercase", color:C.gold, marginBottom:12 }}>◈ Carte dimensionnelle</div>
+      <div style={{ fontSize:9, color:C.muted, marginBottom:12 }}>Cliquez sur une dimension pour l'analyser</div>
+      <svg viewBox="0 0 400 400" style={{ width:"100%", maxWidth:380, display:"block", margin:"0 auto" }}>
+        {[20,40,60,80,100].map(pp => {
+          const r2 = RINT+(pp/100)*(R-RINT);
+          const rp = Array.from({length:N},(_,i)=>{ const a=(2*Math.PI*i/N)-Math.PI/2; return `${CX+r2*Math.cos(a)},${CY+r2*Math.sin(a)}`; }).join(" ");
+          return <polygon key={pp} points={rp} fill="none" stroke="#1E2330" strokeWidth="1" />;
+        })}
+        {entries.map(([k],i)=>{ const a=(2*Math.PI*i/N)-Math.PI/2; return <line key={k} x1={CX} y1={CY} x2={CX+(R+12)*Math.cos(a)} y2={CY+(R+12)*Math.sin(a)} stroke="#1E2330" strokeWidth="1"/>; })}
+        <polygon points={poly} fill="#C9A84C18" stroke="#C9A84C" strokeWidth="1.5"/>
+        {radarPts.map((p,i) => (
+          <g key={i} style={{ cursor:"pointer" }} onClick={() => setModal({ title:DE[p.k]?.titre||p.d.label, sub:`Score : ${p.d.p}/100 — ${p.d.lv.l}`, body:DE[p.k]?.texte||"", danger:false })}>
+            <circle cx={p.x} cy={p.y} r="5" fill={p.d.lv.c} />
+          </g>
+        ))}
+        {radarPts.map((p,i)=>{ const isR=Math.cos(p.angle)>0.1,isL=Math.cos(p.angle)<-0.1; const anchor=isR?"start":isL?"end":"middle"; const lx=CX+(R+26)*Math.cos(p.angle),ly=CY+(R+26)*Math.sin(p.angle); return <text key={i} x={lx} y={ly} textAnchor={anchor} fontSize="9" fill={C.dim}>{p.d.label.split(" ")[0]}</text>; })}
+      </svg>
     </div>
-  );
-};
-
-const QuestionMultiCheck = ({ q, values, onChange, openValue, onOpenChange }) => {
-  const toggle = val => {
-    const current = values || [];
-    if (current.includes(val)) onChange(current.filter(v => v !== val));
-    else onChange([...current, val]);
-  };
-  return (
-    <div className="mb24">
-      <div className="q-text">{q.question}</div>
-      {q.options && q.options.map(opt => (
-        <div key={opt.val} className={`check-item ${(values || []).includes(opt.val) ? "selected" : ""}`} onClick={() => toggle(opt.val)}>
-          <div className="check-box">{(values || []).includes(opt.val) && "✓"}</div>
-          <div className="opt-label">{opt.label}</div>
-        </div>
-      ))}
-      {q.followUp && q.condition && q.condition(values) && (
-        <div>
-          <div className="q-follow">{q.followUp}</div>
-          <textarea className="ta" placeholder="Décrivez ce schéma…" value={openValue || ""} onChange={e => onOpenChange(e.target.value)} />
-        </div>
-      )}
-    </div>
-  );
-};
-
-const RankingLangages = ({ values, onChange }) => {
-  const [ranked, setRanked] = useState(values || []);
-  const selectItem = id => {
-    setRanked(prev => {
-      if (prev.includes(id)) {
-        const next = prev.filter(v => v !== id);
-        onChange(next);
-        return next;
-      }
-      if (prev.length >= 5) return prev;
-      const next = [...prev, id];
-      onChange(next);
-      return next;
-    });
-  };
-  return (
-    <div className="rank-list">
-      {PROFIL_APPRECIATION_OPTIONS.map(opt => {
-        const pos = ranked.indexOf(opt.id);
+    {/* Score bars */}
+    <div className="sg">
+      {entries.map(([k,d]) => {
+        const sp = bm[k]?.stable||null;
         return (
-          <div key={opt.id} className={`rank-item ${pos >= 0 ? "ranked" : ""}`} onClick={() => selectItem(opt.id)}>
-            <div className="rank-num">{pos >= 0 ? pos + 1 : opt.icon}</div>
-            <div className="rank-label">{opt.label}</div>
+          <div key={k} className="score-bar-item" onClick={() => setModal({ title:DE[k]?.titre||d.label, sub:`Score : ${d.p}/100 — ${d.lv.l}`, body:DE[k]?.texte||"", danger:false })}>
+            <div className="score-bar-header">
+              <span className="score-bar-label">{d.label}</span>
+              <span className="score-bar-value" style={{ color:d.lv.c }}>{d.p}/100</span>
+            </div>
+            <div className="score-bar-track">
+              <div className="score-bar-fill" style={{ width:`${d.p}%`, background:d.lv.c }} />
+            </div>
+            {sp && <div style={{ fontSize:9, color:C.dim, marginTop:3 }}>Référence stable : {sp}/100{d.p>=sp?" ✓" : ` (${d.p-sp})`}</div>}
           </div>
         );
       })}
-      <div style={{ fontSize: 10, color: "#3A3E4A", marginTop: 4 }}>Cliquez dans l'ordre de vos préférences (1 = le plus important)</div>
     </div>
-  );
-};
-
-const ScenarioAttachement = ({ scenario, value, onChange }) => {
-  return (
-    <div style={{ background: "#0D1018", border: "1px solid #1E2330", padding: "18px", marginBottom: 16 }}>
-      <div style={{ fontSize: 13, color: C.muted, lineHeight: 1.7, marginBottom: 14, fontStyle: "italic" }}>
-        "{scenario.scenario}"
+    {/* Report sections */}
+    {sections.map((s,i) => {
+      const t = (s.title||"").toUpperCase();
+      const isPlan = t.includes("PLAN")||t.includes("7 JOURS")||t.includes("ACTION");
+      const isReco = t.includes("PRESCRIPTION")||t.includes("RECOMMANDATION");
+      const isPhrase = t.includes("PHRASE")||t.includes("CLÉ")||t.includes("CLE");
+      if (isPlan) return <div key={i} className="plan-box"><div className="plan-title">✦ {s.title}</div><div className="rbt">{s.body}</div></div>;
+      if (isReco) return <div key={i} className="reco-box"><div className="reco-title">✦ {s.title}</div><div className="rbt">{s.body}</div></div>;
+      if (isPhrase) return <div key={i} className="phrase-box"><div className="phrase-text">« {s.body} »</div></div>;
+      return <div key={i} className="rb">{s.title && <div className="stl">{s.title}</div>}<div className="rbt">{s.body}</div></div>;
+    })}
+    {/* Premium features */}
+    {clockData && canHorloge && <RelationshipClock clockData={clockData} />}
+    {!canHorloge && results.profil === "marie" && (
+      <PremiumGate feature="Horloge Relationnelle — Projection temporelle Gottman" onUpgrade={onRequestUpgrade} />
+    )}
+    {canMicroPertes ? (
+      <MicroPertesSection scores={results.scores} profil={results.profil} />
+    ) : results.profil !== "celibataire" && (
+      <PremiumGate feature="Micro-Pertes Invisibles — Ce que vous perdez déjà" onUpgrade={onRequestUpgrade} />
+    )}
+    {/* Lecture miroir (premium) */}
+    {!canLectureMiroir && results.profil !== "celibataire" && (
+      <PremiumGate feature="Lecture Miroir Enrichie — Ce que votre partenaire ressent probablement" onUpgrade={onRequestUpgrade} />
+    )}
+    {/* WhatsApp CTA */}
+    <SmartWhatsAppCTA clientName={clientName} gp={results.gp} profil={results.profil} riskLevel={gl} patterns={results.patternScores||{}} />
+    {/* Lettre du futur */}
+    {canFutureLetter ? (
+      <div className="card-gold-left" style={{ marginBottom:24 }}>
+        <div style={{ fontSize:9, color:C.gold, letterSpacing:".2em", textTransform:"uppercase", marginBottom:10 }}>◈ Lettre du Moi dans 5 ans</div>
+        <p style={{ fontSize:12, color:C.muted, lineHeight:1.7, marginBottom:14 }}>Une lettre générée à la première personne, depuis votre futur possible. Technique utilisée en thérapie cognitive émotionnelle.</p>
+        <button onClick={handleGenerateLetter} className="btn-gold-outline" style={{ width:"100%" }}>Recevoir la lettre de mon futur</button>
       </div>
-      {scenario.reponses && scenario.reponses.map(r => (
-        <div 
-          key={r.val} 
-          className={`opt ${value === r.val ? "selected" : ""}`} 
-          onClick={() => onChange(r.val)}
-        >
-          <div className="opt-dot" />
-          <div className="opt-label">{r.label}</div>
+    ) : (
+      <PremiumGate feature="Lettre du Moi Futur — Impact émotionnel maximal" onUpgrade={onRequestUpgrade} />
+    )}
+    {/* Carte virale */}
+    {canViralShare ? (
+      <div className="card-gold" style={{ marginBottom:24 }}>
+        <div style={{ fontSize:9, color:C.gold, letterSpacing:".2em", textTransform:"uppercase", marginBottom:10 }}>◈ Partager votre révélation</div>
+        <p style={{ fontSize:12, color:C.muted, lineHeight:1.7, marginBottom:14 }}>Partagez votre score et votre verdict sans révéler votre rapport complet.</p>
+        <button className="btn-wa" onClick={() => setShareCardActive(true)}>Générer ma carte de partage</button>
+      </div>
+    ) : (
+      <PremiumGate feature="Carte Virale de Partage — Moteur de vente autonome" onUpgrade={onRequestUpgrade} />
+    )}
+    {/* Formations */}
+    <div style={{ marginBottom:8 }}><div className="stl">Formations recommandées</div></div>
+    <div className="form-grid">
+      {formations.map(f => (
+        <div key={f.id} className="form-card" onClick={() => setModal({ title:f.nom, sub:f.detail||"Formation Eden Académie", body:`${f.desc}\n\nPrix : ${f.prix}`, danger:false })}>
+          <div className="form-card-name">{f.nom}</div>
+          <div className="form-card-prix">{f.prix}</div>
+          <div className="form-card-desc">{f.desc.slice(0,80)}…</div>
         </div>
       ))}
     </div>
-  );
-};
-
-// ============================================
-// MODULE ADMIN
-// ============================================
-
-const AdminModule = ({ codes, onSaveCodes, onBack }) => {
-  const [genCount, setGenCount] = useState(10);
-  const [newCodes, setNewCodes] = useState([]);
-  const [copied, setCopied] = useState(false);
-  const [tab, setTab] = useState("codes");
-  const total = Object.keys(codes || {}).length;
-  const usedC = Object.values(codes || {}).filter(c => c.used).length;
-  const coupleCount = new Set(Object.values(codes || {}).filter(c => c.coupleId).map(c => c.coupleId)).size;
-  const recentUsed = Object.entries(codes || {}).filter(([, c]) => c.used && c.usedAt).sort(([, a], [, b]) => new Date(b.usedAt) - new Date(a.usedAt)).slice(0, 10);
-
-  async function handleGenerate(isCouple = false) {
-    const fresh = { ...codes };
-    const generated = [];
-    for (let i = 0; i < genCount; i++) {
-      if (isCouple) {
-        let cid; 
-        do { 
-          cid = Math.random().toString(36).slice(2, 8).toUpperCase(); 
-        } while (Object.values(fresh).some(c => c.coupleId === cid));
-        const cA = cid.slice(0, 3) + "-" + cid.slice(3, 6) + "A";
-        const cB = cid.slice(0, 3) + "-" + cid.slice(3, 6) + "B";
-        fresh[cA] = { used: false, createdAt: new Date().toISOString(), coupleId: cid, partnerNum: 1 };
-        fresh[cB] = { used: false, createdAt: new Date().toISOString(), coupleId: cid, partnerNum: 2 };
-        generated.push(cA + " + " + cB);
-      } else {
-        let code; 
-        do { 
-          code = genCode(); 
-        } while (fresh[code]);
-        fresh[code] = { used: false, createdAt: new Date().toISOString() };
-        generated.push(code);
-      }
-    }
-    await onSaveCodes(fresh);
-    setNewCodes(generated);
-  }
-
-  async function handleDelete(code) {
-    const updated = { ...codes };
-    delete updated[code];
-    await onSaveCodes(updated);
-  }
-
-  const available = Object.entries(codes || {}).filter(([, c]) => !c.used);
-  const usedList = Object.entries(codes || {}).filter(([, c]) => c.used);
-
-  return (
-    <div className="section">
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 24 }}>
-        <div>
-          <div className="section-tag">◈ Administration</div>
-          <div className="section-title" style={{ fontSize: 20, marginBottom: 0 }}>Tableau de bord</div>
-        </div>
-        <button className="btn-secondary" onClick={onBack}>← Retour</button>
-      </div>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 8, marginBottom: 24 }}>
-        {[
-          { label: "Codes total", val: total, color: C.gold },
-          { label: "Codes utilisés", val: usedC, color: C.green },
-          { label: "Couples", val: coupleCount, color: C.blue }
-        ].map(stat => (
-          <div key={stat.label} style={{ background: "#0D1018", border: "1px solid #1E2330", padding: "14px 12px" }}>
-            <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 28, color: stat.color, lineHeight: 1 }}>{stat.val}</div>
-            <div style={{ fontSize: 9, color: C.dim, letterSpacing: ".1em", textTransform: "uppercase", marginTop: 4 }}>{stat.label}</div>
-          </div>
-        ))}
-      </div>
-      <div style={{ display: "flex", gap: 0, marginBottom: 20, borderBottom: "1px solid #1E2330" }}>
-        {["codes", "generer", "activite"].map(t => (
-          <button key={t} onClick={() => setTab(t)} style={{ background: "transparent", border: "none", color: tab === t ? C.gold : C.dim, padding: "10px 16px", fontFamily: "'Jost',sans-serif", fontSize: 11, letterSpacing: ".1em", textTransform: "uppercase", borderBottom: tab === t ? `2px solid ${C.gold}` : "2px solid transparent", cursor: "pointer" }}>
-            {t === "codes" ? "Codes disponibles" : t === "generer" ? "Générer" : "Activité récente"}
-          </button>
-        ))}
-      </div>
-      {tab === "codes" && (
-        <div>
-          <div style={{ fontSize: 10, color: C.dim, marginBottom: 12 }}>{available.length} codes disponibles</div>
-          <div style={{ display: "flex", flexDirection: "column", gap: 6, maxHeight: 400, overflowY: "auto" }}>
-            {available.map(([code, data]) => (
-              <div key={code} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "10px 14px", background: "#0D1018", border: "1px solid #1E2330" }}>
-                <div>
-                  <div style={{ fontSize: 13, color: C.gold, letterSpacing: ".08em", fontFamily: "monospace" }}>{code}</div>
-                  <div style={{ fontSize: 9, color: C.dim, marginTop: 2 }}>{new Date(data.createdAt).toLocaleDateString("fr-FR")} {data.coupleId ? `· Couple ${data.coupleId} P${data.partnerNum}` : ""}</div>
-                </div>
-                <button onClick={() => handleDelete(code)} style={{ background: "transparent", border: "1px solid #C0614A33", color: C.red, padding: "4px 10px", cursor: "pointer", fontSize: 10 }}>Supprimer</button>
-              </div>
-            ))}
-            {available.length === 0 && <div style={{ fontSize: 12, color: C.dim, textAlign: "center", padding: 20 }}>Aucun code disponible.</div>}
-          </div>
-          {usedList.length > 0 && (
-            <div style={{ marginTop: 20 }}>
-              <div style={{ fontSize: 10, color: C.dim, marginBottom: 12 }}>{usedList.length} codes utilisés</div>
-              <div style={{ display: "flex", flexDirection: "column", gap: 6, maxHeight: 240, overflowY: "auto" }}>
-                {usedList.map(([code, data]) => (
-                  <div key={code} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "10px 14px", background: "#0D1018", border: "1px solid #1E2330", opacity: .6 }}>
-                    <div>
-                      <div style={{ fontSize: 12, color: C.muted, letterSpacing: ".08em", fontFamily: "monospace" }}>{code}</div>
-                      <div style={{ fontSize: 9, color: C.dim, marginTop: 2 }}>{data.clientName || "—"} · {data.usedAt ? new Date(data.usedAt).toLocaleDateString("fr-FR") : "date inconnue"}</div>
-                    </div>
-                    <div style={{ fontSize: 9, color: C.green }}>✓ Utilisé</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-        </div>
-      )}
-      {tab === "generer" && (
-        <div>
-          <div style={{ marginBottom: 16 }}>
-            <div style={{ fontSize: 10, color: C.gold, letterSpacing: ".16em", textTransform: "uppercase", marginBottom: 8 }}>Nombre de codes à générer</div>
-            <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 12 }}>
-              {[1, 5, 10, 20, 50].map(n => (
-                <button key={n} onClick={() => setGenCount(n)} style={{ background: genCount === n ? C.gold : "transparent", border: `1px solid ${genCount === n ? C.gold : "#1E2330"}`, color: genCount === n ? "#0B0F1A" : C.muted, padding: "8px 14px", cursor: "pointer", fontFamily: "'Jost',sans-serif", fontSize: 12 }}>{n}</button>
-              ))}
-            </div>
-          </div>
-          <div style={{ display: "flex", gap: 8, marginBottom: 24 }}>
-            <button className="btn-primary" style={{ flex: 1 }} onClick={() => handleGenerate(false)}>Générer {genCount} code{genCount > 1 ? "s" : ""} individuels</button>
-            <button className="btn-gold-outline" style={{ flex: 1 }} onClick={() => handleGenerate(true)}>Générer {genCount} paire{genCount > 1 ? "s" : ""} couple</button>
-          </div>
-          {newCodes.length > 0 && (
-            <div className="card-gold">
-              <div className="stl">Codes générés</div>
-              <div style={{ display: "flex", flexDirection: "column", gap: 6, marginBottom: 16, maxHeight: 300, overflowY: "auto" }}>
-                {newCodes.map((c, i) => (
-                  <div key={i} style={{ fontFamily: "monospace", fontSize: 13, color: C.gold, padding: "8px 12px", background: "#080C10", border: "1px solid #C9A84C22" }}>{c}</div>
-                ))}
-              </div>
-              <button className="btn-gold-outline" style={{ width: "100%" }} onClick={() => {
-                navigator.clipboard.writeText(newCodes.join("\n")).then(() => { setCopied(true); setTimeout(() => setCopied(false), 2500); });
-              }}>{copied ? "✓ Copié" : "Copier tous les codes"}</button>
-            </div>
-          )}
-        </div>
-      )}
-      {tab === "activite" && (
-        <div>
-          <div style={{ fontSize: 10, color: C.dim, marginBottom: 12 }}>10 dernières utilisations</div>
-          {recentUsed.length === 0 && <div style={{ fontSize: 12, color: C.dim, textAlign: "center", padding: 20 }}>Aucune activité enregistrée.</div>}
-          {recentUsed.map(([code, data]) => (
-            <div key={code} style={{ padding: "12px 14px", background: "#0D1018", border: "1px solid #1E2330", marginBottom: 6 }}>
-              <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
-                <div style={{ fontSize: 12, color: C.text }}>{data.clientName || "Anonyme"}</div>
-                <div style={{ fontSize: 10, color: C.dim }}>{data.usedAt ? new Date(data.usedAt).toLocaleDateString("fr-FR") : ""}</div>
-              </div>
-              <div style={{ fontSize: 10, color: C.muted }}>{code} {data.coupleId ? "· Couple" : ""}</div>
+    {/* Q&A */}
+    <div className="qa-section">
+      <div className="qa-header">✦ Approfondissez votre bilan<span className={`qa-counter ${remaining===0?"exhausted":""}`}>{remaining} question{remaining>1?"s":""} restante{remaining>1?"s":""}</span></div>
+      <div style={{ fontSize:11, color:C.muted, marginBottom:16, lineHeight:1.6 }}>Posez jusqu'à {MAX_QUESTIONS} questions personnalisées sur votre rapport.</div>
+      {chatHistory.length > 0 && (
+        <div className="qa-history">
+          {chatHistory.map((msg,i) => (
+            <div key={i} className={msg.role==="user"?"qa-bubble-user":"qa-bubble-ai"}>
+              <div className="qa-bubble-label" style={{ color:msg.role==="user"?C.gold:C.green }}>{msg.role==="user"?clientName:"Eden Académie"}</div>
+              <div className="qa-bubble-text">{msg.content}</div>
             </div>
           ))}
+          {chatLoading && <div className="qa-typing"><span style={{ fontSize:9,color:C.green,letterSpacing:".12em",textTransform:"uppercase",marginRight:6 }}>Eden</span><span className="qa-dot"/><span className="qa-dot"/><span className="qa-dot"/></div>}
+          <div ref={chatEndRef}/>
+        </div>
+      )}
+      {remaining > 0 ? (
+        <div className="qa-input-row">
+          <textarea className="ta" style={{ marginBottom:0, minHeight:56 }} placeholder="Posez votre question…" value={chatInput} onChange={e=>setChatInput(e.target.value)} onKeyDown={e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();handleAskQuestion();}}} disabled={chatLoading}/>
+          <button className="qa-send" onClick={handleAskQuestion} disabled={!chatInput.trim()||chatLoading}>{chatLoading?"…":"Envoyer"}</button>
+        </div>
+      ) : (
+        <div style={{ textAlign:"center", padding:"16px 0" }}>
+          <div style={{ fontSize:13, color:C.gold, fontFamily:"'Cormorant Garamond',serif", marginBottom:6 }}>Vous avez utilisé vos {MAX_QUESTIONS} questions</div>
+          <div style={{ fontSize:11, color:C.muted }}>Pour un accompagnement personnalisé, contactez l'Académie Eden.</div>
         </div>
       )}
     </div>
-  );
-};
-
-// ============================================
-// COMPOSANT DIAGNOSTIC MODULE (À IMPORTER SI NÉCESSAIRE)
-// ============================================
-
-// Note: DiagnosticModule, PortraitModule et EspaceAbonne sont des composants externes
-// qui doivent être importés ou définis séparément.
-// Pour le déploiement, assurez-vous qu'ils existent dans votre projet.
-
-const DiagnosticModule = ({ codes, onSaveCodes, isAbonne, abonnementLevel, onRequestUpgrade, subscriberProfile, onUpdateSubscriber }) => {
-  return (
-    <div className="section">
-      <div className="section-tag">◈ Bilan 360° Eden</div>
-      <div className="section-title">Module en cours de développement</div>
-      <div className="section-desc">Cette fonctionnalité sera disponible prochainement. Contactez l'Académie Eden pour plus d'informations.</div>
-      <button className="btn-primary" onClick={() => window.open(`https://wa.me/${WHATSAPP_NUM}?text=${encodeURIComponent("Bonjour, je souhaite plus d'informations sur le Bilan 360° Eden.")}`)}>
-        Contacter l'Académie Eden
+    {/* Bouton Rapport Interne Conseiller + Témoignage */}
+    <div style={{ display:"flex", gap:8, marginBottom:16 }}>
+      <button onClick={() => setTestimonialsOpen(true)} style={{ flex:1, background:"transparent", border:"1px solid #C9A84C44", color:C.gold, padding:"11px 14px", fontFamily:"'Jost',sans-serif", fontSize:11, cursor:"pointer" }}>
+        ✦ Partager mon témoignage
+      </button>
+      <button onClick={() => setInternalReportOpen(true)} style={{ flex:1, background:"transparent", border:"1px solid #1E2330", color:C.dim, padding:"11px 14px", fontFamily:"'Jost',sans-serif", fontSize:10, cursor:"pointer" }}>
+        🔒 Rapport Conseiller
       </button>
     </div>
-  );
+
+    {/* Partager avec le Conseiller */}
+    <ShareWithConseiller
+      clientName={clientName}
+      gp={results.gp}
+      profil={results.profil}
+      riskLevel={gl}
+      patterns={results.patternScores||{}}
+      scores={results.scores}
+      sections={sections}
+    />
+    {/* CTA final */}
+    <div className="cta-box">
+      <div className="cta-title">Aller plus loin, {clientName}</div>
+      <p className="cta-sub">Ce rapport est votre point de départ. Pour un accompagnement personnalisé avec Zady Zozoro, contactez l'Académie Eden directement.</p>
+      <button className="btn-wa" onClick={() => window.open(`https://wa.me/${WHATSAPP_NUM}?text=${encodeURIComponent(`Bonjour Académie Eden, je viens de compléter mon Bilan 360°. Score : ${results.gp}/100. Je souhaite aller plus loin.`)}`)}>Contacter l'Académie Eden · WhatsApp</button>
+    </div>
+    <LegalDisclaimer gp={results.gp} hasViolenceSignal={violenceSignals !== null} />
+  </div>
+);
+```
+
+}
+return null;
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// SECTION 8 — MODULE PORTRAIT EAUX·OS·CHAIR
+// ═══════════════════════════════════════════════════════════════════════════
+
+const PORTRAIT_LOADING_MSGS = [“Lecture de votre histoire…”,“Identification des eaux fondatrices…”,“Analyse des structures profondes…”,“Détection des patterns relationnels…”,“Rédaction de votre portrait…”];
+
+function PortraitModule({ isAbonne, abonnementLevel, onRequestUpgrade }) {
+const [phase, setPhase] = useState(“accueil”);
+const [profil, setProfil] = useState(””);
+const [nom, setNom] = useState(””);
+const [repEaux, setRepEaux] = useState({});
+const [repOs, setRepOs] = useState({});
+const [repChair, setRepChair] = useState({});
+const [appreciationRecevoir, setAppreciationRecevoir] = useState([]);
+const [appreciationDonner, setAppreciationDonner] = useState([]);
+const [repAttachement, setRepAttachement] = useState({});
+const [rapport, setRapport] = useState(””);
+const [loading, setLoading] = useState(false);
+const [loadMsg, setLoadMsg] = useState(””);
+const [qEauxIdx, setQEauxIdx] = useState(0);
+const [qOsIdx, setQOsIdx] = useState(0);
+const [qChairPhase, setQChairPhase] = useState(“appreciation_recevoir”);
+const [violenceSignals, setViolenceSignals] = useState(null);
+
+useEffect(() => {
+if (loading) {
+let i = 0; setLoadMsg(PORTRAIT_LOADING_MSGS[0]);
+const iv = setInterval(() => { i=(i+1)%PORTRAIT_LOADING_MSGS.length; setLoadMsg(PORTRAIT_LOADING_MSGS[i]); }, 3200);
+return () => clearInterval(iv);
+}
+}, [loading]);
+
+const updateEaux = (id, val, openVal) => { setRepEaux(prev => ({ …prev, [id]:val, …(openVal!==undefined?{[`${id}_open`]:openVal}:{}) })); };
+const currentEauxQ = QUESTIONS_EAUX[qEauxIdx];
+const osQuestions = profil === “celibataire” ? QUESTIONS_OS_CELIBATAIRE : QUESTIONS_OS_COUPLE;
+const currentOsQ = osQuestions[qOsIdx];
+
+const eauxQAnswered = () => {
+if (!currentEauxQ) return false;
+if (currentEauxQ.type === “ouvert” || currentEauxQ.type === “ouvert_court”) return (repEaux[currentEauxQ.id]||””).trim().length > 0;
+if (currentEauxQ.type === “choix_multi”) return (repEaux[currentEauxQ.id]||[]).length > 0;
+if (currentEauxQ.type === “double_choix”) return repEaux[currentEauxQ.id] && repEaux[currentEauxQ.id+“b”];
+return !!repEaux[currentEauxQ.id];
+};
+const osQAnswered = () => {
+if (!currentOsQ) return false;
+if (currentOsQ.type === “ouvert”) return (repOs[currentOsQ.id]||””).trim().length > 0;
+return !!repOs[currentOsQ.id];
 };
 
-const PortraitModule = ({ isAbonne, abonnementLevel, onRequestUpgrade }) => {
-  return (
-    <div className="section">
-      <div className="section-tag">◈ Portrait Eaux · Os · Chair</div>
-      <div className="section-title">Module en cours de développement</div>
-      <div className="section-desc">Cette fonctionnalité sera disponible prochainement. Contactez l'Académie Eden pour plus d'informations.</div>
-      {!isAbonne && (
-        <button className="btn-primary" onClick={onRequestUpgrade}>
-          S'abonner pour y accéder
-        </button>
-      )}
-    </div>
-  );
+const generateReport = async () => {
+setPhase(“generation”); setLoading(true);
+const prompt = buildPortraitPrompt(nom, profil, repEaux, repOs, repChair, { recevoir:appreciationRecevoir, donner:appreciationDonner }, repAttachement);
+try {
+const portraitText = await edenAI({ prompt, endpoint:“portrait” });
+setRapport(portraitText || “Erreur de génération.”);
+} catch { setRapport(`Portrait de ${nom}\n\nLe Conseiller Eden a analysé votre profil en profondeur. Votre rapport complet sera disponible dès que la connexion sera rétablie.`); }
+setLoading(false); setPhase(“rapport”);
 };
+
+const phaseIndex = [“accueil”,“eaux”,“os”,“chair”,“generation”,“rapport”].indexOf(phase);
+
+// ── ACCUEIL ──
+if (phase === “accueil”) return (
+<div className="section">
+<div className="section-tag">◈ Portrait Eden · Eaux · Os · Chair</div>
+<div className="section-title">Découvrez qui vous êtes vraiment</div>
+<div className="section-desc">Ce module explore trois niveaux de votre être — les Eaux qui vous ont formé, les Os qui structurent vos convictions, la Chair qui révèle comment vous vivez dans vos relations.<br/><br/>Prenez le temps de répondre honnêtement, dans un lieu calme. Ce portrait ne vous juge pas — il vous révèle.</div>
+<div style={{ marginBottom:20 }}>
+<div style={{ fontSize:10, color:C.gold, letterSpacing:”.16em”, textTransform:“uppercase”, marginBottom:8 }}>Votre prénom</div>
+<input className=“inp” placeholder=“Jean-Marc” value={nom} onChange={e=>setNom(e.target.value)} />
+</div>
+<div style={{ marginBottom:20 }}>
+<div style={{ fontSize:10, color:C.gold, letterSpacing:”.16em”, textTransform:“uppercase”, marginBottom:8 }}>Profil</div>
+{[{id:“celibataire”,label:“Célibataire”,sub:“Os en formation — boussole pour choisir en force”},{id:“fiance”,label:“Fiancé(e)”,sub:“Portrait avant l’alliance”},{id:“marie”,label:“Marié(e)”,sub:“Portrait dans la relation”}].map(p => (
+<div key={p.id} className={`opt ${profil===p.id?"selected":""}`} style={{ marginBottom:8 }} onClick={()=>setProfil(p.id)}>
+<div className="opt-dot"/>
+<div><div className=“opt-label” style={{ fontWeight:500 }}>{p.label}</div><div style={{ fontSize:11, color:C.dim, marginTop:2 }}>{p.sub}</div></div>
+</div>
+))}
+</div>
+<div style={{ background:”#0D1018”, border:“1px solid #1E2330”, padding:“14px”, marginBottom:20 }}>
+<div style={{ fontSize:9, color:C.dim, letterSpacing:”.14em”, textTransform:“uppercase”, marginBottom:6 }}>Durée estimée</div>
+<div style={{ fontSize:12, color:C.muted }}>30 à 45 minutes · Questions ouvertes et scénarios · Rapport personnalisé généré à la fin</div>
+</div>
+<button className=“btn-primary” disabled={!nom.trim()||!profil} onClick={()=>setPhase(“eaux”)}>Commencer mon Portrait →</button>
+<div style={{ marginTop:16, background:”#080A10”, border:“1px solid #1E2230”, padding:“12px 14px”, fontSize:10, color:”#3A3E4A”, lineHeight:1.7 }}>Ce module est un outil d’exploration personnelle. Il ne constitue pas un avis médical, psychologique ou thérapeutique.</div>
+</div>
+);
+
+// ── EAUX ──
+if (phase === “eaux”) {
+const q = currentEauxQ; if (!q) return null;
+const blocTitles = {1:“Le foyer d’origine”,2:“Ce que l’enfant a vu”,3:“Les mémoires émotionnelles”,4:“Les transmissions familiales”,5:“La dimension spirituelle”};
+return (
+<div className="section">
+<div className="section-tag">Les Eaux · Bloc {q.bloc} · {blocTitles[q.bloc]}</div>
+<div style={{ fontSize:10, color:C.dim, marginBottom:20 }}>Question {qEauxIdx+1} sur {QUESTIONS_EAUX.length}</div>
+{(q.type===“choix”||q.type===“choix_ouvert”) && <QuestionChoix q={q} value={repEaux[q.id]} onChange={(val,openVal)=>updateEaux(q.id,val,openVal)} />}
+{(q.type===“ouvert”||q.type===“ouvert_court”) && <QuestionOuvert q={q} value={repEaux[q.id]} onChange={val=>updateEaux(q.id,val)} />}
+{q.type===“choix_multi” && <QuestionMultiCheck q={q} values={repEaux[q.id]} onChange={vals=>updateEaux(q.id,vals)} openValue={repEaux[`${q.id}_open`]} onOpenChange={val=>updateEaux(q.id,repEaux[q.id],val)} />}
+{q.type===“double_choix” && (
+<div className="mb24">
+<div className="q-text">{q.question}</div>
+{q.options.map(opt => <div key={opt.val} className={`opt ${repEaux[q.id]===opt.val?"selected":""}`} onClick={()=>updateEaux(q.id,opt.val)}><div className="opt-dot"/><div className="opt-label">{opt.label}</div></div>)}
+<div className=“q-text” style={{ marginTop:20 }}>{q.question2}</div>
+{q.options2.map(opt => <div key={opt.val} className={`opt ${repEaux[q.id+"b"]===opt.val?"selected":""}`} onClick={()=>setRepEaux(p=>({…p,[q.id+“b”]:opt.val}))}><div className="opt-dot"/><div className="opt-label">{opt.label}</div></div>)}
+</div>
+)}
+<div className="nav-row">
+<button className=“btn-secondary” style={{ flex:“0 0 auto” }} onClick={()=>{ if(qEauxIdx===0)setPhase(“accueil”); else setQEauxIdx(i=>i-1); }}>← Précédent</button>
+<button className=“btn-primary” disabled={!eauxQAnswered()} onClick={()=>{ if(qEauxIdx<QUESTIONS_EAUX.length-1)setQEauxIdx(i=>i+1); else{setQOsIdx(0);setPhase(“os”);} }}>{qEauxIdx<QUESTIONS_EAUX.length-1?“Suivant →”:“Passer aux Os →”}</button>
+</div>
+</div>
+);
+}
+
+// ── OS ──
+if (phase === “os”) {
+const q = currentOsQ; if (!q) return null;
+return (
+<div className="section">
+<div className="section-tag">Les Os · {profil===“celibataire”?“Os en formation”:“Os constitutifs”}</div>
+<div style={{ fontSize:10, color:C.dim, marginBottom:20 }}>Question {qOsIdx+1} sur {osQuestions.length}</div>
+{q.type===“choix” && <QuestionChoix q={q} value={repOs[q.id]} onChange={val=>setRepOs(p=>({…p,[q.id]:val}))} />}
+{q.type===“ouvert” && <QuestionOuvert q={q} value={repOs[q.id]} onChange={val=>setRepOs(p=>({…p,[q.id]:val}))} />}
+<div className="nav-row">
+<button className=“btn-secondary” style={{ flex:“0 0 auto” }} onClick={()=>{ if(qOsIdx===0){setQEauxIdx(QUESTIONS_EAUX.length-1);setPhase(“eaux”);} else setQOsIdx(i=>i-1); }}>← Précédent</button>
+<button className=“btn-primary” disabled={!osQAnswered()} onClick={()=>{ if(qOsIdx<osQuestions.length-1)setQOsIdx(i=>i+1); else{setQChairPhase(“appreciation_recevoir”);setPhase(“chair”);} }}>{qOsIdx<osQuestions.length-1?“Suivant →”:“Passer à la Chair →”}</button>
+</div>
+</div>
+);
+}
+
+// ── CHAIR ──
+if (phase === “chair”) {
+if (qChairPhase === “appreciation_recevoir”) return (
+<div className="section">
+<div className="section-tag">La Chair · Profil d’Appréciation</div>
+<div className=“section-title” style={{ fontSize:18 }}>Comment recevez-vous l’amour ?</div>
+<div className="section-desc">Parmi ces cinq situations, laquelle vous touche le plus quand quelqu’un vous aime ? Classez de 1 (le plus important) à 5 en cliquant dans l’ordre.</div>
+<RankingLangages values={appreciationRecevoir} onChange={setAppreciationRecevoir} />
+<div className="nav-row">
+<button className=“btn-secondary” style={{ flex:“0 0 auto” }} onClick={()=>{setQOsIdx(osQuestions.length-1);setPhase(“os”);}}>← Précédent</button>
+<button className=“btn-primary” disabled={appreciationRecevoir.length<5} onClick={()=>setQChairPhase(“appreciation_donner”)}>Suivant →</button>
+</div>
+</div>
+);
+if (qChairPhase === “appreciation_donner”) return (
+<div className="section">
+<div className="section-tag">La Chair · Profil d’Appréciation</div>
+<div className=“section-title” style={{ fontSize:18 }}>Comment exprimez-vous l’amour ?</div>
+<div className="section-desc">Quand vous aimez quelqu’un, comment exprimez-vous cet amour naturellement ? Classez de 1 (le plus naturel) à 5.</div>
+<RankingLangages values={appreciationDonner} onChange={setAppreciationDonner} />
+<div className="nav-row">
+<button className=“btn-secondary” style={{ flex:“0 0 auto” }} onClick={()=>setQChairPhase(“appreciation_recevoir”)}>← Précédent</button>
+<button className=“btn-primary” disabled={appreciationDonner.length<5} onClick={()=>setQChairPhase(“attachement_0”)}>Suivant →</button>
+</div>
+</div>
+);
+if (qChairPhase.startsWith(“attachement_”)) {
+const idx = parseInt(qChairPhase.split(”*”)[1]);
+const scenario = SCENARIOS_ATTACHEMENT[idx];
+return (
+<div className="section">
+<div className="section-tag">La Chair · Style d’Attachement</div>
+<div style={{ fontSize:10, color:C.dim, marginBottom:20 }}>Scénario {idx+1} sur {SCENARIOS_ATTACHEMENT.length}</div>
+<ScenarioAttachement scenario={scenario} value={repAttachement[scenario.id]} onChange={val=>setRepAttachement(p=>({…p,[scenario.id]:val}))} />
+<div className="nav-row">
+<button className=“btn-secondary” style={{ flex:“0 0 auto” }} onClick={()=>{ if(idx===0)setQChairPhase(“appreciation_donner”); else setQChairPhase(`attachement_${idx-1}`); }}>← Précédent</button>
+<button className=“btn-primary” disabled={!repAttachement[scenario.id]} onClick={()=>{ if(idx<SCENARIOS_ATTACHEMENT.length-1)setQChairPhase(`attachement_${idx+1}`); else setQChairPhase(“communication_0”); }}>Suivant →</button>
+</div>
+</div>
+);
+}
+if (qChairPhase.startsWith(“communication*”)) {
+const idx = parseInt(qChairPhase.split(”_”)[1]);
+const q = QUESTIONS_CHAIR[idx];
+return (
+<div className="section">
+<div className="section-tag">La Chair · {idx<5?“Communication”:“Tempérament”}</div>
+<div style={{ fontSize:10, color:C.dim, marginBottom:20 }}>Question {idx+1} sur {QUESTIONS_CHAIR.length}</div>
+<QuestionLikert q={q} value={repChair[q.id]} onChange={val=>setRepChair(p=>({…p,[q.id]:val}))} />
+<div className="nav-row">
+<button className=“btn-secondary” style={{ flex:“0 0 auto” }} onClick={()=>{ if(idx===0)setQChairPhase(`attachement_${SCENARIOS_ATTACHEMENT.length-1}`); else setQChairPhase(`communication_${idx-1}`); }}>← Précédent</button>
+<button className=“btn-primary” disabled={!repChair[q.id]} onClick={()=>{ if(idx<QUESTIONS_CHAIR.length-1)setQChairPhase(`communication_${idx+1}`); else generateReport(); }}>{idx<QUESTIONS_CHAIR.length-1?“Suivant →”:“Générer mon Portrait →”}</button>
+</div>
+</div>
+);
+}
+}
+
+// ── GENERATION ──
+if (phase === “generation”) return (
+<div className="loading-screen">
+<div className="loading-ring"/>
+<div className="loading-msg">{loadMsg}</div>
+<div className="loading-sub">Académie Eden · Portrait en cours de rédaction</div>
+</div>
+);
+
+// ── RAPPORT ──
+if (phase === “rapport”) {
+const attachStyle = computeAttachementStyle(repAttachement);
+const primaryRecevoir = PROFIL_APPRECIATION_OPTIONS.find(o=>o.id===appreciationRecevoir[0])?.label||“Non renseigné”;
+const primaryDonner = PROFIL_APPRECIATION_OPTIONS.find(o=>o.id===appreciationDonner[0])?.label||“Non renseigné”;
+const decalage = appreciationRecevoir[0] !== appreciationDonner[0];
+const sections = rapport.split(/**([^*]+)**/).reduce((acc,part,i)=>{ if(i%2===0){if(part.trim())acc.push({type:“body”,text:part.trim()});}else{acc.push({type:“title”,text:part.trim()});}return acc;}, []);
+return (
+<div className="section">
+<div style={{ background:“linear-gradient(135deg,#0B0F1A,#0D1020)”, border:“1px solid #C9A84C33”, padding:“24px 20px”, marginBottom:20 }}>
+<div style={{ fontSize:8, letterSpacing:”.28em”, textTransform:“uppercase”, color:C.gold, marginBottom:8 }}>◈ Portrait Eden · Eaux · Os · Chair</div>
+<div style={{ fontFamily:”‘Cormorant Garamond’,serif”, fontSize:28, color:”#F0EBE0”, marginBottom:4 }}>{nom}</div>
+<div style={{ fontSize:10, color:C.dim }}>{new Date().toLocaleDateString(“fr-FR”,{day:“numeric”,month:“long”,year:“numeric”})}</div>
+</div>
+{/* Synthèse Chair */}
+<div className=“card” style={{ marginBottom:20 }}>
+<div className="stl">Synthèse · Profil d’Appréciation & Attachement</div>
+<div style={{ display:“flex”, flexDirection:“column”, gap:12 }}>
+<div style={{ fontSize:12, color:C.text, lineHeight:1.7 }}><span style={{ color:C.gold }}>Vous recevez l’amour principalement par :</span><br/>{primaryRecevoir}</div>
+<div style={{ fontSize:12, color:C.text, lineHeight:1.7 }}><span style={{ color:C.gold }}>Vous exprimez l’amour naturellement par :</span><br/>{primaryDonner}</div>
+{decalage && <div style={{ background:”#1A1000”, border:“1px solid #C9A84C33”, padding:“10px 14px”, fontSize:11, color:C.gold, lineHeight:1.6 }}>◈ Décalage interne : vous donnez l’amour différemment de la manière dont vous aimeriez le recevoir. Ce décalage peut créer de l’incompréhension dans vos relations.</div>}
+<div style={{ fontSize:12, color:C.text, lineHeight:1.7 }}><span style={{ color:C.blue }}>Style d’attachement probable :</span><br/>{attachStyle}</div>
+</div>
+</div>
+{/* Rapport IA */}
+<div className="rb">
+<div className="stl">Votre Portrait Complet</div>
+{sections.map((s,i) => (
+s.type===“title” ? <div key={i} style={{ fontFamily:”‘Cormorant Garamond’,serif”, fontSize:18, color:C.gold, margin:“20px 0 10px” }}>{s.text}</div>
+: <div key={i} className=“rbt” style={{ marginBottom:12 }}>{s.text}</div>
+))}
+</div>
+{/* Disclaimer */}
+<div style={{ background:”#0A0C12”, border:“1px solid #1E2330”, padding:“14px”, marginBottom:20, fontSize:10, color:C.dim, lineHeight:1.7 }}>Ce portrait est une analyse indicative basée sur vos réponses. Il ne remplace pas un accompagnement professionnel et ne constitue pas un avis médical ou psychologique.</div>
+{/* CTA */}
+<div className="cta-box">
+<div className="cta-title">Aller plus loin, {nom}</div>
+<p className="cta-sub">Ce portrait est votre point de départ. Pour un accompagnement direct avec Zady Zozoro, contactez l’Académie Eden.</p>
+<button className=“btn-wa” onClick={()=>window.open(`https://wa.me/${WHATSAPP_NUM}?text=${encodeURIComponent(`Bonjour Académie Eden,\n\nJe viens de compléter mon Portrait Eden.\nPrénom : ${nom} · Profil : ${profil}\n\nJe souhaite aller plus loin avec un accompagnement.`)}`)}>Contacter l’Académie Eden · WhatsApp</button>
+</div>
+<LegalDisclaimer gp={75} hasViolenceSignal={false} />
+</div>
+);
+}
+return null;
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// SECTION 9 — MODULE ADMIN
+// ═══════════════════════════════════════════════════════════════════════════
+
+function AdminModule({ codes, onSaveCodes, onBack }) {
+const [genCount, setGenCount] = useState(10);
+const [newCodes, setNewCodes] = useState([]);
+const [copied, setCopied] = useState(false);
+const [tab, setTab] = useState(“codes”);
+
+const total = Object.keys(codes).length;
+const usedC = Object.values(codes).filter(c => c.used).length;
+const coupleCount = new Set(Object.values(codes).filter(c => c.coupleId).map(c => c.coupleId)).size;
+const recentUsed = Object.entries(codes).filter(([,c]) => c.used && c.usedAt).sort(([,a],[,b]) => new Date(b.usedAt) - new Date(a.usedAt)).slice(0, 10);
+
+async function handleGenerate(isCouple = false) {
+const fresh = { …codes };
+const generated = [];
+for (let i = 0; i < genCount; i++) {
+if (isCouple) {
+let cid; do { cid = Math.random().toString(36).slice(2,8).toUpperCase(); } while (Object.values(fresh).some(c => c.coupleId === cid));
+const cA = cid.slice(0,3)+”-”+cid.slice(3,6)+“A”;
+const cB = cid.slice(0,3)+”-”+cid.slice(3,6)+“B”;
+fresh[cA] = { used:false, createdAt:new Date().toISOString(), coupleId:cid, partnerNum:1 };
+fresh[cB] = { used:false, createdAt:new Date().toISOString(), coupleId:cid, partnerNum:2 };
+generated.push(cA+” + “+cB);
+} else {
+let code; do { code = genCode(); } while (fresh[code]);
+fresh[code] = { used:false, createdAt:new Date().toISOString() };
+generated.push(code);
+}
+}
+await onSaveCodes(fresh);
+setNewCodes(generated);
+}
+
+async function handleDelete(code) {
+const updated = { …codes };
+delete updated[code];
+await onSaveCodes(updated);
+}
+
+const available = Object.entries(codes).filter(([,c]) => !c.used);
+const usedList = Object.entries(codes).filter(([,c]) => c.used);
+
+return (
+<div className="section">
+<div style={{ display:“flex”, alignItems:“center”, justifyContent:“space-between”, marginBottom:24 }}>
+<div>
+<div className="section-tag">◈ Administration</div>
+<div className=“section-title” style={{ fontSize:20, marginBottom:0 }}>Tableau de bord</div>
+</div>
+<button className="btn-secondary" onClick={onBack}>← Retour</button>
+</div>
+{/* Stats */}
+<div style={{ display:“grid”, gridTemplateColumns:“1fr 1fr 1fr”, gap:8, marginBottom:24 }}>
+{[
+{ label:“Codes total”, val:total, color:C.gold },
+{ label:“Codes utilisés”, val:usedC, color:C.green },
+{ label:“Couples”, val:coupleCount, color:C.blue },
+].map(stat => (
+<div key={stat.label} style={{ background:”#0D1018”, border:“1px solid #1E2330”, padding:“14px 12px” }}>
+<div style={{ fontFamily:”‘Cormorant Garamond’,serif”, fontSize:28, color:stat.color, lineHeight:1 }}>{stat.val}</div>
+<div style={{ fontSize:9, color:C.dim, letterSpacing:”.1em”, textTransform:“uppercase”, marginTop:4 }}>{stat.label}</div>
+</div>
+))}
+</div>
+{/* Tabs */}
+<div style={{ display:“flex”, gap:0, marginBottom:20, borderBottom:“1px solid #1E2330” }}>
+{[“codes”,“generer”,“activite”].map(t => (
+<button key={t} onClick={() => setTab(t)} style={{ background:“transparent”, border:“none”, color:tab===t?C.gold:C.dim, padding:“10px 16px”, fontFamily:”‘Jost’,sans-serif”, fontSize:11, letterSpacing:”.1em”, textTransform:“uppercase”, borderBottom:tab===t?`2px solid ${C.gold}`:“2px solid transparent”, cursor:“pointer” }}>
+{t === “codes” ? “Codes disponibles” : t === “generer” ? “Générer” : “Activité récente”}
+</button>
+))}
+</div>
+{tab === “codes” && (
+<div>
+<div style={{ fontSize:10, color:C.dim, marginBottom:12 }}>{available.length} codes disponibles</div>
+<div style={{ display:“flex”, flexDirection:“column”, gap:6, maxHeight:400, overflowY:“auto” }}>
+{available.map(([code, data]) => (
+<div key={code} style={{ display:“flex”, justifyContent:“space-between”, alignItems:“center”, padding:“10px 14px”, background:”#0D1018”, border:“1px solid #1E2330” }}>
+<div>
+<div style={{ fontSize:13, color:C.gold, letterSpacing:”.08em”, fontFamily:“monospace” }}>{code}</div>
+<div style={{ fontSize:9, color:C.dim, marginTop:2 }}>{new Date(data.createdAt).toLocaleDateString(“fr-FR”)} {data.coupleId ? `· Couple ${data.coupleId} P${data.partnerNum}` : “”}</div>
+</div>
+<button onClick={() => handleDelete(code)} style={{ background:“transparent”, border:“1px solid #C0614A33”, color:C.red, padding:“4px 10px”, cursor:“pointer”, fontSize:10 }}>Supprimer</button>
+</div>
+))}
+{available.length === 0 && <div style={{ fontSize:12, color:C.dim, textAlign:“center”, padding:20 }}>Aucun code disponible.</div>}
+</div>
+{usedList.length > 0 && (
+<div style={{ marginTop:20 }}>
+<div style={{ fontSize:10, color:C.dim, marginBottom:12 }}>{usedList.length} codes utilisés</div>
+<div style={{ display:“flex”, flexDirection:“column”, gap:6, maxHeight:240, overflowY:“auto” }}>
+{usedList.map(([code, data]) => (
+<div key={code} style={{ display:“flex”, justifyContent:“space-between”, alignItems:“center”, padding:“10px 14px”, background:”#0D1018”, border:“1px solid #1E2330”, opacity:.6 }}>
+<div>
+<div style={{ fontSize:12, color:C.muted, letterSpacing:”.08em”, fontFamily:“monospace” }}>{code}</div>
+<div style={{ fontSize:9, color:C.dim, marginTop:2 }}>{data.clientName||”—”} · {data.usedAt ? new Date(data.usedAt).toLocaleDateString(“fr-FR”) : “date inconnue”}</div>
+</div>
+<div style={{ fontSize:9, color:C.green }}>✓ Utilisé</div>
+</div>
+))}
+</div>
+</div>
+)}
+</div>
+)}
+{tab === “generer” && (
+<div>
+<div style={{ marginBottom:16 }}>
+<div style={{ fontSize:10, color:C.gold, letterSpacing:”.16em”, textTransform:“uppercase”, marginBottom:8 }}>Nombre de codes à générer</div>
+<div style={{ display:“flex”, gap:8, flexWrap:“wrap”, marginBottom:12 }}>
+{[1,5,10,20,50].map(n => (
+<button key={n} onClick={() => setGenCount(n)} style={{ background:genCount===n?C.gold:“transparent”, border:`1px solid ${genCount===n?C.gold:"#1E2330"}`, color:genCount===n?”#0B0F1A”:C.muted, padding:“8px 14px”, cursor:“pointer”, fontFamily:”‘Jost’,sans-serif”, fontSize:12 }}>{n}</button>
+))}
+</div>
+</div>
+<div style={{ display:“flex”, gap:8, marginBottom:24 }}>
+<button className=“btn-primary” style={{ flex:1 }} onClick={() => handleGenerate(false)}>Générer {genCount} code{genCount>1?“s”:””} individuels</button>
+<button className=“btn-gold-outline” style={{ flex:1 }} onClick={() => handleGenerate(true)}>Générer {genCount} paire{genCount>1?“s”:””} couple</button>
+</div>
+{newCodes.length > 0 && (
+<div className="card-gold">
+<div className="stl">Codes générés</div>
+<div style={{ display:“flex”, flexDirection:“column”, gap:6, marginBottom:16, maxHeight:300, overflowY:“auto” }}>
+{newCodes.map((c,i) => (
+<div key={i} style={{ fontFamily:“monospace”, fontSize:13, color:C.gold, padding:“8px 12px”, background:”#080C10”, border:“1px solid #C9A84C22” }}>{c}</div>
+))}
+</div>
+<button className=“btn-gold-outline” style={{ width:“100%” }} onClick={() => {
+navigator.clipboard.writeText(newCodes.join(”\n”)).then(() => { setCopied(true); setTimeout(() => setCopied(false), 2500); });
+}}>{copied ? “✓ Copié” : “Copier tous les codes”}</button>
+</div>
+)}
+</div>
+)}
+{tab === “activite” && (
+<div>
+<div style={{ fontSize:10, color:C.dim, marginBottom:12 }}>10 dernières utilisations</div>
+{recentUsed.length === 0 && <div style={{ fontSize:12, color:C.dim, textAlign:“center”, padding:20 }}>Aucune activité enregistrée.</div>}
+{recentUsed.map(([code, data]) => (
+<div key={code} style={{ padding:“12px 14px”, background:”#0D1018”, border:“1px solid #1E2330”, marginBottom:6 }}>
+<div style={{ display:“flex”, justifyContent:“space-between”, marginBottom:4 }}>
+<div style={{ fontSize:12, color:C.text }}>{data.clientName || “Anonyme”}</div>
+<div style={{ fontSize:10, color:C.dim }}>{data.usedAt ? new Date(data.usedAt).toLocaleDateString(“fr-FR”) : “”}</div>
+</div>
+<div style={{ fontSize:10, color:C.muted }}>{code} {data.coupleId ? `· Couple` : “”}</div>
+</div>
+))}
+</div>
+)}
+</div>
+);
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// SECTION 10 — COMPOSANT PRINCIPAL APP
+// ═══════════════════════════════════════════════════════════════════════════
+
+export default function App() {
+const [currentModule, setCurrentModule] = useState(“home”); // home | bilan | portrait | admin | admin_login | espace_abonne
+const [codes, setCodes] = useState({});
+const [abonnementLevel, setAbonnementLevel] = useState(“none”); // “none”|“simple”|“argent”|“premium”
+const [subscriberProfile, setSubscriberProfile] = useState(null);
+// Alias de compatibilité — vrai dès qu’un abonnement est actif
+const isAbonne = abonnementLevel !== “none”;
+const [adminPwd, setAdminPwd] = useState(””);
+const [adminErr, setAdminErr] = useState(””);
+const [modal, setModal] = useState(null);
+const [upgradeModal, setUpgradeModal] = useState(false);
+const codesRef = useRef({});
+const SUBSCRIBER_KEY = “eden_subscriber_v1”;
+
+useEffect(() => {
+const s = document.createElement(“style”);
+s.textContent = GLOBAL_CSS;
+document.head.appendChild(s);
+return () => document.head.removeChild(s);
+}, []);
+
+useEffect(() => {
+(async () => {
+try {
+const r = await window.storage.get(STORAGE_KEY, true);
+if (r && r.value) { const d = JSON.parse(r.value); codesRef.current = d; setCodes(d); }
+} catch {}
+try {
+const rs = await window.storage.get(“eden_subscriber_v1”, true);
+if (rs && rs.value) {
+const p = JSON.parse(rs.value);
+setSubscriberProfile(p);
+if (p.actif) setAbonnementLevel(p.abonnementLevel || “simple”);
+}
+} catch {}
+})();
+}, []);
+
+async function handleSaveSubscriberProfile(profile) {
+setSubscriberProfile(profile);
+try { await window.storage.set(“eden_subscriber_v1”, JSON.stringify(profile), true); } catch {}
+}
+
+async function handleSaveCodes(c) {
+codesRef.current = c;
+setCodes(c);
+try { await window.storage.set(STORAGE_KEY, JSON.stringify(c), true); } catch {}
+}
+
+function handleAdminLogin() {
+if (adminPwd === ADMIN_PASSWORD) { setAdminErr(””); setCurrentModule(“admin”); }
+else setAdminErr(“Mot de passe incorrect.”);
+}
+
+// ── MODAL GLOBAL ──
+if (modal) return (
+<div className="eden-app">
+<div className=“modal-overlay” onClick={() => setModal(null)}>
+<div className=“modal-box” onClick={e => e.stopPropagation()}>
+<div className="modal-sub">{modal.sub}</div>
+<div className="modal-title">{modal.title}</div>
+<div className="modal-body">{modal.body}</div>
+<button className=“btn-primary” onClick={() => setModal(null)}>Fermer</button>
+</div>
+</div>
+</div>
+);
+
+// ── UPGRADE MODAL — 3 NIVEAUX ──────────────────────────────────────────
+if (upgradeModal) {
+const TIERS = [
+{
+id:“simple”, label:“Simple”, couleur:”#4A9B6A”,
+prix:“15 000 FCFA/mois”,
+features:[“Bilan 360° illimité”,“Portrait Eaux·Os·Chair”,“1 diagnostic thématique/mois”,“Seed of Eden quotidien”,“Arche Eden hebdomadaire”,“Groupe WhatsApp privé”,“IA illimitée (30 questions/mois)”,“1 formation offerte/mois”],
+},
+{
+id:“argent”, label:“Argent”, couleur:”#7BAFC9”,
+prix:“25 000 FCFA/mois”,
+extra:“Tout Simple +”,
+features:[“Accès à toutes les formations”,“Accès à tous les PDF”,“Suivi mensuel personnalisé”,“Export PDF des rapports”],
+},
+{
+id:“premium”, label:“Premium”, couleur:”#C9A84C”,
+prix:“40 000 FCFA/mois”,
+extra:“Tout Argent +”,
+features:[“Séance 30 min/mois (accompagnateur)”,“Séance trimestrielle avec Zady”,“Accès aux replays”,“Plan d’action IA mensuel”,“Graphiques de progression”,“Alertes proactives”],
+},
+];
+return (
+<div className="eden-app">
+<div className=“modal-overlay” onClick={() => setUpgradeModal(false)}>
+<div style={{ background:”#0D1018”, border:“1px solid #C9A84C33”, maxWidth:520, width:“100%”, padding:“28px 24px”, maxHeight:“90vh”, overflowY:“auto” }} onClick={e => e.stopPropagation()}>
+<div style={{ fontSize:8, letterSpacing:”.28em”, textTransform:“uppercase”, color:C.gold, marginBottom:12 }}>✦ Eden — Abonnements</div>
+<div style={{ fontFamily:”‘Cormorant Garamond’,serif”, fontSize:22, color:”#F0EBE0”, marginBottom:6 }}>Choisissez votre niveau</div>
+<p style={{ fontSize:12, color:C.muted, lineHeight:1.7, marginBottom:20 }}>Tous les niveaux incluent les bilans mensuels, seeds quotidiens et l’Arche Eden hebdomadaire.</p>
+{TIERS.map(tier => (
+<div key={tier.id} style={{ background:”#080C14”, border:`1px solid ${tier.couleur}44`, padding:“16px”, marginBottom:10 }}>
+<div style={{ display:“flex”, justifyContent:“space-between”, alignItems:“flex-start”, marginBottom:8 }}>
+<div>
+<div style={{ fontSize:9, letterSpacing:”.2em”, textTransform:“uppercase”, color:tier.couleur, marginBottom:4 }}>✦ Abonnement {tier.label}</div>
+{tier.extra && <div style={{ fontSize:10, color:C.dim, marginBottom:4 }}>{tier.extra}</div>}
+<div style={{ display:“flex”, flexDirection:“column”, gap:3 }}>
+{tier.features.map((f,i) => <div key={i} style={{ fontSize:11, color:C.text }}><span style={{ color:tier.couleur, marginRight:6 }}>✓</span>{f}</div>)}
+</div>
+</div>
+<div style={{ textAlign:“right”, flexShrink:0, marginLeft:12 }}>
+<div style={{ fontFamily:”‘Cormorant Garamond’,serif”, fontSize:18, color:tier.couleur, lineHeight:1 }}>{tier.prix.split(”/”)[0]}</div>
+<div style={{ fontSize:9, color:C.dim }}>/mois</div>
+</div>
+</div>
+<button onClick={() => { window.open(`https://wa.me/${WHATSAPP_NUM}?text=${encodeURIComponent(`Bonjour, je souhaite activer l’abonnement Eden ${tier.label} (${tier.prix}).`)}`); }} style={{ background:tier.couleur, border:“none”, color:”#0B0F1A”, padding:“10px 16px”, fontFamily:”‘Jost’,sans-serif”, fontSize:11, fontWeight:600, cursor:“pointer”, width:“100%” }}>
+Activer via WhatsApp
+</button>
+</div>
+))}
+<button style={{ background:“transparent”, border:“1px solid #1E2330”, color:C.dim, padding:“10px 16px”, fontFamily:”‘Jost’,sans-serif”, fontSize:11, cursor:“pointer”, width:“100%”, marginTop:4 }} onClick={() => setUpgradeModal(false)}>Fermer</button>
+<div style={{ marginTop:12, textAlign:“center” }}>
+<span style={{ fontSize:10, color:C.dim, cursor:“pointer” }} onClick={() => { setAbonnementLevel(“premium”); setUpgradeModal(false); }}>
+[Mode démo — Activer Premium sans paiement]
+</span>
+</div>
+</div>
+</div>
+</div>
+);
+}
+
+// ── HOME ──
+if (currentModule === “home”) return (
+<div className="eden-app">
+<div className="eden-header">
+<div className="eden-logo">Académie Eden · Institut de Leadership Familial</div>
+<div className="eden-title">Outils d’<em style={{ fontStyle:“italic” }}>évaluation</em></div>
+<div className="eden-subtitle">Fondé par Zady Zozoro · Abidjan, Côte d’Ivoire</div>
+</div>
+<div className="eden-wrap">
+<div className="section">
+{isAbonne && (
+<div className=“abonne-banner” style={{ borderColor:`${getLevelColor(abonnementLevel)}44` }}>
+<div style={{ fontSize:10, color:getLevelColor(abonnementLevel), letterSpacing:”.12em”, textTransform:“uppercase” }}>
+✦ Eden {getLevelLabel(abonnementLevel)} actif
+</div>
+<button onClick={() => setAbonnementLevel(“none”)} style={{ background:“transparent”, border:“none”, color:C.dim, fontSize:10, cursor:“pointer” }}>Désactiver</button>
+</div>
+)}
+<div style={{ marginBottom:24 }}>
+<div style={{ fontSize:9, color:C.dim, letterSpacing:”.18em”, textTransform:“uppercase”, marginBottom:16 }}>Choisissez votre module</div>
+{/* Bilan 360° */}
+<div className=“home-module-card featured” onClick={() => setCurrentModule(“bilan”)}>
+<div className="home-module-tag">◈ Module 1 · Accès par code</div>
+<div className="home-module-title">Bilan 360° Eden</div>
+<div className="home-module-desc">Évaluation approfondie sur 12 dimensions relationnelles. 50 questions, rapport personnalisé par le Conseiller Eden, indices composites et patterns archétypaux bibliques.</div>
+<div style={{ display:“flex”, gap:8, flexWrap:“wrap”, marginTop:12 }}>
+{[“Marié(e)”,“Fiancé(e)”,“Célibataire”].map(p => <span key={p} style={{ padding:“3px 10px”, border:`1px solid ${C.gold}44`, fontSize:9, letterSpacing:”.12em”, textTransform:“uppercase”, color:C.gold }}>{p}</span>)}
+</div>
+<div style={{ marginTop:12, fontSize:11, color:C.dim }}>25 000 FCFA · Code à usage unique</div>
+</div>
+{/* Portrait */}
+<div className=“home-module-card” onClick={() => hasAccess(“portrait”, abonnementLevel) ? setCurrentModule(“portrait”) : setUpgradeModal(true)}>
+<div className="home-module-tag">◆ Module 2 · {isAbonne ? `Inclus — ${getLevelLabel(abonnementLevel)}` : “Abonnement requis”}</div>
+<div className="home-module-title">Portrait Eaux · Os · Chair</div>
+<div className="home-module-desc">Exploration en profondeur de votre histoire, vos convictions et votre manière de vivre les relations. Framework propriétaire fondé sur Genèse 2:23. Profil d’attachement + langages de l’amour.</div>
+<div style={{ display:“flex”, gap:8, flexWrap:“wrap”, marginTop:12 }}>
+{[“Histoire familiale”,“Os constitutifs”,“Profil d’attachement”,“Archétypes bibliques”].map(t => <span key={t} style={{ padding:“3px 10px”, border:“1px solid #1E2330”, fontSize:9, color:C.dim }}>{t}</span>)}
+</div>
+<div className=“home-module-badge” style={{ borderColor:isAbonne?`${C.green}44`:`${C.gold}44`, color:isAbonne?C.green:C.gold }}>
+{isAbonne ? `✦ Inclus — Eden ${getLevelLabel(abonnementLevel)}` : “✦ Abonnement requis · dès 15 000 FCFA/mois”}
+</div>
+</div>
+</div>
+{/* Premium banner pour non-abonnés */}
+{!isAbonne && (
+<div style={{ background:“linear-gradient(135deg,#0D0E18,#10141E)”, border:“1px solid #C9A84C22”, padding:“20px”, marginBottom:20 }}>
+<div style={{ fontSize:9, letterSpacing:”.22em”, textTransform:“uppercase”, color:C.gold, marginBottom:8 }}>✦ Eden Premium</div>
+<div style={{ fontFamily:”‘Cormorant Garamond’,serif”, fontSize:18, color:”#F0EBE0”, marginBottom:8 }}>Accès illimité aux deux modules</div>
+<p style={{ fontSize:12, color:C.muted, lineHeight:1.7, marginBottom:14 }}>Bilan 360° + Portrait Eaux·Os·Chair + 5 fonctionnalités exclusives pour 15 000 FCFA/mois.</p>
+<button className=“btn-primary” onClick={() => setUpgradeModal(true)}>Découvrir l’abonnement Premium</button>
+</div>
+)}
+{/* Espace abonné */}
+{isAbonne && (
+<div style={{ background:“linear-gradient(135deg,#0A1208,#0D1018)”, border:“1px solid #4A9B6A44”, padding:“20px”, marginBottom:12 }}>
+<div style={{ fontSize:9, letterSpacing:”.22em”, textTransform:“uppercase”, color:C.green, marginBottom:8 }}>✦ Eden Premium</div>
+<div style={{ fontFamily:”‘Cormorant Garamond’,serif”, fontSize:18, color:”#F0EBE0”, marginBottom:8 }}>
+{subscriberProfile ? `Bienvenue, ${subscriberProfile.nom}` : “Votre espace abonné”}
+</div>
+<p style={{ fontSize:12, color:C.muted, lineHeight:1.7, marginBottom:14 }}>Piliers mensuels · Seeds quotidiens · Rapport annuel · Conseiller IA avec mémoire</p>
+<button style={{ background:C.green, border:“none”, color:”#0B0F1A”, padding:“12px 20px”, fontFamily:”‘Jost’,sans-serif”, fontSize:12, fontWeight:600, cursor:“pointer”, width:“100%” }} onClick={() => {
+if (!subscriberProfile) {
+// Créer un profil démo si pas encore de profil
+const demo = {
+abonneId: “demo_” + Date.now(),
+nom: “Abonné(e)”,
+profil: “marie”,
+dateInscription: new Date().toISOString(),
+actif: true,
+bilans: [],
+formations: [],
+seeds: [{
+date: new Date().toISOString(),
+mois: new Date().getMonth()+1,
+jour: new Date().getDate(),
+pilier: “communication”,
+contenu: “Ce soir, prenez 15 minutes — sans téléphone — pour vous regarder dans les yeux et répondre à cette question : ‘Qu’est-ce que tu vis en ce moment que tu ne m’as pas encore dit ?’”,
+action: “Posez la question. Écoutez sans interrompre. Puis répondez vous aussi.”,
+}],
+questions: [],
+rapportAnnuel: null,
+bilanInitial: null,
+notesAdmin: “”,
+};
+handleSaveSubscriberProfile(demo);
+}
+setCurrentModule(“espace_abonne”);
+}}>
+Accéder à mon espace →
+</button>
+</div>
+)}
+{/* Admin + Demo */}
+<div style={{ display:“flex”, gap:8, marginTop:8 }}>
+<button className=“btn-secondary” style={{ flex:1, fontSize:10 }} onClick={() => setCurrentModule(“admin_login”)}>Administration</button>
+<button className=“btn-secondary” style={{ flex:1, fontSize:10 }} onClick={() => { setAbonnementLevel(“premium”); setCurrentModule(“bilan”); }}>Démo (Premium)</button>
+</div>
+</div>
+<Footer />
+</div>
+</div>
+);
+
+// ── ADMIN LOGIN ──
+if (currentModule === “admin_login”) return (
+<div className="eden-app">
+<div className="eden-header">
+<div className="eden-logo">Académie Eden</div>
+<div className="eden-title">Administration</div>
+</div>
+<div className="eden-wrap">
+<div className="section">
+<div className="section-tag">◈ Accès sécurisé</div>
+<div className="section-desc">Accès réservé à l’équipe Eden Académie.</div>
+<div style={{ marginBottom:16 }}>
+<div style={{ fontSize:10, color:C.gold, letterSpacing:”.16em”, textTransform:“uppercase”, marginBottom:8 }}>Mot de passe</div>
+<input className=“inp” type=“password” placeholder=”••••••••••” value={adminPwd} onChange={e => setAdminPwd(e.target.value)} onKeyDown={e => e.key === “Enter” && handleAdminLogin()} />
+</div>
+{adminErr && <div style={{ fontSize:12, color:C.red, marginBottom:12 }}>{adminErr}</div>}
+<div className="nav-row">
+<button className=“btn-secondary” style={{ flex:“0 0 auto” }} onClick={() => { setCurrentModule(“home”); setAdminPwd(””); setAdminErr(””); }}>← Retour</button>
+<button className="btn-primary" onClick={handleAdminLogin}>Accéder →</button>
+</div>
+</div>
+<Footer />
+</div>
+</div>
+);
+
+// ── ADMIN ──
+if (currentModule === “admin”) return (
+<div className="eden-app">
+<div className="eden-header">
+<div className="eden-logo">Académie Eden</div>
+<div className="eden-title">Administration</div>
+</div>
+<div className="eden-wrap">
+<AdminModule codes={codes} onSaveCodes={handleSaveCodes} onBack={() => setCurrentModule(“home”)} />
+<Footer />
+</div>
+</div>
+);
+
+// ── BILAN 360° ──
+if (currentModule === “bilan”) return (
+<div className="eden-app">
+<div className="eden-header">
+<div className="eden-logo">Académie Eden · Institut de Leadership Familial</div>
+<div className="eden-title">Bilan <em style={{ fontStyle:“italic” }}>360°</em></div>
+<div className="eden-subtitle">Évaluation relationnelle approfondie</div>
+{isAbonne && <div style={{ marginTop:6, display:“inline-block”, padding:“2px 10px”, border:`1px solid ${getLevelColor(abonnementLevel)}44`, fontSize:9, color:getLevelColor(abonnementLevel), letterSpacing:”.12em”, textTransform:“uppercase” }}>✦ Eden {getLevelLabel(abonnementLevel)}</div>}
+</div>
+<div style={{ padding:“10px 20px”, borderBottom:“1px solid #1E2330”, display:“flex”, justifyContent:“space-between”, alignItems:“center” }}>
+<button onClick={() => setCurrentModule(“home”)} style={{ background:“transparent”, border:“none”, color:C.dim, cursor:“pointer”, fontSize:11, fontFamily:”‘Jost’,sans-serif” }}>← Accueil</button>
+{isAbonne ? <div style={{ fontSize:9, color:getLevelColor(abonnementLevel), letterSpacing:”.12em”, textTransform:“uppercase” }}>✦ {getLevelLabel(abonnementLevel)}</div> : <button onClick={() => setUpgradeModal(true)} style={{ background:“transparent”, border:`1px solid ${C.gold}44`, color:C.gold, padding:“4px 12px”, cursor:“pointer”, fontSize:9, letterSpacing:”.12em”, textTransform:“uppercase”, fontFamily:”‘Jost’,sans-serif” }}>✦ S’abonner</button>}
+</div>
+<div className="eden-wrap">
+<DiagnosticModule codes={codes} onSaveCodes={handleSaveCodes} isAbonne={isAbonne} abonnementLevel={abonnementLevel} onRequestUpgrade={() => setUpgradeModal(true)} subscriberProfile={subscriberProfile} onUpdateSubscriber={handleSaveSubscriberProfile} />
+<Footer />
+</div>
+</div>
+);
+
+// ── PORTRAIT ──
+if (currentModule === “portrait”) return (
+<div className="eden-app">
+<div className="eden-header">
+<div className="eden-logo">Académie Eden · Institut de Leadership Familial</div>
+<div className="eden-title">Portrait <em style={{ fontStyle:“italic” }}>de Personne</em></div>
+<div className="eden-subtitle">Eaux · Os · Chair · Framework propriétaire Zady Zozoro</div>
+{isAbonne && <div style={{ marginTop:6, display:“inline-block”, padding:“2px 10px”, border:`1px solid ${getLevelColor(abonnementLevel)}44`, fontSize:9, color:getLevelColor(abonnementLevel), letterSpacing:”.12em”, textTransform:“uppercase” }}>✦ Eden {getLevelLabel(abonnementLevel)}</div>}
+</div>
+<div style={{ padding:“10px 20px”, borderBottom:“1px solid #1E2330” }}>
+<button onClick={() => setCurrentModule(“home”)} style={{ background:“transparent”, border:“none”, color:C.dim, cursor:“pointer”, fontSize:11, fontFamily:”‘Jost’,sans-serif” }}>← Accueil</button>
+</div>
+<div className="eden-wrap">
+<PortraitModule isAbonne={isAbonne} abonnementLevel={abonnementLevel} onRequestUpgrade={() => setUpgradeModal(true)} />
+<Footer />
+</div>
+</div>
+);
+
+// ── ESPACE ABONNÉ ──
+// Note : EspaceAbonne est importé depuis EdenSubscriber.jsx
+// import EspaceAbonne, { createSubscriberProfile, PILIERS_ANNUELS } from “./EdenSubscriber”;
+// À décommenter lors de l’intégration complète dans le projet Vite
+if (currentModule === “espace_abonne” && subscriberProfile) return (
+<div className="eden-app">
+<div style={{ padding:“10px 20px”, borderBottom:“1px solid #1E2330”, display:“flex”, justifyContent:“space-between”, alignItems:“center” }}>
+<button onClick={() => setCurrentModule(“home”)} style={{ background:“transparent”, border:“none”, color:C.dim, cursor:“pointer”, fontSize:11, fontFamily:”‘Jost’,sans-serif” }}>← Accueil</button>
+<div style={{ fontSize:9, color:C.green, letterSpacing:”.12em”, textTransform:“uppercase” }}>✦ Premium</div>
+</div>
+{/* EspaceAbonne — EdenSubscriber.jsx requis. Décommenter import ligne 2 pour activer. */}
+{typeof EspaceAbonne !== “undefined”
+? <EspaceAbonne profile={subscriberProfile} abonnementLevel={abonnementLevel} onUpdateProfile={handleSaveSubscriberProfile} />
+: (
+<div style={{ maxWidth:640, margin:“0 auto”, padding:“40px 20px”, textAlign:“center” }}>
+<div style={{ fontSize:9, color:C.gold, letterSpacing:”.3em”, textTransform:“uppercase”, marginBottom:16 }}>✦ Espace Abonné</div>
+<div style={{ fontFamily:”‘Cormorant Garamond’,serif”, fontSize:24, color:”#F0EBE0”, marginBottom:12 }}>
+{subscriberProfile?.nom ? `Bienvenue, ${subscriberProfile.nom}` : “Espace Abonné”}
+</div>
+<p style={{ fontSize:13, color:C.muted, lineHeight:1.8, marginBottom:20 }}>
+Import EdenSubscriber.jsx requis en production Vite.
+</p>
+<div style={{ background:”#0D1018”, border:“1px solid #4A9B6A33”, padding:“16px 20px”, textAlign:“left”, marginBottom:20 }}>
+<div style={{ fontSize:10, color:C.green, letterSpacing:”.14em”, textTransform:“uppercase”, marginBottom:8 }}>Activation</div>
+<div style={{ fontFamily:“monospace”, fontSize:12, color:C.text, lineHeight:2 }}>
+1. EdenSubscriber.jsx → src/<br/>
+2. Décommenter ligne 2 : import EspaceAbonne from “./EdenSubscriber”
+</div>
+</div>
+<button onClick={() => setCurrentModule(“home”)} style={{ background:C.gold, border:“none”, color:”#0B0F1A”, padding:“12px 24px”, fontFamily:”‘Jost’,sans-serif”, fontSize:12, fontWeight:600, cursor:“pointer” }}>Retour</button>
+</div>
+)
+}
+<Footer />
+</div>
+);
+
+return null;
+}
