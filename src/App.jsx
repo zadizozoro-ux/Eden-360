@@ -1435,7 +1435,7 @@ const labels = ["Le choc de reconnaissance", "Le déclic émotionnel", "Le résu
 const vList = [versions.v1, versions.v2, versions.v3];
 
 const handleShare = () => {
-const msg = `"${edited || vList[selected]}" — ${clientName.charAt(0)}., Bilan Eden 360° academie-eden.com`;
+const msg = `${edited || vList[selected]} — ${clientName.charAt(0)}., Bilan Eden 360° academie-eden.com`;
 window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`);
 setShared(true);
 };
