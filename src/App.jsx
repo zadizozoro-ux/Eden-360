@@ -1271,7 +1271,7 @@ function RelationshipClock({ clockData }) {
   const ny = cy + r * 0.75 * Math.sin(needleRad);
 
   return (
-<div style={{ opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(20px)", transition: "all 0.6s ease", background: "#0D0810", border: `1px solid ${urgencyColor}44`, borderLeft: `4px solid ${urgencyColor}`, padding: "24px 22px", marginBottom: 24 }}>
+<div style={{ opacity: visible ? 1 : 0, transform: visible ? "translateY(0px)" : "translateY(20px)", transition: "all 0.6s", background: "#0D0810", border: "1px solid " + urgencyColor + "44", borderLeft: "4px solid " + urgencyColor, padding: "24px 22px", marginBottom: 24 }}>
       <div style={{ display: "flex", gap: 20, alignItems: "center" }}>
         <svg width="160" height="160" viewBox="0 0 160 160" style={{ flexShrink: 0 }}>
           <circle cx="80" cy="80" r="75" fill="#0A060C" stroke="#1E1828" strokeWidth="1" />
