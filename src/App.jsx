@@ -1477,11 +1477,12 @@ Votre parcours peut aider d'autres personnes à faire le premier pas. Choisissez
 </div>
 </div>
 );
+}
 
 // ─── COMPOSANT : RAPPORT INTERNE CONSEILLER ──────────────────────────────────
 // Protégé par mot de passe + téléchargeable en PDF
 function InternalReportModal({ clientName, profil, genre, role, annees, enfants, scores, opens, patternScores, gp, rawAns, alertLevel, onClose }) {
-const [step, setStep] = useState("auth"); // auth | loading | report
+const [step, setStep] = useState("auth");
 const [pwd, setPwd] = useState("");
 const [pwdErr, setPwdErr] = useState("");
 const [reportText, setReportText] = useState("");
@@ -1504,7 +1505,6 @@ setGenerating(false);
 setStep("report");
 };
 
-// Export PDF via impression navigateur (sans dépendance)
 const handlePrintPDF = () => {
 const printWin = window.open("", "_blank");
 const urgenceLabel = alertLevel >= ALERT_LEVELS.CRISE ? "🔴 CRISE" : alertLevel >= ALERT_LEVELS.VIGILANCE ? "🟠 VIGILANCE" : alertLevel >= ALERT_LEVELS.INFO ? "🟡 INFO" : "🟢 STABLE";
@@ -1515,27 +1515,25 @@ const reportHtml = reportText.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
 printWin.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8"><title>Rapport Interne — ${clientName}</title><style> body{font-family:Arial,sans-serif;font-size:13px;color:#222;margin:0;padding:0} .page{max-width:700px;margin:0 auto;padding:32px} h1{font-size:22px;color:#0B0F1A;border-bottom:3px solid #C9A84C;padding-bottom:8px} h2{font-size:16px;color:#0B0F1A;margin-top:28px;margin-bottom:10px;background:#F5F3EE;padding:8px 12px} table{width:100%;border-collapse:collapse;margin-bottom:16px} td,th{border:1px solid #ddd;padding:7px 10px;vertical-align:top} th{background:#0B0F1A;color:#C9A84C;font-weight:bold;font-size:12px} .badge-crise{background:#C0614A;color:#fff;padding:3px 10px;font-weight:bold} .badge-vigilance{background:#C0784A;color:#fff;padding:3px 10px;font-weight:bold} .badge-info{background:#C9A84C;color:#0B0F1A;padding:3px 10px;font-weight:bold} .badge-stable{background:#4A9B6A;color:#fff;padding:3px 10px;font-weight:bold} .report-body{line-height:1.9;background:#FAFAF8;padding:16px;border-left:4px solid #C9A84C} .confidential{background:#0B0F1A;color:#C9A84C;text-align:center;padding:10px;font-size:11px;letter-spacing:.2em} @media print{.no-print{display:none}} </style></head><body> <div class="confidential">CONFIDENTIEL — USAGE INTERNE ACADÉMIE EDEN — NE PAS PARTAGER AVEC LE CLIENT</div> <div class="page"> <h1>Rapport Interne Conseiller</h1> <table><tr><th colspan="2">Fiche Signalétique</th></tr> <tr><td><strong>Client</strong></td><td>${clientName}</td></tr> <tr><td><strong>Profil</strong></td><td>${profil === "marie" ? "Marié(e)" : profil === "fiance" ? "Fiancé(e)" : "Célibataire"}${genre?" · "+genre:""}${role?" · "+role:""}</td></tr> <tr><td><strong>Score global</strong></td><td><strong>${gp}/100</strong></td></tr> <tr><td><strong>Urgence</strong></td><td><span class="${alertLevel>=ALERT_LEVELS.CRISE?"badge-crise":alertLevel>=ALERT_LEVELS.VIGILANCE?"badge-vigilance":alertLevel>=ALERT_LEVELS.INFO?"badge-info":"badge-stable"}">${urgenceLabel}</span></td></tr> <tr><td><strong>Date du bilan</strong></td><td>${new Date().toLocaleDateString("fr-FR",{day:"numeric",month:"long",year:"numeric"})}</td></tr> ${annees?`<tr><td><strong>Années mariage</strong></td><td>${annees} ans</td></tr>`:""} ${enfants?`<tr><td><strong>Enfants</strong></td><td>${enfants}</td></tr>`:""}
 </table>
 
-  <h2>Scores par Dimension</h2>
-  <table><tr><th>Dimension</th><th>Score</th><th>Niveau</th></tr>${scoresHtml}</table>
+<h2>Scores par Dimension</h2>
+<table><tr><th>Dimension</th><th>Score</th><th>Niveau</th></tr>${scoresHtml}</table>
 
-  ${patternsHtml ? `<h2>Patterns Bibliques Détectés</h2><table><tr><th>Pattern</th><th>Score</th><th>Titre</th><th>Mécanisme</th></tr>${patternsHtml}</table>` : "<h2>Patterns</h2><p>Aucun pattern dominant détecté.</p>"}
+${patternsHtml ? `<h2>Patterns Bibliques Détectés</h2><table><tr><th>Pattern</th><th>Score</th><th>Titre</th><th>Mécanisme</th></tr>${patternsHtml}</table>` : "<h2>Patterns</h2><p>Aucun pattern dominant détecté.</p>"}
 
-  ${opensHtml ? `<h2>Réponses Ouvertes</h2><table><tr><th>Question</th><th>Réponse</th></tr>${opensHtml}</table>` : ""}
+${opensHtml ? `<h2>Réponses Ouvertes</h2><table><tr><th>Question</th><th>Réponse</th></tr>${opensHtml}</table>` : ""}
 
-  <h2>Analyse Clinique — Plan d'Action Conseiller</h2>
-  <div class="report-body">${reportHtml}</div>
+<h2>Analyse Clinique — Plan d'Action Conseiller</h2>
+<div class="report-body">${reportHtml}</div>
 
-  <p style="margin-top:32px;font-size:10px;color:#888;text-align:center">Académie Eden · Institut de Leadership Familial · Fondé par Zady Zozoro · Document confidentiel généré le ${new Date().toLocaleDateString("fr-FR")}</p>
+<p style="margin-top:32px;font-size:10px;color:#888;text-align:center">Académie Eden · Institut de Leadership Familial · Fondé par Zady Zozoro · Document confidentiel généré le ${new Date().toLocaleDateString("fr-FR")}</p>
 </div>
 <div class="confidential">CONFIDENTIEL — USAGE INTERNE ACADÉMIE EDEN</div>
 </body></html>`);
 printWin.document.close();
 setTimeout(() => printWin.print(), 500);
 };
-
 };
 
-// ── Auth ──
 if (step === "auth") return (
 <div style={{ position: "fixed", inset: 0, background: "#000000F2", zIndex: 500, display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}>
 <div style={{ background: "#0D1018", border: "1px solid #1E2330", maxWidth: 400, width: "100%", padding: "28px 24px" }}>
@@ -1552,7 +1550,6 @@ if (step === "auth") return (
 </div>
 );
 
-// ── Loading ──
 if (step === "loading") return (
 <div style={{ position: "fixed", inset: 0, background: "#000000F2", zIndex: 500, display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", gap: 16 }}>
 <div className="loading-ring" />
@@ -1560,12 +1557,10 @@ if (step === "loading") return (
 </div>
 );
 
-// ── Rapport ──
 const reportSections = parseReport(reportText);
 return (
 <div style={{ position: "fixed", inset: 0, background: "#000000F2", zIndex: 500, display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}>
 <div ref={reportRef} style={{ background: "#0D1018", border: "1px solid #C9A84C33", maxWidth: 620, width: "100%", maxHeight: "92vh", overflowY: "auto" }}>
-{/* Header */}
 <div style={{ background: "#080C10", borderBottom: "1px solid #1E2330", padding: "16px 20px", position: "sticky", top: 0, zIndex: 2, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
 <div>
 <div style={{ fontSize: 8, letterSpacing: ".24em", textTransform: "uppercase", color: C.red, marginBottom: 4 }}>🔒 CONFIDENTIEL — USAGE INTERNE UNIQUEMENT</div>
@@ -1577,7 +1572,6 @@ return (
 </div>
 </div>
 <div style={{ padding: "20px" }}>
-{/* Fiche signalétique */}
 <div style={{ background: "#080C10", border: "1px solid #1E2330", padding: "14px 16px", marginBottom: 20 }}>
 <div style={{ fontSize: 9, color: C.gold, letterSpacing: ".18em", textTransform: "uppercase", marginBottom: 10 }}>Fiche Signalétique</div>
 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "6px 20px" }}>
@@ -1591,7 +1585,6 @@ return (
 ].map(([k,v]) => <div key={k}><span style={{fontSize:10,color:C.dim}}>{k} : </span><span style={{fontSize:12,color:C.text,fontWeight:600}}>{v}</span></div>)}
 </div>
 </div>
-{/* Scores */}
 <div style={{ marginBottom: 16 }}>
 <div style={{ fontSize: 9, color: C.gold, letterSpacing: ".18em", textTransform: "uppercase", marginBottom: 8 }}>Scores par Dimension</div>
 {Object.entries(scores).map(([,v]) => (
@@ -1602,7 +1595,6 @@ return (
 </div>
 ))}
 </div>
-{/* Patterns */}
 {Object.entries(patternScores||{}).filter(([,v])=>v>40).length > 0 && (
 <div style={{ marginBottom: 16 }}>
 <div style={{ fontSize: 9, color: C.gold, letterSpacing: ".18em", textTransform: "uppercase", marginBottom: 8 }}>Patterns Détectés — Preuves</div>
@@ -1621,7 +1613,6 @@ return (
 })}
 </div>
 )}
-{/* Réponses ouvertes */}
 {opens.filter(o=>o.ans?.trim()).length > 0 && (
 <div style={{ marginBottom: 16 }}>
 <div style={{ fontSize: 9, color: C.gold, letterSpacing: ".18em", textTransform: "uppercase", marginBottom: 8 }}>Réponses Ouvertes</div>
@@ -1633,7 +1624,6 @@ return (
 ))}
 </div>
 )}
-{/* Rapport IA interne */}
 <div style={{ marginBottom: 16 }}>
 <div style={{ fontSize: 9, color: C.gold, letterSpacing: ".18em", textTransform: "uppercase", marginBottom: 12 }}>Plan d'Action Conseiller</div>
 {reportSections.map((s,i) => (
@@ -1652,9 +1642,8 @@ Académie Eden · Rapport confidentiel — Usage interne uniquement — {new Dat
 }
 
 // ─── COMPOSANT : PARTAGER RAPPORT AVEC CONSEILLER ──────────────────────────
-// Bouton avec consentement explicite + message WhatsApp formaté complet
 function ShareWithConseiller({ clientName, gp, profil, riskLevel, patterns, scores, sections }) {
-const [step, setStep] = useState("closed"); // closed | consent | confirm | done
+const [step, setStep] = useState("closed");
 const [consentGiven, setConsentGiven] = useState(false);
 const [includeScores, setIncludeScores] = useState(true);
 const [includePatterns, setIncludePatterns] = useState(true);
@@ -1666,11 +1655,8 @@ const activePatterns = Object.entries(patterns || {})
 .slice(0, 3);
 
 const profilLabel = profil === "marie" ? "Marié(e)" : profil === "fiance" ? "Fiancé(e)" : "Célibataire";
-
-// Trouver la phrase clé dans le rapport
 const phraseCle = sections?.find(s => (s.title||"").toUpperCase().includes("PHRASE") || (s.title||"").toUpperCase().includes("CLÉ"))?.body || "";
 
-// Construire le message WhatsApp complet
 function buildShareMessage() {
 let msg = `Bonjour Académie Eden,\n\n`;
 msg += `Je partage mon rapport Bilan 360° pour accompagnement.\n\n`;
@@ -1724,7 +1710,6 @@ Choisissez ce que vous partagez
 <p style={{ fontSize: 12, color: C.muted, lineHeight: 1.7, marginBottom: 20 }}>
 Ces informations seront transmises à l'équipe de l'Académie Eden uniquement, pour vous accompagner dans votre démarche. Elles ne seront jamais partagées avec des tiers.
 </p>
-{/* Cases de consentement */}
 {[
 { key:"scores", label:"Mes scores par dimension", sub:"Les 8-9 résultats chiffrés de mon bilan", val:includeScores, set:setIncludeScores, required:false },
 { key:"patterns", label:"Les patterns relationnels détectés", sub:"Les archétypes bibliques identifiés dans mon profil", val:includePatterns, set:setIncludePatterns, required:false },
@@ -1740,7 +1725,6 @@ Ces informations seront transmises à l'équipe de l'Académie Eden uniquement, 
 </div>
 </div>
 ))}
-{/* Consentement obligatoire */}
 <div style={{ display: "flex", gap: 12, alignItems: "flex-start", padding: "12px 14px", background: "#0A0C10", border: `1px solid ${consentGiven?"#C9A84C44":"#1E2330"}`, marginBottom: 20, cursor: "pointer", marginTop: 12 }} onClick={() => setConsentGiven(!consentGiven)}>
 <div style={{ width: 18, height: 18, border: `1px solid ${consentGiven?"#C9A84C":"#C0614A"}`, background: consentGiven ? "#C9A84C" : "transparent", flexShrink: 0, marginTop: 2, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, color: "#0B0F1A", fontWeight: 700 }}>
 {consentGiven ? "✓" : ""}
@@ -1808,14 +1792,15 @@ return (
 </div>
 );
 }
+
 function LegalDisclaimer({ gp, hasViolenceSignal }) {
 const critical = gp < 40 || hasViolenceSignal;
 return (
-<div style={{ background:”#080A10”, border:“1px solid #1E2230”, padding:“16px 18px”, marginTop:32, fontSize:10, color:”#3A3E4A”, lineHeight:1.8 }}>
-{critical && <div style={{ background:”#1A0808”, border:“1px solid #C0614A33”, padding:“10px 14px”, marginBottom:14, fontSize:11, color:”#E8A090”, lineHeight:1.7 }}>⚠ Situation critique détectée : ce bilan ne remplace pas une intervention professionnelle. Si vous êtes en danger, contactez le 1010 (Côte d’Ivoire), 116 (Sénégal) ou 3919 (France).</div>}
-<p><strong style={{ color:”#5A5E6A” }}>Avis important ·</strong> Ce bilan est un outil d’auto-évaluation éducatif. Il ne constitue pas un avis médical, psychologique ou thérapeutique, et ne remplace pas l’avis d’un professionnel qualifié. Les résultats reflètent vos perceptions au moment de la réponse.</p>
-<p style={{ marginTop:8 }}>Vos données sont traitées conformément aux conditions d’utilisation acceptées lors de l’accès au bilan. Conservation : 24 mois. Droit à l’effacement sur demande via WhatsApp.</p>
-<p style={{ marginTop:8, color:”#2A2E3A” }}>Académie Eden · Institut de Leadership Familial · Abidjan, Côte d’Ivoire · Fondée par Zady Zozoro © 2025</p>
+<div style={{ background: "#080A10", border: "1px solid #1E2230", padding: "16px 18px", marginTop: 32, fontSize: 10, color: "#3A3E4A", lineHeight: 1.8 }}>
+{critical && <div style={{ background: "#1A0808", border: "1px solid #C0614A33", padding: "10px 14px", marginBottom: 14, fontSize: 11, color: "#E8A090", lineHeight: 1.7 }}>⚠ Situation critique détectée : ce bilan ne remplace pas une intervention professionnelle. Si vous êtes en danger, contactez le 1010 (Côte d'Ivoire), 116 (Sénégal) ou 3919 (France).</div>}
+<p><strong style={{ color: "#5A5E6A" }}>Avis important ·</strong> Ce bilan est un outil d'auto-évaluation éducatif. Il ne constitue pas un avis médical, psychologique ou thérapeutique, et ne remplace pas l'avis d'un professionnel qualifié. Les résultats reflètent vos perceptions au moment de la réponse.</p>
+<p style={{ marginTop: 8 }}>Vos données sont traitées conformément aux conditions d'utilisation acceptées lors de l'accès au bilan. Conservation : 24 mois. Droit à l'effacement sur demande via WhatsApp.</p>
+<p style={{ marginTop: 8, color: "#2A2E3A" }}>Académie Eden · Institut de Leadership Familial · Abidjan, Côte d'Ivoire · Fondée par Zady Zozoro © 2025</p>
 </div>
 );
 }
@@ -1833,7 +1818,7 @@ return (
 {q.followUp && value && (!q.condition || q.condition(value)) && (
 <div>
 <div className="q-follow">{q.followUp}</div>
-<textarea className=“ta” placeholder=“Répondez en vos propres mots…” onChange={e => onChange(value, e.target.value)} />
+<textarea className="ta" placeholder="Répondez en vos propres mots…" onChange={e => onChange(value, e.target.value)} />
 </div>
 )}
 </div>
@@ -1844,7 +1829,7 @@ function QuestionOuvert({ q, value, onChange }) {
 return (
 <div className="mb24">
 <div className="q-text">{q.question}</div>
-<textarea className={`ta ${q.type === "ouvert_court" ? "ta-short" : ""}`} placeholder={q.placeholder || “Votre réponse…”} value={value || “”} onChange={e => onChange(e.target.value)} />
+<textarea className={`ta ${q.type === "ouvert_court" ? "ta-short" : ""}`} placeholder={q.placeholder || "Votre réponse…"} value={value || ""} onChange={e => onChange(e.target.value)} />
 </div>
 );
 }
@@ -1866,21 +1851,21 @@ function QuestionMultiCheck({ q, values, onChange, openValue, onOpenChange }) {
 const toggle = val => {
 const current = values || [];
 if (current.includes(val)) onChange(current.filter(v => v !== val));
-else onChange([…current, val]);
+else onChange([...current, val]);
 };
 return (
 <div className="mb24">
 <div className="q-text">{q.question}</div>
 {q.options.map(opt => (
 <div key={opt.val} className={`check-item ${(values || []).includes(opt.val) ? "selected" : ""}`} onClick={() => toggle(opt.val)}>
-<div className="check-box">{(values || []).includes(opt.val) && “✓”}</div>
+<div className="check-box">{(values || []).includes(opt.val) && "✓"}</div>
 <div className="opt-label">{opt.label}</div>
 </div>
 ))}
 {q.followUp && q.condition && q.condition(values) && (
 <div>
 <div className="q-follow">{q.followUp}</div>
-<textarea className=“ta” placeholder=“Décrivez ce schéma…” value={openValue || “”} onChange={e => onOpenChange(e.target.value)} />
+<textarea className="ta" placeholder="Décrivez ce schéma…" value={openValue || ""} onChange={e => onOpenChange(e.target.value)} />
 </div>
 )}
 </div>
@@ -1893,7 +1878,7 @@ const selectItem = id => {
 setRanked(prev => {
 if (prev.includes(id)) { const next = prev.filter(v => v !== id); onChange(next); return next; }
 if (prev.length >= 5) return prev;
-const next = […prev, id]; onChange(next); return next;
+const next = [...prev, id]; onChange(next); return next;
 });
 };
 return (
@@ -1907,15 +1892,15 @@ return (
 </div>
 );
 })}
-<div style={{ fontSize:10, color:”#3A3E4A”, marginTop:4 }}>Cliquez dans l’ordre de vos préférences (1 = le plus important)</div>
+<div style={{ fontSize: 10, color: "#3A3E4A", marginTop: 4 }}>Cliquez dans l'ordre de vos préférences (1 = le plus important)</div>
 </div>
 );
 }
 
 function ScenarioAttachement({ scenario, value, onChange }) {
 return (
-<div style={{ background:”#0D1018”, border:“1px solid #1E2330”, padding:“18px”, marginBottom:16 }}>
-<div style={{ fontSize:13, color:C.muted, lineHeight:1.7, marginBottom:14, fontStyle:“italic” }}>« {scenario.scenario} »</div>
+<div style={{ background: "#0D1018", border: "1px solid #1E2330", padding: "18px", marginBottom: 16 }}>
+<div style={{ fontSize: 13, color: C.muted, lineHeight: 1.7, marginBottom: 14, fontStyle: "italic" }}>« {scenario.scenario} »</div>
 {scenario.reponses.map(r => (
 <div key={r.val} className={`opt ${value === r.val ? "selected" : ""}`} onClick={() => onChange(r.val)}>
 <div className="opt-dot" /><div className="opt-label">{r.label}</div>
@@ -1924,7 +1909,6 @@ return (
 </div>
 );
 }
-
 // ═══════════════════════════════════════════════════════════════════════════
 // SECTION 7 — MODULE BILAN 360°
 // ═══════════════════════════════════════════════════════════════════════════
