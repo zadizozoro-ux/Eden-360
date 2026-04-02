@@ -1272,7 +1272,6 @@ function RelationshipClock({ clockData }) {
 
   return (
 <div style={{ opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(20px)", transition: "all 0.6s ease", background: "#0D0810", border: `1px solid ${urgencyColor}44`, borderLeft: `4px solid ${urgencyColor}`, padding: "24px 22px", marginBottom: 24 }}>
-      <div style={{ fontSize: 9, color: urgencyColor, letterSpacing: ".22em", textTransform: "uppercase", marginBottom: 16 }}>◎ Projection temporelle — Modèle Gottman</div>
       <div style={{ display: "flex", gap: 20, alignItems: "center" }}>
         <svg width="160" height="160" viewBox="0 0 160 160" style={{ flexShrink: 0 }}>
           <circle cx="80" cy="80" r="75" fill="#0A060C" stroke="#1E1828" strokeWidth="1" />
