@@ -1243,7 +1243,7 @@ return (
 ))}
 </div>
 <div style={{ display:“flex”, flexDirection:“column”, gap:10 }}>
-<button className=“btn-wa” onClick={() => window.open(`https://wa.me/${WHATSAPP_NUM}?text=${encodeURIComponent("Bonjour, j'ai besoin d'aide urgente suite à mon bilan Eden.")}`)}>Contacter l’Académie Eden maintenant</button>
+<button className="btn-wa" onClick={() => window.open(`https://wa.me/${WHATSAPP_NUM}?text=${encodeURIComponent("Bonjour, j'ai besoin d'aide urgente suite à mon bilan Eden.")}`)}>Contacter l’Académie Eden maintenant</button>
 <button onClick={onContinue} style={{ background:“transparent”, border:“1px solid #3A2A2A”, color:”#6A5050”, padding:“11px 20px”, cursor:“pointer”, fontFamily:”‘Jost’,sans-serif”, fontSize:11 }}>Continuer quand même</button>
 </div>
 </div>
