@@ -1351,7 +1351,7 @@ function ViralShareCard({ clientName, gp, profil, riskLevel, onClose }) {
     </div>
   );
 }
-// ─── COMPOSANT : BANNIÈRE D’ALERTE (niveaux 1, 2, 3) ────────────────────────
+// ─── COMPOSANT : BANNIÈRE D'ALERTE (niveaux 1, 2, 3) ────────────────────────
 function AlertBanner({ alertLevel, clientName, gp }) {
 const [wantsContact, setWantsContact] = useState(false);
 const [contactSent, setContactSent] = useState(false);
@@ -1363,44 +1363,44 @@ if (alertLevel >= ALERT_LEVELS.CRISE) return null;
 
 // Niveau 2 — VIGILANCE
 if (alertLevel === ALERT_LEVELS.VIGILANCE) return (
-<div style={{ background:”#140A00”, border:“1px solid #C0784A44”, borderLeft:“4px solid #C0784A”, padding:“20px 22px”, marginBottom:24 }}>
-<div style={{ fontSize:9, color:C.orange, letterSpacing:”.22em”, textTransform:“uppercase”, marginBottom:8 }}>⚠ Attention — Situation à surveiller</div>
-<div style={{ fontFamily:”‘Cormorant Garamond’,serif”, fontSize:17, color:”#F0EBE0”, marginBottom:10, lineHeight:1.4 }}>
+<div style={{ background: "#140A00", border: "1px solid #C0784A44", borderLeft: "4px solid #C0784A", padding: "20px 22px", marginBottom: 24 }}>
+<div style={{ fontSize: 9, color: C.orange, letterSpacing: ".22em", textTransform: "uppercase", marginBottom: 8 }}>⚠ Attention — Situation à surveiller</div>
+<div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 17, color: "#F0EBE0", marginBottom: 10, lineHeight: 1.4 }}>
 Votre situation nécessite une attention rapide
 </div>
-<p style={{ fontSize:12, color:C.muted, lineHeight:1.7, marginBottom:16 }}>
+<p style={{ fontSize: 12, color: C.muted, lineHeight: 1.7, marginBottom: 16 }}>
 Certains signaux de votre bilan indiquent une dynamique qui peut évoluer rapidement sans accompagnement. Un conseiller peut vous recontacter dans les 48h si vous le souhaitez — sans engagement, juste pour échanger.
 </p>
 {!contactSent ? (
 !wantsContact ? (
-<button onClick={() => setWantsContact(true)} style={{ background:C.orange, border:“none”, color:”#fff”, padding:“11px 18px”, fontFamily:”‘Jost’,sans-serif”, fontSize:12, fontWeight:600, cursor:“pointer”, width:“100%” }}>
+<button onClick={() => setWantsContact(true)} style={{ background: C.orange, border: "none", color: "#fff", padding: "11px 18px", fontFamily: "'Jost', sans-serif", fontSize: 12, fontWeight: 600, cursor: "pointer", width: "100%" }}>
 Je souhaite être recontacté(e) dans les 48h
 </button>
 ) : (
-<div style={{ background:”#0A0805”, border:“1px solid #C0784A33”, padding:“14px” }}>
-<div style={{ fontSize:12, color:C.text, marginBottom:10 }}>Sur quel numéro WhatsApp peut-on vous joindre ?</div>
-<div style={{ display:“flex”, gap:8 }}>
-<input id=“contact-tel” className=“inp” placeholder=”+225 XX XX XX XX” style={{ flex:1, marginBottom:0 }} />
+<div style={{ background: "#0A0805", border: "1px solid #C0784A33", padding: "14px" }}>
+<div style={{ fontSize: 12, color: C.text, marginBottom: 10 }}>Sur quel numéro WhatsApp peut-on vous joindre ?</div>
+<div style={{ display: "flex", gap: 8 }}>
+<input id="contact-tel" className="inp" placeholder="+225 XX XX XX XX" style={{ flex: 1, marginBottom: 0 }} />
 <button onClick={() => {
-const tel = document.getElementById(“contact-tel”)?.value || “”;
-triggerCrisisAlert({ clientName, gp, profil:””, patternScores:{}, alertLevel, tel });
+const tel = document.getElementById("contact-tel")?.value || "";
+triggerCrisisAlert({ clientName, gp, profil: "", patternScores: {}, alertLevel, tel });
 setContactSent(true);
-}} style={{ background:C.orange, border:“none”, color:”#fff”, padding:“10px 16px”, fontFamily:”‘Jost’,sans-serif”, fontSize:12, fontWeight:600, cursor:“pointer” }}>
+}} style={{ background: C.orange, border: "none", color: "#fff", padding: "10px 16px", fontFamily: "'Jost', sans-serif", fontSize: 12, fontWeight: 600, cursor: "pointer" }}>
 Envoyer
 </button>
 </div>
 </div>
 )
 ) : (
-<div style={{ fontSize:12, color:C.green, padding:“10px 0” }}>✓ Demande envoyée — Un conseiller vous contactera sous 48h.</div>
+<div style={{ fontSize: 12, color: C.green, padding: "10px 0" }}>✓ Demande envoyée — Un conseiller vous contactera sous 48h.</div>
 )}
 </div>
 );
 
 // Niveau 1 — INFORMATION (discret)
 if (alertLevel === ALERT_LEVELS.INFO) return (
-<div style={{ background:”#0A0C08”, border:“1px solid #C9A84C22”, padding:“12px 16px”, marginBottom:16 }}>
-<div style={{ fontSize:11, color:C.muted, lineHeight:1.6 }}>
+<div style={{ background: "#0A0C08", border: "1px solid #C9A84C22", padding: "12px 16px", marginBottom: 16 }}>
+<div style={{ fontSize: 11, color: C.muted, lineHeight: 1.6 }}>
 ◈ Certaines dimensions de votre bilan méritent une attention régulière. Le programme mensuel abonné vous permettra de suivre votre progression sur 12 mois.
 </div>
 </div>
@@ -1412,9 +1412,9 @@ return null;
 // ─── COMPOSANT : TÉMOIGNAGES AUTO-GÉNÉRÉS ────────────────────────────────────
 function TestimonialsModal({ clientName, gp, profil, patternScores, scores, onClose }) {
 const [loading, setLoading] = useState(true);
-const [versions, setVersions] = useState({ v1:””, v2:””, v3:”” });
+const [versions, setVersions] = useState({ v1: "", v2: "", v3: "" });
 const [selected, setSelected] = useState(null);
-const [edited, setEdited] = useState(””);
+const [edited, setEdited] = useState("");
 const [shared, setShared] = useState(false);
 
 useEffect(() => {
@@ -1422,57 +1422,55 @@ useEffect(() => {
 const prompt = buildTestimonialsPrompt(clientName, profil, gp, patternScores, scores);
 try {
 const text = await edenAI({ prompt });
-const v1 = text.match(/VERSION_1:[\s\S]*?(.+?)(?=VERSION_2:|$)/)?.[1]?.trim() || “”;
-const v2 = text.match(/VERSION_2:[\s\S]*?(.+?)(?=VERSION_3:|$)/)?.[1]?.trim() || “”;
-const v3 = text.match(/VERSION_3:[\s\S]*?(.+?)$/)?.[1]?.trim() || “”;
+const v1 = text.match(/VERSION_1:[\s\S]*?(.+?)(?=VERSION_2:|$)/)?.[1]?.trim() || "";
+const v2 = text.match(/VERSION_2:[\s\S]*?(.+?)(?=VERSION_3:|$)/)?.[1]?.trim() || "";
+const v3 = text.match(/VERSION_3:[\s\S]*?(.+?)$/)?.[1]?.trim() || "";
 setVersions({ v1, v2, v3 });
-} catch { setVersions({ v1:“Le bilan m’a permis de nommer ce que je vivais sans pouvoir le dire.”, v2:””, v3:”” }); }
+} catch { setVersions({ v1: "Le bilan m'a permis de nommer ce que je vivais sans pouvoir le dire.", v2: "", v3: "" }); }
 setLoading(false);
 })();
 }, []);
 
-const labels = [“Le choc de reconnaissance”,“Le déclic émotionnel”,“Le résultat concret”];
+const labels = ["Le choc de reconnaissance", "Le déclic émotionnel", "Le résultat concret"];
 const vList = [versions.v1, versions.v2, versions.v3];
 
 const handleShare = () => {
-const msg = `”${edited || vList[selected]}”
-
-— ${clientName.charAt(0)}., Bilan Eden 360°
-academie-eden.com`; window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`);
+const msg = `"${edited || vList[selected]}" — ${clientName.charAt(0)}., Bilan Eden 360° academie-eden.com`;
+window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`);
 setShared(true);
 };
 
 return (
-<div style={{ position:“fixed”, inset:0, background:”#000000EE”, zIndex:400, display:“flex”, alignItems:“center”, justifyContent:“center”, padding:20 }}>
-<div style={{ background:”#0D1018”, border:“1px solid #C9A84C44”, maxWidth:500, width:“100%”, padding:“28px 24px”, maxHeight:“90vh”, overflowY:“auto” }}>
-<div style={{ fontSize:9, letterSpacing:”.26em”, textTransform:“uppercase”, color:C.gold, marginBottom:12 }}>◈ Votre témoignage</div>
-<div style={{ fontFamily:”‘Cormorant Garamond’,serif”, fontSize:20, color:”#F0EBE0”, marginBottom:8 }}>Partagez votre expérience</div>
-<p style={{ fontSize:12, color:C.muted, lineHeight:1.7, marginBottom:20 }}>
-Votre parcours peut aider d’autres personnes à faire le premier pas. Choisissez la version qui vous ressemble le plus — vous pouvez la modifier avant de partager.
+<div style={{ position: "fixed", inset: 0, background: "#000000EE", zIndex: 400, display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}>
+<div style={{ background: "#0D1018", border: "1px solid #C9A84C44", maxWidth: 500, width: "100%", padding: "28px 24px", maxHeight: "90vh", overflowY: "auto" }}>
+<div style={{ fontSize: 9, letterSpacing: ".26em", textTransform: "uppercase", color: C.gold, marginBottom: 12 }}>◈ Votre témoignage</div>
+<div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 20, color: "#F0EBE0", marginBottom: 8 }}>Partagez votre expérience</div>
+<p style={{ fontSize: 12, color: C.muted, lineHeight: 1.7, marginBottom: 20 }}>
+Votre parcours peut aider d'autres personnes à faire le premier pas. Choisissez la version qui vous ressemble le plus — vous pouvez la modifier avant de partager.
 </p>
 {loading ? (
-<div style={{ textAlign:“center”, padding:“24px 0” }}>
-<div className=“loading-ring” style={{ margin:“0 auto 12px” }} />
-<div style={{ fontSize:12, color:C.muted }}>Génération de vos témoignages…</div>
+<div style={{ textAlign: "center", padding: "24px 0" }}>
+<div className="loading-ring" style={{ margin: "0 auto 12px" }} />
+<div style={{ fontSize: 12, color: C.muted }}>Génération de vos témoignages…</div>
 </div>
 ) : (
 <div>
 {vList.filter(v=>v).map((v, i) => (
-<div key={i} onClick={() => { setSelected(i); setEdited(v); }} style={{ background:selected===i?”#0A1208”:”#080C10”, border:`1px solid ${selected===i?"#4A9B6A":"#1E2330"}`, padding:“14px 16px”, marginBottom:10, cursor:“pointer”, transition:“all .2s” }}>
-<div style={{ fontSize:9, color:selected===i?C.green:C.dim, letterSpacing:”.16em”, textTransform:“uppercase”, marginBottom:6 }}>{labels[i]}</div>
-<div style={{ fontSize:13, color:selected===i?”#F0EBE0”:C.muted, lineHeight:1.7, fontStyle:“italic” }}>« {v} »</div>
+<div key={i} onClick={() => { setSelected(i); setEdited(v); }} style={{ background: selected===i ? "#0A1208" : "#080C10", border: `1px solid ${selected===i ? "#4A9B6A" : "#1E2330"}`, padding: "14px 16px", marginBottom: 10, cursor: "pointer", transition: "all .2s" }}>
+<div style={{ fontSize: 9, color: selected===i ? C.green : C.dim, letterSpacing: ".16em", textTransform: "uppercase", marginBottom: 6 }}>{labels[i]}</div>
+<div style={{ fontSize: 13, color: selected===i ? "#F0EBE0" : C.muted, lineHeight: 1.7, fontStyle: "italic" }}>« {v} »</div>
 </div>
 ))}
 {selected !== null && (
-<div style={{ marginTop:16 }}>
-<div style={{ fontSize:10, color:C.gold, letterSpacing:”.14em”, textTransform:“uppercase”, marginBottom:8 }}>Modifier si souhaité</div>
-<textarea className=“ta” value={edited} onChange={e=>setEdited(e.target.value)} style={{ minHeight:80 }} />
+<div style={{ marginTop: 16 }}>
+<div style={{ fontSize: 10, color: C.gold, letterSpacing: ".14em", textTransform: "uppercase", marginBottom: 8 }}>Modifier si souhaité</div>
+<textarea className="ta" value={edited} onChange={e=>setEdited(e.target.value)} style={{ minHeight: 80 }} />
 </div>
 )}
-<div style={{ display:“flex”, gap:8, marginTop:16 }}>
-<button onClick={onClose} style={{ flex:1, background:“transparent”, border:“1px solid #1E2330”, color:C.dim, padding:“11px”, fontFamily:”‘Jost’,sans-serif”, fontSize:11, cursor:“pointer” }}>Fermer</button>
-<button onClick={handleShare} disabled={selected===null} style={{ flex:2, background:selected!==null?”#25D366”:”#1E2330”, border:“none”, color:”#fff”, padding:“11px”, fontFamily:”‘Jost’,sans-serif”, fontSize:12, fontWeight:600, cursor:selected!==null?“pointer”:“not-allowed” }}>
-{shared ? “✓ Partagé” : “Partager sur WhatsApp”}
+<div style={{ display: "flex", gap: 8, marginTop: 16 }}>
+<button onClick={onClose} style={{ flex: 1, background: "transparent", border: "1px solid #1E2330", color: C.dim, padding: "11px", fontFamily: "'Jost', sans-serif", fontSize: 11, cursor: "pointer" }}>Fermer</button>
+<button onClick={handleShare} disabled={selected===null} style={{ flex: 2, background: selected!==null ? "#25D366" : "#1E2330", border: "none", color: "#fff", padding: "11px", fontFamily: "'Jost', sans-serif", fontSize: 12, fontWeight: 600, cursor: selected!==null ? "pointer" : "not-allowed" }}>
+{shared ? "✓ Partagé" : "Partager sur WhatsApp"}
 </button>
 </div>
 </div>
@@ -1485,16 +1483,16 @@ Votre parcours peut aider d’autres personnes à faire le premier pas. Choisiss
 // ─── COMPOSANT : RAPPORT INTERNE CONSEILLER ──────────────────────────────────
 // Protégé par mot de passe + téléchargeable en PDF
 function InternalReportModal({ clientName, profil, genre, role, annees, enfants, scores, opens, patternScores, gp, rawAns, alertLevel, onClose }) {
-const [step, setStep] = useState(“auth”); // auth | loading | report
-const [pwd, setPwd] = useState(””);
-const [pwdErr, setPwdErr] = useState(””);
-const [reportText, setReportText] = useState(””);
+const [step, setStep] = useState("auth"); // auth | loading | report
+const [pwd, setPwd] = useState("");
+const [pwdErr, setPwdErr] = useState("");
+const [reportText, setReportText] = useState("");
 const [generating, setGenerating] = useState(false);
 const reportRef = useRef(null);
 
 const authenticate = () => {
-if (pwd === INTERNAL_REPORT_PASSWORD) { setStep(“loading”); generateInternalReport(); }
-else setPwdErr(“Mot de passe incorrect.”);
+if (pwd === INTERNAL_REPORT_PASSWORD) { setStep("loading"); generateInternalReport(); }
+else setPwdErr("Mot de passe incorrect.");
 };
 
 const generateInternalReport = async () => {
@@ -1502,25 +1500,23 @@ setGenerating(true);
 const prompt = buildInternalReportPrompt(clientName, profil, genre, role, annees, enfants, scores, opens, patternScores, gp, rawAns, alertLevel);
 try {
 const text2 = await edenAI({ prompt });
-setReportText(text2 || “Erreur de génération.”);
-} catch { setReportText(“Erreur de connexion. Vérifiez le backend.”); }
+setReportText(text2 || "Erreur de génération.");
+} catch { setReportText("Erreur de connexion. Vérifiez le backend."); }
 setGenerating(false);
-setStep(“report”);
+setStep("report");
 };
 
 // Export PDF via impression navigateur (sans dépendance)
 const handlePrintPDF = () => {
-const printWin = window.open(””, “_blank”);
-const urgenceLabel = alertLevel >= ALERT_LEVELS.CRISE ? “🔴 CRISE” : alertLevel >= ALERT_LEVELS.VIGILANCE ? “🟠 VIGILANCE” : alertLevel >= ALERT_LEVELS.INFO ? “🟡 INFO” : “🟢 STABLE”;
-const scoresHtml = Object.entries(scores).map(([,v]) => `<tr><td>${v.label}</td><td style="text-align:center;font-weight:bold;color:${v.p>=65?"#2D6A4F":v.p>=50?"#8B6914":v.p>=35?"#C0784A":"#C0614A"}">${v.p}/100</td><td>${v.lv.l}</td></tr>`).join(””);
-const patternsHtml = Object.entries(patternScores||{}).filter(([,v])=>v>40).map(([k,v]) => `<tr><td><strong>${k}</strong></td><td style="text-align:center">${v}/100</td><td>${ARCHETYPES[k]?.titre||""}</td><td style="font-size:11px;color:#555">${ARCHETYPES[k]?.mecanisme?.slice(0,150)||""}...</td></tr>`).join(””);
-const opensHtml = opens.filter(o=>o.ans?.trim()).map(o=>`<tr><td style="font-size:11px;color:#555">${o.q}</td><td style="font-size:12px">${o.ans}</td></tr>`).join(””);
-const reportHtml = reportText.replace(/**([^*]+)**/g, “<strong>$1</strong>”).replace(/
-/g, “<br>”);
-printWin.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8"><title>Rapport Interne — ${clientName}</title><style> body{font-family:Arial,sans-serif;font-size:13px;color:#222;margin:0;padding:0} .page{max-width:700px;margin:0 auto;padding:32px} h1{font-size:22px;color:#0B0F1A;border-bottom:3px solid #C9A84C;padding-bottom:8px} h2{font-size:16px;color:#0B0F1A;margin-top:28px;margin-bottom:10px;background:#F5F3EE;padding:8px 12px} table{width:100%;border-collapse:collapse;margin-bottom:16px} td,th{border:1px solid #ddd;padding:7px 10px;vertical-align:top} th{background:#0B0F1A;color:#C9A84C;font-weight:bold;font-size:12px} .badge-crise{background:#C0614A;color:#fff;padding:3px 10px;font-weight:bold} .badge-vigilance{background:#C0784A;color:#fff;padding:3px 10px;font-weight:bold} .badge-info{background:#C9A84C;color:#0B0F1A;padding:3px 10px;font-weight:bold} .badge-stable{background:#4A9B6A;color:#fff;padding:3px 10px;font-weight:bold} .report-body{line-height:1.9;background:#FAFAF8;padding:16px;border-left:4px solid #C9A84C} .confidential{background:#0B0F1A;color:#C9A84C;text-align:center;padding:10px;font-size:11px;letter-spacing:.2em} @media print{.no-print{display:none}} </style></head><body> <div class="confidential">CONFIDENTIEL — USAGE INTERNE ACADÉMIE EDEN — NE PAS PARTAGER AVEC LE CLIENT</div> <div class="page"> <h1>Rapport Interne Conseiller</h1> <table><tr><th colspan="2">Fiche Signalétique</th></tr> <tr><td><strong>Client</strong></td><td>${clientName}</td></tr> <tr><td><strong>Profil</strong></td><td>${profil === "marie" ? "Marié(e)" : profil === "fiance" ? "Fiancé(e)" : "Célibataire"}${genre?" · "+genre:""}${role?" · "+role:""}</td></tr> <tr><td><strong>Score global</strong></td><td><strong>${gp}/100</strong></td></tr> <tr><td><strong>Urgence</strong></td><td><span class="${alertLevel>=ALERT_LEVELS.CRISE?"badge-crise":alertLevel>=ALERT_LEVELS.VIGILANCE?"badge-vigilance":alertLevel>=ALERT_LEVELS.INFO?"badge-info":"badge-stable"}">${urgenceLabel}</span></td></tr> <tr><td><strong>Date du bilan</strong></td><td>${new Date().toLocaleDateString("fr-FR",{day:"numeric",month:"long",year:"numeric"})}</td></tr> ${annees?`<tr><td><strong>Années mariage</strong></td><td>${annees} ans</td></tr>`:""} ${enfants?`<tr><td><strong>Enfants</strong></td><td>${enfants}</td></tr>`:””}
+const printWin = window.open("", "_blank");
+const urgenceLabel = alertLevel >= ALERT_LEVELS.CRISE ? "🔴 CRISE" : alertLevel >= ALERT_LEVELS.VIGILANCE ? "🟠 VIGILANCE" : alertLevel >= ALERT_LEVELS.INFO ? "🟡 INFO" : "🟢 STABLE";
+const scoresHtml = Object.entries(scores).map(([,v]) => `<tr><td>${v.label}</td><td style="text-align:center;font-weight:bold;color:${v.p>=65?"#2D6A4F":v.p>=50?"#8B6914":v.p>=35?"#C0784A":"#C0614A"}">${v.p}/100</td><td>${v.lv.l}</td></tr>`).join("");
+const patternsHtml = Object.entries(patternScores||{}).filter(([,v])=>v>40).map(([k,v]) => `<tr><td><strong>${k}</strong></td><td style="text-align:center">${v}/100</td><td>${ARCHETYPES[k]?.titre||""}</td><td style="font-size:11px;color:#555">${ARCHETYPES[k]?.mecanisme?.slice(0,150)||""}...</td></tr>`).join("");
+const opensHtml = opens.filter(o=>o.ans?.trim()).map(o=>`<tr><td style="font-size:11px;color:#555">${o.q}</td><td style="font-size:12px">${o.ans}</td></tr>`).join("");
+const reportHtml = reportText.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>").replace(/\n/g, "<br>");
+printWin.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8"><title>Rapport Interne — ${clientName}</title><style> body{font-family:Arial,sans-serif;font-size:13px;color:#222;margin:0;padding:0} .page{max-width:700px;margin:0 auto;padding:32px} h1{font-size:22px;color:#0B0F1A;border-bottom:3px solid #C9A84C;padding-bottom:8px} h2{font-size:16px;color:#0B0F1A;margin-top:28px;margin-bottom:10px;background:#F5F3EE;padding:8px 12px} table{width:100%;border-collapse:collapse;margin-bottom:16px} td,th{border:1px solid #ddd;padding:7px 10px;vertical-align:top} th{background:#0B0F1A;color:#C9A84C;font-weight:bold;font-size:12px} .badge-crise{background:#C0614A;color:#fff;padding:3px 10px;font-weight:bold} .badge-vigilance{background:#C0784A;color:#fff;padding:3px 10px;font-weight:bold} .badge-info{background:#C9A84C;color:#0B0F1A;padding:3px 10px;font-weight:bold} .badge-stable{background:#4A9B6A;color:#fff;padding:3px 10px;font-weight:bold} .report-body{line-height:1.9;background:#FAFAF8;padding:16px;border-left:4px solid #C9A84C} .confidential{background:#0B0F1A;color:#C9A84C;text-align:center;padding:10px;font-size:11px;letter-spacing:.2em} @media print{.no-print{display:none}} </style></head><body> <div class="confidential">CONFIDENTIEL — USAGE INTERNE ACADÉMIE EDEN — NE PAS PARTAGER AVEC LE CLIENT</div> <div class="page"> <h1>Rapport Interne Conseiller</h1> <table><tr><th colspan="2">Fiche Signalétique</th></tr> <tr><td><strong>Client</strong></td><td>${clientName}</td></tr> <tr><td><strong>Profil</strong></td><td>${profil === "marie" ? "Marié(e)" : profil === "fiance" ? "Fiancé(e)" : "Célibataire"}${genre?" · "+genre:""}${role?" · "+role:""}</td></tr> <tr><td><strong>Score global</strong></td><td><strong>${gp}/100</strong></td></tr> <tr><td><strong>Urgence</strong></td><td><span class="${alertLevel>=ALERT_LEVELS.CRISE?"badge-crise":alertLevel>=ALERT_LEVELS.VIGILANCE?"badge-vigilance":alertLevel>=ALERT_LEVELS.INFO?"badge-info":"badge-stable"}">${urgenceLabel}</span></td></tr> <tr><td><strong>Date du bilan</strong></td><td>${new Date().toLocaleDateString("fr-FR",{day:"numeric",month:"long",year:"numeric"})}</td></tr> ${annees?`<tr><td><strong>Années mariage</strong></td><td>${annees} ans</td></tr>`:""} ${enfants?`<tr><td><strong>Enfants</strong></td><td>${enfants}</td></tr>`:""}
 </table>
 
-```
   <h2>Scores par Dimension</h2>
   <table><tr><th>Dimension</th><th>Score</th><th>Niveau</th></tr>${scoresHtml}</table>
 
@@ -1537,91 +1533,91 @@ printWin.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8"><title
 </body></html>`);
 printWin.document.close();
 setTimeout(() => printWin.print(), 500);
-```
+};
 
 };
 
 // ── Auth ──
-if (step === “auth”) return (
-<div style={{ position:“fixed”, inset:0, background:”#000000F2”, zIndex:500, display:“flex”, alignItems:“center”, justifyContent:“center”, padding:20 }}>
-<div style={{ background:”#0D1018”, border:“1px solid #1E2330”, maxWidth:400, width:“100%”, padding:“28px 24px” }}>
-<div style={{ fontSize:9, letterSpacing:”.24em”, textTransform:“uppercase”, color:C.dim, marginBottom:12 }}>◈ Rapport Interne — Accès Équipe</div>
-<div style={{ fontFamily:”‘Cormorant Garamond’,serif”, fontSize:20, color:”#F0EBE0”, marginBottom:16 }}>Accès Conseiller</div>
-<p style={{ fontSize:12, color:C.muted, lineHeight:1.6, marginBottom:20 }}>Ce rapport est réservé à l’équipe Eden. Mot de passe requis.</p>
-<input className=“inp” type=“password” placeholder=“Mot de passe conseiller” value={pwd} onChange={e=>{setPwd(e.target.value);setPwdErr(””);}} onKeyDown={e=>e.key===“Enter”&&authenticate()} />
-{pwdErr && <div style={{ fontSize:11, color:C.red, marginBottom:8 }}>{pwdErr}</div>}
-<div style={{ display:“flex”, gap:8, marginTop:8 }}>
-<button onClick={onClose} style={{ flex:1, background:“transparent”, border:“1px solid #1E2330”, color:C.dim, padding:“11px”, fontFamily:”‘Jost’,sans-serif”, fontSize:11, cursor:“pointer” }}>Annuler</button>
-<button onClick={authenticate} style={{ flex:2, background:C.gold, border:“none”, color:”#0B0F1A”, padding:“11px”, fontFamily:”‘Jost’,sans-serif”, fontSize:12, fontWeight:600, cursor:“pointer” }}>Accéder →</button>
+if (step === "auth") return (
+<div style={{ position: "fixed", inset: 0, background: "#000000F2", zIndex: 500, display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}>
+<div style={{ background: "#0D1018", border: "1px solid #1E2330", maxWidth: 400, width: "100%", padding: "28px 24px" }}>
+<div style={{ fontSize: 9, letterSpacing: ".24em", textTransform: "uppercase", color: C.dim, marginBottom: 12 }}>◈ Rapport Interne — Accès Équipe</div>
+<div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 20, color: "#F0EBE0", marginBottom: 16 }}>Accès Conseiller</div>
+<p style={{ fontSize: 12, color: C.muted, lineHeight: 1.6, marginBottom: 20 }}>Ce rapport est réservé à l'équipe Eden. Mot de passe requis.</p>
+<input className="inp" type="password" placeholder="Mot de passe conseiller" value={pwd} onChange={e=>{setPwd(e.target.value);setPwdErr("");}} onKeyDown={e=>e.key==="Enter"&&authenticate()} />
+{pwdErr && <div style={{ fontSize: 11, color: C.red, marginBottom: 8 }}>{pwdErr}</div>}
+<div style={{ display: "flex", gap: 8, marginTop: 8 }}>
+<button onClick={onClose} style={{ flex: 1, background: "transparent", border: "1px solid #1E2330", color: C.dim, padding: "11px", fontFamily: "'Jost', sans-serif", fontSize: 11, cursor: "pointer" }}>Annuler</button>
+<button onClick={authenticate} style={{ flex: 2, background: C.gold, border: "none", color: "#0B0F1A", padding: "11px", fontFamily: "'Jost', sans-serif", fontSize: 12, fontWeight: 600, cursor: "pointer" }}>Accéder →</button>
 </div>
 </div>
 </div>
 );
 
 // ── Loading ──
-if (step === “loading”) return (
-<div style={{ position:“fixed”, inset:0, background:”#000000F2”, zIndex:500, display:“flex”, alignItems:“center”, justifyContent:“center”, flexDirection:“column”, gap:16 }}>
+if (step === "loading") return (
+<div style={{ position: "fixed", inset: 0, background: "#000000F2", zIndex: 500, display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", gap: 16 }}>
 <div className="loading-ring" />
-<div style={{ fontSize:12, color:C.muted }}>Génération du rapport interne conseiller…</div>
+<div style={{ fontSize: 12, color: C.muted }}>Génération du rapport interne conseiller…</div>
 </div>
 );
 
 // ── Rapport ──
 const reportSections = parseReport(reportText);
 return (
-<div style={{ position:“fixed”, inset:0, background:”#000000F2”, zIndex:500, display:“flex”, alignItems:“center”, justifyContent:“center”, padding:20 }}>
-<div ref={reportRef} style={{ background:”#0D1018”, border:“1px solid #C9A84C33”, maxWidth:620, width:“100%”, maxHeight:“92vh”, overflowY:“auto” }}>
+<div style={{ position: "fixed", inset: 0, background: "#000000F2", zIndex: 500, display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}>
+<div ref={reportRef} style={{ background: "#0D1018", border: "1px solid #C9A84C33", maxWidth: 620, width: "100%", maxHeight: "92vh", overflowY: "auto" }}>
 {/* Header */}
-<div style={{ background:”#080C10”, borderBottom:“1px solid #1E2330”, padding:“16px 20px”, position:“sticky”, top:0, zIndex:2, display:“flex”, justifyContent:“space-between”, alignItems:“center” }}>
+<div style={{ background: "#080C10", borderBottom: "1px solid #1E2330", padding: "16px 20px", position: "sticky", top: 0, zIndex: 2, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
 <div>
-<div style={{ fontSize:8, letterSpacing:”.24em”, textTransform:“uppercase”, color:C.red, marginBottom:4 }}>🔒 CONFIDENTIEL — USAGE INTERNE UNIQUEMENT</div>
-<div style={{ fontSize:14, color:”#F0EBE0”, fontWeight:600 }}>Rapport Conseiller — {clientName}</div>
+<div style={{ fontSize: 8, letterSpacing: ".24em", textTransform: "uppercase", color: C.red, marginBottom: 4 }}>🔒 CONFIDENTIEL — USAGE INTERNE UNIQUEMENT</div>
+<div style={{ fontSize: 14, color: "#F0EBE0", fontWeight: 600 }}>Rapport Conseiller — {clientName}</div>
 </div>
-<div style={{ display:“flex”, gap:8 }}>
-<button onClick={handlePrintPDF} style={{ background:C.gold, border:“none”, color:”#0B0F1A”, padding:“8px 14px”, fontFamily:”‘Jost’,sans-serif”, fontSize:11, fontWeight:600, cursor:“pointer” }}>⬇ PDF</button>
-<button onClick={onClose} style={{ background:“transparent”, border:“1px solid #1E2330”, color:C.dim, padding:“8px 12px”, fontFamily:”‘Jost’,sans-serif”, fontSize:11, cursor:“pointer” }}>✕</button>
+<div style={{ display: "flex", gap: 8 }}>
+<button onClick={handlePrintPDF} style={{ background: C.gold, border: "none", color: "#0B0F1A", padding: "8px 14px", fontFamily: "'Jost', sans-serif", fontSize: 11, fontWeight: 600, cursor: "pointer" }}>⬇ PDF</button>
+<button onClick={onClose} style={{ background: "transparent", border: "1px solid #1E2330", color: C.dim, padding: "8px 12px", fontFamily: "'Jost', sans-serif", fontSize: 11, cursor: "pointer" }}>✕</button>
 </div>
 </div>
-<div style={{ padding:“20px” }}>
+<div style={{ padding: "20px" }}>
 {/* Fiche signalétique */}
-<div style={{ background:”#080C10”, border:“1px solid #1E2330”, padding:“14px 16px”, marginBottom:20 }}>
-<div style={{ fontSize:9, color:C.gold, letterSpacing:”.18em”, textTransform:“uppercase”, marginBottom:10 }}>Fiche Signalétique</div>
-<div style={{ display:“grid”, gridTemplateColumns:“1fr 1fr”, gap:“6px 20px” }}>
+<div style={{ background: "#080C10", border: "1px solid #1E2330", padding: "14px 16px", marginBottom: 20 }}>
+<div style={{ fontSize: 9, color: C.gold, letterSpacing: ".18em", textTransform: "uppercase", marginBottom: 10 }}>Fiche Signalétique</div>
+<div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "6px 20px" }}>
 {[
-[“Client”, clientName],
-[“Profil”, profil===“marie”?“Marié(e)”:profil===“fiance”?“Fiancé(e)”:“Célibataire”],
-[“Score global”, `${gp}/100`],
-[“Urgence”, alertLevel>=ALERT_LEVELS.CRISE?“🔴 CRISE”:alertLevel>=ALERT_LEVELS.VIGILANCE?“🟠 VIGILANCE”:alertLevel>=ALERT_LEVELS.INFO?“🟡 INFO”:“🟢 STABLE”],
-[“Date”, new Date().toLocaleDateString(“fr-FR”,{day:“numeric”,month:“long”,year:“numeric”})],
-[“Rôle”, role||“N/A”],
+["Client", clientName],
+["Profil", profil==="marie"?"Marié(e)":profil==="fiance"?"Fiancé(e)":"Célibataire"],
+["Score global", `${gp}/100`],
+["Urgence", alertLevel>=ALERT_LEVELS.CRISE?"🔴 CRISE":alertLevel>=ALERT_LEVELS.VIGILANCE?"🟠 VIGILANCE":alertLevel>=ALERT_LEVELS.INFO?"🟡 INFO":"🟢 STABLE"],
+["Date", new Date().toLocaleDateString("fr-FR",{day:"numeric",month:"long",year:"numeric"})],
+["Rôle", role||"N/A"],
 ].map(([k,v]) => <div key={k}><span style={{fontSize:10,color:C.dim}}>{k} : </span><span style={{fontSize:12,color:C.text,fontWeight:600}}>{v}</span></div>)}
 </div>
 </div>
 {/* Scores */}
-<div style={{ marginBottom:16 }}>
-<div style={{ fontSize:9, color:C.gold, letterSpacing:”.18em”, textTransform:“uppercase”, marginBottom:8 }}>Scores par Dimension</div>
+<div style={{ marginBottom: 16 }}>
+<div style={{ fontSize: 9, color: C.gold, letterSpacing: ".18em", textTransform: "uppercase", marginBottom: 8 }}>Scores par Dimension</div>
 {Object.entries(scores).map(([,v]) => (
-<div key={v.label} style={{ display:“flex”, alignItems:“center”, gap:8, marginBottom:5 }}>
-<div style={{ fontSize:11, color:C.muted, width:160, flexShrink:0 }}>{v.label}</div>
-<div style={{ flex:1, height:4, background:”#1E2330” }}><div style={{ width:`${v.p}%`, height:“100%”, background:v.p>=65?C.green:v.p>=50?C.gold:v.p>=35?C.orange:C.red }} /></div>
-<div style={{ fontSize:11, color:v.lv.c, width:50, textAlign:“right”, fontWeight:600 }}>{v.p}/100</div>
+<div key={v.label} style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 5 }}>
+<div style={{ fontSize: 11, color: C.muted, width: 160, flexShrink: 0 }}>{v.label}</div>
+<div style={{ flex: 1, height: 4, background: "#1E2330" }}><div style={{ width: `${v.p}%`, height: "100%", background: v.p>=65?C.green:v.p>=50?C.gold:v.p>=35?C.orange:C.red }} /></div>
+<div style={{ fontSize: 11, color: v.lv.c, width: 50, textAlign: "right", fontWeight: 600 }}>{v.p}/100</div>
 </div>
 ))}
 </div>
 {/* Patterns */}
 {Object.entries(patternScores||{}).filter(([,v])=>v>40).length > 0 && (
-<div style={{ marginBottom:16 }}>
-<div style={{ fontSize:9, color:C.gold, letterSpacing:”.18em”, textTransform:“uppercase”, marginBottom:8 }}>Patterns Détectés — Preuves</div>
+<div style={{ marginBottom: 16 }}>
+<div style={{ fontSize: 9, color: C.gold, letterSpacing: ".18em", textTransform: "uppercase", marginBottom: 8 }}>Patterns Détectés — Preuves</div>
 {Object.entries(patternScores||{}).filter(([,v])=>v>40).sort(([,a],[,b])=>b-a).map(([k,v]) => {
 const arch = ARCHETYPES[k];
 return (
-<div key={k} style={{ background:”#080C10”, border:`1px solid ${arch?.color||C.gold}33`, padding:“12px 14px”, marginBottom:8 }}>
-<div style={{ display:“flex”, justifyContent:“space-between”, marginBottom:4 }}>
-<div style={{ fontSize:13, color:arch?.color||C.gold, fontWeight:600 }}>{k} — {arch?.titre}</div>
-<div style={{ fontSize:11, color:arch?.color||C.gold }}>{v}/100</div>
+<div key={k} style={{ background: "#080C10", border: `1px solid ${arch?.color||C.gold}33`, padding: "12px 14px", marginBottom: 8 }}>
+<div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
+<div style={{ fontSize: 13, color: arch?.color||C.gold, fontWeight: 600 }}>{k} — {arch?.titre}</div>
+<div style={{ fontSize: 11, color: arch?.color||C.gold }}>{v}/100</div>
 </div>
-<div style={{ fontSize:11, color:C.muted, lineHeight:1.6 }}>{arch?.mecanisme?.slice(0,200)}…</div>
-<div style={{ fontSize:10, color:C.dim, marginTop:4, fontStyle:“italic” }}>{arch?.ref} · {arch?.orientation?.slice(0,120)}</div>
+<div style={{ fontSize: 11, color: C.muted, lineHeight: 1.6 }}>{arch?.mecanisme?.slice(0,200)}…</div>
+<div style={{ fontSize: 10, color: C.dim, marginTop: 4, fontStyle: "italic" }}>{arch?.ref} · {arch?.orientation?.slice(0,120)}</div>
 </div>
 );
 })}
@@ -1629,27 +1625,27 @@ return (
 )}
 {/* Réponses ouvertes */}
 {opens.filter(o=>o.ans?.trim()).length > 0 && (
-<div style={{ marginBottom:16 }}>
-<div style={{ fontSize:9, color:C.gold, letterSpacing:”.18em”, textTransform:“uppercase”, marginBottom:8 }}>Réponses Ouvertes</div>
+<div style={{ marginBottom: 16 }}>
+<div style={{ fontSize: 9, color: C.gold, letterSpacing: ".18em", textTransform: "uppercase", marginBottom: 8 }}>Réponses Ouvertes</div>
 {opens.filter(o=>o.ans?.trim()).map((o,i) => (
-<div key={i} style={{ background:”#080C10”, border:“1px solid #1E2330”, padding:“10px 14px”, marginBottom:6 }}>
-<div style={{ fontSize:10, color:C.dim, marginBottom:4 }}>{o.q}</div>
-<div style={{ fontSize:13, color:C.text, lineHeight:1.7, fontStyle:“italic” }}>« {o.ans} »</div>
+<div key={i} style={{ background: "#080C10", border: "1px solid #1E2330", padding: "10px 14px", marginBottom: 6 }}>
+<div style={{ fontSize: 10, color: C.dim, marginBottom: 4 }}>{o.q}</div>
+<div style={{ fontSize: 13, color: C.text, lineHeight: 1.7, fontStyle: "italic" }}>« {o.ans} »</div>
 </div>
 ))}
 </div>
 )}
 {/* Rapport IA interne */}
-<div style={{ marginBottom:16 }}>
-<div style={{ fontSize:9, color:C.gold, letterSpacing:”.18em”, textTransform:“uppercase”, marginBottom:12 }}>Plan d’Action Conseiller</div>
+<div style={{ marginBottom: 16 }}>
+<div style={{ fontSize: 9, color: C.gold, letterSpacing: ".18em", textTransform: "uppercase", marginBottom: 12 }}>Plan d'Action Conseiller</div>
 {reportSections.map((s,i) => (
 s.title
-? <div key={i} style={{ fontFamily:”‘Cormorant Garamond’,serif”, fontSize:17, color:C.gold, margin:“18px 0 8px”, borderLeft:`3px solid ${C.gold}44`, paddingLeft:12 }}>{s.title}</div>
-: <div key={i} style={{ fontSize:13, color:C.text, lineHeight:1.9, whiteSpace:“pre-wrap”, marginBottom:10 }}>{s.body}</div>
+? <div key={i} style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 17, color: C.gold, margin: "18px 0 8px", borderLeft: `3px solid ${C.gold}44`, paddingLeft: 12 }}>{s.title}</div>
+: <div key={i} style={{ fontSize: 13, color: C.text, lineHeight: 1.9, whiteSpace: "pre-wrap", marginBottom: 10 }}>{s.body}</div>
 ))}
 </div>
-<div style={{ fontSize:9, color:C.dim, textAlign:“center”, padding:“12px 0”, borderTop:“1px solid #1E2330”, marginTop:16 }}>
-Académie Eden · Rapport confidentiel — Usage interne uniquement — {new Date().toLocaleDateString(“fr-FR”)}
+<div style={{ fontSize: 9, color: C.dim, textAlign: "center", padding: "12px 0", borderTop: "1px solid #1E2330", marginTop: 16 }}>
+Académie Eden · Rapport confidentiel — Usage interne uniquement — {new Date().toLocaleDateString("fr-FR")}
 </div>
 </div>
 </div>
@@ -1660,7 +1656,7 @@ Académie Eden · Rapport confidentiel — Usage interne uniquement — {new Dat
 // ─── COMPOSANT : PARTAGER RAPPORT AVEC CONSEILLER ──────────────────────────
 // Bouton avec consentement explicite + message WhatsApp formaté complet
 function ShareWithConseiller({ clientName, gp, profil, riskLevel, patterns, scores, sections }) {
-const [step, setStep] = useState(“closed”); // closed | consent | confirm | done
+const [step, setStep] = useState("closed"); // closed | consent | confirm | done
 const [consentGiven, setConsentGiven] = useState(false);
 const [includeScores, setIncludeScores] = useState(true);
 const [includePatterns, setIncludePatterns] = useState(true);
@@ -1671,10 +1667,10 @@ const activePatterns = Object.entries(patterns || {})
 .sort(([, a], [, b]) => b - a)
 .slice(0, 3);
 
-const profilLabel = profil === “marie” ? “Marié(e)” : profil === “fiance” ? “Fiancé(e)” : “Célibataire”;
+const profilLabel = profil === "marie" ? "Marié(e)" : profil === "fiance" ? "Fiancé(e)" : "Célibataire";
 
 // Trouver la phrase clé dans le rapport
-const phraseCle = sections?.find(s => (s.title||””).toUpperCase().includes(“PHRASE”) || (s.title||””).toUpperCase().includes(“CLÉ”))?.body || “”;
+const phraseCle = sections?.find(s => (s.title||"").toUpperCase().includes("PHRASE") || (s.title||"").toUpperCase().includes("CLÉ"))?.body || "";
 
 // Construire le message WhatsApp complet
 function buildShareMessage() {
@@ -1683,7 +1679,6 @@ msg += `Je partage mon rapport Bilan 360° pour accompagnement.\n\n`;
 msg += `► PROFIL : ${clientName} · ${profilLabel}\n`;
 msg += `► SCORE GLOBAL : ${gp}/100 — ${riskLevel?.l || ""}\n`;
 
-```
 if (includeScores && scores) {
   msg += `\n► SCORES PAR DIMENSION :\n`;
   Object.entries(scores).slice(0, 6).forEach(([, v]) => {
@@ -1707,61 +1702,59 @@ msg += `\n► CONSENTEMENT : Je consens explicitement au partage de ces données
 msg += `► DATE DE CONSENTEMENT : ${new Date().toLocaleDateString("fr-FR", { day:"numeric", month:"long", year:"numeric", hour:"2-digit", minute:"2-digit" })}\n\n`;
 msg += `Je souhaite aller plus loin avec un accompagnement.`;
 return msg;
-```
-
 }
 
-if (step === “closed”) return (
-<div style={{ background:”#0A1208”, border:“1px solid #4A9B6A33”, borderLeft:“3px solid #4A9B6A”, padding:“16px 20px”, marginBottom:16 }}>
-<div style={{ fontSize:9, color:”#4A9B6A”, letterSpacing:”.2em”, textTransform:“uppercase”, marginBottom:8 }}>◈ Partager avec le Conseiller</div>
-<p style={{ fontSize:12, color:C.muted, lineHeight:1.7, marginBottom:12 }}>
-Envoyez votre rapport complet à l’équipe Eden pour un accompagnement personnalisé. Vous choisissez ce que vous partagez.
+if (step === "closed") return (
+<div style={{ background: "#0A1208", border: "1px solid #4A9B6A33", borderLeft: "3px solid #4A9B6A", padding: "16px 20px", marginBottom: 16 }}>
+<div style={{ fontSize: 9, color: "#4A9B6A", letterSpacing: ".2em", textTransform: "uppercase", marginBottom: 8 }}>◈ Partager avec le Conseiller</div>
+<p style={{ fontSize: 12, color: C.muted, lineHeight: 1.7, marginBottom: 12 }}>
+Envoyez votre rapport complet à l'équipe Eden pour un accompagnement personnalisé. Vous choisissez ce que vous partagez.
 </p>
-<button onClick={() => setStep(“consent”)} style={{ background:”#4A9B6A”, border:“none”, color:”#fff”, padding:“11px 18px”, fontFamily:”‘Jost’,sans-serif”, fontSize:12, fontWeight:600, cursor:“pointer”, width:“100%” }}>
+<button onClick={() => setStep("consent")} style={{ background: "#4A9B6A", border: "none", color: "#fff", padding: "11px 18px", fontFamily: "'Jost', sans-serif", fontSize: 12, fontWeight: 600, cursor: "pointer", width: "100%" }}>
 Partager mon rapport avec un Conseiller →
 </button>
 </div>
 );
 
-if (step === “consent”) return (
-<div style={{ position:“fixed”, inset:0, background:”#000000EE”, zIndex:300, display:“flex”, alignItems:“center”, justifyContent:“center”, padding:20 }}>
-<div style={{ background:”#0D1018”, border:“1px solid #C9A84C44”, maxWidth:480, width:“100%”, padding:“28px 24px”, maxHeight:“90vh”, overflowY:“auto” }}>
-<div style={{ fontSize:9, letterSpacing:”.22em”, textTransform:“uppercase”, color:C.gold, marginBottom:12 }}>◈ Consentement de partage</div>
-<div style={{ fontFamily:”‘Cormorant Garamond’,serif”, fontSize:20, color:”#F0EBE0”, marginBottom:16, lineHeight:1.35 }}>
+if (step === "consent") return (
+<div style={{ position: "fixed", inset: 0, background: "#000000EE", zIndex: 300, display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}>
+<div style={{ background: "#0D1018", border: "1px solid #C9A84C44", maxWidth: 480, width: "100%", padding: "28px 24px", maxHeight: "90vh", overflowY: "auto" }}>
+<div style={{ fontSize: 9, letterSpacing: ".22em", textTransform: "uppercase", color: C.gold, marginBottom: 12 }}>◈ Consentement de partage</div>
+<div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 20, color: "#F0EBE0", marginBottom: 16, lineHeight: 1.35 }}>
 Choisissez ce que vous partagez
 </div>
-<p style={{ fontSize:12, color:C.muted, lineHeight:1.7, marginBottom:20 }}>
-Ces informations seront transmises à l’équipe de l’Académie Eden uniquement, pour vous accompagner dans votre démarche. Elles ne seront jamais partagées avec des tiers.
+<p style={{ fontSize: 12, color: C.muted, lineHeight: 1.7, marginBottom: 20 }}>
+Ces informations seront transmises à l'équipe de l'Académie Eden uniquement, pour vous accompagner dans votre démarche. Elles ne seront jamais partagées avec des tiers.
 </p>
 {/* Cases de consentement */}
 {[
-{ key:“scores”, label:“Mes scores par dimension”, sub:“Les 8-9 résultats chiffrés de mon bilan”, val:includeScores, set:setIncludeScores, required:false },
-{ key:“patterns”, label:“Les patterns relationnels détectés”, sub:“Les archétypes bibliques identifiés dans mon profil”, val:includePatterns, set:setIncludePatterns, required:false },
-{ key:“phrase”, label:“La phrase clé de mon rapport”, sub:“La phrase personnalisée générée par le Conseiller”, val:includeKeyPhrase, set:setIncludeKeyPhrase, required:false },
+{ key:"scores", label:"Mes scores par dimension", sub:"Les 8-9 résultats chiffrés de mon bilan", val:includeScores, set:setIncludeScores, required:false },
+{ key:"patterns", label:"Les patterns relationnels détectés", sub:"Les archétypes bibliques identifiés dans mon profil", val:includePatterns, set:setIncludePatterns, required:false },
+{ key:"phrase", label:"La phrase clé de mon rapport", sub:"La phrase personnalisée générée par le Conseiller", val:includeKeyPhrase, set:setIncludeKeyPhrase, required:false },
 ].map(item => (
-<div key={item.key} style={{ display:“flex”, gap:12, alignItems:“flex-start”, padding:“12px 14px”, background:”#080C14”, border:“1px solid #1E2330”, marginBottom:8, cursor:“pointer” }} onClick={() => item.set(!item.val)}>
-<div style={{ width:18, height:18, border:`1px solid ${item.val?"#C9A84C":"#2A2E3A"}`, background:item.val?”#C9A84C”:“transparent”, flexShrink:0, marginTop:2, display:“flex”, alignItems:“center”, justifyContent:“center”, fontSize:11, color:”#0B0F1A”, fontWeight:700 }}>
-{item.val ? “✓” : “”}
+<div key={item.key} style={{ display: "flex", gap: 12, alignItems: "flex-start", padding: "12px 14px", background: "#080C14", border: "1px solid #1E2330", marginBottom: 8, cursor: "pointer" }} onClick={() => item.set(!item.val)}>
+<div style={{ width: 18, height: 18, border: `1px solid ${item.val?"#C9A84C":"#2A2E3A"}`, background: item.val ? "#C9A84C" : "transparent", flexShrink: 0, marginTop: 2, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, color: "#0B0F1A", fontWeight: 700 }}>
+{item.val ? "✓" : ""}
 </div>
 <div>
-<div style={{ fontSize:13, color:item.val?”#F0EBE0”:C.muted }}>{item.label}</div>
-<div style={{ fontSize:11, color:C.dim, marginTop:2 }}>{item.sub}</div>
+<div style={{ fontSize: 13, color: item.val ? "#F0EBE0" : C.muted }}>{item.label}</div>
+<div style={{ fontSize: 11, color: C.dim, marginTop: 2 }}>{item.sub}</div>
 </div>
 </div>
 ))}
 {/* Consentement obligatoire */}
-<div style={{ display:“flex”, gap:12, alignItems:“flex-start”, padding:“12px 14px”, background:”#0A0C10”, border:`1px solid ${consentGiven?"#C9A84C44":"#1E2330"}`, marginBottom:20, cursor:“pointer”, marginTop:12 }} onClick={() => setConsentGiven(!consentGiven)}>
-<div style={{ width:18, height:18, border:`1px solid ${consentGiven?"#C9A84C":"#C0614A"}`, background:consentGiven?”#C9A84C”:“transparent”, flexShrink:0, marginTop:2, display:“flex”, alignItems:“center”, justifyContent:“center”, fontSize:11, color:”#0B0F1A”, fontWeight:700 }}>
-{consentGiven ? “✓” : “”}
+<div style={{ display: "flex", gap: 12, alignItems: "flex-start", padding: "12px 14px", background: "#0A0C10", border: `1px solid ${consentGiven?"#C9A84C44":"#1E2330"}`, marginBottom: 20, cursor: "pointer", marginTop: 12 }} onClick={() => setConsentGiven(!consentGiven)}>
+<div style={{ width: 18, height: 18, border: `1px solid ${consentGiven?"#C9A84C":"#C0614A"}`, background: consentGiven ? "#C9A84C" : "transparent", flexShrink: 0, marginTop: 2, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, color: "#0B0F1A", fontWeight: 700 }}>
+{consentGiven ? "✓" : ""}
 </div>
 <div>
-<div style={{ fontSize:12, color:consentGiven?”#F0EBE0”:C.muted, fontWeight:600 }}>Je consens au partage de ces informations avec l’équipe Eden</div>
-<div style={{ fontSize:11, color:C.dim, marginTop:2 }}>Obligatoire — Ces données sont traitées de façon confidentielle conformément aux conditions d’utilisation.</div>
+<div style={{ fontSize: 12, color: consentGiven ? "#F0EBE0" : C.muted, fontWeight: 600 }}>Je consens au partage de ces informations avec l'équipe Eden</div>
+<div style={{ fontSize: 11, color: C.dim, marginTop: 2 }}>Obligatoire — Ces données sont traitées de façon confidentielle conformément aux conditions d'utilisation.</div>
 </div>
 </div>
-<div style={{ display:“flex”, gap:8 }}>
-<button onClick={() => setStep(“closed”)} style={{ flex:1, background:“transparent”, border:“1px solid #1E2330”, color:C.dim, padding:“12px”, fontFamily:”‘Jost’,sans-serif”, fontSize:11, cursor:“pointer” }}>Annuler</button>
-<button onClick={() => { if(consentGiven) setStep(“confirm”); }} disabled={!consentGiven} style={{ flex:2, background:consentGiven?”#C9A84C”:”#1E2330”, border:“none”, color:consentGiven?”#0B0F1A”:”#3A3E4A”, padding:“12px”, fontFamily:”‘Jost’,sans-serif”, fontSize:12, fontWeight:600, cursor:consentGiven?“pointer”:“not-allowed” }}>
+<div style={{ display: "flex", gap: 8 }}>
+<button onClick={() => setStep("closed")} style={{ flex: 1, background: "transparent", border: "1px solid #1E2330", color: C.dim, padding: "12px", fontFamily: "'Jost', sans-serif", fontSize: 11, cursor: "pointer" }}>Annuler</button>
+<button onClick={() => { if(consentGiven) setStep("confirm"); }} disabled={!consentGiven} style={{ flex: 2, background: consentGiven ? "#C9A84C" : "#1E2330", border: "none", color: consentGiven ? "#0B0F1A" : "#3A3E4A", padding: "12px", fontFamily: "'Jost', sans-serif", fontSize: 12, fontWeight: 600, cursor: consentGiven ? "pointer" : "not-allowed" }}>
 Prévisualiser mon message →
 </button>
 </div>
@@ -1769,19 +1762,19 @@ Prévisualiser mon message →
 </div>
 );
 
-if (step === “confirm”) {
+if (step === "confirm") {
 const msg = buildShareMessage();
 return (
-<div style={{ position:“fixed”, inset:0, background:”#000000EE”, zIndex:300, display:“flex”, alignItems:“center”, justifyContent:“center”, padding:20 }}>
-<div style={{ background:”#0D1018”, border:“1px solid #4A9B6A44”, maxWidth:480, width:“100%”, padding:“28px 24px”, maxHeight:“90vh”, overflowY:“auto” }}>
-<div style={{ fontSize:9, letterSpacing:”.22em”, textTransform:“uppercase”, color:”#4A9B6A”, marginBottom:12 }}>◈ Prévisualisation du message</div>
-<div style={{ background:”#080C10”, border:“1px solid #1E2330”, padding:“14px”, marginBottom:20, borderRadius:2 }}>
-<div style={{ fontSize:12, color:C.text, lineHeight:1.8, whiteSpace:“pre-wrap”, fontFamily:“monospace” }}>{msg}</div>
+<div style={{ position: "fixed", inset: 0, background: "#000000EE", zIndex: 300, display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}>
+<div style={{ background: "#0D1018", border: "1px solid #4A9B6A44", maxWidth: 480, width: "100%", padding: "28px 24px", maxHeight: "90vh", overflowY: "auto" }}>
+<div style={{ fontSize: 9, letterSpacing: ".22em", textTransform: "uppercase", color: "#4A9B6A", marginBottom: 12 }}>◈ Prévisualisation du message</div>
+<div style={{ background: "#080C10", border: "1px solid #1E2330", padding: "14px", marginBottom: 20, borderRadius: 2 }}>
+<div style={{ fontSize: 12, color: C.text, lineHeight: 1.8, whiteSpace: "pre-wrap", fontFamily: "monospace" }}>{msg}</div>
 </div>
-<p style={{ fontSize:11, color:C.muted, lineHeight:1.6, marginBottom:16 }}>Ce message s’ouvrira dans WhatsApp, adressé à l’Académie Eden. Vous pouvez le modifier avant d’envoyer.</p>
-<div style={{ display:“flex”, gap:8 }}>
-<button onClick={() => setStep(“consent”)} style={{ flex:1, background:“transparent”, border:“1px solid #1E2330”, color:C.dim, padding:“12px”, fontFamily:”‘Jost’,sans-serif”, fontSize:11, cursor:“pointer” }}>← Modifier</button>
-<button onClick={() => { window.open(`https://wa.me/${WHATSAPP_NUM}?text=${encodeURIComponent(msg)}`); setStep(“done”); }} style={{ flex:2, background:”#25D366”, border:“none”, color:”#fff”, padding:“12px”, fontFamily:”‘Jost’,sans-serif”, fontSize:12, fontWeight:600, cursor:“pointer” }}>
+<p style={{ fontSize: 11, color: C.muted, lineHeight: 1.6, marginBottom: 16 }}>Ce message s'ouvrira dans WhatsApp, adressé à l'Académie Eden. Vous pouvez le modifier avant d'envoyer.</p>
+<div style={{ display: "flex", gap: 8 }}>
+<button onClick={() => setStep("consent")} style={{ flex: 1, background: "transparent", border: "1px solid #1E2330", color: C.dim, padding: "12px", fontFamily: "'Jost', sans-serif", fontSize: 11, cursor: "pointer" }}>← Modifier</button>
+<button onClick={() => { window.open(`https://wa.me/${WHATSAPP_NUM}?text=${encodeURIComponent(msg)}`); setStep("done"); }} style={{ flex: 2, background: "#25D366", border: "none", color: "#fff", padding: "12px", fontFamily: "'Jost', sans-serif", fontSize: 12, fontWeight: 600, cursor: "pointer" }}>
 Envoyer sur WhatsApp →
 </button>
 </div>
@@ -1790,10 +1783,10 @@ Envoyer sur WhatsApp →
 );
 }
 
-if (step === “done”) return (
-<div style={{ background:”#0A1208”, border:“1px solid #4A9B6A44”, borderLeft:“3px solid #4A9B6A”, padding:“16px 20px”, marginBottom:16 }}>
-<div style={{ fontSize:9, color:”#4A9B6A”, letterSpacing:”.2em”, textTransform:“uppercase”, marginBottom:8 }}>✓ Rapport partagé</div>
-<p style={{ fontSize:12, color:C.muted, lineHeight:1.7 }}>Votre rapport a été transmis à l’Académie Eden. Un Conseiller vous contactera sous 24-48h.</p>
+if (step === "done") return (
+<div style={{ background: "#0A1208", border: "1px solid #4A9B6A44", borderLeft: "3px solid #4A9B6A", padding: "16px 20px", marginBottom: 16 }}>
+<div style={{ fontSize: 9, color: "#4A9B6A", letterSpacing: ".2em", textTransform: "uppercase", marginBottom: 8 }}>✓ Rapport partagé</div>
+<p style={{ fontSize: 12, color: C.muted, lineHeight: 1.7 }}>Votre rapport a été transmis à l'Académie Eden. Un Conseiller vous contactera sous 24-48h.</p>
 </div>
 );
 
@@ -1802,22 +1795,21 @@ return null;
 
 function SmartWhatsAppCTA({ clientName, gp, profil, riskLevel, patterns }) {
 const activePatterns = Object.keys(patterns || {}).filter(p => (patterns[p] || 0) > 40).slice(0, 2);
-const urgency = gp < 40 ? “URGENCE” : gp < 55 ? “PRIORITÉ” : “SUIVI”;
-const formation = profil === “celibataire” ? “Eden Single” : profil === “fiance” ? “Eden Connexion” : gp < 45 ? “RESCUE 90 Jours” : “Les 12 Piliers”;
-const prefilledMessage = `Bonjour Académie Eden,\n\n[${urgency}] Je viens de compléter mon Bilan 360°.\n\n📊 Score global : ${gp}/100 — ${riskLevel?.l || ""}\n👤 Profil : ${profil === "marie" ? "Marié(e)" : profil === "fiance" ? "Fiancé(e)" : "Célibataire"}${activePatterns.length > 0 ? `\n⚠ Patterns identifiés : ${activePatterns.join(”, “)}` : ""}\n\nJe souhaite en savoir plus sur la formation "${formation}".\n\nMerci,\n${clientName}`;
+const urgency = gp < 40 ? "URGENCE" : gp < 55 ? "PRIORITÉ" : "SUIVI";
+const formation = profil === "celibataire" ? "Eden Single" : profil === "fiance" ? "Eden Connexion" : gp < 45 ? "RESCUE 90 Jours" : "Les 12 Piliers";
+const prefilledMessage = `Bonjour Académie Eden,\n\n[${urgency}] Je viens de compléter mon Bilan 360°.\n\n📊 Score global : ${gp}/100 — ${riskLevel?.l || ""}\n👤 Profil : ${profil === "marie" ? "Marié(e)" : profil === "fiance" ? "Fiancé(e)" : "Célibataire"}${activePatterns.length > 0 ? `\n⚠ Patterns identifiés : ${activePatterns.join(", ")}` : ""}\n\nJe souhaite en savoir plus sur la formation "${formation}".\n\nMerci,\n${clientName}`;
 const buttonColor = gp < 45 ? C.red : gp < 60 ? C.orange : C.green;
-const buttonLabel = gp < 45 ? “Intervention urgente — Contacter maintenant” : gp < 60 ? “Prendre rendez-vous avec Zady Zozoro” : “Confirmer mon inscription à la formation”;
+const buttonLabel = gp < 45 ? "Intervention urgente — Contacter maintenant" : gp < 60 ? "Prendre rendez-vous avec Zady Zozoro" : "Confirmer mon inscription à la formation";
 return (
-<div style={{ background:buttonColor+“12”, border:`1px solid ${buttonColor}44`, borderLeft:`4px solid ${buttonColor}`, padding:“20px 22px”, marginBottom:24 }}>
-<div style={{ fontSize:9, letterSpacing:”.2em”, textTransform:“uppercase”, color:buttonColor, marginBottom:10 }}>{gp < 45 ? “⚠ Protocole d’urgence” : “✦ Prochaine étape”}</div>
-<div style={{ fontFamily:”‘Cormorant Garamond’,serif”, fontSize:16, color:”#F0EBE0”, marginBottom:8, lineHeight:1.4 }}>Formation recommandée : <span style={{ color:buttonColor }}>{formation}</span></div>
-<p style={{ fontSize:12, color:C.muted, lineHeight:1.7, marginBottom:16 }}>Votre profil a été pré-analysé. En cliquant ci-dessous, Zady Zozoro reçoit directement votre résumé avant votre échange. <strong style={{ color:C.text }}>Vous n’avez rien à expliquer.</strong></p>
-<button onClick={() => window.open(`https://wa.me/${WHATSAPP_NUM}?text=${encodeURIComponent(prefilledMessage)}`)} style={{ background:buttonColor, border:“none”, color:”#fff”, padding:“14px 24px”, cursor:“pointer”, fontFamily:”‘Jost’,sans-serif”, fontSize:12, fontWeight:600, width:“100%”, letterSpacing:”.04em” }}>{buttonLabel}</button>
-{gp >= 45 && <div style={{ fontSize:10, color:”#4A5060”, marginTop:10, textAlign:“center” }}>Le montant du bilan (25 000 FCFA) est déduit du prix de la formation</div>}
+<div style={{ background: buttonColor+"12", border: `1px solid ${buttonColor}44`, borderLeft: `4px solid ${buttonColor}`, padding: "20px 22px", marginBottom: 24 }}>
+<div style={{ fontSize: 9, letterSpacing: ".2em", textTransform: "uppercase", color: buttonColor, marginBottom: 10 }}>{gp < 45 ? "⚠ Protocole d'urgence" : "✦ Prochaine étape"}</div>
+<div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 16, color: "#F0EBE0", marginBottom: 8, lineHeight: 1.4 }}>Formation recommandée : <span style={{ color: buttonColor }}>{formation}</span></div>
+<p style={{ fontSize: 12, color: C.muted, lineHeight: 1.7, marginBottom: 16 }}>Votre profil a été pré-analysé. En cliquant ci-dessous, Zady Zozoro reçoit directement votre résumé avant votre échange. <strong style={{ color: C.text }}>Vous n'avez rien à expliquer.</strong></p>
+<button onClick={() => window.open(`https://wa.me/${WHATSAPP_NUM}?text=${encodeURIComponent(prefilledMessage)}`)} style={{ background: buttonColor, border: "none", color: "#fff", padding: "14px 24px", cursor: "pointer", fontFamily: "'Jost', sans-serif", fontSize: 12, fontWeight: 600, width: "100%", letterSpacing: ".04em" }}>{buttonLabel}</button>
+{gp >= 45 && <div style={{ fontSize: 10, color: "#4A5060", marginTop: 10, textAlign: "center" }}>Le montant du bilan (25 000 FCFA) est déduit du prix de la formation</div>}
 </div>
 );
 }
-
 function LegalDisclaimer({ gp, hasViolenceSignal }) {
 const critical = gp < 40 || hasViolenceSignal;
 return (
