@@ -2219,8 +2219,3 @@ const PortraitModule = ({ isAbonne, abonnementLevel, onRequestUpgrade }) => {
     </div>
   );
 };
-
-}
-  }
-}
-}
