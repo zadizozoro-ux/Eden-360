@@ -1299,42 +1299,46 @@ function RelationshipClock({ clockData }) {
   );
 }
 function MicroPertesSection({ scores, profil }) {
-const [revealed, setRevealed] = useState(false);
-if (profil === “celibataire”) return null;
-const fragiles = Object.entries(scores).filter(([k]) => MICRO_PERTES_MAP[k]).sort(([, a], [, b]) => a.p - b.p).slice(0, 3).filter(([, v]) => v.p < 65);
-if (fragiles.length === 0) return null;
-const pertes = fragiles.flatMap(([k, v]) => {
-const map = MICRO_PERTES_MAP[k];
-if (v.p < 40) return map.low.slice(0, 2);
-return map.low.slice(0, 1);
-}).slice(0, 5);
-if (pertes.length === 0) return null;
-return (
-<div className=“card-red” style={{ marginBottom:24 }}>
-<div style={{ fontSize:9, letterSpacing:”.22em”, textTransform:“uppercase”, color:C.red, marginBottom:12 }}>◉ Ce que vous perdez déjà — invisiblement</div>
-<div style={{ fontFamily:”‘Cormorant Garamond’,serif”, fontSize:17, color:”#F0EBE0”, marginBottom:16, lineHeight:1.35 }}>Avant même la rupture, le manque est déjà là</div>
-{!revealed ? (
-<div>
-<p style={{ fontSize:13, color:C.muted, lineHeight:1.7, marginBottom:16 }}>Votre bilan a identifié {pertes.length} zones de perte quotidienne que vous ne nommez peut-être pas encore explicitement.</p>
-<button onClick={() => setRevealed(true)} className=“btn-gold-outline” style={{ width:“100%” }}>Révéler les pertes identifiées</button>
-</div>
-) : (
-<div>
-<div style={{ display:“flex”, flexDirection:“column”, gap:10, marginBottom:20 }}>
-{pertes.map((perte, i) => (
-<div key={i} style={{ display:“flex”, gap:12, alignItems:“flex-start”, padding:“12px 14px”, background:”#08050C”, border:“1px solid #1A0A14” }}>
-<div style={{ color:C.red, fontSize:14, flexShrink:0 }}>◉</div>
-<div style={{ fontSize:13, color:C.text, lineHeight:1.7 }}>{perte}</div>
-</div>
-))}
-</div>
-<p style={{ fontSize:12, color:”#8A6070”, lineHeight:1.7, fontStyle:“italic” }}>Ces pertes ne s’annoncent pas. Elles s’accumulent. Jusqu’au jour où l’une d’elles manque si profondément qu’on ne se souvient plus quand elle a commencé à disparaître.</p>
-</div>
-)}
-</div>
-);
+  const [revealed, setRevealed] = useState(false);
+  
+  if (profil === "celibataire") return null;
+  
+  const fragiles = Object.entries(scores).filter(([k]) => MICRO_PERTES_MAP[k]).sort(([, a], [, b]) => a.p - b.p).slice(0, 3).filter(([, v]) => v.p < 65);
+  if (fragiles.length === 0) return null;
+  
+  const pertes = fragiles.flatMap(([k, v]) => {
+    const map = MICRO_PERTES_MAP[k];
+    if (v.p < 40) return map.low.slice(0, 2);
+    return map.low.slice(0, 1);
+  }).slice(0, 5);
+  
+  if (pertes.length === 0) return null;
+  
+  return (
+    <div style={{ marginBottom: 24, background: "#0D0008", border: "1px solid #C0614A66", padding: "24px 22px" }}>
+      <div style={{ fontSize: 9, letterSpacing: ".22em", textTransform: "uppercase", color: C.red, marginBottom: 12 }}>◉ Ce que vous perdez déjà — invisiblement</div>
+      <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 17, color: "#F0EBE0", marginBottom: 16, lineHeight: 1.35 }}>Avant même la rupture, le manque est déjà là</div>
+      {!revealed ? (
+        <div>
+          <p style={{ fontSize: 13, color: C.muted, lineHeight: 1.7, marginBottom: 16 }}>Votre bilan a identifié {pertes.length} zones de perte quotidienne que vous ne nommez peut-être pas encore explicitement.</p>
+          <button onClick={() => setRevealed(true)} style={{ background: "transparent", border: "1px solid #C0614A", color: "#C0614A", padding: "11px 20px", cursor: "pointer", fontFamily: "'Jost', sans-serif", fontSize: 11, width: "100%" }}>Révéler les pertes identifiées</button>
+        </div>
+      ) : (
+        <div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 20 }}>
+            {pertes.map((perte, i) => (
+              <div key={i} style={{ display: "flex", gap: 12, alignItems: "flex-start", padding: "12px 14px", background: "#08050C", border: "1px solid #1A0A14" }}>
+                <div style={{ color: C.red, fontSize: 14, flexShrink: 0 }}>◉</div>
+                <div style={{ fontSize: 13, color: C.text, lineHeight: 1.7 }}>{perte}</div>
+              </div>
+            ))}
+          </div>
+          <p style={{ fontSize: 12, color: "#8A6070", lineHeight: 1.7, fontStyle: "italic" }}>Ces pertes ne s'annoncent pas. Elles s'accumulent. Jusqu'au jour où l'une d'elles manque si profondément qu'on ne se souvient plus quand elle a commencé à disparaître.</p>
+        </div>
+      )}
+    </div>
+  );
 }
-
 function FutureLetter({ letter, clientName, gp, onClose }) {
 const [visible, setVisible] = useState(false);
 useEffect(() => { setTimeout(() => setVisible(true), 100); }, []);
