@@ -1416,7 +1416,6 @@ const [versions, setVersions] = useState({ v1: "", v2: "", v3: "" });
 const [selected, setSelected] = useState(null);
 const [edited, setEdited] = useState("");
 const [shared, setShared] = useState(false);
-
 useEffect(() => {
 (async () => {
 const prompt = buildTestimonialsPrompt(clientName, profil, gp, patternScores, scores);
@@ -1478,7 +1477,6 @@ Votre parcours peut aider d'autres personnes à faire le premier pas. Choisissez
 </div>
 </div>
 );
-}
 
 // ─── COMPOSANT : RAPPORT INTERNE CONSEILLER ──────────────────────────────────
 // Protégé par mot de passe + téléchargeable en PDF
