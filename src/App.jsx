@@ -1723,9 +1723,9 @@ return (
 );<div style={{ marginBottom: 16 }}>
 <div style={{ fontSize: 9, color: C.gold, letterSpacing: ".18em", textTransform: "uppercase", marginBottom: 12 }}>Plan d'Action Conseiller</div>
 {reportSections.map((s,i) => (
-s.title
-? <div key={i} style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 17, color: C.gold, margin: "18px 0 8px", borderLeft: `3px solid ${C.gold}44`, paddingLeft: 12 }}>{s.title}</div>
-: <div key={i} style={{ fontSize: 13, color: C.text, lineHeight: 1.9, whiteSpace: "pre-wrap", marginBottom: 10 }}>{s.body}</div>
+  s.title
+    ? <div key={i} style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 17, color: C.gold, margin: "18px 0 8px", borderLeft: "3px solid " + C.gold + "44", paddingLeft: 12 }}>{s.title}</div>
+    : <div key={i} style={{ fontSize: 13, color: C.text, lineHeight: 1.9, whiteSpace: "pre-wrap", marginBottom: 10 }}>{s.body}</div>
 ))}
 </div>
 <div style={{ fontSize: 9, color: C.dim, textAlign: "center", padding: "12px 0", borderTop: "1px solid #1E2330", marginTop: 16 }}>
