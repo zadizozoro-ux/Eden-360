@@ -1754,33 +1754,33 @@ const profilLabel = profil === "marie" ? "Marié(e)" : profil === "fiance" ? "Fi
 const phraseCle = sections?.find(s => (s.title||"").toUpperCase().includes("PHRASE") || (s.title||"").toUpperCase().includes("CLÉ"))?.body || "";
 
 function buildShareMessage() {
-let msg = `Bonjour Académie Eden,\n\n`;
-msg += `Je partage mon rapport Bilan 360° pour accompagnement.\n\n`;
-msg += `► PROFIL : ${clientName} · ${profilLabel}\n`;
-msg += `► SCORE GLOBAL : ${gp}/100 — ${riskLevel?.l || ""}\n`;
+let msg = "Bonjour Académie Eden,\n\n";
+msg += "Je partage mon rapport Bilan 360° pour accompagnement.\n\n";
+msg += "► PROFIL : " + clientName + " · " + profilLabel + "\n";
+msg += "► SCORE GLOBAL : " + gp + "/100 — " + (riskLevel?.l || "") + "\n";
 
 if (includeScores && scores) {
-  msg += `\n► SCORES PAR DIMENSION :\n`;
+  msg += "\n► SCORES PAR DIMENSION :\n";
   Object.entries(scores).slice(0, 6).forEach(([, v]) => {
     const bar = v.p >= 65 ? "●●●●●" : v.p >= 50 ? "●●●●○" : v.p >= 35 ? "●●●○○" : "●●○○○";
-    msg += `  ${v.label} : ${v.p}/100 ${bar}\n`;
+    msg += "  " + v.label + " : " + v.p + "/100 " + bar + "\n";
   });
 }
 
 if (includePatterns && activePatterns.length > 0) {
-  msg += `\n► PATTERNS DÉTECTÉS :\n`;
+  msg += "\n► PATTERNS DÉTECTÉS :\n";
   activePatterns.forEach(([k, v]) => {
-    msg += `  • ${k} (${v}/100)\n`;
+    msg += "  • " + k + " (" + v + "/100)\n";
   });
 }
 
 if (includeKeyPhrase && phraseCle) {
-  msg += `\n► PHRASE CLÉ DE MON RAPPORT :\n"${phraseCle.slice(0, 200).trim()}${phraseCle.length > 200 ? "…" : ""}"\n`;
+  msg += "\n► PHRASE CLÉ DE MON RAPPORT :\n\"" + phraseCle.slice(0, 200).trim() + (phraseCle.length > 200 ? "…" : "") + "\"\n";
 }
 
-msg += `\n► CONSENTEMENT : Je consens explicitement au partage de ces données avec le Conseiller Eden pour un accompagnement personnalisé.\n`;
-msg += `► DATE DE CONSENTEMENT : ${new Date().toLocaleDateString("fr-FR", { day:"numeric", month:"long", year:"numeric", hour:"2-digit", minute:"2-digit" })}\n\n`;
-msg += `Je souhaite aller plus loin avec un accompagnement.`;
+msg += "\n► CONSENTEMENT : Je consens explicitement au partage de ces données avec le Conseiller Eden pour un accompagnement personnalisé.\n";
+msg += "► DATE DE CONSENTEMENT : " + new Date().toLocaleDateString("fr-FR", { day:"numeric", month:"long", year:"numeric", hour:"2-digit", minute:"2-digit" }) + "\n\n";
+msg += "Je souhaite aller plus loin avec un accompagnement.";
 return msg;
 }
 
@@ -1812,7 +1812,7 @@ Ces informations seront transmises à l'équipe de l'Académie Eden uniquement, 
 { key:"phrase", label:"La phrase clé de mon rapport", sub:"La phrase personnalisée générée par le Conseiller", val:includeKeyPhrase, set:setIncludeKeyPhrase, required:false },
 ].map(item => (
 <div key={item.key} style={{ display: "flex", gap: 12, alignItems: "flex-start", padding: "12px 14px", background: "#080C14", border: "1px solid #1E2330", marginBottom: 8, cursor: "pointer" }} onClick={() => item.set(!item.val)}>
-<div style={{ width: 18, height: 18, border: `1px solid ${item.val?"#C9A84C":"#2A2E3A"}`, background: item.val ? "#C9A84C" : "transparent", flexShrink: 0, marginTop: 2, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, color: "#0B0F1A", fontWeight: 700 }}>
+<div style={{ width: 18, height: 18, border: "1px solid " + (item.val ? "#C9A84C" : "#2A2E3A"), background: item.val ? "#C9A84C" : "transparent", flexShrink: 0, marginTop: 2, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, color: "#0B0F1A", fontWeight: 700 }}>
 {item.val ? "✓" : ""}
 </div>
 <div>
@@ -1821,8 +1821,8 @@ Ces informations seront transmises à l'équipe de l'Académie Eden uniquement, 
 </div>
 </div>
 ))}
-<div style={{ display: "flex", gap: 12, alignItems: "flex-start", padding: "12px 14px", background: "#0A0C10", border: `1px solid ${consentGiven?"#C9A84C44":"#1E2330"}`, marginBottom: 20, cursor: "pointer", marginTop: 12 }} onClick={() => setConsentGiven(!consentGiven)}>
-<div style={{ width: 18, height: 18, border: `1px solid ${consentGiven?"#C9A84C":"#C0614A"}`, background: consentGiven ? "#C9A84C" : "transparent", flexShrink: 0, marginTop: 2, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, color: "#0B0F1A", fontWeight: 700 }}>
+<div style={{ display: "flex", gap: 12, alignItems: "flex-start", padding: "12px 14px", background: "#0A0C10", border: "1px solid " + (consentGiven ? "#C9A84C44" : "#1E2330"), marginBottom: 20, cursor: "pointer", marginTop: 12 }} onClick={() => setConsentGiven(!consentGiven)}>
+<div style={{ width: 18, height: 18, border: "1px solid " + (consentGiven ? "#C9A84C" : "#C0614A"), background: consentGiven ? "#C9A84C" : "transparent", flexShrink: 0, marginTop: 2, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, color: "#0B0F1A", fontWeight: 700 }}>
 {consentGiven ? "✓" : ""}
 </div>
 <div>
@@ -1852,7 +1852,7 @@ return (
 <p style={{ fontSize: 11, color: C.muted, lineHeight: 1.6, marginBottom: 16 }}>Ce message s'ouvrira dans WhatsApp, adressé à l'Académie Eden. Vous pouvez le modifier avant d'envoyer.</p>
 <div style={{ display: "flex", gap: 8 }}>
 <button onClick={() => setStep("consent")} style={{ flex: 1, background: "transparent", border: "1px solid #1E2330", color: C.dim, padding: "12px", fontFamily: "'Jost', sans-serif", fontSize: 11, cursor: "pointer" }}>← Modifier</button>
-<button onClick={() => { window.open(`https://wa.me/${WHATSAPP_NUM}?text=${encodeURIComponent(msg)}`); setStep("done"); }} style={{ flex: 2, background: "#25D366", border: "none", color: "#fff", padding: "12px", fontFamily: "'Jost', sans-serif", fontSize: 12, fontWeight: 600, cursor: "pointer" }}>
+<button onClick={() => { window.open("https://wa.me/" + WHATSAPP_NUM + "?text=" + encodeURIComponent(msg)); setStep("done"); }} style={{ flex: 2, background: "#25D366", border: "none", color: "#fff", padding: "12px", fontFamily: "'Jost', sans-serif", fontSize: 12, fontWeight: 600, cursor: "pointer" }}>
 Envoyer sur WhatsApp →
 </button>
 </div>
@@ -1875,15 +1875,15 @@ function SmartWhatsAppCTA({ clientName, gp, profil, riskLevel, patterns }) {
 const activePatterns = Object.keys(patterns || {}).filter(p => (patterns[p] || 0) > 40).slice(0, 2);
 const urgency = gp < 40 ? "URGENCE" : gp < 55 ? "PRIORITÉ" : "SUIVI";
 const formation = profil === "celibataire" ? "Eden Single" : profil === "fiance" ? "Eden Connexion" : gp < 45 ? "RESCUE 90 Jours" : "Les 12 Piliers";
-const prefilledMessage = `Bonjour Académie Eden,\n\n[${urgency}] Je viens de compléter mon Bilan 360°.\n\n📊 Score global : ${gp}/100 — ${riskLevel?.l || ""}\n👤 Profil : ${profil === "marie" ? "Marié(e)" : profil === "fiance" ? "Fiancé(e)" : "Célibataire"}${activePatterns.length > 0 ? `\n⚠ Patterns identifiés : ${activePatterns.join(", ")}` : ""}\n\nJe souhaite en savoir plus sur la formation "${formation}".\n\nMerci,\n${clientName}`;
+const prefilledMessage = "Bonjour Académie Eden,\n\n[" + urgency + "] Je viens de compléter mon Bilan 360°.\n\n📊 Score global : " + gp + "/100 — " + (riskLevel?.l || "") + "\n👤 Profil : " + (profil === "marie" ? "Marié(e)" : profil === "fiance" ? "Fiancé(e)" : "Célibataire") + (activePatterns.length > 0 ? "\n⚠ Patterns identifiés : " + activePatterns.join(", ") : "") + "\n\nJe souhaite en savoir plus sur la formation \"" + formation + "\".\n\nMerci,\n" + clientName;
 const buttonColor = gp < 45 ? C.red : gp < 60 ? C.orange : C.green;
 const buttonLabel = gp < 45 ? "Intervention urgente — Contacter maintenant" : gp < 60 ? "Prendre rendez-vous avec Zady Zozoro" : "Confirmer mon inscription à la formation";
 return (
-<div style={{ background: buttonColor+"12", border: `1px solid ${buttonColor}44`, borderLeft: `4px solid ${buttonColor}`, padding: "20px 22px", marginBottom: 24 }}>
+<div style={{ background: buttonColor + "12", border: "1px solid " + buttonColor + "44", borderLeft: "4px solid " + buttonColor, padding: "20px 22px", marginBottom: 24 }}>
 <div style={{ fontSize: 9, letterSpacing: ".2em", textTransform: "uppercase", color: buttonColor, marginBottom: 10 }}>{gp < 45 ? "⚠ Protocole d'urgence" : "✦ Prochaine étape"}</div>
 <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 16, color: "#F0EBE0", marginBottom: 8, lineHeight: 1.4 }}>Formation recommandée : <span style={{ color: buttonColor }}>{formation}</span></div>
 <p style={{ fontSize: 12, color: C.muted, lineHeight: 1.7, marginBottom: 16 }}>Votre profil a été pré-analysé. En cliquant ci-dessous, Zady Zozoro reçoit directement votre résumé avant votre échange. <strong style={{ color: C.text }}>Vous n'avez rien à expliquer.</strong></p>
-<button onClick={() => window.open(`https://wa.me/${WHATSAPP_NUM}?text=${encodeURIComponent(prefilledMessage)}`)} style={{ background: buttonColor, border: "none", color: "#fff", padding: "14px 24px", cursor: "pointer", fontFamily: "'Jost', sans-serif", fontSize: 12, fontWeight: 600, width: "100%", letterSpacing: ".04em" }}>{buttonLabel}</button>
+<button onClick={() => window.open("https://wa.me/" + WHATSAPP_NUM + "?text=" + encodeURIComponent(prefilledMessage))} style={{ background: buttonColor, border: "none", color: "#fff", padding: "14px 24px", cursor: "pointer", fontFamily: "'Jost', sans-serif", fontSize: 12, fontWeight: 600, width: "100%", letterSpacing: ".04em" }}>{buttonLabel}</button>
 {gp >= 45 && <div style={{ fontSize: 10, color: "#4A5060", marginTop: 10, textAlign: "center" }}>Le montant du bilan (25 000 FCFA) est déduit du prix de la formation</div>}
 </div>
 );
@@ -1907,7 +1907,7 @@ return (
 <div className="mb24">
 <div className="q-text">{q.question}</div>
 {q.options.map(opt => (
-<div key={opt.val} className={`opt ${value === opt.val ? "selected" : ""}`} onClick={() => onChange(opt.val)}>
+<div key={opt.val} className={"opt " + (value === opt.val ? "selected" : "")} onClick={() => onChange(opt.val)}>
 <div className="opt-dot" /><div className="opt-label">{opt.label}</div>
 </div>
 ))}
@@ -1925,7 +1925,7 @@ function QuestionOuvert({ q, value, onChange }) {
 return (
 <div className="mb24">
 <div className="q-text">{q.question}</div>
-<textarea className={`ta ${q.type === "ouvert_court" ? "ta-short" : ""}`} placeholder={q.placeholder || "Votre réponse…"} value={value || ""} onChange={e => onChange(e.target.value)} />
+<textarea className={"ta " + (q.type === "ouvert_court" ? "ta-short" : "")} placeholder={q.placeholder || "Votre réponse…"} value={value || ""} onChange={e => onChange(e.target.value)} />
 </div>
 );
 }
@@ -1936,7 +1936,7 @@ return (
 <div className="q-text">{q.question}</div>
 <div className="likert">
 {[1,2,3,4,5].map(n => (
-<button key={n} className={`likert-btn ${value === n ? "selected" : ""}`} onClick={() => onChange(n)}>{n}<br />{q.scale[n-1]}</button>
+<button key={n} className={"likert-btn " + (value === n ? "selected" : "")} onClick={() => onChange(n)}>{n}<br />{q.scale[n-1]}</button>
 ))}
 </div>
 </div>
@@ -1953,7 +1953,7 @@ return (
 <div className="mb24">
 <div className="q-text">{q.question}</div>
 {q.options.map(opt => (
-<div key={opt.val} className={`check-item ${(values || []).includes(opt.val) ? "selected" : ""}`} onClick={() => toggle(opt.val)}>
+<div key={opt.val} className={"check-item " + ((values || []).includes(opt.val) ? "selected" : "")} onClick={() => toggle(opt.val)}>
 <div className="check-box">{(values || []).includes(opt.val) && "✓"}</div>
 <div className="opt-label">{opt.label}</div>
 </div>
@@ -1982,7 +1982,7 @@ return (
 {PROFIL_APPRECIATION_OPTIONS.map(opt => {
 const pos = ranked.indexOf(opt.id);
 return (
-<div key={opt.id} className={`rank-item ${pos >= 0 ? "ranked" : ""}`} onClick={() => selectItem(opt.id)}>
+<div key={opt.id} className={"rank-item " + (pos >= 0 ? "ranked" : "")} onClick={() => selectItem(opt.id)}>
 <div className="rank-num">{pos >= 0 ? pos + 1 : opt.icon}</div>
 <div className="rank-label">{opt.label}</div>
 </div>
@@ -1998,7 +1998,7 @@ return (
 <div style={{ background: "#0D1018", border: "1px solid #1E2330", padding: "18px", marginBottom: 16 }}>
 <div style={{ fontSize: 13, color: C.muted, lineHeight: 1.7, marginBottom: 14, fontStyle: "italic" }}>« {scenario.scenario} »</div>
 {scenario.reponses.map(r => (
-<div key={r.val} className={`opt ${value === r.val ? "selected" : ""}`} onClick={() => onChange(r.val)}>
+<div key={r.val} className={"opt " + (value === r.val ? "selected" : "")} onClick={() => onChange(r.val)}>
 <div className="opt-dot" /><div className="opt-label">{r.label}</div>
 </div>
 ))}
