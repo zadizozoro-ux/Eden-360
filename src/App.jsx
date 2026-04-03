@@ -1512,56 +1512,80 @@ const handlePrintPDF = () => {
   const printWin = window.open("", "_blank");
   const urgenceLabel = alertLevel >= ALERT_LEVELS.CRISE ? "🔴 CRISE" : alertLevel >= ALERT_LEVELS.VIGILANCE ? "🟠 VIGILANCE" : alertLevel >= ALERT_LEVELS.INFO ? "🟡 INFO" : "🟢 STABLE";
   
-  const scoresHtml = Object.entries(scores).map(([,v]) => {
-    let color = v.p>=65 ? "#2D6A4F" : v.p>=50 ? "#8B6914" : v.p>=35 ? "#C0784A" : "#C0614A";
-    return `<tr><td>${v.label}</td><td style="text-align:center;font-weight:bold;color:${color}">${v.p}/100</td><td>${v.lv.l}</td></tr>`;
-  }).join("");
+  // Construction des tableaux avec concaténation simple, sans backticks
+  let scoresHtml = "";
+  for (const [key, v] of Object.entries(scores)) {
+    let color = v.p >= 65 ? "#2D6A4F" : v.p >= 50 ? "#8B6914" : v.p >= 35 ? "#C0784A" : "#C0614A";
+    scoresHtml += '<tr><td>' + v.label + '</td><td style="text-align:center;font-weight:bold;color:' + color + '">' + v.p + '/100</td><td>' + v.lv.l + '</td></tr>';
+  }
   
-  const patternsHtml = Object.entries(patternScores||{}).filter(([,v])=>v>40).map(([k,v]) => {
-    return `<tr><td><strong>${k}</strong></td><td style="text-align:center">${v}/100</td><td>${ARCHETYPES[k]?.titre||""}</td><td style="font-size:11px;color:#555">${(ARCHETYPES[k]?.mecanisme?.slice(0,150)||"")}...</td></tr>`;
-  }).join("");
+  let patternsHtml = "";
+  for (const [k, v] of Object.entries(patternScores || {})) {
+    if (v > 40) {
+      patternsHtml += '<tr><td><strong>' + k + '</strong></td><td style="text-align:center">' + v + '/100</td><td>' + (ARCHETYPES[k]?.titre || "") + '</td><td style="font-size:11px;color:#555">' + (ARCHETYPES[k]?.mecanisme?.slice(0, 150) || "") + '...</td></tr>';
+    }
+  }
   
-  const opensHtml = opens.filter(o=>o.ans?.trim()).map(o => {
-    return `<tr><td style="font-size:11px;color:#555">${o.q}</td><td style="font-size:12px">${o.ans}</td></tr>`;
-  }).join("");
+  let opensHtml = "";
+  for (const o of opens) {
+    if (o.ans?.trim()) {
+      opensHtml += '<tr><td style="font-size:11px;color:#555">' + o.q + '</td><td style="font-size:12px">' + o.ans + '</td></tr>';
+    }
+  }
   
   const reportHtml = reportText.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>").replace(/\n/g, "<br>");
   
-  printWin.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8"><title>Rapport Interne — ${clientName}</title><style> body{font-family:Arial,sans-serif;font-size:13px;color:#222;margin:0;padding:0} .page{max-width:700px;margin:0 auto;padding:32px} h1{font-size:22px;color:#0B0F1A;border-bottom:3px solid #C9A84C;padding-bottom:8px} h2{font-size:16px;color:#0B0F1A;margin-top:28px;margin-bottom:10px;background:#F5F3EE;padding:8px 12px} table{width:100%;border-collapse:collapse;margin-bottom:16px} td,th{border:1px solid #ddd;padding:7px 10px;vertical-align:top} th{background:#0B0F1A;color:#C9A84C;font-weight:bold;font-size:12px} .badge-crise{background:#C0614A;color:#fff;padding:3px 10px;font-weight:bold} .badge-vigilance{background:#C0784A;color:#fff;padding:3px 10px;font-weight:bold} .badge-info{background:#C9A84C;color:#0B0F1A;padding:3px 10px;font-weight:bold} .badge-stable{background:#4A9B6A;color:#fff;padding:3px 10px;font-weight:bold} .report-body{line-height:1.9;background:#FAFAF8;padding:16px;border-left:4px solid #C9A84C} .confidential{background:#0B0F1A;color:#C9A84C;text-align:center;padding:10px;font-size:11px;letter-spacing:.2em} @media print{.no-print{display:none}} </style></head><body> <div class="confidential">CONFIDENTIEL — USAGE INTERNE ACADÉMIE EDEN — NE PAS PARTAGER AVEC LE CLIENT</div> <div class="page"> <h1>Rapport Interne Conseiller</h1> <table><tr><th colspan="2">Fiche Signalétique</th></tr> <tr><td><strong>Client</strong></td><td>${clientName}</td></tr> <tr><td><strong>Profil</strong></td><td>${profil === "marie" ? "Marié(e)" : profil === "fiance" ? "Fiancé(e)" : "Célibataire"}${genre?" · "+genre:""}${role?" · "+role:""}</td></tr> <tr><td><strong>Score global</strong></td><td><strong>${gp}/100</strong></td></tr> <tr><td><strong>Urgence</strong></td><td><span class="${alertLevel>=ALERT_LEVELS.CRISE?"badge-crise":alertLevel>=ALERT_LEVELS.VIGILANCE?"badge-vigilance":alertLevel>=ALERT_LEVELS.INFO?"badge-info":"badge-stable"}">${urgenceLabel}</span></td></tr> <tr><td><strong>Date du bilan</strong></td><td>${new Date().toLocaleDateString("fr-FR",{day:"numeric",month:"long",year:"numeric"})}</td></tr> ${annees?`<tr><td><strong>Années mariage</strong></td><td>${annees} ans</td></tr>`:""} ${enfants?`<tr><td><strong>Enfants</strong></td><td>${enfants}</td></tr>`:""}
-</table>
-
-<h2>Scores par Dimension</h2>
-<table><tr><th>Dimension</th><th>Score</th><th>Niveau</th></tr>${scoresHtml}</table>
-
-${patternsHtml ? `<h2>Patterns Bibliques Détectés</h2><table><tr><th>Pattern</th><th>Score</th><th>Titre</th><th>Mécanisme</th></tr>${patternsHtml}</table>` : "<h2>Patterns</h2><p>Aucun pattern dominant détecté.</p>"}
-
-${opensHtml ? `<h2>Réponses Ouvertes</h2><table><tr><th>Question</th><th>Réponse</th></tr>${opensHtml}</table>` : ""}
-
-<h2>Analyse Clinique — Plan d'Action Conseiller</h2>
-<div class="report-body">${reportHtml}</div>
-
-<p style="margin-top:32px;font-size:10px;color:#888;text-align:center">Académie Eden · Institut de Leadership Familial · Fondé par Zady Zozoro · Document confidentiel généré le ${new Date().toLocaleDateString("fr-FR")}</p>
-</div>
-<div class="confidential">CONFIDENTIEL — USAGE INTERNE ACADÉMIE EDEN</div>
-</body></html>`);
+  // Construction du HTML complet avec des backticks mais sans aucun backtick à l'intérieur
+  const htmlContent = 
+    '<!DOCTYPE html>' +
+    '<html><head><meta charset="utf-8"><title>Rapport Interne — ' + clientName + '</title>' +
+    '<style>' +
+    'body{font-family:Arial,sans-serif;font-size:13px;color:#222;margin:0;padding:0} ' +
+    '.page{max-width:700px;margin:0 auto;padding:32px} ' +
+    'h1{font-size:22px;color:#0B0F1A;border-bottom:3px solid #C9A84C;padding-bottom:8px} ' +
+    'h2{font-size:16px;color:#0B0F1A;margin-top:28px;margin-bottom:10px;background:#F5F3EE;padding:8px 12px} ' +
+    'table{width:100%;border-collapse:collapse;margin-bottom:16px} ' +
+    'td,th{border:1px solid #ddd;padding:7px 10px;vertical-align:top} ' +
+    'th{background:#0B0F1A;color:#C9A84C;font-weight:bold;font-size:12px} ' +
+    '.badge-crise{background:#C0614A;color:#fff;padding:3px 10px;font-weight:bold} ' +
+    '.badge-vigilance{background:#C0784A;color:#fff;padding:3px 10px;font-weight:bold} ' +
+    '.badge-info{background:#C9A84C;color:#0B0F1A;padding:3px 10px;font-weight:bold} ' +
+    '.badge-stable{background:#4A9B6A;color:#fff;padding:3px 10px;font-weight:bold} ' +
+    '.report-body{line-height:1.9;background:#FAFAF8;padding:16px;border-left:4px solid #C9A84C} ' +
+    '.confidential{background:#0B0F1A;color:#C9A84C;text-align:center;padding:10px;font-size:11px;letter-spacing:.2em} ' +
+    '@media print{.no-print{display:none}} ' +
+    '</style></head><body>' +
+    '<div class="confidential">CONFIDENTIEL — USAGE INTERNE ACADÉMIE EDEN — NE PAS PARTAGER AVEC LE CLIENT</div>' +
+    '<div class="page">' +
+    '<h1>Rapport Interne Conseiller</h1>' +
+    '<table><tr><th colspan="2">Fiche Signalétique</th></tr>' +
+    '<tr><td><strong>Client</strong></td><td>' + clientName + '</td></tr>' +
+    '<tr><td><strong>Profil</strong></td><td>' + (profil === "marie" ? "Marié(e)" : profil === "fiance" ? "Fiancé(e)" : "Célibataire") + (genre ? " · " + genre : "") + (role ? " · " + role : "") + '</td></tr>' +
+    '<tr><td><strong>Score global</strong></td><td><strong>' + gp + '/100</strong></td></tr>' +
+    '<tr><td><strong>Urgence</strong></td><td><span class="' + (alertLevel >= ALERT_LEVELS.CRISE ? "badge-crise" : alertLevel >= ALERT_LEVELS.VIGILANCE ? "badge-vigilance" : alertLevel >= ALERT_LEVELS.INFO ? "badge-info" : "badge-stable") + '">' + urgenceLabel + '</span></td></tr>' +
+    '<tr><td><strong>Date du bilan</strong></td><td>' + new Date().toLocaleDateString("fr-FR", {day:"numeric", month:"long", year:"numeric"}) + '</td></tr>' +
+    (annees ? '<tr><td><strong>Années mariage</strong></td><td>' + annees + ' ans</td></tr>' : "") +
+    (enfants ? '<tr><td><strong>Enfants</strong></td><td>' + enfants + '</td></tr>' : "") +
+    '</table>' +
+    
+    '<h2>Scores par Dimension</h2>' +
+    '<table><tr><th>Dimension</th><th>Score</th><th>Niveau</th></tr>' + scoresHtml + '</table>' +
+    
+    (patternsHtml ? '<h2>Patterns Bibliques Détectés</h2><table><tr><th>Pattern</th><th>Score</th><th>Titre</th><th>Mécanisme</th></tr>' + patternsHtml + '</table>' : '<h2>Patterns</h2><p>Aucun pattern dominant détecté.</p>') +
+    
+    (opensHtml ? '<h2>Réponses Ouvertes</h2><table><tr><th>Question</th><th>Réponse</th></tr>' + opensHtml + '</table>' : "") +
+    
+    '<h2>Analyse Clinique — Plan d\'Action Conseiller</h2>' +
+    '<div class="report-body">' + reportHtml + '</div>' +
+    
+    '<p style="margin-top:32px;font-size:10px;color:#888;text-align:center">Académie Eden · Institut de Leadership Familial · Fondé par Zady Zozoro · Document confidentiel généré le ' + new Date().toLocaleDateString("fr-FR") + '</p>' +
+    '</div>' +
+    '<div class="confidential">CONFIDENTIEL — USAGE INTERNE ACADÉMIE EDEN</div>' +
+    '</body></html>';
+  
+  printWin.document.write(htmlContent);
   printWin.document.close();
   setTimeout(() => printWin.print(), 500);
-};<h2>Scores par Dimension</h2>
-<table><tr><th>Dimension</th><th>Score</th><th>Niveau</th></tr>${scoresHtml}</table>
-
-${patternsHtml ? `<h2>Patterns Bibliques Détectés</h2><table><tr><th>Pattern</th><th>Score</th><th>Titre</th><th>Mécanisme</th></tr>${patternsHtml}</table>` : "<h2>Patterns</h2><p>Aucun pattern dominant détecté.</p>"}
-
-${opensHtml ? `<h2>Réponses Ouvertes</h2><table><tr><th>Question</th><th>Réponse</th></tr>${opensHtml}</table>` : ""}
-
-<h2>Analyse Clinique — Plan d'Action Conseiller</h2>
-<div class="report-body">${reportHtml}</div>
-
-<p style="margin-top:32px;font-size:10px;color:#888;text-align:center">Académie Eden · Institut de Leadership Familial · Fondé par Zady Zozoro · Document confidentiel généré le ${new Date().toLocaleDateString("fr-FR")}</p>
-</div>
-<div class="confidential">CONFIDENTIEL — USAGE INTERNE ACADÉMIE EDEN</div>
-</body></html>`);
-printWin.document.close();
-setTimeout(() => printWin.print(), 500);
 };
 };
 
