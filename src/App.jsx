@@ -2010,35 +2010,35 @@ return (
 // ═══════════════════════════════════════════════════════════════════════════
 
 const LOADING_MSGS = {
-marie:[[“L’amour ne suffit pas”,“Deux personnes peuvent s’aimer profondément et pourtant se blesser profondément.”],[“Le temps ne guérit pas”,“Le temps seul ne répare pas un couple. C’est ce qu’on fait avec le temps qui compte.”],[“La routine est le piège”,“Après 5 ans, le couple ne meurt pas d’un grand drame — il meurt de petites absences accumulées.”]],
-fiance:[[“Vous n’épousez pas une personne”,“Vous épousez une histoire familiale, des blessures non guéries, des schémas transgénérationnels.”],[“Le oui le plus important”,”‘Oui’ dit sans préparation est un pari. ‘Oui’ dit en connaissance de cause est une alliance.”],[“Ce que vous ne voyez pas encore”,“Les problèmes du mariage commencent avant le mariage — dans les zones que vous n’avez pas explorées.”]],
-celibataire:[[“On ne peut pas donner ce qu’on n’a pas”,“Celui qui ne se connaît pas choisit par défaut.”],[“La solitude n’est pas l’ennemi”,“C’est une école d’identité. Celui qui fuit la solitude entre en relation par manque, pas par force.”],[“Prêt(e) ou pressé(e) ?”,“Il y a une différence entre être prêt(e) à aimer et être pressé(e) de ne plus être seul(e).”]]
+marie: [["L'amour ne suffit pas", "Deux personnes peuvent s'aimer profondément et pourtant se blesser profondément."], ["Le temps ne guérit pas", "Le temps seul ne répare pas un couple. C'est ce qu'on fait avec le temps qui compte."], ["La routine est le piège", "Après 5 ans, le couple ne meurt pas d'un grand drame — il meurt de petites absences accumulées."]],
+fiance: [["Vous n'épousez pas une personne", "Vous épousez une histoire familiale, des blessures non guéries, des schémas transgénérationnels."], ["Le oui le plus important", "'Oui' dit sans préparation est un pari. 'Oui' dit en connaissance de cause est une alliance."], ["Ce que vous ne voyez pas encore", "Les problèmes du mariage commencent avant le mariage — dans les zones que vous n'avez pas explorées."]],
+celibataire: [["On ne peut pas donner ce qu'on n'a pas", "Celui qui ne se connaît pas choisit par défaut."], ["La solitude n'est pas l'ennemi", "C'est une école d'identité. Celui qui fuit la solitude entre en relation par manque, pas par force."], ["Prêt(e) ou pressé(e) ?", "Il y a une différence entre être prêt(e) à aimer et être pressé(e) de ne plus être seul(e)."]]
 };
 
 function DiagnosticModule({ codes, onSaveCodes, isAbonne, abonnementLevel, onRequestUpgrade, subscriberProfile, onUpdateSubscriber }) {
 const MAX_QUESTIONS = isAbonne ? MAX_QUESTIONS_PREMIUM : MAX_QUESTIONS_FREE;
 // Accès granulaire par feature
-const canHorloge       = hasAccess(“horloge”, abonnementLevel);
-const canFutureLetter  = hasAccess(“futureLetter”, abonnementLevel);
-const canViralShare    = hasAccess(“viralShare”, abonnementLevel);
-const canMicroPertes   = hasAccess(“microPertes”, abonnementLevel);
-const canLectureMiroir = hasAccess(“lectureMiroir”, abonnementLevel);
-const canExportPDF     = hasAccess(“exportPDF”, abonnementLevel);
-const [view, setView] = useState(“code_entry”);
-const [enteredCode, setEnteredCode] = useState(””);
-const [codeMsg, setCodeMsg] = useState({ text:””, ok:false });
-const [clientName, setClientName] = useState(””);
-const [clientGenre, setClientGenre] = useState(””);
-const [clientRole, setClientRole] = useState(””);
-const [clientRoleCustom, setClientRoleCustom] = useState(””);
-const [clientAnnees, setClientAnnees] = useState(””);
-const [clientEnfants, setClientEnfants] = useState(””);
-const [clientProfil, setClientProfil] = useState(””);
+const canHorloge       = hasAccess("horloge", abonnementLevel);
+const canFutureLetter  = hasAccess("futureLetter", abonnementLevel);
+const canViralShare    = hasAccess("viralShare", abonnementLevel);
+const canMicroPertes   = hasAccess("microPertes", abonnementLevel);
+const canLectureMiroir = hasAccess("lectureMiroir", abonnementLevel);
+const canExportPDF     = hasAccess("exportPDF", abonnementLevel);
+const [view, setView] = useState("code_entry");
+const [enteredCode, setEnteredCode] = useState("");
+const [codeMsg, setCodeMsg] = useState({ text:"", ok:false });
+const [clientName, setClientName] = useState("");
+const [clientGenre, setClientGenre] = useState("");
+const [clientRole, setClientRole] = useState("");
+const [clientRoleCustom, setClientRoleCustom] = useState("");
+const [clientAnnees, setClientAnnees] = useState("");
+const [clientEnfants, setClientEnfants] = useState("");
+const [clientProfil, setClientProfil] = useState("");
 const [currentCode, setCurrentCode] = useState(null);
 const [coupleId, setCoupleId] = useState(null);
 const [partnerNum, setPartnerNum] = useState(null);
 const [dimIdx, setDimIdx] = useState(0);
-const [phase, setPhase] = useState(“q”);
+const [phase, setPhase] = useState("q");
 const [ans, setAns] = useState({});
 const [oAns, setOAns] = useState({});
 const [results, setResults] = useState(null);
@@ -2047,22 +2047,22 @@ const [loadIdx, setLoadIdx] = useState(0);
 const [facadeActive, setFacadeActive] = useState(false);
 const [violenceSignals, setViolenceSignals] = useState(null);
 const [activeLetterModal, setActiveLetterModal] = useState(false);
-const [letterText, setLetterText] = useState(””);
+const [letterText, setLetterText] = useState("");
 const [letterLoading, setLetterLoading] = useState(false);
 const [shareCardActive, setShareCardActive] = useState(false);
 const [testimonialsOpen, setTestimonialsOpen] = useState(false);
 const [internalReportOpen, setInternalReportOpen] = useState(false);
 const [chatHistory, setChatHistory] = useState([]);
-const [chatInput, setChatInput] = useState(””);
+const [chatInput, setChatInput] = useState("");
 const [chatLoading, setChatLoading] = useState(false);
 const [questionsUsed, setQuestionsUsed] = useState(0);
 const chatEndRef = useRef(null);
 const codesRef = useRef({});
 
-useEffect(() => { chatEndRef.current?.scrollIntoView({ behavior:“smooth” }); }, [chatHistory, chatLoading]);
+useEffect(() => { chatEndRef.current?.scrollIntoView({ behavior:"smooth" }); }, [chatHistory, chatLoading]);
 
 useEffect(() => {
-if (view !== “loading”) return;
+if (view !== "loading") return;
 const msgs = LOADING_MSGS[clientProfil] || LOADING_MSGS.marie;
 const iv = setInterval(() => setLoadIdx(i => (i + 1) % msgs.length), 4200);
 return () => clearInterval(iv);
@@ -2081,9 +2081,9 @@ codesRef.current = d;
 return d;
 }
 } catch {}
-// Fallback 1 : codes passés en prop (chargés au démarrage de l’App)
+// Fallback 1 : codes passés en prop (chargés au démarrage de l'App)
 if (Object.keys(codes).length > 0) {
-codesRef.current = { …codes };
+codesRef.current = { ...codes };
 return codesRef.current;
 }
 // Fallback 2 : ref locale (dernier état connu)
@@ -2093,43 +2093,43 @@ return codesRef.current;
 async function saveCodes(c) { codesRef.current = c; onSaveCodes(c); try { await window.storage.set(STORAGE_KEY, JSON.stringify(c), true); } catch {} }
 
 async function handleCodeEntry() {
-const raw = enteredCode.trim().toUpperCase().replace(/\s/g, “”);
-const code = raw.includes(”-”) ? raw : (raw.length >= 8 ? raw.slice(0,4)+”-”+raw.slice(4) : raw);
-if (!clientName.trim()) { setCodeMsg({ text:“Veuillez entrer votre prénom.”, ok:false }); return; }
-if (!clientGenre) { setCodeMsg({ text:“Veuillez sélectionner votre genre.”, ok:false }); return; }
-if (!clientProfil) { setCodeMsg({ text:“Veuillez sélectionner votre profil.”, ok:false }); return; }
-if (code.length < 5) { setCodeMsg({ text:“Code incomplet.”, ok:false }); return; }
-setCodeMsg({ text:“Vérification en cours…”, ok:false });
+const raw = enteredCode.trim().toUpperCase().replace(/\s/g, "");
+const code = raw.includes("-") ? raw : (raw.length >= 8 ? raw.slice(0,4) + "-" + raw.slice(4) : raw);
+if (!clientName.trim()) { setCodeMsg({ text:"Veuillez entrer votre prénom.", ok:false }); return; }
+if (!clientGenre) { setCodeMsg({ text:"Veuillez sélectionner votre genre.", ok:false }); return; }
+if (!clientProfil) { setCodeMsg({ text:"Veuillez sélectionner votre profil.", ok:false }); return; }
+if (code.length < 5) { setCodeMsg({ text:"Code incomplet.", ok:false }); return; }
+setCodeMsg({ text:"Vérification en cours…", ok:false });
 const fresh = await readFreshCodes();
-if (Object.keys(fresh).length === 0) { setCodeMsg({ text:“Aucun code actif. Contactez Eden Académie.”, ok:false }); return; }
-if (!fresh[code]) { setCodeMsg({ text:“Code non reconnu. Vérifiez lettre par lettre.”, ok:false }); return; }
-if (fresh[code].used) { setCodeMsg({ text:“Ce code a déjà été utilisé.”, ok:false }); return; }
+if (Object.keys(fresh).length === 0) { setCodeMsg({ text:"Aucun code actif. Contactez Eden Académie.", ok:false }); return; }
+if (!fresh[code]) { setCodeMsg({ text:"Code non reconnu. Vérifiez lettre par lettre.", ok:false }); return; }
+if (fresh[code].used) { setCodeMsg({ text:"Ce code a déjà été utilisé.", ok:false }); return; }
 setCurrentCode(code);
 if (fresh[code].coupleId) { setCoupleId(fresh[code].coupleId); setPartnerNum(fresh[code].partnerNum); }
 else { setCoupleId(null); setPartnerNum(null); }
-setChatHistory([]); setChatInput(””); setQuestionsUsed(0);
-setCodeMsg({ text:””, ok:false }); setDimIdx(0); setPhase(“q”); setAns({}); setOAns({});
-setView(“diagnostic”);
+setChatHistory([]); setChatInput(""); setQuestionsUsed(0);
+setCodeMsg({ text:"", ok:false }); setDimIdx(0); setPhase("q"); setAns({}); setOAns({});
+setView("diagnostic");
 }
 
-function doAns(id, val) { setAns(p => ({ …p, [id]:val })); }
-function doOAns(id, val) { setOAns(p => ({ …p, [id]:val })); }
+function doAns(id, val) { setAns(p => ({ ...p, [id]:val })); }
+function doOAns(id, val) { setOAns(p => ({ ...p, [id]:val })); }
 
 function computeScores() {
 if (!mod) return {};
 const bm = BM[clientProfil] || {};
 const res = {};
 dims.forEach(d => {
-let raw = 0; d.qs.forEach(q => { const v = ans[q.id] || 3; raw += q.inv ? (6-v) : v; });
+let raw = 0; d.qs.forEach(q => { const v = ans[q.id] || 3; raw += q.inv ? (6 - v) : v; });
 const p = pct(raw, d.qs.length * 5);
-res[d.id] = { label:d.label, p, lv:lvl(p), bm:bm[d.id]||null };
+res[d.id] = { label:d.label, p, lv:lvl(p), bm:bm[d.id] || null };
 });
 return res;
 }
 
 async function getPartnerData(cid, pnum) {
 try {
-const r = await window.storage.get(`eden_couple_${cid}_${pnum}`, true);
+const r = await window.storage.get("eden_couple_" + cid + "_" + pnum, true);
 if (r && r.value) return JSON.parse(r.value);
 } catch {}
 return null;
@@ -2137,7 +2137,7 @@ return null;
 
 async function handleCheckFacade() {
 const facade = computeFacadeScore(ans, clientProfil);
-if (facade && facade.level !== “faible” && facade.message) {
+if (facade && facade.level !== "faible" && facade.message) {
 setFacadeActive(true);
 } else {
 await handleCheckViolence();
@@ -2153,137 +2153,137 @@ else { await handleSubmit(); }
 async function handleSubmit() {
 setFacadeActive(false); setViolenceSignals(null);
 const fresh = await readFreshCodes();
-const updated = { …fresh, [currentCode]: { …fresh[currentCode], used:true, usedAt:new Date().toISOString(), clientName } };
+const updated = { ...fresh, [currentCode]: { ...fresh[currentCode], used:true, usedAt:new Date().toISOString(), clientName } };
 await saveCodes(updated);
 const scores = computeScores();
-const opens = mod.oqs.map(q => ({ q:q.t, ans:oAns[q.id]||”” }));
+const opens = mod.oqs.map(q => ({ q:q.t, ans:oAns[q.id] || "" }));
 const indices = computeIndices(scores, clientProfil);
 const patternScores = computePatterns(ans, clientProfil);
-if (coupleId) { try { await window.storage.set(`eden_couple_${coupleId}_${partnerNum}`, JSON.stringify({ scores, name:clientName }), true); } catch {} }
-setView(“loading”);
+if (coupleId) { try { await window.storage.set("eden_couple_" + coupleId + "_" + partnerNum, JSON.stringify({ scores, name:clientName }), true); } catch {} }
+setView("loading");
 const bm = BM[clientProfil] || {};
-const roleDisplay = clientRole === “Autre” && clientRoleCustom ? clientRoleCustom : clientRole;
+const roleDisplay = clientRole === "Autre" && clientRoleCustom ? clientRoleCustom : clientRole;
 let partnerData = null;
 if (coupleId) partnerData = await getPartnerData(coupleId, partnerNum === 1 ? 2 : 1);
 const prompt = buildDiagnosticPrompt(clientName, clientProfil, clientGenre, roleDisplay, clientAnnees, clientEnfants, scores, opens, bm, patternScores, partnerData);
 try {
 const text = await edenAI({ prompt });
-const gp = Math.round(Object.values(scores).reduce((s,v)=>s+v.p,0)/Object.values(scores).length);
-// Calcul du niveau d’alerte
+const gp = Math.round(Object.values(scores).reduce((s,v) => s + v.p, 0) / Object.values(scores).length);
+// Calcul du niveau d'alerte
 const alertLevel = computeAlertLevel(gp, patternScores, opens, violenceSignals, ans, clientProfil);
 // Notification alerte niveau 3 (crise) → backend email
 if (alertLevel >= ALERT_LEVELS.CRISE) {
-triggerCrisisAlert({ clientName, gp, profil:clientProfil, patternScores, alertLevel, tel:”” });
+triggerCrisisAlert({ clientName, gp, profil:clientProfil, patternScores, alertLevel, tel:"" });
 }
 setResults({ text, scores, gp, profil:clientProfil, indices, patternScores, rawAns:ans, openAns:opens, alertLevel });
-setView(“results”);
+setView("results");
 } catch {
 const scores2 = computeScores();
-const demoText = `**PROFIL ARCHÉTYPAL**\n\n${clientName} présente le profil "Illusion de paix". En surface, ce couple semble fonctionnel. Mais sous la surface, des tensions structurelles s'accumulent silencieusement.\n\n**PHRASE CLÉ**\n\nVous gérez la paix, ${clientName}. Vous ne la vivez pas.\n\n**VOS FORCES**\n\nVos dimensions les plus élevées montrent une capacité réelle à maintenir une structure. ${clientName}, vous avez les ressources nécessaires pour transformer ce bilan en action.\n\n**VOS FRAGILITÉS CRITIQUES**\n\nLes zones identifiées nécessitent une attention urgente et structurée.\n\n**PATTERN RELATIONNEL DOMINANT**\n\nPlusieurs signaux convergent vers un pattern qui mérite d'être exploré en profondeur.\n\n**CE QUE VOUS NE VOYEZ PAS ENCORE**\n\nLa connexion entre les dimensions fragilisées révèle une dynamique systémique.\n\n**TRAJECTOIRE**\n\nSans action : la dégradation continuera progressivement. Avec engagement : une transformation est possible.\n\n**PRESCRIPTION**\n\nFormation recommandée : Les 12 Piliers d'un Mariage Solide (75 000 FCFA).\n\nPlan d'action 7 jours :\nJour 1-2 : Contactez l'Académie Eden pour un premier échange.\nJour 3-5 : Partagez ce rapport avec votre conjoint(e).\nJour 6-7 : Prenez une décision concrète sur la prochaine étape.`;
-setResults({ text:demoText, scores:scores2, gp:Math.round(Object.values(scores2).reduce((s,v)=>s+v.p,0)/Object.values(scores2).length), profil:clientProfil, indices, patternScores });
-setView(“results”);
+const demoText = "**PROFIL ARCHÉTYPAL**\n\n" + clientName + " présente le profil \"Illusion de paix\". En surface, ce couple semble fonctionnel. Mais sous la surface, des tensions structurelles s'accumulent silencieusement.\n\n**PHRASE CLÉ**\n\nVous gérez la paix, " + clientName + ". Vous ne la vivez pas.\n\n**VOS FORCES**\n\nVos dimensions les plus élevées montrent une capacité réelle à maintenir une structure. " + clientName + ", vous avez les ressources nécessaires pour transformer ce bilan en action.\n\n**VOS FRAGILITÉS CRITIQUES**\n\nLes zones identifiées nécessitent une attention urgente et structurée.\n\n**PATTERN RELATIONNEL DOMINANT**\n\nPlusieurs signaux convergent vers un pattern qui mérite d'être exploré en profondeur.\n\n**CE QUE VOUS NE VOYEZ PAS ENCORE**\n\nLa connexion entre les dimensions fragilisées révèle une dynamique systémique.\n\n**TRAJECTOIRE**\n\nSans action : la dégradation continuera progressivement. Avec engagement : une transformation est possible.\n\n**PRESCRIPTION**\n\nFormation recommandée : Les 12 Piliers d'un Mariage Solide (75 000 FCFA).\n\nPlan d'action 7 jours :\nJour 1-2 : Contactez l'Académie Eden pour un premier échange.\nJour 3-5 : Partagez ce rapport avec votre conjoint(e).\nJour 6-7 : Prenez une décision concrète sur la prochaine étape.";
+setResults({ text:demoText, scores:scores2, gp:Math.round(Object.values(scores2).reduce((s,v) => s + v.p, 0) / Object.values(scores2).length), profil:clientProfil, indices, patternScores });
+setView("results");
 }
 }
 
 async function handleGenerateLetter() {
 setLetterLoading(true); setActiveLetterModal(true);
-const trajectory = results.gp >= 65 ? “modérément positif” : results.gp >= 45 ? “fragile” : “critique”;
-const topFragile = Object.entries(results.scores).sort(([,a],[,b]) => a.p - b.p).slice(0, 2).map(([,v]) => v.label).join(” et “);
+const trajectory = results.gp >= 65 ? "modérément positif" : results.gp >= 45 ? "fragile" : "critique";
+const topFragile = Object.entries(results.scores).sort(([,a],[,b]) => a.p - b.p).slice(0, 2).map(([,v]) => v.label).join(" et ");
 const activePatterns = Object.keys(results.patternScores || {}).filter(p => (results.patternScores[p] || 0) > 40);
-const prompt = `Tu es ${clientName} dans 5 ans. Tu écris une lettre à toi-même aujourd'hui.\nProfil : ${results.profil === "marie" ? "Marié(e)" : results.profil === "fiance" ? "Fiancé(e)" : "Célibataire"} · Score actuel : ${results.gp}/100 · Trajectoire : ${trajectory}\nFragilités principales : ${topFragile}\n${activePatterns.length > 0 ? `Patterns actifs : ${activePatterns.join(”, “)}` : ""}\n\nRÈGLES ABSOLUES :\n- La lettre est écrite à la PREMIÈRE personne\n- Elle est ÉMOTIONNELLE, pas analytique\n- Elle nomme des DÉTAILS CONCRETS de la vie quotidienne\n- Elle est en FRANÇAIS, entre 150 et 200 mots maximum\n- Elle commence par "Cher(e) ${clientName},"\n- Elle ne mentionne JAMAIS l'Académie Eden ni aucune formation\n- Elle se termine par une question qui force une décision\n${results.gp < 65 ? "La lettre vient d'un futur où rien n'a changé. Elle décrit avec douceur les pertes concrètes accumulées." : "La lettre vient d'un futur transformé. Elle décrit les gains concrets obtenus grâce à un travail courageux."}\nGénère UNIQUEMENT la lettre. Rien d'autre.`;
+const prompt = "Tu es " + clientName + " dans 5 ans. Tu écris une lettre à toi-même aujourd'hui.\nProfil : " + (results.profil === "marie" ? "Marié(e)" : results.profil === "fiance" ? "Fiancé(e)" : "Célibataire") + " · Score actuel : " + results.gp + "/100 · Trajectoire : " + trajectory + "\nFragilités principales : " + topFragile + "\n" + (activePatterns.length > 0 ? "Patterns actifs : " + activePatterns.join(", ") : "") + "\n\nRÈGLES ABSOLUES :\n- La lettre est écrite à la PREMIÈRE personne\n- Elle est ÉMOTIONNELLE, pas analytique\n- Elle nomme des DÉTAILS CONCRETS de la vie quotidienne\n- Elle est en FRANÇAIS, entre 150 et 200 mots maximum\n- Elle commence par \"Cher(e) " + clientName + ",\"\n- Elle ne mentionne JAMAIS l'Académie Eden ni aucune formation\n- Elle se termine par une question qui force une décision\n" + (results.gp < 65 ? "La lettre vient d'un futur où rien n'a changé. Elle décrit avec douceur les pertes concrètes accumulées." : "La lettre vient d'un futur transformé. Elle décrit les gains concrets obtenus grâce à un travail courageux.") + "\nGénère UNIQUEMENT la lettre. Rien d'autre.";
 try {
 const letterResult = await edenAI({ prompt });
-setLetterText(letterResult || “”);
-} catch { setLetterText(`Cher(e) ${clientName},\n\nJe t'écris depuis dans 5 ans. Je veux que tu saches que les choix que tu fais aujourd'hui comptent plus que tu ne le réalises.\n\nLa vraie question est : es-tu prêt(e) à agir maintenant ?`); }
+setLetterText(letterResult || "");
+} catch { setLetterText("Cher(e) " + clientName + ",\n\nJe t'écris depuis dans 5 ans. Je veux que tu saches que les choix que tu fais aujourd'hui comptent plus que tu ne le réalises.\n\nLa vraie question est : es-tu prêt(e) à agir maintenant ?"); }
 setLetterLoading(false);
 }
 
 async function handleAskQuestion() {
 if (!chatInput.trim() || questionsUsed >= MAX_QUESTIONS || chatLoading) return;
 const question = chatInput.trim();
-setChatInput(””);
-const newHistory = […chatHistory, { role:“user”, content:question }];
+setChatInput("");
+const newHistory = [...chatHistory, { role:"user", content:question }];
 setChatHistory(newHistory);
 setQuestionsUsed(q => q + 1);
 setChatLoading(true);
-const scoresText = results ? Object.entries(results.scores).map(([,v]) => `${v.label}: ${v.p}/100 (${v.lv.l})`).join(”, “) : “”;
-const profilLabel = results?.profil === “marie” ? “Marié(e)” : results?.profil === “fiance” ? “Fiancé(e)” : “Célibataire”;
-const systemPrompt = `Tu es le Conseiller de l'Académie Eden — Institut du Leadership Familial fondé par Zady Zozoro.\nTu réponds à ${clientName}, profil : ${profilLabel}, score global : ${results?.gp||"N/A"}/100.\nScores : ${scoresText}\nExtrait du rapport : ${results?.text?.slice(0,1500)||""}\nRôle : Répondre de façon personnalisée, experte et bienveillante. Max 280 mots. Utiliser le prénom ${clientName} naturellement. Ne propose jamais de formations dans la réponse. Références bibliques si pertinent. Jamais de jargon clinique ou médical.`;
+const scoresText = results ? Object.entries(results.scores).map(([,v]) => v.label + ": " + v.p + "/100 (" + v.lv.l + ")").join(", ") : "";
+const profilLabel = results?.profil === "marie" ? "Marié(e)" : results?.profil === "fiance" ? "Fiancé(e)" : "Célibataire";
+const systemPrompt = "Tu es le Conseiller de l'Académie Eden — Institut du Leadership Familial fondé par Zady Zozoro.\nTu réponds à " + clientName + ", profil : " + profilLabel + ", score global : " + (results?.gp || "N/A") + "/100.\nScores : " + scoresText + "\nExtrait du rapport : " + (results?.text?.slice(0,1500) || "") + "\nRôle : Répondre de façon personnalisée, experte et bienveillante. Max 280 mots. Utiliser le prénom " + clientName + " naturellement. Ne propose jamais de formations dans la réponse. Références bibliques si pertinent. Jamais de jargon clinique ou médical.";
 try {
-const answer = await edenAI({ prompt:question, systemPrompt, history:newHistory.map(m=>({role:m.role,content:m.content})) });
-setChatHistory(h => […h, { role:“assistant”, content:answer || “Je n’ai pas pu générer une réponse.” }]);
+const answer = await edenAI({ prompt:question, systemPrompt, history:newHistory.map(m => ({ role:m.role, content:m.content })) });
+setChatHistory(h => [...h, { role:"assistant", content:answer || "Je n'ai pas pu générer une réponse." }]);
 } catch {
-setChatHistory(h => […h, { role:“assistant”, content:“Une erreur s’est produite. Vérifiez votre connexion.” }]);
+setChatHistory(h => [...h, { role:"assistant", content:"Une erreur s'est produite. Vérifiez votre connexion." }]);
 }
 setChatLoading(false);
 }
 
 // ── RENDER VIEWS ──
 
-if (view === “code_entry”) {
+if (view === "code_entry") {
 return (
 <div className="section">
 <div className="section-tag">◈ Bilan 360° Eden</div>
-<div className="section-title">Entrez votre code d’accès</div>
-<div className="section-desc">Votre code vous a été remis par l’Académie Eden. Il est à usage unique et personnel.</div>
+<div className="section-title">Entrez votre code d'accès</div>
+<div className="section-desc">Votre code vous a été remis par l'Académie Eden. Il est à usage unique et personnel.</div>
 <div style={{ marginBottom:16 }}>
-<div style={{ fontSize:10, color:C.gold, letterSpacing:”.16em”, textTransform:“uppercase”, marginBottom:8 }}>Votre prénom</div>
-<input className=“inp” placeholder=“Jean-Marc” value={clientName} onChange={e => setClientName(e.target.value)} />
+<div style={{ fontSize:10, color:C.gold, letterSpacing:".16em", textTransform:"uppercase", marginBottom:8 }}>Votre prénom</div>
+<input className="inp" placeholder="Jean-Marc" value={clientName} onChange={e => setClientName(e.target.value)} />
 </div>
 <div style={{ marginBottom:16 }}>
-<div style={{ fontSize:10, color:C.gold, letterSpacing:”.16em”, textTransform:“uppercase”, marginBottom:8 }}>Genre</div>
-<div style={{ display:“flex”, gap:8 }}>
-{[“Homme”,“Femme”].map(g => <div key={g} className={`opt ${clientGenre === g ? "selected" : ""}`} style={{ flex:1 }} onClick={() => setClientGenre(g)}><div className="opt-dot"/><div className="opt-label">{g}</div></div>)}
+<div style={{ fontSize:10, color:C.gold, letterSpacing:".16em", textTransform:"uppercase", marginBottom:8 }}>Genre</div>
+<div style={{ display:"flex", gap:8 }}>
+{["Homme","Femme"].map(g => <div key={g} className={"opt " + (clientGenre === g ? "selected" : "")} style={{ flex:1 }} onClick={() => setClientGenre(g)}><div className="opt-dot"/><div className="opt-label">{g}</div></div>)}
 </div>
 </div>
 <div style={{ marginBottom:16 }}>
-<div style={{ fontSize:10, color:C.gold, letterSpacing:”.16em”, textTransform:“uppercase”, marginBottom:8 }}>Profil</div>
-{[{id:“marie”,label:“Marié(e)”},{id:“fiance”,label:“Fiancé(e)”},{id:“celibataire”,label:“Célibataire”}].map(p => (
-<div key={p.id} className={`opt ${clientProfil === p.id ? "selected" : ""}`} onClick={() => setClientProfil(p.id)}><div className="opt-dot"/><div className="opt-label">{p.label}</div></div>
+<div style={{ fontSize:10, color:C.gold, letterSpacing:".16em", textTransform:"uppercase", marginBottom:8 }}>Profil</div>
+{[{id:"marie",label:"Marié(e)"},{id:"fiance",label:"Fiancé(e)"},{id:"celibataire",label:"Célibataire"}].map(p => (
+<div key={p.id} className={"opt " + (clientProfil === p.id ? "selected" : "")} onClick={() => setClientProfil(p.id)}><div className="opt-dot"/><div className="opt-label">{p.label}</div></div>
 ))}
 </div>
-{clientProfil === “marie” && (
-<div style={{ display:“flex”, gap:8, marginBottom:16 }}>
+{clientProfil === "marie" && (
+<div style={{ display:"flex", gap:8, marginBottom:16 }}>
 <div style={{ flex:1 }}>
-<div style={{ fontSize:10, color:C.gold, letterSpacing:”.16em”, textTransform:“uppercase”, marginBottom:8 }}>Années de mariage</div>
-<input className=“inp” placeholder=“Ex: 7” inputMode=“numeric” pattern=”[0-9]*” maxLength={2} value={clientAnnees} onChange={e => setClientAnnees(e.target.value.replace(/[^0-9]/g, “”))} />
+<div style={{ fontSize:10, color:C.gold, letterSpacing:".16em", textTransform:"uppercase", marginBottom:8 }}>Années de mariage</div>
+<input className="inp" placeholder="Ex: 7" inputMode="numeric" pattern="[0-9]*" maxLength={2} value={clientAnnees} onChange={e => setClientAnnees(e.target.value.replace(/[^0-9]/g, ""))} />
 </div>
 <div style={{ flex:1 }}>
-<div style={{ fontSize:10, color:C.gold, letterSpacing:”.16em”, textTransform:“uppercase”, marginBottom:8 }}>Nombre d’enfants</div>
-<input className=“inp” placeholder=“Ex: 2” inputMode=“numeric” pattern=”[0-9]*” maxLength={2} value={clientEnfants} onChange={e => setClientEnfants(e.target.value.replace(/[^0-9]/g, “”))} />
+<div style={{ fontSize:10, color:C.gold, letterSpacing:".16em", textTransform:"uppercase", marginBottom:8 }}>Nombre d'enfants</div>
+<input className="inp" placeholder="Ex: 2" inputMode="numeric" pattern="[0-9]*" maxLength={2} value={clientEnfants} onChange={e => setClientEnfants(e.target.value.replace(/[^0-9]/g, ""))} />
 </div>
 </div>
 )}
 <div style={{ marginBottom:16 }}>
-<div style={{ fontSize:10, color:C.gold, letterSpacing:”.16em”, textTransform:“uppercase”, marginBottom:8 }}>Profession (optionnel)</div>
-<select className=“inp” style={{ cursor:“pointer” }} value={clientRole} onChange={e => setClientRole(e.target.value)}>
+<div style={{ fontSize:10, color:C.gold, letterSpacing:".16em", textTransform:"uppercase", marginBottom:8 }}>Profession (optionnel)</div>
+<select className="inp" style={{ cursor:"pointer" }} value={clientRole} onChange={e => setClientRole(e.target.value)}>
 <option value="">Sélectionner…</option>
 {ROLES.map(r => <option key={r} value={r}>{r}</option>)}
 </select>
-{clientRole === “Autre” && <input className=“inp” placeholder=“Précisez votre profession” value={clientRoleCustom} onChange={e => setClientRoleCustom(e.target.value)} />}
+{clientRole === "Autre" && <input className="inp" placeholder="Précisez votre profession" value={clientRoleCustom} onChange={e => setClientRoleCustom(e.target.value)} />}
 </div>
 <div style={{ marginBottom:16 }}>
-<div style={{ fontSize:10, color:C.gold, letterSpacing:”.16em”, textTransform:“uppercase”, marginBottom:8 }}>Code d’accès</div>
-<input className=“inp” placeholder=“XXXX-XXXX” value={enteredCode} onChange={e => setEnteredCode(e.target.value)} onKeyDown={e => e.key === “Enter” && handleCodeEntry()} />
+<div style={{ fontSize:10, color:C.gold, letterSpacing:".16em", textTransform:"uppercase", marginBottom:8 }}>Code d'accès</div>
+<input className="inp" placeholder="XXXX-XXXX" value={enteredCode} onChange={e => setEnteredCode(e.target.value)} onKeyDown={e => e.key === "Enter" && handleCodeEntry()} />
 </div>
 {codeMsg.text && <div style={{ fontSize:12, color:codeMsg.ok ? C.green : C.red, marginBottom:12 }}>{codeMsg.text}</div>}
 <button className="btn-primary" onClick={handleCodeEntry}>Commencer mon bilan →</button>
-<div style={{ marginTop:16, fontSize:11, color:C.dim, lineHeight:1.6 }}>Vous n’avez pas de code ? <span style={{ color:C.gold, cursor:“pointer”, textDecoration:“underline” }} onClick={() => window.open(`https://wa.me/${WHATSAPP_NUM}?text=${encodeURIComponent("Bonjour, je souhaite obtenir un code d'accès pour le Bilan 360° Eden.")}`)}>Contactez l’Académie Eden sur WhatsApp</span></div>
+<div style={{ marginTop:16, fontSize:11, color:C.dim, lineHeight:1.6 }}>Vous n'avez pas de code ? <span style={{ color:C.gold, cursor:"pointer", textDecoration:"underline" }} onClick={() => window.open("https://wa.me/" + WHATSAPP_NUM + "?text=" + encodeURIComponent("Bonjour, je souhaite obtenir un code d'accès pour le Bilan 360° Eden."))}>Contactez l'Académie Eden sur WhatsApp</span></div>
 </div>
 );
 }
 
-if (view === “diagnostic” && mod) {
+if (view === "diagnostic" && mod) {
 const progress = (dimIdx / dims.length) * 85;
-if (phase === “q”) {
+if (phase === "q") {
 const dimOk = dim?.qs.every(q => ans[q.id] !== undefined);
 const allOk = dims.every(d => d.qs.every(q => ans[q.id] !== undefined));
 return (
 <div className="section">
 {facadeActive && <FacadeAlert ans={ans} profil={clientProfil} onContinue={() => handleCheckViolence()} onRevise={() => setFacadeActive(false)} />}
 {violenceSignals && <ViolenceProtocol signals={violenceSignals} onContinue={() => handleSubmit()} />}
-<div className="progress-bar"><div className=“progress-fill” style={{ width:`${progress}%` }} /></div>
-<div style={{ fontSize:9, color:C.dim, letterSpacing:”.14em”, textTransform:“uppercase”, marginBottom:16 }}>Dimension {dimIdx+1}/{dims.length} — {dim?.label}</div>
+<div className="progress-bar"><div className="progress-fill" style={{ width: progress + "%" }} /></div>
+<div style={{ fontSize:9, color:C.dim, letterSpacing:".14em", textTransform:"uppercase", marginBottom:16 }}>Dimension {dimIdx + 1}/{dims.length} — {dim?.label}</div>
 {dim && (
 <div>
 {dim.qs.map(q => (
@@ -2291,7 +2291,7 @@ return (
 <div className="q-text">{q.t}</div>
 <div className="scale-row">
 {SCALE.map(v => (
-<button key={v} className={`scale-btn ${ans[q.id] === v ? "selected" : ""}`} onClick={() => doAns(q.id, v)}>
+<button key={v} className={"scale-btn " + (ans[q.id] === v ? "selected" : "")} onClick={() => doAns(q.id, v)}>
 {v}<br /><span style={{ fontSize:9 }}>{SL[v]}</span>
 </button>
 ))}
@@ -2301,16 +2301,16 @@ return (
 </div>
 )}
 <div className="nav-row">
-<button className=“btn-secondary” style={{ flex:“0 0 auto” }} onClick={() => { if (dimIdx === 0) setView(“code_entry”); else setDimIdx(i => i-1); }}>← Retour</button>
-<button className=“btn-primary” disabled={!dimOk} onClick={() => {
-if (dimIdx < dims.length - 1) setDimIdx(i => i+1);
-else if (allOk) setPhase(“oq”);
-}}>{dimIdx < dims.length - 1 ? “Suivant →” : “Questions ouvertes →”}</button>
+<button className="btn-secondary" style={{ flex:"0 0 auto" }} onClick={() => { if (dimIdx === 0) setView("code_entry"); else setDimIdx(i => i - 1); }}>← Retour</button>
+<button className="btn-primary" disabled={!dimOk} onClick={() => {
+if (dimIdx < dims.length - 1) setDimIdx(i => i + 1);
+else if (allOk) setPhase("oq");
+}}>{dimIdx < dims.length - 1 ? "Suivant →" : "Questions ouvertes →"}</button>
 </div>
 </div>
 );
 }
-if (phase === “oq”) {
+if (phase === "oq") {
 return (
 <div className="section">
 <div className="section-tag">◈ Questions ouvertes</div>
@@ -2319,11 +2319,11 @@ return (
 {mod.oqs.map(q => (
 <div key={q.id} style={{ marginBottom:24 }}>
 <div className="q-text">{q.t}</div>
-<textarea className=“ta” value={oAns[q.id]||””} onChange={e => doOAns(q.id, e.target.value)} />
+<textarea className="ta" value={oAns[q.id] || ""} onChange={e => doOAns(q.id, e.target.value)} />
 </div>
 ))}
 <div className="nav-row">
-<button className=“btn-secondary” style={{ flex:“0 0 auto” }} onClick={() => setPhase(“q”)}>← Retour</button>
+<button className="btn-secondary" style={{ flex:"0 0 auto" }} onClick={() => setPhase("q")}>← Retour</button>
 <button className="btn-primary" onClick={handleCheckFacade}>Générer mon rapport →</button>
 </div>
 </div>
@@ -2331,14 +2331,14 @@ return (
 }
 }
 
-if (view === “loading”) {
+if (view === "loading") {
 const msgs = LOADING_MSGS[clientProfil] || LOADING_MSGS.marie;
 const safeIdx = loadIdx % msgs.length;
 return (
 <div className="loading-screen">
 <div className="loading-ring" />
-<div style={{ textAlign:“center” }}>
-<div style={{ fontSize:9, color:C.gold, letterSpacing:”.2em”, textTransform:“uppercase”, marginBottom:12 }}>{msgs[safeIdx][0]}</div>
+<div style={{ textAlign:"center" }}>
+<div style={{ fontSize:9, color:C.gold, letterSpacing:".2em", textTransform:"uppercase", marginBottom:12 }}>{msgs[safeIdx][0]}</div>
 <div className="loading-msg">{msgs[safeIdx][1]}</div>
 </div>
 <div className="loading-sub">Académie Eden · Analyse en cours</div>
@@ -2346,16 +2346,16 @@ return (
 );
 }
 
-if (view === “results” && results) {
+if (view === "results" && results) {
 const sections = parseReport(results.text);
 const gl = lvl(results.gp);
 const formations = FORMATIONS.filter(f => f.profil.includes(results.profil));
-const activePatterns = results.patternScores ? Object.entries(results.patternScores).filter(([,v]) => v > 40).sort(([,a],[,b]) => b-a) : [];
+const activePatterns = results.patternScores ? Object.entries(results.patternScores).filter(([,v]) => v > 40).sort(([,a],[,b]) => b - a) : [];
 const entries = Object.entries(results.scores);
 const N = entries.length;
 const CX = 200, CY = 200, R = 140, RINT = 28;
-const radarPts = entries.map(([k,d],i) => { const angle=(2*Math.PI*i/N)-Math.PI/2; const r2=RINT+(d.p/100)*(R-RINT); return { x:CX+r2*Math.cos(angle), y:CY+r2*Math.sin(angle), k, d, angle }; });
-const poly = radarPts.map(p=>`${p.x},${p.y}`).join(” “);
+const radarPts = entries.map(([k,d], i) => { const angle = (2 * Math.PI * i / N) - Math.PI / 2; const r2 = RINT + (d.p / 100) * (R - RINT); return { x: CX + r2 * Math.cos(angle), y: CY + r2 * Math.sin(angle), k, d, angle }; });
+const poly = radarPts.map(p => p.x + "," + p.y).join(" ");
 const bm = BM[results.profil] || {};
 const remaining = MAX_QUESTIONS - questionsUsed;
 const clockData = canHorloge ? computeRelationshipClock(results.gp, results.patternScores || {}, clientAnnees, results.profil) : null;
@@ -2363,7 +2363,7 @@ return (
 <div className="section">
 {activeLetterModal && (
 letterLoading ? (
-<div style={{ position:“fixed”, inset:0, background:”#000000F0”, zIndex:400, display:“flex”, alignItems:“center”, justifyContent:“center”, flexDirection:“column”, gap:20 }}>
+<div style={{ position:"fixed", inset:0, background:"#000000F0", zIndex:400, display:"flex", alignItems:"center", justifyContent:"center", flexDirection:"column", gap:20 }}>
 <div className="loading-ring" /><div style={{ fontSize:12, color:C.muted }}>Génération de votre lettre…</div>
 </div>
 ) : (
@@ -2372,208 +2372,204 @@ letterLoading ? (
 )}
 {shareCardActive && canViralShare && <ViralShareCard clientName={clientName} gp={results.gp} profil={results.profil} riskLevel={gl} onClose={() => setShareCardActive(false)} />}
 {/* Header */}
-<div style={{ background:“linear-gradient(135deg,#0B0F1A,#0D1020,#080A10)”, border:“1px solid #1E2330”, padding:“24px 20px”, marginBottom:20 }}>
-<div style={{ fontSize:8, letterSpacing:”.3em”, textTransform:“uppercase”, color:C.gold, marginBottom:8 }}>Bilan 360° Eden — {MODS[results.profil]?.label}</div>
-<div style={{ fontFamily:”‘Cormorant Garamond’,serif”, fontSize:28, color:”#F0EBE0”, marginBottom:4 }}>Rapport de {clientName}</div>
-<div style={{ display:“flex”, alignItems:“center”, gap:12 }}>
-<div style={{ fontFamily:”‘Cormorant Garamond’,serif”, fontSize:48, color:gl.c, lineHeight:1 }}>{results.gp}</div>
+<div style={{ background:"linear-gradient(135deg,#0B0F1A,#0D1020,#080A10)", border:"1px solid #1E2330", padding:"24px 20px", marginBottom:20 }}>
+<div style={{ fontSize:8, letterSpacing:".3em", textTransform:"uppercase", color:C.gold, marginBottom:8 }}>Bilan 360° Eden — {MODS[results.profil]?.label}</div>
+<div style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:28, color:"#F0EBE0", marginBottom:4 }}>Rapport de {clientName}</div>
+<div style={{ display:"flex", alignItems:"center", gap:12 }}>
+<div style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:48, color:gl.c, lineHeight:1 }}>{results.gp}</div>
 <div>
 <div style={{ fontSize:14, color:gl.c }}>/100</div>
-<div style={{ fontSize:10, color:C.muted, letterSpacing:”.1em”, textTransform:“uppercase” }}>{gl.l}</div>
+<div style={{ fontSize:10, color:C.muted, letterSpacing:".1em", textTransform:"uppercase" }}>{gl.l}</div>
 </div>
 </div>
 </div>
 {/* Alerte niveau 1/2 */}
-<AlertBanner alertLevel={results.alertLevel||0} clientName={clientName} gp={results.gp} />
+<AlertBanner alertLevel={results.alertLevel || 0} clientName={clientName} gp={results.gp} />
 
-```
-    {/* Témoignages */}
-    {testimonialsOpen && <TestimonialsModal clientName={clientName} gp={results.gp} profil={results.profil} patternScores={results.patternScores||{}} scores={results.scores} onClose={() => setTestimonialsOpen(false)} />}
+{/* Témoignages */}
+{testimonialsOpen && <TestimonialsModal clientName={clientName} gp={results.gp} profil={results.profil} patternScores={results.patternScores || {}} scores={results.scores} onClose={() => setTestimonialsOpen(false)} />}
 
-    {/* Rapport interne */}
-    {internalReportOpen && <InternalReportModal clientName={clientName} profil={results.profil} genre={clientGenre} role={clientRole==="Autre"&&clientRoleCustom?clientRoleCustom:clientRole} annees={clientAnnees} enfants={clientEnfants} scores={results.scores} opens={results.openAns||[]} patternScores={results.patternScores||{}} gp={results.gp} rawAns={results.rawAns||{}} alertLevel={results.alertLevel||0} onClose={() => setInternalReportOpen(false)} />}
+{/* Rapport interne */}
+{internalReportOpen && <InternalReportModal clientName={clientName} profil={results.profil} genre={clientGenre} role={clientRole === "Autre" && clientRoleCustom ? clientRoleCustom : clientRole} annees={clientAnnees} enfants={clientEnfants} scores={results.scores} opens={results.openAns || []} patternScores={results.patternScores || {}} gp={results.gp} rawAns={results.rawAns || {}} alertLevel={results.alertLevel || 0} onClose={() => setInternalReportOpen(false)} />}
 
-    {/* Patterns */}
-    {activePatterns.length > 0 && (
-      <div className="pat-box" style={{ marginBottom:16 }}>
-        <div style={{ fontSize:9, color:C.muted, letterSpacing:".16em", textTransform:"uppercase", marginBottom:8 }}>Patterns archétypaux détectés</div>
-        <div style={{ display:"flex", flexWrap:"wrap", gap:6 }}>
-          {activePatterns.map(([k,v]) => <span key={k} style={{ padding:"3px 10px", border:`1px solid ${ARCHETYPES[k]?.color||C.gold}66`, fontSize:10, color:ARCHETYPES[k]?.color||C.gold }}>{k}</span>)}
-        </div>
-      </div>
-    )}
-    {/* Indices */}
-    {results.indices && Object.keys(results.indices).length > 0 && (
-      <div className="indices-grid">
-        {Object.entries(results.indices).map(([k,v]) => (
-          <div key={k} className="index-card" onClick={() => setModal({ title:IE[k]?.titre||k, sub:"Indice composite", body:IE[k]?.def||"", danger:false })}>
-            <div style={{ fontSize:9, color:v.color, letterSpacing:".14em", textTransform:"uppercase", marginBottom:6 }}>{k}</div>
-            <div style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:28, color:v.color, lineHeight:1 }}>{v.p}</div>
-            <div style={{ fontSize:10, color:C.muted }}>{v.label}</div>
-          </div>
-        ))}
-      </div>
-    )}
-    {/* Radar */}
-    <div className="radar-wrap">
-      <div style={{ fontSize:10, letterSpacing:".18em", textTransform:"uppercase", color:C.gold, marginBottom:12 }}>◈ Carte dimensionnelle</div>
-      <div style={{ fontSize:9, color:C.muted, marginBottom:12 }}>Cliquez sur une dimension pour l'analyser</div>
-      <svg viewBox="0 0 400 400" style={{ width:"100%", maxWidth:380, display:"block", margin:"0 auto" }}>
-        {[20,40,60,80,100].map(pp => {
-          const r2 = RINT+(pp/100)*(R-RINT);
-          const rp = Array.from({length:N},(_,i)=>{ const a=(2*Math.PI*i/N)-Math.PI/2; return `${CX+r2*Math.cos(a)},${CY+r2*Math.sin(a)}`; }).join(" ");
-          return <polygon key={pp} points={rp} fill="none" stroke="#1E2330" strokeWidth="1" />;
-        })}
-        {entries.map(([k],i)=>{ const a=(2*Math.PI*i/N)-Math.PI/2; return <line key={k} x1={CX} y1={CY} x2={CX+(R+12)*Math.cos(a)} y2={CY+(R+12)*Math.sin(a)} stroke="#1E2330" strokeWidth="1"/>; })}
-        <polygon points={poly} fill="#C9A84C18" stroke="#C9A84C" strokeWidth="1.5"/>
-        {radarPts.map((p,i) => (
-          <g key={i} style={{ cursor:"pointer" }} onClick={() => setModal({ title:DE[p.k]?.titre||p.d.label, sub:`Score : ${p.d.p}/100 — ${p.d.lv.l}`, body:DE[p.k]?.texte||"", danger:false })}>
-            <circle cx={p.x} cy={p.y} r="5" fill={p.d.lv.c} />
-          </g>
-        ))}
-        {radarPts.map((p,i)=>{ const isR=Math.cos(p.angle)>0.1,isL=Math.cos(p.angle)<-0.1; const anchor=isR?"start":isL?"end":"middle"; const lx=CX+(R+26)*Math.cos(p.angle),ly=CY+(R+26)*Math.sin(p.angle); return <text key={i} x={lx} y={ly} textAnchor={anchor} fontSize="9" fill={C.dim}>{p.d.label.split(" ")[0]}</text>; })}
-      </svg>
+{/* Patterns */}
+{activePatterns.length > 0 && (
+  <div className="pat-box" style={{ marginBottom:16 }}>
+    <div style={{ fontSize:9, color:C.muted, letterSpacing:".16em", textTransform:"uppercase", marginBottom:8 }}>Patterns archétypaux détectés</div>
+    <div style={{ display:"flex", flexWrap:"wrap", gap:6 }}>
+      {activePatterns.map(([k,v]) => <span key={k} style={{ padding:"3px 10px", border:"1px solid " + (ARCHETYPES[k]?.color || C.gold) + "66", fontSize:10, color:ARCHETYPES[k]?.color || C.gold }}>{k}</span>)}
     </div>
-    {/* Score bars */}
-    <div className="sg">
-      {entries.map(([k,d]) => {
-        const sp = bm[k]?.stable||null;
-        return (
-          <div key={k} className="score-bar-item" onClick={() => setModal({ title:DE[k]?.titre||d.label, sub:`Score : ${d.p}/100 — ${d.lv.l}`, body:DE[k]?.texte||"", danger:false })}>
-            <div className="score-bar-header">
-              <span className="score-bar-label">{d.label}</span>
-              <span className="score-bar-value" style={{ color:d.lv.c }}>{d.p}/100</span>
-            </div>
-            <div className="score-bar-track">
-              <div className="score-bar-fill" style={{ width:`${d.p}%`, background:d.lv.c }} />
-            </div>
-            {sp && <div style={{ fontSize:9, color:C.dim, marginTop:3 }}>Référence stable : {sp}/100{d.p>=sp?" ✓" : ` (${d.p-sp})`}</div>}
-          </div>
-        );
-      })}
-    </div>
-    {/* Report sections */}
-    {sections.map((s,i) => {
-      const t = (s.title||"").toUpperCase();
-      const isPlan = t.includes("PLAN")||t.includes("7 JOURS")||t.includes("ACTION");
-      const isReco = t.includes("PRESCRIPTION")||t.includes("RECOMMANDATION");
-      const isPhrase = t.includes("PHRASE")||t.includes("CLÉ")||t.includes("CLE");
-      if (isPlan) return <div key={i} className="plan-box"><div className="plan-title">✦ {s.title}</div><div className="rbt">{s.body}</div></div>;
-      if (isReco) return <div key={i} className="reco-box"><div className="reco-title">✦ {s.title}</div><div className="rbt">{s.body}</div></div>;
-      if (isPhrase) return <div key={i} className="phrase-box"><div className="phrase-text">« {s.body} »</div></div>;
-      return <div key={i} className="rb">{s.title && <div className="stl">{s.title}</div>}<div className="rbt">{s.body}</div></div>;
+  </div>
+)}
+{/* Indices */}
+{results.indices && Object.keys(results.indices).length > 0 && (
+  <div className="indices-grid">
+    {Object.entries(results.indices).map(([k,v]) => (
+      <div key={k} className="index-card" onClick={() => setModal({ title:IE[k]?.titre || k, sub:"Indice composite", body:IE[k]?.def || "", danger:false })}>
+        <div style={{ fontSize:9, color:v.color, letterSpacing:".14em", textTransform:"uppercase", marginBottom:6 }}>{k}</div>
+        <div style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:28, color:v.color, lineHeight:1 }}>{v.p}</div>
+        <div style={{ fontSize:10, color:C.muted }}>{v.label}</div>
+      </div>
+    ))}
+  </div>
+)}
+{/* Radar */}
+<div className="radar-wrap">
+  <div style={{ fontSize:10, letterSpacing:".18em", textTransform:"uppercase", color:C.gold, marginBottom:12 }}>◈ Carte dimensionnelle</div>
+  <div style={{ fontSize:9, color:C.muted, marginBottom:12 }}>Cliquez sur une dimension pour l'analyser</div>
+  <svg viewBox="0 0 400 400" style={{ width:"100%", maxWidth:380, display:"block", margin:"0 auto" }}>
+    {[20,40,60,80,100].map(pp => {
+      const r2 = RINT + (pp / 100) * (R - RINT);
+      const rp = Array.from({ length:N }, (_, i) => { const a = (2 * Math.PI * i / N) - Math.PI / 2; return CX + r2 * Math.cos(a) + "," + (CY + r2 * Math.sin(a)); }).join(" ");
+      return <polygon key={pp} points={rp} fill="none" stroke="#1E2330" strokeWidth="1" />;
     })}
-    {/* Premium features */}
-    {clockData && canHorloge && <RelationshipClock clockData={clockData} />}
-    {!canHorloge && results.profil === "marie" && (
-      <PremiumGate feature="Horloge Relationnelle — Projection temporelle Gottman" onUpgrade={onRequestUpgrade} />
-    )}
-    {canMicroPertes ? (
-      <MicroPertesSection scores={results.scores} profil={results.profil} />
-    ) : results.profil !== "celibataire" && (
-      <PremiumGate feature="Micro-Pertes Invisibles — Ce que vous perdez déjà" onUpgrade={onRequestUpgrade} />
-    )}
-    {/* Lecture miroir (premium) */}
-    {!canLectureMiroir && results.profil !== "celibataire" && (
-      <PremiumGate feature="Lecture Miroir Enrichie — Ce que votre partenaire ressent probablement" onUpgrade={onRequestUpgrade} />
-    )}
-    {/* WhatsApp CTA */}
-    <SmartWhatsAppCTA clientName={clientName} gp={results.gp} profil={results.profil} riskLevel={gl} patterns={results.patternScores||{}} />
-    {/* Lettre du futur */}
-    {canFutureLetter ? (
-      <div className="card-gold-left" style={{ marginBottom:24 }}>
-        <div style={{ fontSize:9, color:C.gold, letterSpacing:".2em", textTransform:"uppercase", marginBottom:10 }}>◈ Lettre du Moi dans 5 ans</div>
-        <p style={{ fontSize:12, color:C.muted, lineHeight:1.7, marginBottom:14 }}>Une lettre générée à la première personne, depuis votre futur possible. Technique utilisée en thérapie cognitive émotionnelle.</p>
-        <button onClick={handleGenerateLetter} className="btn-gold-outline" style={{ width:"100%" }}>Recevoir la lettre de mon futur</button>
+    {entries.map(([k], i) => { const a = (2 * Math.PI * i / N) - Math.PI / 2; return <line key={k} x1={CX} y1={CY} x2={CX + (R + 12) * Math.cos(a)} y2={CY + (R + 12) * Math.sin(a)} stroke="#1E2330" strokeWidth="1" />; })}
+    <polygon points={poly} fill="#C9A84C18" stroke="#C9A84C" strokeWidth="1.5" />
+    {radarPts.map((p, i) => (
+      <g key={i} style={{ cursor:"pointer" }} onClick={() => setModal({ title:DE[p.k]?.titre || p.d.label, sub:"Score : " + p.d.p + "/100 — " + p.d.lv.l, body:DE[p.k]?.texte || "", danger:false })}>
+        <circle cx={p.x} cy={p.y} r="5" fill={p.d.lv.c} />
+      </g>
+    ))}
+    {radarPts.map((p, i) => { const isR = Math.cos(p.angle) > 0.1; const isL = Math.cos(p.angle) < -0.1; const anchor = isR ? "start" : isL ? "end" : "middle"; const lx = CX + (R + 26) * Math.cos(p.angle); const ly = CY + (R + 26) * Math.sin(p.angle); return <text key={i} x={lx} y={ly} textAnchor={anchor} fontSize="9" fill={C.dim}>{p.d.label.split(" ")[0]}</text>; })}
+  </svg>
+</div>
+{/* Score bars */}
+<div className="sg">
+  {entries.map(([k, d]) => {
+    const sp = bm[k]?.stable || null;
+    return (
+      <div key={k} className="score-bar-item" onClick={() => setModal({ title:DE[k]?.titre || d.label, sub:"Score : " + d.p + "/100 — " + d.lv.l, body:DE[k]?.texte || "", danger:false })}>
+        <div className="score-bar-header">
+          <span className="score-bar-label">{d.label}</span>
+          <span className="score-bar-value" style={{ color:d.lv.c }}>{d.p}/100</span>
+        </div>
+        <div className="score-bar-track">
+          <div className="score-bar-fill" style={{ width: d.p + "%", background:d.lv.c }} />
+        </div>
+        {sp && <div style={{ fontSize:9, color:C.dim, marginTop:3 }}>Référence stable : {sp}/100{d.p >= sp ? " ✓" : " (" + (d.p - sp) + ")"}</div>}
       </div>
-    ) : (
-      <PremiumGate feature="Lettre du Moi Futur — Impact émotionnel maximal" onUpgrade={onRequestUpgrade} />
-    )}
-    {/* Carte virale */}
-    {canViralShare ? (
-      <div className="card-gold" style={{ marginBottom:24 }}>
-        <div style={{ fontSize:9, color:C.gold, letterSpacing:".2em", textTransform:"uppercase", marginBottom:10 }}>◈ Partager votre révélation</div>
-        <p style={{ fontSize:12, color:C.muted, lineHeight:1.7, marginBottom:14 }}>Partagez votre score et votre verdict sans révéler votre rapport complet.</p>
-        <button className="btn-wa" onClick={() => setShareCardActive(true)}>Générer ma carte de partage</button>
-      </div>
-    ) : (
-      <PremiumGate feature="Carte Virale de Partage — Moteur de vente autonome" onUpgrade={onRequestUpgrade} />
-    )}
-    {/* Formations */}
-    <div style={{ marginBottom:8 }}><div className="stl">Formations recommandées</div></div>
-    <div className="form-grid">
-      {formations.map(f => (
-        <div key={f.id} className="form-card" onClick={() => setModal({ title:f.nom, sub:f.detail||"Formation Eden Académie", body:`${f.desc}\n\nPrix : ${f.prix}`, danger:false })}>
-          <div className="form-card-name">{f.nom}</div>
-          <div className="form-card-prix">{f.prix}</div>
-          <div className="form-card-desc">{f.desc.slice(0,80)}…</div>
+    );
+  })}
+</div>
+{/* Report sections */}
+{sections.map((s, i) => {
+  const t = (s.title || "").toUpperCase();
+  const isPlan = t.includes("PLAN") || t.includes("7 JOURS") || t.includes("ACTION");
+  const isReco = t.includes("PRESCRIPTION") || t.includes("RECOMMANDATION");
+  const isPhrase = t.includes("PHRASE") || t.includes("CLÉ") || t.includes("CLE");
+  if (isPlan) return <div key={i} className="plan-box"><div className="plan-title">✦ {s.title}</div><div className="rbt">{s.body}</div></div>;
+  if (isReco) return <div key={i} className="reco-box"><div className="reco-title">✦ {s.title}</div><div className="rbt">{s.body}</div></div>;
+  if (isPhrase) return <div key={i} className="phrase-box"><div className="phrase-text">« {s.body} »</div></div>;
+  return <div key={i} className="rb">{s.title && <div className="stl">{s.title}</div>}<div className="rbt">{s.body}</div></div>;
+})}
+{/* Premium features */}
+{clockData && canHorloge && <RelationshipClock clockData={clockData} />}
+{!canHorloge && results.profil === "marie" && (
+  <PremiumGate feature="Horloge Relationnelle — Projection temporelle Gottman" onUpgrade={onRequestUpgrade} />
+)}
+{canMicroPertes ? (
+  <MicroPertesSection scores={results.scores} profil={results.profil} />
+) : results.profil !== "celibataire" && (
+  <PremiumGate feature="Micro-Pertes Invisibles — Ce que vous perdez déjà" onUpgrade={onRequestUpgrade} />
+)}
+{/* Lecture miroir (premium) */}
+{!canLectureMiroir && results.profil !== "celibataire" && (
+  <PremiumGate feature="Lecture Miroir Enrichie — Ce que votre partenaire ressent probablement" onUpgrade={onRequestUpgrade} />
+)}
+{/* WhatsApp CTA */}
+<SmartWhatsAppCTA clientName={clientName} gp={results.gp} profil={results.profil} riskLevel={gl} patterns={results.patternScores || {}} />
+{/* Lettre du futur */}
+{canFutureLetter ? (
+  <div className="card-gold-left" style={{ marginBottom:24 }}>
+    <div style={{ fontSize:9, color:C.gold, letterSpacing:".2em", textTransform:"uppercase", marginBottom:10 }}>◈ Lettre du Moi dans 5 ans</div>
+    <p style={{ fontSize:12, color:C.muted, lineHeight:1.7, marginBottom:14 }}>Une lettre générée à la première personne, depuis votre futur possible. Technique utilisée en thérapie cognitive émotionnelle.</p>
+    <button onClick={handleGenerateLetter} className="btn-gold-outline" style={{ width:"100%" }}>Recevoir la lettre de mon futur</button>
+  </div>
+) : (
+  <PremiumGate feature="Lettre du Moi Futur — Impact émotionnel maximal" onUpgrade={onRequestUpgrade} />
+)}
+{/* Carte virale */}
+{canViralShare ? (
+  <div className="card-gold" style={{ marginBottom:24 }}>
+    <div style={{ fontSize:9, color:C.gold, letterSpacing:".2em", textTransform:"uppercase", marginBottom:10 }}>◈ Partager votre révélation</div>
+    <p style={{ fontSize:12, color:C.muted, lineHeight:1.7, marginBottom:14 }}>Partagez votre score et votre verdict sans révéler votre rapport complet.</p>
+    <button className="btn-wa" onClick={() => setShareCardActive(true)}>Générer ma carte de partage</button>
+  </div>
+) : (
+  <PremiumGate feature="Carte Virale de Partage — Moteur de vente autonome" onUpgrade={onRequestUpgrade} />
+)}
+{/* Formations */}
+<div style={{ marginBottom:8 }}><div className="stl">Formations recommandées</div></div>
+<div className="form-grid">
+  {formations.map(f => (
+    <div key={f.id} className="form-card" onClick={() => setModal({ title:f.nom, sub:f.detail || "Formation Eden Académie", body:f.desc + "\n\nPrix : " + f.prix, danger:false })}>
+      <div className="form-card-name">{f.nom}</div>
+      <div className="form-card-prix">{f.prix}</div>
+      <div className="form-card-desc">{f.desc.slice(0, 80)}…</div>
+    </div>
+  ))}
+</div>
+{/* Q&A */}
+<div className="qa-section">
+  <div className="qa-header">✦ Approfondissez votre bilan<span className={"qa-counter " + (remaining === 0 ? "exhausted" : "")}>{remaining} question{remaining > 1 ? "s" : ""} restante{remaining > 1 ? "s" : ""}</span></div>
+  <div style={{ fontSize:11, color:C.muted, marginBottom:16, lineHeight:1.6 }}>Posez jusqu'à {MAX_QUESTIONS} questions personnalisées sur votre rapport.</div>
+  {chatHistory.length > 0 && (
+    <div className="qa-history">
+      {chatHistory.map((msg, i) => (
+        <div key={i} className={msg.role === "user" ? "qa-bubble-user" : "qa-bubble-ai"}>
+          <div className="qa-bubble-label" style={{ color:msg.role === "user" ? C.gold : C.green }}>{msg.role === "user" ? clientName : "Eden Académie"}</div>
+          <div className="qa-bubble-text">{msg.content}</div>
         </div>
       ))}
+      {chatLoading && <div className="qa-typing"><span style={{ fontSize:9, color:C.green, letterSpacing:".12em", textTransform:"uppercase", marginRight:6 }}>Eden</span><span className="qa-dot"/><span className="qa-dot"/><span className="qa-dot"/></div>}
+      <div ref={chatEndRef} />
     </div>
-    {/* Q&A */}
-    <div className="qa-section">
-      <div className="qa-header">✦ Approfondissez votre bilan<span className={`qa-counter ${remaining===0?"exhausted":""}`}>{remaining} question{remaining>1?"s":""} restante{remaining>1?"s":""}</span></div>
-      <div style={{ fontSize:11, color:C.muted, marginBottom:16, lineHeight:1.6 }}>Posez jusqu'à {MAX_QUESTIONS} questions personnalisées sur votre rapport.</div>
-      {chatHistory.length > 0 && (
-        <div className="qa-history">
-          {chatHistory.map((msg,i) => (
-            <div key={i} className={msg.role==="user"?"qa-bubble-user":"qa-bubble-ai"}>
-              <div className="qa-bubble-label" style={{ color:msg.role==="user"?C.gold:C.green }}>{msg.role==="user"?clientName:"Eden Académie"}</div>
-              <div className="qa-bubble-text">{msg.content}</div>
-            </div>
-          ))}
-          {chatLoading && <div className="qa-typing"><span style={{ fontSize:9,color:C.green,letterSpacing:".12em",textTransform:"uppercase",marginRight:6 }}>Eden</span><span className="qa-dot"/><span className="qa-dot"/><span className="qa-dot"/></div>}
-          <div ref={chatEndRef}/>
-        </div>
-      )}
-      {remaining > 0 ? (
-        <div className="qa-input-row">
-          <textarea className="ta" style={{ marginBottom:0, minHeight:56 }} placeholder="Posez votre question…" value={chatInput} onChange={e=>setChatInput(e.target.value)} onKeyDown={e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();handleAskQuestion();}}} disabled={chatLoading}/>
-          <button className="qa-send" onClick={handleAskQuestion} disabled={!chatInput.trim()||chatLoading}>{chatLoading?"…":"Envoyer"}</button>
-        </div>
-      ) : (
-        <div style={{ textAlign:"center", padding:"16px 0" }}>
-          <div style={{ fontSize:13, color:C.gold, fontFamily:"'Cormorant Garamond',serif", marginBottom:6 }}>Vous avez utilisé vos {MAX_QUESTIONS} questions</div>
-          <div style={{ fontSize:11, color:C.muted }}>Pour un accompagnement personnalisé, contactez l'Académie Eden.</div>
-        </div>
-      )}
+  )}
+  {remaining > 0 ? (
+    <div className="qa-input-row">
+      <textarea className="ta" style={{ marginBottom:0, minHeight:56 }} placeholder="Posez votre question…" value={chatInput} onChange={e => setChatInput(e.target.value)} onKeyDown={e => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); handleAskQuestion(); } }} disabled={chatLoading} />
+      <button className="qa-send" onClick={handleAskQuestion} disabled={!chatInput.trim() || chatLoading}>{chatLoading ? "…" : "Envoyer"}</button>
     </div>
-    {/* Bouton Rapport Interne Conseiller + Témoignage */}
-    <div style={{ display:"flex", gap:8, marginBottom:16 }}>
-      <button onClick={() => setTestimonialsOpen(true)} style={{ flex:1, background:"transparent", border:"1px solid #C9A84C44", color:C.gold, padding:"11px 14px", fontFamily:"'Jost',sans-serif", fontSize:11, cursor:"pointer" }}>
-        ✦ Partager mon témoignage
-      </button>
-      <button onClick={() => setInternalReportOpen(true)} style={{ flex:1, background:"transparent", border:"1px solid #1E2330", color:C.dim, padding:"11px 14px", fontFamily:"'Jost',sans-serif", fontSize:10, cursor:"pointer" }}>
-        🔒 Rapport Conseiller
-      </button>
+  ) : (
+    <div style={{ textAlign:"center", padding:"16px 0" }}>
+      <div style={{ fontSize:13, color:C.gold, fontFamily:"'Cormorant Garamond',serif", marginBottom:6 }}>Vous avez utilisé vos {MAX_QUESTIONS} questions</div>
+      <div style={{ fontSize:11, color:C.muted }}>Pour un accompagnement personnalisé, contactez l'Académie Eden.</div>
     </div>
+  )}
+</div>
+{/* Bouton Rapport Interne Conseiller + Témoignage */}
+<div style={{ display:"flex", gap:8, marginBottom:16 }}>
+  <button onClick={() => setTestimonialsOpen(true)} style={{ flex:1, background:"transparent", border:"1px solid #C9A84C44", color:C.gold, padding:"11px 14px", fontFamily:"'Jost',sans-serif", fontSize:11, cursor:"pointer" }}>
+    ✦ Partager mon témoignage
+  </button>
+  <button onClick={() => setInternalReportOpen(true)} style={{ flex:1, background:"transparent", border:"1px solid #1E2330", color:C.dim, padding:"11px 14px", fontFamily:"'Jost',sans-serif", fontSize:10, cursor:"pointer" }}>
+    🔒 Rapport Conseiller
+  </button>
+</div>
 
-    {/* Partager avec le Conseiller */}
-    <ShareWithConseiller
-      clientName={clientName}
-      gp={results.gp}
-      profil={results.profil}
-      riskLevel={gl}
-      patterns={results.patternScores||{}}
-      scores={results.scores}
-      sections={sections}
-    />
-    {/* CTA final */}
-    <div className="cta-box">
-      <div className="cta-title">Aller plus loin, {clientName}</div>
-      <p className="cta-sub">Ce rapport est votre point de départ. Pour un accompagnement personnalisé avec Zady Zozoro, contactez l'Académie Eden directement.</p>
-      <button className="btn-wa" onClick={() => window.open(`https://wa.me/${WHATSAPP_NUM}?text=${encodeURIComponent(`Bonjour Académie Eden, je viens de compléter mon Bilan 360°. Score : ${results.gp}/100. Je souhaite aller plus loin.`)}`)}>Contacter l'Académie Eden · WhatsApp</button>
-    </div>
-    <LegalDisclaimer gp={results.gp} hasViolenceSignal={violenceSignals !== null} />
-  </div>
+{/* Partager avec le Conseiller */}
+<ShareWithConseiller
+  clientName={clientName}
+  gp={results.gp}
+  profil={results.profil}
+  riskLevel={gl}
+  patterns={results.patternScores || {}}
+  scores={results.scores}
+  sections={sections}
+/>
+{/* CTA final */}
+<div className="cta-box">
+  <div className="cta-title">Aller plus loin, {clientName}</div>
+  <p className="cta-sub">Ce rapport est votre point de départ. Pour un accompagnement personnalisé avec Zady Zozoro, contactez l'Académie Eden directement.</p>
+  <button className="btn-wa" onClick={() => window.open("https://wa.me/" + WHATSAPP_NUM + "?text=" + encodeURIComponent("Bonjour Académie Eden, je viens de compléter mon Bilan 360°. Score : " + results.gp + "/100. Je souhaite aller plus loin."))}>Contacter l'Académie Eden · WhatsApp</button>
+</div>
+<LegalDisclaimer gp={results.gp} hasViolenceSignal={violenceSignals !== null} />
+</div>
 );
-```
-
+}
 }
 return null;
-}
-
-// ═══════════════════════════════════════════════════════════════════════════
+}// ═══════════════════════════════════════════════════════════════════════════
 // SECTION 8 — MODULE PORTRAIT EAUX·OS·CHAIR
 // ═══════════════════════════════════════════════════════════════════════════
 
