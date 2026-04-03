@@ -1692,23 +1692,20 @@ return (
   <div style={{ marginBottom: 16 }}>
     <div style={{ fontSize: 9, color: C.gold, letterSpacing: ".18em", textTransform: "uppercase" , marginBottom: 8 }}>Patterns Déctés – Preuves</div>
   {
-    Object.entries(patternScores || {}).filter(([v]) => v > 40).sort(([a],[b]) => b - a).map(([k,v]) => {
-    const arch = ARCHETYPES[k];
-    return (
-    <div key={k} style={{ background: "#080C10", border: `1px solid ${arch.color||C.gold}`3 }, padding: "12px 14px", marginBottom: 8 }}>
-    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
-    <div style={{ fontSize: 13, color: arch?.color||C.gold, fontWeight: 600 }}>{k}</div>
+    {Object.entries(patternScores || {}).filter(([,v]) => v > 40).sort(([,a],[,b]) => b - a).map(([k, v]) => {
+  const arch = ARCHETYPES[k];
+  const borderColor = (arch?.color || C.gold);
+  return (
+    <div key={k} style={{ background: "#080C10", border: "1px solid " + borderColor + "33", padding: "12px 14px", marginBottom: 8 }}>
+      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
+        <div style={{ fontSize: 13, color: borderColor, fontWeight: 600 }}>{k} — {arch?.titre || ""}</div>
+        <div style={{ fontSize: 11, color: borderColor }}>{v}/100</div>
+      </div>
+      <div style={{ fontSize: 11, color: C.muted, lineHeight: 1.6 }}>{(arch?.mecanisme?.slice(0,200) || "")}…</div>
+      <div style={{ fontSize: 10, color: C.dim, marginTop: 4, fontStyle: "italic" }}>{arch?.ref || ""} · {(arch?.orientation?.slice(0,120) || "")}</div>
     </div>
-    <div style={{ fontSize: 11, color: arch?.color||C.gold }}>{v}/100</div>
-    </div>
-    <div style={{ fontSize: 11, color: C.muted, lineHeight: 1.6 }}>
-    {arch?.meanisme?.slice(0,200)}...</div>
-    <div style={{ fontSize: 10, color: C.dim, marginTop: 4, fontStyle: "italic" }}>
-    {arch?.ref} · {arch?.orientation?.slice(0,120)}</div>
-    </div>
-  });
-}
-        
+  );
+})}        
         {opens.filter(o=>o.ans?.trim()).length > 0 && (
           <div style={{ marginBottom: 16 }}>
             <div style={{ fontSize: 9, color: C.gold, letterSpacing: ".18em", textTransform: "uppercase", marginBottom: 8 }}>Réponses Ouvertes</div>
