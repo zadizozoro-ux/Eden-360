@@ -3313,9 +3313,7 @@ if (currentModule === "espace_abonne" && subscriberProfile) {
            2. Décommenter ligne 2 : import EspaceAbonne from EdenSubscriber
             </div>
           </div>
-          <button onClick={() => setCurrentModule("home")} style={{ background: C.gold, border: "1px solid ##4A9BA33" }}>
-            Retour
-          </button>
+       <button onClick={() => setCurrentModule('home')} style={{background: C.gold, border: '1px solid #4A9BA33'}}>Retour</button>
         </div>
       )}
       <Footer />
