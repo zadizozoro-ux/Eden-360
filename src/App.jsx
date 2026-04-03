@@ -3310,7 +3310,7 @@ if (currentModule === "espace_abonne" && subscriberProfile) {
             <div style={{ fontSize:10, color:C.green, letterSpacing:".14em", textTransform:"uppercase", marginBottom:8 }}>Activation</div>
             <div style={{ fontFamily:"monospace", fontSize:12, color:C.text, lineHeight:2 }}>
               1. EdenSubscriber.jsx → src/<br/>
-              2. Décommenter ligne 2 : import EspaceAbonne from "./EdenSubscriber"
+           2. Décommenter ligne 2 : import EspaceAbonne from EdenSubscriber
             </div>
           </div>
           <button onClick={() => setCurrentModule("home")} style={{ background: C.gold, border: "1px solid #4A9BA33" }}>
