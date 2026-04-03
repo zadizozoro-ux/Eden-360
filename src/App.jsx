@@ -3316,7 +3316,9 @@ Import EdenSubscriber.jsx requis en production Vite.
 2. Décommenter ligne 2 : import EspaceAbonne from "./EdenSubscriber"
 </div>
 </div>
-<button onClick={() => setCurrentModule("home")} style={{ background:C.gold, border:"none", color:"#0B0F1A", padding:"12px 24px", fontFamily:"'Jost',sans-serif", fontSize:12, fontWeight:600, cursor:"pointer" }}>Retour</button>
+<button onClick={() => setCurrentModule("home")} style={{ background: C.gold, border: "1px solid #4A9BA33" }}>
+  Retour
+</button>
 </div>
 )
 }
