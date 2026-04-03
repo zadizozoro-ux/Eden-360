@@ -3316,9 +3316,9 @@ if (currentModule === "espace_abonne" && subscriberProfile) {
        <button onClick={() => setCurrentModule('home')} style={{background: C.gold, border: '1px solid #4A9BA33'}}>Retour</button>
         </div>
       )}
-      <Footer />
+ <Footer />
     </div>
   );
 }
-return null;
-}
+
+export default App;
