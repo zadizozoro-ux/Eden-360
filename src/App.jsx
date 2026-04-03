@@ -2625,7 +2625,9 @@ const prompt = buildPortraitPrompt(nom, profil, repEaux, repOs, repChair, { rece
 try {
 const portraitText = await edenAI({ prompt, endpoint:"portrait" });
 setRapport(portraitText || "Erreur de génération.");
-} catch { setRapport(`Portrait de ${nom}\n\nLe Conseiller Eden a analysé votre profil en profondeur. Votre rapport complet sera disponible dès que la connexion sera rétablie.`); }
+} catch { 
+setRapport("Portrait de " + nom + "\n\nLe Conseiller Eden a analysé votre profil en profondeur. Votre rapport complet sera disponible dès que la connexion sera rétablie."); 
+}
 setLoading(false); setPhase("rapport");
 };
 
@@ -2816,7 +2818,6 @@ s.type==="title" ? <div key={i} style={{ fontFamily:"'Cormorant Garamond',serif"
 }
 return null;
 }
-
 // ═══════════════════════════════════════════════════════════════════════════
 // SECTION 9 — MODULE ADMIN
 // ═══════════════════════════════════════════════════════════════════════════
