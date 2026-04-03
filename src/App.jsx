@@ -1632,12 +1632,12 @@ return (
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "6px 20px" }}>
             {[
               ["Client", clientName],
-              ["Profil", profil==="marie" ? "Marié(e)" : profil==="fiance" ? "Fiancé(e)" : "Célibataire"],
-              ["Score global", `${gp}/100`],  // ← ICI : ${gp} et non $(gp)
+              ["Profil", profil === "marie" ? "Marié(e)" : profil === "fiance" ? "Fiancé(e)" : "Célibataire"],
+              ["Score global", gp + "/100"],  // ← CORRECTION : concaténation simple, pas de backticks
               ["Urgence", alertLevel >= ALERT_LEVELS.CRISE ? "🔴 CRISE" : alertLevel >= ALERT_LEVELS.VIGILANCE ? "🟠 VIGILANCE" : alertLevel >= ALERT_LEVELS.INFO ? "🟡 INFO" : "🟢 STABLE"],
-              ["Date", new Date().toLocaleDateString("fr-FR", {day:"numeric", month:"long", year:"numeric"})],
+              ["Date", new Date().toLocaleDateString("fr-FR", {day: "numeric", month: "long", year: "numeric"})],
               ["Rôle", role || "N/A"],
-            ].map(([k,v]) => <div key={k}><span style={{fontSize:10, color:C.dim}}>{k} : </span><span style={{fontSize:12, color:C.text, fontWeight:600}}>{v}</span></div>)}
+            ].map(([k, v]) => <div key={k}><span style={{fontSize: 10, color: C.dim}}>{k} : </span><span style={{fontSize: 12, color: C.text, fontWeight: 600}}>{v}</span></div>)}
           </div>
         </div>
         
@@ -1646,11 +1646,46 @@ return (
           {Object.entries(scores).map(([,v]) => (
             <div key={v.label} style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 5 }}>
               <div style={{ fontSize: 11, color: C.muted, width: 160, flexShrink: 0 }}>{v.label}</div>
-              <div style={{ flex: 1, height: 4, background: "#1E2330" }}><div style={{ width: `${v.p}%`, height: "100%", background: v.p>=65 ? C.green : v.p>=50 ? C.gold : v.p>=35 ? C.orange : C.red }} /></div>
+              <div style={{ flex: 1, height: 4, background: "#1E2330" }}><div style={{ width: v.p + "%", height: "100%", background: v.p >= 65 ? C.green : v.p >= 50 ? C.gold : v.p >= 35 ? C.orange : C.red }} /></div>
               <div style={{ fontSize: 11, color: v.lv.c, width: 50, textAlign: "right", fontWeight: 600 }}>{v.p}/100</div>
             </div>
           ))}
         </div>
+        
+        {Object.entries(patternScores || {}).filter(([,v]) => v > 40).length > 0 && (
+          <div style={{ marginBottom: 16 }}>
+            <div style={{ fontSize: 9, color: C.gold, letterSpacing: ".18em", textTransform: "uppercase", marginBottom: 8 }}>Patterns Détectés — Preuves</div>
+            {Object.entries(patternScores || {}).filter(([,v]) => v > 40).sort(([,a],[,b]) => b - a).map(([k, v]) => {
+              const arch = ARCHETYPES[k];
+              return (
+                <div key={k} style={{ background: "#080C10", border: "1px solid " + (arch?.color || C.gold) + "33", padding: "12px 14px", marginBottom: 8 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
+                    <div style={{ fontSize: 13, color: arch?.color || C.gold, fontWeight: 600 }}>{k} — {arch?.titre}</div>
+                    <div style={{ fontSize: 11, color: arch?.color || C.gold }}>{v}/100</div>
+                  </div>
+                  <div style={{ fontSize: 11, color: C.muted, lineHeight: 1.6 }}>{(arch?.mecanisme?.slice(0,200) || "")}…</div>
+                  <div style={{ fontSize: 10, color: C.dim, marginTop: 4, fontStyle: "italic" }}>{arch?.ref} · {(arch?.orientation?.slice(0,120) || "")}</div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+        
+        {opens.filter(o => o.ans?.trim()).length > 0 && (
+          <div style={{ marginBottom: 16 }}>
+            <div style={{ fontSize: 9, color: C.gold, letterSpacing: ".18em", textTransform: "uppercase", marginBottom: 8 }}>Réponses Ouvertes</div>
+            {opens.filter(o => o.ans?.trim()).map((o, i) => (
+              <div key={i} style={{ background: "#080C10", border: "1px solid #1E2330", padding: "10px 14px", marginBottom: 6 }}>
+                <div style={{ fontSize: 10, color: C.dim, marginBottom: 4 }}>{o.q}</div>
+                <div style={{ fontSize: 13, color: C.text, lineHeight: 1.7, fontStyle: "italic" }}>« {o.ans} »</div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  </div>
+);
         
         {Object.entries(patternScores||{}).filter(([,v])=>v>40).length > 0 && (
           <div style={{ marginBottom: 16 }}>
