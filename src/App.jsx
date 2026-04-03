@@ -3292,7 +3292,7 @@ if (currentModule === "espace_abonne" && subscriberProfile) {
   return (
     <div className="eden-app">
       <div style={{ padding:"10px 20px", borderBottom:"1px solid #1E2330", display:"flex", justifyContent:"space-between", alignItems:"center" }}>
-        <button onClick={() => setCurrentModule("home")} style={{ background:"transparent", border:"none", color:C.dim, cursor:"pointer", fontSize:11, fontFamily:"'Jost',sans-serif" }}>← Accueil</button>
+        <button onClick={() => setCurrentModule("home")} style={{ background:"transparent", border:"none", color:C.dim, cursor:"pointer", fontSize:11, fontFamily:"'Jost', sans-serif" }}>← Accueil</button>
         <div style={{ fontSize:9, color:C.green, letterSpacing:".12em", textTransform:"uppercase" }}>✦ Premium</div>
       </div>
       {typeof EspaceAbonne !== "undefined" ? (
@@ -3321,10 +3321,6 @@ if (currentModule === "espace_abonne" && subscriberProfile) {
       )}
       <Footer />
     </div>
-  );
-}
-
-export default App;
   );
 }
 
