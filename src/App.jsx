@@ -1453,12 +1453,15 @@ Votre parcours peut aider d'autres personnes à faire le premier pas. Choisissez
 <div style={{ fontSize: 12, color: C.muted }}>Génération de vos témoignages…</div>
 </div>
 ) : (
-<div>
 {vList.filter(v=>v).map((v, i) => (
-<div key={i} onClick={() => { setSelected(i); setEdited(v); }} style={{ background: selected===i ? "#0A1208" : "#080C10", border: `1px solid ${selected===i ? "#4A9B6A" : "#1E2330"}`, padding: "14px 16px", marginBottom: 10, cursor: "pointer", transition: "all .2s" }}>
-<div style={{ fontSize: 9, color: selected===i ? C.green : C.dim, letterSpacing: ".16em", textTransform: "uppercase", marginBottom: 6 }}>{labels[i]}</div>
-<div style={{ fontSize: 13, color: selected===i ? "#F0EBE0" : C.muted, lineHeight: 1.7, fontStyle: "italic" }}>« {v} »</div>
-</div>
+  <div key={i} onClick={() => { setSelected(i); setEdited(v); }}>
+    <div style={{ fontSize: 9, color: selected === i ? C.green : C.darkGreen }}>
+      {labels[i]}
+    </div>
+    <div style={{ fontSize: 13, color: selected === i ? '#F0E0E0' : '' }}>
+      « {v} »
+    </div>
+  </div>
 ))}
 {selected !== null && (
 <div style={{ marginTop: 16 }}>
