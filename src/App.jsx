@@ -3287,41 +3287,41 @@ if (currentModule === "portrait") return (
 </div>
 );
 
-// ── ESPACE ABONNÉ ── (temporairement désactivé)
-// if (currentModule === "espace_abonne" && subscriberProfile) {
-//   return (
-//     <div className="eden-app">
-//       <div style={{ padding:"10px 20px", borderBottom:"1px solid #1E2330", display:"flex", justifyContent:"space-between", alignItems:"center" }}>
-//         <button onClick={() => setCurrentModule("home")} style={{ background:"transparent", border:"none", color:C.dim, cursor:"pointer", fontSize:11, fontFamily:"'Jost', sans-serif" }}>← Accueil</button>
-//         <div style={{ fontSize:9, color:C.green, letterSpacing:".12em", textTransform:"uppercase" }}>✦ Premium</div>
-//       </div>
-//       {typeof EspaceAbonne !== "undefined" ? (
-//         <EspaceAbonne profile={subscriberProfile} abonnementLevel={abonnementLevel} onUpdateProfile={handleSaveSubscriberProfile} />
-//       ) : (
-//         <div style={{ maxWidth:640, margin:"0 auto", padding:"40px 20px", textAlign:"center" }}>
-//           <div style={{ fontSize:9, color:C.gold, letterSpacing:".3em", textTransform:"uppercase", marginBottom:16 }}>✦ Espace Abonné</div>
-//           <div style={{ fontFamily:"'Cormorant Garamond', serif", fontSize:24, color:"#F0EBE0", marginBottom:12 }}>
-//             {subscriberProfile?.nom ? "Bienvenue, " + subscriberProfile.nom : "Espace Abonné"}
-//           </div>
-//           <p style={{ fontSize:13, color:C.muted, lineHeight:1.8, marginBottom:20 }}>
-//             Import EdenSubscriber.jsx requis en production Vite.
-//           </p>
-//           <div style={{ background:"#0D1018", border: "1px solid #4A9B6A33", padding:"16px 20px", textAlign:"left", marginBottom:20 }}>
-//             <div style={{ background: "#0D1018", border: "1px solid #4A9B6A33", padding: "16px 20px", textAlign: "left", marginBottom: 20 }}>
-//             <div style={{ fontSize: 10, color: "#4A9B6A", letterSpacing: ".14em", textTransform: "uppercase", marginBottom: 8 }}>Activation</div>
-//             <div style={{ fontFamily: "monospace", fontSize: 12, color: "#C0C0C0", lineHeight: 2 }}>
-//               1. EdenSubscriber.jsx → src/<br/>
-//               2. Décommenter ligne 2 : import EspaceAbonne from "./EdenSubscriber"
-//             </div>
-//           </div>
-//           <button onClick={() => setCurrentModule("home")} style={{ background: "#FFD700", border: "1px solid #4A9BA33", padding: "12px 24px", cursor: "pointer" }}>
-//             Retour
-//           </button>
-//         </div>
-//       )}
-//       <Footer />
-//     </div>
-//   );
-// }
+// ── ESPACE ABONNÉ ──
+if (currentModule === "espace_abonne" && subscriberProfile) {
+  return (
+    <div className="eden-app">
+      <div style={{ padding:"10px 20px", borderBottom:"1px solid #1E2330", display:"flex", justifyContent:"space-between", alignItems:"center" }}>
+        <button onClick={() => setCurrentModule("home")} style={{ background:"transparent", border:"none", color:C.dim, cursor:"pointer", fontSize:11, fontFamily:"'Jost', sans-serif" }}>← Accueil</button>
+        <div style={{ fontSize:9, color:C.green, letterSpacing:".12em", textTransform:"uppercase" }}>✦ Premium</div>
+      </div>
+      {typeof EspaceAbonne !== "undefined" ? (
+        <EspaceAbonne profile={subscriberProfile} abonnementLevel={abonnementLevel} onUpdateProfile={handleSaveSubscriberProfile} />
+      ) : (
+        <div style={{ maxWidth:640, margin:"0 auto", padding:"40px 20px", textAlign:"center" }}>
+          <div style={{ fontSize:9, color:C.gold, letterSpacing:".3em", textTransform:"uppercase", marginBottom:16 }}>✦ Espace Abonné</div>
+          <div style={{ fontFamily:"'Cormorant Garamond', serif", fontSize:24, color:"#F0EBE0", marginBottom:12 }}>
+            {subscriberProfile?.nom ? "Bienvenue, " + subscriberProfile.nom : "Espace Abonné"}
+          </div>
+          <p style={{ fontSize:13, color:C.muted, lineHeight:1.8, marginBottom:20 }}>
+            Import EdenSubscriber.jsx requis en production Vite.
+          </p>
+          <div style={{ background:"#0D1018", border: "1px solid #4A9B6A33", padding:"16px 20px", textAlign:"left", marginBottom:20 }}>
+            <div style={{ background: "#0D1018", border: "1px solid #4A9B6A33", padding: "16px 20px", textAlign: "left", marginBottom: 20 }}>
+            <div style={{ fontSize: 10, color: "#4A9B6A", letterSpacing: ".14em", textTransform: "uppercase", marginBottom: 8 }}>Activation</div>
+            <div style={{ fontFamily: "monospace", fontSize: 12, color: "#C0C0C0", lineHeight: 2 }}>
+              1. EdenSubscriber.jsx → src/<br/>
+              2. Décommenter ligne 2 : import EspaceAbonne from "./EdenSubscriber"
+            </div>
+          </div>
+          <button onClick={() => setCurrentModule("home")} style={{ background: "#FFD700", border: "1px solid #4A9BA33", padding: "12px 24px", cursor: "pointer" }}>
+            Retour
+          </button>
+        </div>
+      )}
+      <Footer />
+    </div>
+  );
+}
 
 export default App;
