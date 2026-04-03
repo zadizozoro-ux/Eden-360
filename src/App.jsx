@@ -3306,7 +3306,7 @@ if (currentModule === "espace_abonne" && subscriberProfile) {
           <p style={{ fontSize:13, color:C.muted, lineHeight:1.8, marginBottom:20 }}>
             Import EdenSubscriber.jsx requis en production Vite.
           </p>
-          <div style={{ background:"#0D1018", border:"1px solid #4A9B6A33", padding:"16px 20px", textAlign:"left", marginBottom:20 }}>
+          <div style={{ background:"#0D1018", border: "1px solid #4A9B6A33", padding:"16px 20px", textAlign:"left", marginBottom:20 }}>
             <div style={{ fontSize:10, color:C.green, letterSpacing:".14em", textTransform:"uppercase", marginBottom:8 }}>Activation</div>
             <div style={{ fontFamily:"monospace", fontSize:12, color:C.text, lineHeight:2 }}>
               1. EdenSubscriber.jsx → src/<br/>
@@ -3321,4 +3321,6 @@ if (currentModule === "espace_abonne" && subscriberProfile) {
       <Footer />
     </div>
   );
+}
+return null;
 }
