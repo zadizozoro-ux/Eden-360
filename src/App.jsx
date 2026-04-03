@@ -2573,24 +2573,24 @@ return null;
 // SECTION 8 — MODULE PORTRAIT EAUX·OS·CHAIR
 // ═══════════════════════════════════════════════════════════════════════════
 
-const PORTRAIT_LOADING_MSGS = [“Lecture de votre histoire…”,“Identification des eaux fondatrices…”,“Analyse des structures profondes…”,“Détection des patterns relationnels…”,“Rédaction de votre portrait…”];
+const PORTRAIT_LOADING_MSGS = ["Lecture de votre histoire…","Identification des eaux fondatrices…","Analyse des structures profondes…","Détection des patterns relationnels…","Rédaction de votre portrait…"];
 
 function PortraitModule({ isAbonne, abonnementLevel, onRequestUpgrade }) {
-const [phase, setPhase] = useState(“accueil”);
-const [profil, setProfil] = useState(””);
-const [nom, setNom] = useState(””);
+const [phase, setPhase] = useState("accueil");
+const [profil, setProfil] = useState("");
+const [nom, setNom] = useState("");
 const [repEaux, setRepEaux] = useState({});
 const [repOs, setRepOs] = useState({});
 const [repChair, setRepChair] = useState({});
 const [appreciationRecevoir, setAppreciationRecevoir] = useState([]);
 const [appreciationDonner, setAppreciationDonner] = useState([]);
 const [repAttachement, setRepAttachement] = useState({});
-const [rapport, setRapport] = useState(””);
+const [rapport, setRapport] = useState("");
 const [loading, setLoading] = useState(false);
-const [loadMsg, setLoadMsg] = useState(””);
+const [loadMsg, setLoadMsg] = useState("");
 const [qEauxIdx, setQEauxIdx] = useState(0);
 const [qOsIdx, setQOsIdx] = useState(0);
-const [qChairPhase, setQChairPhase] = useState(“appreciation_recevoir”);
+const [qChairPhase, setQChairPhase] = useState("appreciation_recevoir");
 const [violenceSignals, setViolenceSignals] = useState(null);
 
 useEffect(() => {
@@ -2601,160 +2601,160 @@ return () => clearInterval(iv);
 }
 }, [loading]);
 
-const updateEaux = (id, val, openVal) => { setRepEaux(prev => ({ …prev, [id]:val, …(openVal!==undefined?{[`${id}_open`]:openVal}:{}) })); };
+const updateEaux = (id, val, openVal) => { setRepEaux(prev => ({ ...prev, [id]:val, ...(openVal!==undefined?{[id + "_open"]:openVal}:{}) })); };
 const currentEauxQ = QUESTIONS_EAUX[qEauxIdx];
-const osQuestions = profil === “celibataire” ? QUESTIONS_OS_CELIBATAIRE : QUESTIONS_OS_COUPLE;
+const osQuestions = profil === "celibataire" ? QUESTIONS_OS_CELIBATAIRE : QUESTIONS_OS_COUPLE;
 const currentOsQ = osQuestions[qOsIdx];
 
 const eauxQAnswered = () => {
 if (!currentEauxQ) return false;
-if (currentEauxQ.type === “ouvert” || currentEauxQ.type === “ouvert_court”) return (repEaux[currentEauxQ.id]||””).trim().length > 0;
-if (currentEauxQ.type === “choix_multi”) return (repEaux[currentEauxQ.id]||[]).length > 0;
-if (currentEauxQ.type === “double_choix”) return repEaux[currentEauxQ.id] && repEaux[currentEauxQ.id+“b”];
+if (currentEauxQ.type === "ouvert" || currentEauxQ.type === "ouvert_court") return (repEaux[currentEauxQ.id]||"").trim().length > 0;
+if (currentEauxQ.type === "choix_multi") return (repEaux[currentEauxQ.id]||[]).length > 0;
+if (currentEauxQ.type === "double_choix") return repEaux[currentEauxQ.id] && repEaux[currentEauxQ.id + "b"];
 return !!repEaux[currentEauxQ.id];
 };
 const osQAnswered = () => {
 if (!currentOsQ) return false;
-if (currentOsQ.type === “ouvert”) return (repOs[currentOsQ.id]||””).trim().length > 0;
+if (currentOsQ.type === "ouvert") return (repOs[currentOsQ.id]||"").trim().length > 0;
 return !!repOs[currentOsQ.id];
 };
 
 const generateReport = async () => {
-setPhase(“generation”); setLoading(true);
+setPhase("generation"); setLoading(true);
 const prompt = buildPortraitPrompt(nom, profil, repEaux, repOs, repChair, { recevoir:appreciationRecevoir, donner:appreciationDonner }, repAttachement);
 try {
-const portraitText = await edenAI({ prompt, endpoint:“portrait” });
-setRapport(portraitText || “Erreur de génération.”);
+const portraitText = await edenAI({ prompt, endpoint:"portrait" });
+setRapport(portraitText || "Erreur de génération.");
 } catch { setRapport(`Portrait de ${nom}\n\nLe Conseiller Eden a analysé votre profil en profondeur. Votre rapport complet sera disponible dès que la connexion sera rétablie.`); }
-setLoading(false); setPhase(“rapport”);
+setLoading(false); setPhase("rapport");
 };
 
-const phaseIndex = [“accueil”,“eaux”,“os”,“chair”,“generation”,“rapport”].indexOf(phase);
+const phaseIndex = ["accueil","eaux","os","chair","generation","rapport"].indexOf(phase);
 
 // ── ACCUEIL ──
-if (phase === “accueil”) return (
+if (phase === "accueil") return (
 <div className="section">
 <div className="section-tag">◈ Portrait Eden · Eaux · Os · Chair</div>
 <div className="section-title">Découvrez qui vous êtes vraiment</div>
 <div className="section-desc">Ce module explore trois niveaux de votre être — les Eaux qui vous ont formé, les Os qui structurent vos convictions, la Chair qui révèle comment vous vivez dans vos relations.<br/><br/>Prenez le temps de répondre honnêtement, dans un lieu calme. Ce portrait ne vous juge pas — il vous révèle.</div>
 <div style={{ marginBottom:20 }}>
-<div style={{ fontSize:10, color:C.gold, letterSpacing:”.16em”, textTransform:“uppercase”, marginBottom:8 }}>Votre prénom</div>
-<input className=“inp” placeholder=“Jean-Marc” value={nom} onChange={e=>setNom(e.target.value)} />
+<div style={{ fontSize:10, color:C.gold, letterSpacing:".16em", textTransform:"uppercase", marginBottom:8 }}>Votre prénom</div>
+<input className="inp" placeholder="Jean-Marc" value={nom} onChange={e=>setNom(e.target.value)} />
 </div>
 <div style={{ marginBottom:20 }}>
-<div style={{ fontSize:10, color:C.gold, letterSpacing:”.16em”, textTransform:“uppercase”, marginBottom:8 }}>Profil</div>
-{[{id:“celibataire”,label:“Célibataire”,sub:“Os en formation — boussole pour choisir en force”},{id:“fiance”,label:“Fiancé(e)”,sub:“Portrait avant l’alliance”},{id:“marie”,label:“Marié(e)”,sub:“Portrait dans la relation”}].map(p => (
-<div key={p.id} className={`opt ${profil===p.id?"selected":""}`} style={{ marginBottom:8 }} onClick={()=>setProfil(p.id)}>
+<div style={{ fontSize:10, color:C.gold, letterSpacing:".16em", textTransform:"uppercase", marginBottom:8 }}>Profil</div>
+{[{id:"celibataire",label:"Célibataire",sub:"Os en formation — boussole pour choisir en force"},{id:"fiance",label:"Fiancé(e)",sub:"Portrait avant l'alliance"},{id:"marie",label:"Marié(e)",sub:"Portrait dans la relation"}].map(p => (
+<div key={p.id} className={"opt " + (profil===p.id?"selected":"")} style={{ marginBottom:8 }} onClick={()=>setProfil(p.id)}>
 <div className="opt-dot"/>
-<div><div className=“opt-label” style={{ fontWeight:500 }}>{p.label}</div><div style={{ fontSize:11, color:C.dim, marginTop:2 }}>{p.sub}</div></div>
+<div><div className="opt-label" style={{ fontWeight:500 }}>{p.label}</div><div style={{ fontSize:11, color:C.dim, marginTop:2 }}>{p.sub}</div></div>
 </div>
 ))}
 </div>
-<div style={{ background:”#0D1018”, border:“1px solid #1E2330”, padding:“14px”, marginBottom:20 }}>
-<div style={{ fontSize:9, color:C.dim, letterSpacing:”.14em”, textTransform:“uppercase”, marginBottom:6 }}>Durée estimée</div>
+<div style={{ background:"#0D1018", border:"1px solid #1E2330", padding:"14px", marginBottom:20 }}>
+<div style={{ fontSize:9, color:C.dim, letterSpacing:".14em", textTransform:"uppercase", marginBottom:6 }}>Durée estimée</div>
 <div style={{ fontSize:12, color:C.muted }}>30 à 45 minutes · Questions ouvertes et scénarios · Rapport personnalisé généré à la fin</div>
 </div>
-<button className=“btn-primary” disabled={!nom.trim()||!profil} onClick={()=>setPhase(“eaux”)}>Commencer mon Portrait →</button>
-<div style={{ marginTop:16, background:”#080A10”, border:“1px solid #1E2230”, padding:“12px 14px”, fontSize:10, color:”#3A3E4A”, lineHeight:1.7 }}>Ce module est un outil d’exploration personnelle. Il ne constitue pas un avis médical, psychologique ou thérapeutique.</div>
+<button className="btn-primary" disabled={!nom.trim()||!profil} onClick={()=>setPhase("eaux")}>Commencer mon Portrait →</button>
+<div style={{ marginTop:16, background:"#080A10", border:"1px solid #1E2230", padding:"12px 14px", fontSize:10, color:"#3A3E4A", lineHeight:1.7 }}>Ce module est un outil d'exploration personnelle. Il ne constitue pas un avis médical, psychologique ou thérapeutique.</div>
 </div>
 );
 
 // ── EAUX ──
-if (phase === “eaux”) {
+if (phase === "eaux") {
 const q = currentEauxQ; if (!q) return null;
-const blocTitles = {1:“Le foyer d’origine”,2:“Ce que l’enfant a vu”,3:“Les mémoires émotionnelles”,4:“Les transmissions familiales”,5:“La dimension spirituelle”};
+const blocTitles = {1:"Le foyer d'origine",2:"Ce que l'enfant a vu",3:"Les mémoires émotionnelles",4:"Les transmissions familiales",5:"La dimension spirituelle"};
 return (
 <div className="section">
 <div className="section-tag">Les Eaux · Bloc {q.bloc} · {blocTitles[q.bloc]}</div>
 <div style={{ fontSize:10, color:C.dim, marginBottom:20 }}>Question {qEauxIdx+1} sur {QUESTIONS_EAUX.length}</div>
-{(q.type===“choix”||q.type===“choix_ouvert”) && <QuestionChoix q={q} value={repEaux[q.id]} onChange={(val,openVal)=>updateEaux(q.id,val,openVal)} />}
-{(q.type===“ouvert”||q.type===“ouvert_court”) && <QuestionOuvert q={q} value={repEaux[q.id]} onChange={val=>updateEaux(q.id,val)} />}
-{q.type===“choix_multi” && <QuestionMultiCheck q={q} values={repEaux[q.id]} onChange={vals=>updateEaux(q.id,vals)} openValue={repEaux[`${q.id}_open`]} onOpenChange={val=>updateEaux(q.id,repEaux[q.id],val)} />}
-{q.type===“double_choix” && (
+{(q.type==="choix"||q.type==="choix_ouvert") && <QuestionChoix q={q} value={repEaux[q.id]} onChange={(val,openVal)=>updateEaux(q.id,val,openVal)} />}
+{(q.type==="ouvert"||q.type==="ouvert_court") && <QuestionOuvert q={q} value={repEaux[q.id]} onChange={val=>updateEaux(q.id,val)} />}
+{q.type==="choix_multi" && <QuestionMultiCheck q={q} values={repEaux[q.id]} onChange={vals=>updateEaux(q.id,vals)} openValue={repEaux[q.id + "_open"]} onOpenChange={val=>updateEaux(q.id,repEaux[q.id],val)} />}
+{q.type==="double_choix" && (
 <div className="mb24">
 <div className="q-text">{q.question}</div>
-{q.options.map(opt => <div key={opt.val} className={`opt ${repEaux[q.id]===opt.val?"selected":""}`} onClick={()=>updateEaux(q.id,opt.val)}><div className="opt-dot"/><div className="opt-label">{opt.label}</div></div>)}
-<div className=“q-text” style={{ marginTop:20 }}>{q.question2}</div>
-{q.options2.map(opt => <div key={opt.val} className={`opt ${repEaux[q.id+"b"]===opt.val?"selected":""}`} onClick={()=>setRepEaux(p=>({…p,[q.id+“b”]:opt.val}))}><div className="opt-dot"/><div className="opt-label">{opt.label}</div></div>)}
+{q.options.map(opt => <div key={opt.val} className={"opt " + (repEaux[q.id]===opt.val?"selected":"")} onClick={()=>updateEaux(q.id,opt.val)}><div className="opt-dot"/><div className="opt-label">{opt.label}</div></div>)}
+<div className="q-text" style={{ marginTop:20 }}>{q.question2}</div>
+{q.options2.map(opt => <div key={opt.val} className={"opt " + (repEaux[q.id + "b"]===opt.val?"selected":"")} onClick={()=>setRepEaux(p=>({...p,[q.id + "b"]:opt.val}))}><div className="opt-dot"/><div className="opt-label">{opt.label}</div></div>)}
 </div>
 )}
 <div className="nav-row">
-<button className=“btn-secondary” style={{ flex:“0 0 auto” }} onClick={()=>{ if(qEauxIdx===0)setPhase(“accueil”); else setQEauxIdx(i=>i-1); }}>← Précédent</button>
-<button className=“btn-primary” disabled={!eauxQAnswered()} onClick={()=>{ if(qEauxIdx<QUESTIONS_EAUX.length-1)setQEauxIdx(i=>i+1); else{setQOsIdx(0);setPhase(“os”);} }}>{qEauxIdx<QUESTIONS_EAUX.length-1?“Suivant →”:“Passer aux Os →”}</button>
+<button className="btn-secondary" style={{ flex:"0 0 auto" }} onClick={()=>{ if(qEauxIdx===0)setPhase("accueil"); else setQEauxIdx(i=>i-1); }}>← Précédent</button>
+<button className="btn-primary" disabled={!eauxQAnswered()} onClick={()=>{ if(qEauxIdx<QUESTIONS_EAUX.length-1)setQEauxIdx(i=>i+1); else{setQOsIdx(0);setPhase("os");} }}>{qEauxIdx<QUESTIONS_EAUX.length-1?"Suivant →":"Passer aux Os →"}</button>
 </div>
 </div>
 );
 }
 
 // ── OS ──
-if (phase === “os”) {
+if (phase === "os") {
 const q = currentOsQ; if (!q) return null;
 return (
 <div className="section">
-<div className="section-tag">Les Os · {profil===“celibataire”?“Os en formation”:“Os constitutifs”}</div>
+<div className="section-tag">Les Os · {profil==="celibataire"?"Os en formation":"Os constitutifs"}</div>
 <div style={{ fontSize:10, color:C.dim, marginBottom:20 }}>Question {qOsIdx+1} sur {osQuestions.length}</div>
-{q.type===“choix” && <QuestionChoix q={q} value={repOs[q.id]} onChange={val=>setRepOs(p=>({…p,[q.id]:val}))} />}
-{q.type===“ouvert” && <QuestionOuvert q={q} value={repOs[q.id]} onChange={val=>setRepOs(p=>({…p,[q.id]:val}))} />}
+{q.type==="choix" && <QuestionChoix q={q} value={repOs[q.id]} onChange={val=>setRepOs(p=>({...p,[q.id]:val}))} />}
+{q.type==="ouvert" && <QuestionOuvert q={q} value={repOs[q.id]} onChange={val=>setRepOs(p=>({...p,[q.id]:val}))} />}
 <div className="nav-row">
-<button className=“btn-secondary” style={{ flex:“0 0 auto” }} onClick={()=>{ if(qOsIdx===0){setQEauxIdx(QUESTIONS_EAUX.length-1);setPhase(“eaux”);} else setQOsIdx(i=>i-1); }}>← Précédent</button>
-<button className=“btn-primary” disabled={!osQAnswered()} onClick={()=>{ if(qOsIdx<osQuestions.length-1)setQOsIdx(i=>i+1); else{setQChairPhase(“appreciation_recevoir”);setPhase(“chair”);} }}>{qOsIdx<osQuestions.length-1?“Suivant →”:“Passer à la Chair →”}</button>
+<button className="btn-secondary" style={{ flex:"0 0 auto" }} onClick={()=>{ if(qOsIdx===0){setQEauxIdx(QUESTIONS_EAUX.length-1);setPhase("eaux");} else setQOsIdx(i=>i-1); }}>← Précédent</button>
+<button className="btn-primary" disabled={!osQAnswered()} onClick={()=>{ if(qOsIdx<osQuestions.length-1)setQOsIdx(i=>i+1); else{setQChairPhase("appreciation_recevoir");setPhase("chair");} }}>{qOsIdx<osQuestions.length-1?"Suivant →":"Passer à la Chair →"}</button>
 </div>
 </div>
 );
 }
 
 // ── CHAIR ──
-if (phase === “chair”) {
-if (qChairPhase === “appreciation_recevoir”) return (
+if (phase === "chair") {
+if (qChairPhase === "appreciation_recevoir") return (
 <div className="section">
-<div className="section-tag">La Chair · Profil d’Appréciation</div>
-<div className=“section-title” style={{ fontSize:18 }}>Comment recevez-vous l’amour ?</div>
-<div className="section-desc">Parmi ces cinq situations, laquelle vous touche le plus quand quelqu’un vous aime ? Classez de 1 (le plus important) à 5 en cliquant dans l’ordre.</div>
+<div className="section-tag">La Chair · Profil d'Appréciation</div>
+<div className="section-title" style={{ fontSize:18 }}>Comment recevez-vous l'amour ?</div>
+<div className="section-desc">Parmi ces cinq situations, laquelle vous touche le plus quand quelqu'un vous aime ? Classez de 1 (le plus important) à 5 en cliquant dans l'ordre.</div>
 <RankingLangages values={appreciationRecevoir} onChange={setAppreciationRecevoir} />
 <div className="nav-row">
-<button className=“btn-secondary” style={{ flex:“0 0 auto” }} onClick={()=>{setQOsIdx(osQuestions.length-1);setPhase(“os”);}}>← Précédent</button>
-<button className=“btn-primary” disabled={appreciationRecevoir.length<5} onClick={()=>setQChairPhase(“appreciation_donner”)}>Suivant →</button>
+<button className="btn-secondary" style={{ flex:"0 0 auto" }} onClick={()=>{setQOsIdx(osQuestions.length-1);setPhase("os");}}>← Précédent</button>
+<button className="btn-primary" disabled={appreciationRecevoir.length<5} onClick={()=>setQChairPhase("appreciation_donner")}>Suivant →</button>
 </div>
 </div>
 );
-if (qChairPhase === “appreciation_donner”) return (
+if (qChairPhase === "appreciation_donner") return (
 <div className="section">
-<div className="section-tag">La Chair · Profil d’Appréciation</div>
-<div className=“section-title” style={{ fontSize:18 }}>Comment exprimez-vous l’amour ?</div>
-<div className="section-desc">Quand vous aimez quelqu’un, comment exprimez-vous cet amour naturellement ? Classez de 1 (le plus naturel) à 5.</div>
+<div className="section-tag">La Chair · Profil d'Appréciation</div>
+<div className="section-title" style={{ fontSize:18 }}>Comment exprimez-vous l'amour ?</div>
+<div className="section-desc">Quand vous aimez quelqu'un, comment exprimez-vous cet amour naturellement ? Classez de 1 (le plus naturel) à 5.</div>
 <RankingLangages values={appreciationDonner} onChange={setAppreciationDonner} />
 <div className="nav-row">
-<button className=“btn-secondary” style={{ flex:“0 0 auto” }} onClick={()=>setQChairPhase(“appreciation_recevoir”)}>← Précédent</button>
-<button className=“btn-primary” disabled={appreciationDonner.length<5} onClick={()=>setQChairPhase(“attachement_0”)}>Suivant →</button>
+<button className="btn-secondary" style={{ flex:"0 0 auto" }} onClick={()=>setQChairPhase("appreciation_recevoir")}>← Précédent</button>
+<button className="btn-primary" disabled={appreciationDonner.length<5} onClick={()=>setQChairPhase("attachement_0")}>Suivant →</button>
 </div>
 </div>
 );
-if (qChairPhase.startsWith(“attachement_”)) {
-const idx = parseInt(qChairPhase.split(”*”)[1]);
+if (qChairPhase.startsWith("attachement_")) {
+const idx = parseInt(qChairPhase.split("_")[1]);
 const scenario = SCENARIOS_ATTACHEMENT[idx];
 return (
 <div className="section">
-<div className="section-tag">La Chair · Style d’Attachement</div>
+<div className="section-tag">La Chair · Style d'Attachement</div>
 <div style={{ fontSize:10, color:C.dim, marginBottom:20 }}>Scénario {idx+1} sur {SCENARIOS_ATTACHEMENT.length}</div>
-<ScenarioAttachement scenario={scenario} value={repAttachement[scenario.id]} onChange={val=>setRepAttachement(p=>({…p,[scenario.id]:val}))} />
+<ScenarioAttachement scenario={scenario} value={repAttachement[scenario.id]} onChange={val=>setRepAttachement(p=>({...p,[scenario.id]:val}))} />
 <div className="nav-row">
-<button className=“btn-secondary” style={{ flex:“0 0 auto” }} onClick={()=>{ if(idx===0)setQChairPhase(“appreciation_donner”); else setQChairPhase(`attachement_${idx-1}`); }}>← Précédent</button>
-<button className=“btn-primary” disabled={!repAttachement[scenario.id]} onClick={()=>{ if(idx<SCENARIOS_ATTACHEMENT.length-1)setQChairPhase(`attachement_${idx+1}`); else setQChairPhase(“communication_0”); }}>Suivant →</button>
+<button className="btn-secondary" style={{ flex:"0 0 auto" }} onClick={()=>{ if(idx===0)setQChairPhase("appreciation_donner"); else setQChairPhase("attachement_" + (idx-1)); }}>← Précédent</button>
+<button className="btn-primary" disabled={!repAttachement[scenario.id]} onClick={()=>{ if(idx<SCENARIOS_ATTACHEMENT.length-1)setQChairPhase("attachement_" + (idx+1)); else setQChairPhase("communication_0"); }}>Suivant →</button>
 </div>
 </div>
 );
 }
-if (qChairPhase.startsWith(“communication*”)) {
-const idx = parseInt(qChairPhase.split(”_”)[1]);
+if (qChairPhase.startsWith("communication_")) {
+const idx = parseInt(qChairPhase.split("_")[1]);
 const q = QUESTIONS_CHAIR[idx];
 return (
 <div className="section">
-<div className="section-tag">La Chair · {idx<5?“Communication”:“Tempérament”}</div>
+<div className="section-tag">La Chair · {idx<5?"Communication":"Tempérament"}</div>
 <div style={{ fontSize:10, color:C.dim, marginBottom:20 }}>Question {idx+1} sur {QUESTIONS_CHAIR.length}</div>
-<QuestionLikert q={q} value={repChair[q.id]} onChange={val=>setRepChair(p=>({…p,[q.id]:val}))} />
+<QuestionLikert q={q} value={repChair[q.id]} onChange={val=>setRepChair(p=>({...p,[q.id]:val}))} />
 <div className="nav-row">
-<button className=“btn-secondary” style={{ flex:“0 0 auto” }} onClick={()=>{ if(idx===0)setQChairPhase(`attachement_${SCENARIOS_ATTACHEMENT.length-1}`); else setQChairPhase(`communication_${idx-1}`); }}>← Précédent</button>
-<button className=“btn-primary” disabled={!repChair[q.id]} onClick={()=>{ if(idx<QUESTIONS_CHAIR.length-1)setQChairPhase(`communication_${idx+1}`); else generateReport(); }}>{idx<QUESTIONS_CHAIR.length-1?“Suivant →”:“Générer mon Portrait →”}</button>
+<button className="btn-secondary" style={{ flex:"0 0 auto" }} onClick={()=>{ if(idx===0)setQChairPhase("attachement_" + (SCENARIOS_ATTACHEMENT.length-1)); else setQChairPhase("communication_" + (idx-1)); }}>← Précédent</button>
+<button className="btn-primary" disabled={!repChair[q.id]} onClick={()=>{ if(idx<QUESTIONS_CHAIR.length-1)setQChairPhase("communication_" + (idx+1)); else generateReport(); }}>{idx<QUESTIONS_CHAIR.length-1?"Suivant →":"Générer mon Portrait →"}</button>
 </div>
 </div>
 );
@@ -2762,7 +2762,7 @@ return (
 }
 
 // ── GENERATION ──
-if (phase === “generation”) return (
+if (phase === "generation") return (
 <div className="loading-screen">
 <div className="loading-ring"/>
 <div className="loading-msg">{loadMsg}</div>
@@ -2771,44 +2771,44 @@ if (phase === “generation”) return (
 );
 
 // ── RAPPORT ──
-if (phase === “rapport”) {
+if (phase === "rapport") {
 const attachStyle = computeAttachementStyle(repAttachement);
-const primaryRecevoir = PROFIL_APPRECIATION_OPTIONS.find(o=>o.id===appreciationRecevoir[0])?.label||“Non renseigné”;
-const primaryDonner = PROFIL_APPRECIATION_OPTIONS.find(o=>o.id===appreciationDonner[0])?.label||“Non renseigné”;
+const primaryRecevoir = PROFIL_APPRECIATION_OPTIONS.find(o=>o.id===appreciationRecevoir[0])?.label||"Non renseigné";
+const primaryDonner = PROFIL_APPRECIATION_OPTIONS.find(o=>o.id===appreciationDonner[0])?.label||"Non renseigné";
 const decalage = appreciationRecevoir[0] !== appreciationDonner[0];
-const sections = rapport.split(/**([^*]+)**/).reduce((acc,part,i)=>{ if(i%2===0){if(part.trim())acc.push({type:“body”,text:part.trim()});}else{acc.push({type:“title”,text:part.trim()});}return acc;}, []);
+const sections = rapport.split(/([^*]+)/).reduce((acc,part,i)=>{ if(i%2===0){if(part.trim())acc.push({type:"body",text:part.trim()});}else{acc.push({type:"title",text:part.trim()});}return acc;}, []);
 return (
 <div className="section">
-<div style={{ background:“linear-gradient(135deg,#0B0F1A,#0D1020)”, border:“1px solid #C9A84C33”, padding:“24px 20px”, marginBottom:20 }}>
-<div style={{ fontSize:8, letterSpacing:”.28em”, textTransform:“uppercase”, color:C.gold, marginBottom:8 }}>◈ Portrait Eden · Eaux · Os · Chair</div>
-<div style={{ fontFamily:”‘Cormorant Garamond’,serif”, fontSize:28, color:”#F0EBE0”, marginBottom:4 }}>{nom}</div>
-<div style={{ fontSize:10, color:C.dim }}>{new Date().toLocaleDateString(“fr-FR”,{day:“numeric”,month:“long”,year:“numeric”})}</div>
+<div style={{ background:"linear-gradient(135deg,#0B0F1A,#0D1020)", border:"1px solid #C9A84C33", padding:"24px 20px", marginBottom:20 }}>
+<div style={{ fontSize:8, letterSpacing:".28em", textTransform:"uppercase", color:C.gold, marginBottom:8 }}>◈ Portrait Eden · Eaux · Os · Chair</div>
+<div style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:28, color:"#F0EBE0", marginBottom:4 }}>{nom}</div>
+<div style={{ fontSize:10, color:C.dim }}>{new Date().toLocaleDateString("fr-FR",{day:"numeric",month:"long",year:"numeric"})}</div>
 </div>
 {/* Synthèse Chair */}
-<div className=“card” style={{ marginBottom:20 }}>
-<div className="stl">Synthèse · Profil d’Appréciation & Attachement</div>
-<div style={{ display:“flex”, flexDirection:“column”, gap:12 }}>
-<div style={{ fontSize:12, color:C.text, lineHeight:1.7 }}><span style={{ color:C.gold }}>Vous recevez l’amour principalement par :</span><br/>{primaryRecevoir}</div>
-<div style={{ fontSize:12, color:C.text, lineHeight:1.7 }}><span style={{ color:C.gold }}>Vous exprimez l’amour naturellement par :</span><br/>{primaryDonner}</div>
-{decalage && <div style={{ background:”#1A1000”, border:“1px solid #C9A84C33”, padding:“10px 14px”, fontSize:11, color:C.gold, lineHeight:1.6 }}>◈ Décalage interne : vous donnez l’amour différemment de la manière dont vous aimeriez le recevoir. Ce décalage peut créer de l’incompréhension dans vos relations.</div>}
-<div style={{ fontSize:12, color:C.text, lineHeight:1.7 }}><span style={{ color:C.blue }}>Style d’attachement probable :</span><br/>{attachStyle}</div>
+<div className="card" style={{ marginBottom:20 }}>
+<div className="stl">Synthèse · Profil d'Appréciation & Attachement</div>
+<div style={{ display:"flex", flexDirection:"column", gap:12 }}>
+<div style={{ fontSize:12, color:C.text, lineHeight:1.7 }}><span style={{ color:C.gold }}>Vous recevez l'amour principalement par :</span><br/>{primaryRecevoir}</div>
+<div style={{ fontSize:12, color:C.text, lineHeight:1.7 }}><span style={{ color:C.gold }}>Vous exprimez l'amour naturellement par :</span><br/>{primaryDonner}</div>
+{decalage && <div style={{ background:"#1A1000", border:"1px solid #C9A84C33", padding:"10px 14px", fontSize:11, color:C.gold, lineHeight:1.6 }}>◈ Décalage interne : vous donnez l'amour différemment de la manière dont vous aimeriez le recevoir. Ce décalage peut créer de l'incompréhension dans vos relations.</div>}
+<div style={{ fontSize:12, color:C.text, lineHeight:1.7 }}><span style={{ color:C.blue }}>Style d'attachement probable :</span><br/>{attachStyle}</div>
 </div>
 </div>
 {/* Rapport IA */}
 <div className="rb">
 <div className="stl">Votre Portrait Complet</div>
 {sections.map((s,i) => (
-s.type===“title” ? <div key={i} style={{ fontFamily:”‘Cormorant Garamond’,serif”, fontSize:18, color:C.gold, margin:“20px 0 10px” }}>{s.text}</div>
-: <div key={i} className=“rbt” style={{ marginBottom:12 }}>{s.text}</div>
+s.type==="title" ? <div key={i} style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:18, color:C.gold, margin:"20px 0 10px" }}>{s.text}</div>
+: <div key={i} className="rbt" style={{ marginBottom:12 }}>{s.text}</div>
 ))}
 </div>
 {/* Disclaimer */}
-<div style={{ background:”#0A0C12”, border:“1px solid #1E2330”, padding:“14px”, marginBottom:20, fontSize:10, color:C.dim, lineHeight:1.7 }}>Ce portrait est une analyse indicative basée sur vos réponses. Il ne remplace pas un accompagnement professionnel et ne constitue pas un avis médical ou psychologique.</div>
+<div style={{ background:"#0A0C12", border:"1px solid #1E2330", padding:"14px", marginBottom:20, fontSize:10, color:C.dim, lineHeight:1.7 }}>Ce portrait est une analyse indicative basée sur vos réponses. Il ne remplace pas un accompagnement professionnel et ne constitue pas un avis médical ou psychologique.</div>
 {/* CTA */}
 <div className="cta-box">
 <div className="cta-title">Aller plus loin, {nom}</div>
-<p className="cta-sub">Ce portrait est votre point de départ. Pour un accompagnement direct avec Zady Zozoro, contactez l’Académie Eden.</p>
-<button className=“btn-wa” onClick={()=>window.open(`https://wa.me/${WHATSAPP_NUM}?text=${encodeURIComponent(`Bonjour Académie Eden,\n\nJe viens de compléter mon Portrait Eden.\nPrénom : ${nom} · Profil : ${profil}\n\nJe souhaite aller plus loin avec un accompagnement.`)}`)}>Contacter l’Académie Eden · WhatsApp</button>
+<p className="cta-sub">Ce portrait est votre point de départ. Pour un accompagnement direct avec Zady Zozoro, contactez l'Académie Eden.</p>
+<button className="btn-wa" onClick={()=>window.open("https://wa.me/" + WHATSAPP_NUM + "?text=" + encodeURIComponent("Bonjour Académie Eden,\n\nJe viens de compléter mon Portrait Eden.\nPrénom : " + nom + " · Profil : " + profil + "\n\nJe souhaite aller plus loin avec un accompagnement."))}>Contacter l'Académie Eden · WhatsApp</button>
 </div>
 <LegalDisclaimer gp={75} hasViolenceSignal={false} />
 </div>
@@ -2825,7 +2825,7 @@ function AdminModule({ codes, onSaveCodes, onBack }) {
 const [genCount, setGenCount] = useState(10);
 const [newCodes, setNewCodes] = useState([]);
 const [copied, setCopied] = useState(false);
-const [tab, setTab] = useState(“codes”);
+const [tab, setTab] = useState("codes");
 
 const total = Object.keys(codes).length;
 const usedC = Object.values(codes).filter(c => c.used).length;
@@ -2833,16 +2833,16 @@ const coupleCount = new Set(Object.values(codes).filter(c => c.coupleId).map(c =
 const recentUsed = Object.entries(codes).filter(([,c]) => c.used && c.usedAt).sort(([,a],[,b]) => new Date(b.usedAt) - new Date(a.usedAt)).slice(0, 10);
 
 async function handleGenerate(isCouple = false) {
-const fresh = { …codes };
+const fresh = { ...codes };
 const generated = [];
 for (let i = 0; i < genCount; i++) {
 if (isCouple) {
 let cid; do { cid = Math.random().toString(36).slice(2,8).toUpperCase(); } while (Object.values(fresh).some(c => c.coupleId === cid));
-const cA = cid.slice(0,3)+”-”+cid.slice(3,6)+“A”;
-const cB = cid.slice(0,3)+”-”+cid.slice(3,6)+“B”;
+const cA = cid.slice(0,3) + "-" + cid.slice(3,6) + "A";
+const cB = cid.slice(0,3) + "-" + cid.slice(3,6) + "B";
 fresh[cA] = { used:false, createdAt:new Date().toISOString(), coupleId:cid, partnerNum:1 };
 fresh[cB] = { used:false, createdAt:new Date().toISOString(), coupleId:cid, partnerNum:2 };
-generated.push(cA+” + “+cB);
+generated.push(cA + " + " + cB);
 } else {
 let code; do { code = genCode(); } while (fresh[code]);
 fresh[code] = { used:false, createdAt:new Date().toISOString() };
@@ -2854,7 +2854,7 @@ setNewCodes(generated);
 }
 
 async function handleDelete(code) {
-const updated = { …codes };
+const updated = { ...codes };
 delete updated[code];
 await onSaveCodes(updated);
 }
@@ -2864,58 +2864,58 @@ const usedList = Object.entries(codes).filter(([,c]) => c.used);
 
 return (
 <div className="section">
-<div style={{ display:“flex”, alignItems:“center”, justifyContent:“space-between”, marginBottom:24 }}>
+<div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:24 }}>
 <div>
 <div className="section-tag">◈ Administration</div>
-<div className=“section-title” style={{ fontSize:20, marginBottom:0 }}>Tableau de bord</div>
+<div className="section-title" style={{ fontSize:20, marginBottom:0 }}>Tableau de bord</div>
 </div>
 <button className="btn-secondary" onClick={onBack}>← Retour</button>
 </div>
 {/* Stats */}
-<div style={{ display:“grid”, gridTemplateColumns:“1fr 1fr 1fr”, gap:8, marginBottom:24 }}>
+<div style={{ display:"grid", gridTemplateColumns:"1fr 1fr 1fr", gap:8, marginBottom:24 }}>
 {[
-{ label:“Codes total”, val:total, color:C.gold },
-{ label:“Codes utilisés”, val:usedC, color:C.green },
-{ label:“Couples”, val:coupleCount, color:C.blue },
+{ label:"Codes total", val:total, color:C.gold },
+{ label:"Codes utilisés", val:usedC, color:C.green },
+{ label:"Couples", val:coupleCount, color:C.blue },
 ].map(stat => (
-<div key={stat.label} style={{ background:”#0D1018”, border:“1px solid #1E2330”, padding:“14px 12px” }}>
-<div style={{ fontFamily:”‘Cormorant Garamond’,serif”, fontSize:28, color:stat.color, lineHeight:1 }}>{stat.val}</div>
-<div style={{ fontSize:9, color:C.dim, letterSpacing:”.1em”, textTransform:“uppercase”, marginTop:4 }}>{stat.label}</div>
+<div key={stat.label} style={{ background:"#0D1018", border:"1px solid #1E2330", padding:"14px 12px" }}>
+<div style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:28, color:stat.color, lineHeight:1 }}>{stat.val}</div>
+<div style={{ fontSize:9, color:C.dim, letterSpacing:".1em", textTransform:"uppercase", marginTop:4 }}>{stat.label}</div>
 </div>
 ))}
 </div>
 {/* Tabs */}
-<div style={{ display:“flex”, gap:0, marginBottom:20, borderBottom:“1px solid #1E2330” }}>
-{[“codes”,“generer”,“activite”].map(t => (
-<button key={t} onClick={() => setTab(t)} style={{ background:“transparent”, border:“none”, color:tab===t?C.gold:C.dim, padding:“10px 16px”, fontFamily:”‘Jost’,sans-serif”, fontSize:11, letterSpacing:”.1em”, textTransform:“uppercase”, borderBottom:tab===t?`2px solid ${C.gold}`:“2px solid transparent”, cursor:“pointer” }}>
-{t === “codes” ? “Codes disponibles” : t === “generer” ? “Générer” : “Activité récente”}
+<div style={{ display:"flex", gap:0, marginBottom:20, borderBottom:"1px solid #1E2330" }}>
+{["codes","generer","activite"].map(t => (
+<button key={t} onClick={() => setTab(t)} style={{ background:"transparent", border:"none", color:tab===t?C.gold:C.dim, padding:"10px 16px", fontFamily:"'Jost',sans-serif", fontSize:11, letterSpacing:".1em", textTransform:"uppercase", borderBottom:tab===t ? "2px solid " + C.gold : "2px solid transparent", cursor:"pointer" }}>
+{t === "codes" ? "Codes disponibles" : t === "generer" ? "Générer" : "Activité récente"}
 </button>
 ))}
 </div>
-{tab === “codes” && (
+{tab === "codes" && (
 <div>
 <div style={{ fontSize:10, color:C.dim, marginBottom:12 }}>{available.length} codes disponibles</div>
-<div style={{ display:“flex”, flexDirection:“column”, gap:6, maxHeight:400, overflowY:“auto” }}>
+<div style={{ display:"flex", flexDirection:"column", gap:6, maxHeight:400, overflowY:"auto" }}>
 {available.map(([code, data]) => (
-<div key={code} style={{ display:“flex”, justifyContent:“space-between”, alignItems:“center”, padding:“10px 14px”, background:”#0D1018”, border:“1px solid #1E2330” }}>
+<div key={code} style={{ display:"flex", justifyContent:"space-between", alignItems:"center", padding:"10px 14px", background:"#0D1018", border:"1px solid #1E2330" }}>
 <div>
-<div style={{ fontSize:13, color:C.gold, letterSpacing:”.08em”, fontFamily:“monospace” }}>{code}</div>
-<div style={{ fontSize:9, color:C.dim, marginTop:2 }}>{new Date(data.createdAt).toLocaleDateString(“fr-FR”)} {data.coupleId ? `· Couple ${data.coupleId} P${data.partnerNum}` : “”}</div>
+<div style={{ fontSize:13, color:C.gold, letterSpacing:".08em", fontFamily:"monospace" }}>{code}</div>
+<div style={{ fontSize:9, color:C.dim, marginTop:2 }}>{new Date(data.createdAt).toLocaleDateString("fr-FR")} {data.coupleId ? "· Couple " + data.coupleId + " P" + data.partnerNum : ""}</div>
 </div>
-<button onClick={() => handleDelete(code)} style={{ background:“transparent”, border:“1px solid #C0614A33”, color:C.red, padding:“4px 10px”, cursor:“pointer”, fontSize:10 }}>Supprimer</button>
+<button onClick={() => handleDelete(code)} style={{ background:"transparent", border:"1px solid #C0614A33", color:C.red, padding:"4px 10px", cursor:"pointer", fontSize:10 }}>Supprimer</button>
 </div>
 ))}
-{available.length === 0 && <div style={{ fontSize:12, color:C.dim, textAlign:“center”, padding:20 }}>Aucun code disponible.</div>}
+{available.length === 0 && <div style={{ fontSize:12, color:C.dim, textAlign:"center", padding:20 }}>Aucun code disponible.</div>}
 </div>
 {usedList.length > 0 && (
 <div style={{ marginTop:20 }}>
 <div style={{ fontSize:10, color:C.dim, marginBottom:12 }}>{usedList.length} codes utilisés</div>
-<div style={{ display:“flex”, flexDirection:“column”, gap:6, maxHeight:240, overflowY:“auto” }}>
+<div style={{ display:"flex", flexDirection:"column", gap:6, maxHeight:240, overflowY:"auto" }}>
 {usedList.map(([code, data]) => (
-<div key={code} style={{ display:“flex”, justifyContent:“space-between”, alignItems:“center”, padding:“10px 14px”, background:”#0D1018”, border:“1px solid #1E2330”, opacity:.6 }}>
+<div key={code} style={{ display:"flex", justifyContent:"space-between", alignItems:"center", padding:"10px 14px", background:"#0D1018", border:"1px solid #1E2330", opacity:.6 }}>
 <div>
-<div style={{ fontSize:12, color:C.muted, letterSpacing:”.08em”, fontFamily:“monospace” }}>{code}</div>
-<div style={{ fontSize:9, color:C.dim, marginTop:2 }}>{data.clientName||”—”} · {data.usedAt ? new Date(data.usedAt).toLocaleDateString(“fr-FR”) : “date inconnue”}</div>
+<div style={{ fontSize:12, color:C.muted, letterSpacing:".08em", fontFamily:"monospace" }}>{code}</div>
+<div style={{ fontSize:9, color:C.dim, marginTop:2 }}>{data.clientName||"—"} · {data.usedAt ? new Date(data.usedAt).toLocaleDateString("fr-FR") : "date inconnue"}</div>
 </div>
 <div style={{ fontSize:9, color:C.green }}>✓ Utilisé</div>
 </div>
@@ -2925,46 +2925,46 @@ return (
 )}
 </div>
 )}
-{tab === “generer” && (
+{tab === "generer" && (
 <div>
 <div style={{ marginBottom:16 }}>
-<div style={{ fontSize:10, color:C.gold, letterSpacing:”.16em”, textTransform:“uppercase”, marginBottom:8 }}>Nombre de codes à générer</div>
-<div style={{ display:“flex”, gap:8, flexWrap:“wrap”, marginBottom:12 }}>
+<div style={{ fontSize:10, color:C.gold, letterSpacing:".16em", textTransform:"uppercase", marginBottom:8 }}>Nombre de codes à générer</div>
+<div style={{ display:"flex", gap:8, flexWrap:"wrap", marginBottom:12 }}>
 {[1,5,10,20,50].map(n => (
-<button key={n} onClick={() => setGenCount(n)} style={{ background:genCount===n?C.gold:“transparent”, border:`1px solid ${genCount===n?C.gold:"#1E2330"}`, color:genCount===n?”#0B0F1A”:C.muted, padding:“8px 14px”, cursor:“pointer”, fontFamily:”‘Jost’,sans-serif”, fontSize:12 }}>{n}</button>
+<button key={n} onClick={() => setGenCount(n)} style={{ background:genCount===n?C.gold:"transparent", border:"1px solid " + (genCount===n?C.gold:"#1E2330"), color:genCount===n?"#0B0F1A":C.muted, padding:"8px 14px", cursor:"pointer", fontFamily:"'Jost',sans-serif", fontSize:12 }}>{n}</button>
 ))}
 </div>
 </div>
-<div style={{ display:“flex”, gap:8, marginBottom:24 }}>
-<button className=“btn-primary” style={{ flex:1 }} onClick={() => handleGenerate(false)}>Générer {genCount} code{genCount>1?“s”:””} individuels</button>
-<button className=“btn-gold-outline” style={{ flex:1 }} onClick={() => handleGenerate(true)}>Générer {genCount} paire{genCount>1?“s”:””} couple</button>
+<div style={{ display:"flex", gap:8, marginBottom:24 }}>
+<button className="btn-primary" style={{ flex:1 }} onClick={() => handleGenerate(false)}>Générer {genCount} code{genCount>1?"s":""} individuels</button>
+<button className="btn-gold-outline" style={{ flex:1 }} onClick={() => handleGenerate(true)}>Générer {genCount} paire{genCount>1?"s":""} couple</button>
 </div>
 {newCodes.length > 0 && (
 <div className="card-gold">
 <div className="stl">Codes générés</div>
-<div style={{ display:“flex”, flexDirection:“column”, gap:6, marginBottom:16, maxHeight:300, overflowY:“auto” }}>
+<div style={{ display:"flex", flexDirection:"column", gap:6, marginBottom:16, maxHeight:300, overflowY:"auto" }}>
 {newCodes.map((c,i) => (
-<div key={i} style={{ fontFamily:“monospace”, fontSize:13, color:C.gold, padding:“8px 12px”, background:”#080C10”, border:“1px solid #C9A84C22” }}>{c}</div>
+<div key={i} style={{ fontFamily:"monospace", fontSize:13, color:C.gold, padding:"8px 12px", background:"#080C10", border:"1px solid #C9A84C22" }}>{c}</div>
 ))}
 </div>
-<button className=“btn-gold-outline” style={{ width:“100%” }} onClick={() => {
-navigator.clipboard.writeText(newCodes.join(”\n”)).then(() => { setCopied(true); setTimeout(() => setCopied(false), 2500); });
-}}>{copied ? “✓ Copié” : “Copier tous les codes”}</button>
+<button className="btn-gold-outline" style={{ width:"100%" }} onClick={() => {
+navigator.clipboard.writeText(newCodes.join("\n")).then(() => { setCopied(true); setTimeout(() => setCopied(false), 2500); });
+}}>{copied ? "✓ Copié" : "Copier tous les codes"}</button>
 </div>
 )}
 </div>
 )}
-{tab === “activite” && (
+{tab === "activite" && (
 <div>
 <div style={{ fontSize:10, color:C.dim, marginBottom:12 }}>10 dernières utilisations</div>
-{recentUsed.length === 0 && <div style={{ fontSize:12, color:C.dim, textAlign:“center”, padding:20 }}>Aucune activité enregistrée.</div>}
+{recentUsed.length === 0 && <div style={{ fontSize:12, color:C.dim, textAlign:"center", padding:20 }}>Aucune activité enregistrée.</div>}
 {recentUsed.map(([code, data]) => (
-<div key={code} style={{ padding:“12px 14px”, background:”#0D1018”, border:“1px solid #1E2330”, marginBottom:6 }}>
-<div style={{ display:“flex”, justifyContent:“space-between”, marginBottom:4 }}>
-<div style={{ fontSize:12, color:C.text }}>{data.clientName || “Anonyme”}</div>
-<div style={{ fontSize:10, color:C.dim }}>{data.usedAt ? new Date(data.usedAt).toLocaleDateString(“fr-FR”) : “”}</div>
+<div key={code} style={{ padding:"12px 14px", background:"#0D1018", border:"1px solid #1E2330", marginBottom:6 }}>
+<div style={{ display:"flex", justifyContent:"space-between", marginBottom:4 }}>
+<div style={{ fontSize:12, color:C.text }}>{data.clientName || "Anonyme"}</div>
+<div style={{ fontSize:10, color:C.dim }}>{data.usedAt ? new Date(data.usedAt).toLocaleDateString("fr-FR") : ""}</div>
 </div>
-<div style={{ fontSize:10, color:C.muted }}>{code} {data.coupleId ? `· Couple` : “”}</div>
+<div style={{ fontSize:10, color:C.muted }}>{code} {data.coupleId ? "· Couple" : ""}</div>
 </div>
 ))}
 </div>
@@ -2972,7 +2972,6 @@ navigator.clipboard.writeText(newCodes.join(”\n”)).then(() => { setCopied(tr
 </div>
 );
 }
-
 // ═══════════════════════════════════════════════════════════════════════════
 // SECTION 10 — COMPOSANT PRINCIPAL APP
 // ═══════════════════════════════════════════════════════════════════════════
