@@ -1,0 +1,754 @@
+import { useState, useEffect } from “react”;
+
+const C = {
+gold:”#C9A84C”, bg:”#0B0F1A”, card:”#0D1018”, deep:”#080C10”,
+border:”#1E2330”, borderGold:”#C9A84C33”, text:”#C8C2B4”,
+muted:”#7A7567”, dim:”#4A4740”, white:”#F0EBE0”,
+green:”#4A9B6A”, red:”#C94A4A”, blue:”#5B8ED6”,
+};
+
+// ─── DONNÉES PAR PROFIL ───────────────────────────────────────
+
+const DATA = {
+celibataire: {
+label: “Célibataire”,
+phraseKey: (p) => `"${p}, votre Indicateur de Solidité Identitaire est à 44/100. Ce n'est pas un manque — c'est un chantier. Et un chantier bien identifié est déjà à moitié construit."`,
+rapport: (p) => [
+{ titre: “Ce que révèle votre bilan”, texte: `${p}, vos réponses dessinent le portrait d'une personne qui a de la profondeur, de la foi, et une capacité relationnelle réelle — mais qui s'est construite autour d'un déficit qu'elle n'a jamais tout à fait nommé. Ce déficit n'est pas un drame. C'est le point de départ de tout travail intérieur sérieux.` },
+{ titre: “La dynamique qui vous freine”, texte: “Vous cherchez une relation — peut-être intensément. Mais quelque chose en vous sabote systématiquement ce que vous approchez, ou attire ce qui confirme une croyance ancienne sur vous-même : que vous n’êtes pas tout à fait assez, pas tout à fait aimable, pas tout à fait prêt. Cette conviction n’est pas la vérité — mais elle agit comme si elle l’était.” },
+{ titre: “Votre ressource principale”, texte: “Votre ancrage spirituel (78/100) est votre force la plus sous-utilisée. La foi que vous portez contient une réponse à la question identitaire que vous n’arrivez pas à résoudre par la seule réflexion. Vous êtes fait à l’image de — et cette image mérite d’être redécouverte, pas seulement affirmée.” },
+{ titre: “Ce que ce bilan recommande”, texte: `${p}, vous n'avez pas besoin d'attendre d'être parfait pour aimer ou être aimé. Mais vous avez besoin d'un espace structuré pour faire le travail que les années d'attente n'ont pas fait à votre place.` },
+],
+indicateurs: [
+{ id:“IPP”, label:“Préparation\nrelationnelle”, value:51, color:C.blue,  importance:“Mesure votre niveau de préparation consciente à entrer dans un engagement durable — pas votre désir d’être en couple, mais votre capacité à le porter sainement.” },
+{ id:“IBR”, label:“Blessures\nrelationnelles”,  value:62, color:C.red,   importance:“Évalue le poids des expériences passées sur vos comportements présents. Un score élevé indique que ces blessures opèrent encore activement dans vos relations actuelles.” },
+{ id:“ISI”, label:“Solidité\nidentitaire”,      value:44, color:C.gold,  importance:“Mesure la clarté de qui vous êtes indépendamment d’une relation. C’est l’indicateur le plus prédictif de la qualité de votre prochain engagement.” },
+{ id:“IMA”, label:“Maturité\naffective”,         value:58, color:C.green, importance:“Évalue votre capacité à aimer sans vous perdre, à recevoir sans dépendre, et à traverser la frustration sans rompre.” },
+],
+piliers: [
+{ id:“estime”,    lines:[“Estime de soi”],          score:44, importance:“L’estime de soi détermine la qualité des relations que vous allez construire. On ne peut pas recevoir plus d’amour qu’on ne s’en accorde.”, lecture:“Il y a une valeur que vous connaissez intellectuellement, mais que vous ne ressentez pas encore pleinement. Un décalage entre ce que vous savez de vous et ce que vous croyez mériter.” },
+{ id:“blessures”, lines:[“Blessures”,“relationnelles”], score:38, importance:“Nos blessures non traitées deviennent nos filtres relationnels. Elles ne disparaissent pas — elles choisissent pour nous.”, lecture:“Des expériences passées ont installé des schémas de protection qui vous servent à court terme mais vous coûtent à long terme.” },
+{ id:“communication”, lines:[“Communication”],      score:61, importance:“Ce que vous savez ou ne savez pas dire aujourd’hui, vous l’emporterez dans votre prochain engagement.”, lecture:“Vous communiquez bien sur les sujets neutres. Mais vos besoins profonds, vos peurs, vos limites — vous avez appris à les taire.” },
+{ id:“attachement”, lines:[“Style”,“d’attachement”], score:52, importance:“Votre style d’attachement est le modèle invisible qui dirige votre comportement amoureux. Le connaître, c’est reprendre le gouvernail.”, lecture:“Votre style d’attachement est majoritairement anxieux — vous donnez beaucoup, vous avez besoin de beaucoup de réassurance.” },
+{ id:“spirituel”, lines:[“Ancrage”,“spirituel”],    score:78, importance:“La foi est une ressource relationnelle, pas seulement spirituelle. Elle offre un cadre de valeurs et une vision du mariage.”, lecture:“C’est votre pilier le plus solide. Votre foi est sincère et active. Mais elle n’a pas encore pleinement informé votre vision du couple.” },
+{ id:“vision”,    lines:[“Vision”,“du couple”],      score:58, importance:“Savoir ce que vous voulez dans un couple — pas juste ce que vous ne voulez pas — vous protège des engagements par défaut.”, lecture:“Vous avez une vision claire de ce que vous ne voulez pas. Mais la vision positive reste floue. On ne navigue pas uniquement avec des obstacles à éviter.” },
+{ id:“limites”,   lines:[“Limites”,”& identité”],    score:33, importance:“Vos limites ne sont pas des murs — ce sont des portes que vous ouvrez ou fermez selon votre choix.”, lecture:“Vous avez tendance à vous adapter au point de disparaître. Pas par faiblesse — par peur de décevoir.” },
+{ id:“finances”,  lines:[“Rapport”,“à l’argent”],   score:55, importance:“Ce que vous croyez sur l’argent, votre rapport à la dette, à la générosité — tout cela entre dans le mariage avec vous.”, lecture:“Votre rapport à l’argent est fonctionnel mais jamais vraiment réfléchi. Un partenaire avec une approche différente créerait une tension significative.” },
+{ id:“famille”,   lines:[“Famille”,“d’origine”],    score:47, importance:“Comprendre ce que vous portez de votre famille d’origine est une condition pour ne pas le rejouer dans votre propre couple.”, lecture:“Votre famille vous a transmis des forces réelles. Mais aussi certains patterns relationnels que vous reproduisez sans le savoir.” },
+{ id:“solitude”,  lines:[“Relation”,“à la solitude”], score:40, importance:“La qualité de votre solitude prédit la qualité de votre relation.”, lecture:“La solitude vous pèse plus qu’elle ne vous nourrit. Vous cherchez une relation — mais en partie pour combler un vide que vous n’avez pas encore appris à habiter.” },
+{ id:“integrite”, lines:[“Intégrité”,“relationnelle”], score:63, importance:“L’intégrité — cohérence entre vos valeurs, comportements et engagements — est ce qui rend quelqu’un digne de confiance.”, lecture:“Vous avez de bonnes valeurs et vous essayez de les vivre. Mais dans certains contextes, vous transigez par pression sociale ou par désir de plaire.” },
+{ id:“readiness”, lines:[“Maturité”,“relationnelle”], score:49, importance:“La maturité relationnelle se développe — et cette évaluation en est la première étape.”, lecture:“Vous avez les fondations. La maturité est en construction — et c’est une bonne nouvelle, parce que vous en avez conscience.” },
+],
+patterns: [
+{ id:“lea”, titre:“Dynamique de Léa”, prof:“Primaire · Le plus actif”, couleur:C.red, desc:“Léa était aimée — mais pas de la manière dont elle espérait être aimée. Pendant des années, elle a multiplié les signes d’amour pour tenter de mériter ce qu’elle aurait dû recevoir librement. Cette dynamique décrit la personne qui compense un déficit d’amour reçu par un surdon d’amour donné — espérant qu’à force de donner, elle finira par recevoir en retour. Le problème : on attire ce qu’on projette.”, preuves:[“Réponse 8 — Tendance à en faire plus que l’autre dans les relations passées”,“Réponse 21 — Sentiment de ne jamais être ‘assez’ pour l’autre”,“Réponse 34 — Difficulté à recevoir sans immédiatement rendre”] },
+{ id:“ruth”, titre:“Dynamique Ruth-Boaz”, prof:“Secondaire · Ressource à activer”, couleur:C.green, desc:“Ruth est la figure de celui ou celle qui a traversé la perte — et qui a choisi de rester debout, de se reconstruire, et d’avancer. La dynamique Ruth-Boaz indique que votre histoire contient les ressources nécessaires à une relation saine. Il s’agit d’apprendre à les mobiliser délibérément.”, preuves:[“Réponse 15 — Capacité à se relever après une déception relationnelle”,“Réponse 29 — Attachement sincère à des valeurs de fidélité”,“Réponse 42 — Foi active comme ancre dans les moments de doute”] },
+],
+onglet3: {
+tag:“Les 7 Freins à l’engagement”, titre:“Pourquoi vous repoussez ce que vous voulez”,
+sub:“Ces 7 freins ne sont pas des défauts — ce sont des protections devenues trop grandes.”,
+actifIndex:2,
+items:[
+{ num:1, titre:“La Peur du rejet”, desc:“Vous ne demandez pas parce que vous anticipez le non. Cette peur vous protège — mais elle vous prive aussi de tout ce qui ne peut venir qu’en osant.” },
+{ num:2, titre:“La Peur d’être vu”, desc:“Se montrer tel qu’on est, c’est risquer d’être quitté pour ce qu’on est vraiment. Alors on montre une version arrangée — et on se retrouve aimé de quelqu’un qu’on n’est pas.” },
+{ num:3, titre:“Les Schémas répétitifs”, desc:“Vous choisissez le même type de personne. Vous vivez les mêmes scénarios. Pas parce que vous êtes malchanceux — parce que quelque chose en vous les appelle. Comprendre quoi change tout.” },
+{ num:4, titre:“L’Idéalisation”, desc:“Vous cherchez quelqu’un de parfait — et vous disqualifiez les personnes réelles. L’idéal est une protection contre la déception. Il est aussi une prison contre l’amour réel.” },
+{ num:5, titre:“La Fuite dans l’occupation”, desc:“Tant que vous êtes occupé, vous n’avez pas à regarder votre solitude. Cette stratégie fonctionne — jusqu’au jour où le calendrier se libère.” },
+{ num:6, titre:“Le Besoin de contrôle”, desc:“Aimer, c’est accepter de ne pas tout maîtriser. Si votre confort dépend de tout contrôler, l’amour — par définition imprévisible — sera toujours vécu comme une menace.” },
+{ num:7, titre:“La Blessure transgénérationnelle”, desc:“Certaines peurs relationnelles ne viennent pas de vos expériences — elles viennent de celles de vos parents. Les identifier ouvre une liberté nouvelle.” },
+],
+indicateur:{ label:“Indicateur de préparation”, value:51, color:C.blue, desc:“L’indicateur de préparation relationnelle mesure votre capacité à entrer dans un engagement durable — non pas votre désir d’être en couple, mais votre aptitude à le porter sainement. Un score à 51 signifie que vous avez les fondations, mais que des zones clés nécessitent un travail délibéré avant votre prochain engagement.” },
+ctaText:“Vous êtes au frein 3. C’est identifiable — et transformable.”,
+ctaSub:“Le programme Eden Single est conçu précisément pour ce moment : comprendre vos schémas, guérir les blessures actives, et vous préparer à l’engagement que vous méritez.”,
+},
+seeds:[
+{ jour:“Aujourd’hui”, pilier:“Identité”, contenu:“Prenez 10 minutes ce soir. Écrivez, sans filtre : ‘Ce que j’apporte à une relation, c’est…’ et ‘Ce que je cherche encore à recevoir, c’est…’ L’écart entre les deux lignes vous dira beaucoup.”, action:“Écrivez. Ne censurez pas. Relisez le lendemain matin.” },
+{ jour:“Hier”, pilier:“Blessures”, contenu:“Toute relation difficile vous a appris quelque chose. Pas sur l’autre — sur vous. Qu’avez-vous découvert de vous-même dans votre dernière déception relationnelle ?”, action:“Nommez une chose que cette relation vous a révélée sur votre propre fonctionnement.” },
+{ jour:“Il y a 2 jours”, pilier:“Limites”, contenu:“Vous ne pouvez pas demander à quelqu’un de respecter des limites que vous n’avez pas encore définies pour vous-même. Qu’est-ce qui, dans une relation, est non-négociable pour vous ?”, action:“Écrivez trois limites que vous n’avez jamais osé poser — et que vous commencez à nommer ce soir.” },
+{ jour:“Il y a 3 jours”, pilier:“Spirituel”, contenu:“Qui est-ce que vous demandez à Dieu d’envoyer ? La qualité de votre prière sur ce sujet révèle la clarté de votre vision de vous-même. On ne reçoit pas ce qu’on ne sait pas nommer.”, action:“Formulez une prière précise — pas ‘quelqu’un de bien’, mais les qualités spécifiques que vous portez dans votre vision.” },
+],
+plan:[
+{ jour:1, titre:“L’Inventaire de soi”, pilier:“Identité”, couleur:C.blue, vis:true, action:“Ce soir, ouvrez un cahier. Écrivez sur deux colonnes : ‘Ce que je sais de moi’ et ‘Ce que je découvre encore de moi’. Soyez honnête — personne ne lira ceci sauf vous.” },
+{ jour:2, titre:“La Cartographie des blessures”, pilier:“Blessures”, couleur:C.red, vis:true, action:“Nommez vos trois dernières déceptions relationnelles. Pour chacune : ‘Quel schéma de ma part a contribué à ce résultat ?’ Pas pour vous blâmer — pour voir.” },
+{ jour:3, titre:“La Lettre à votre futur partenaire”, pilier:“Vision”, couleur:C.green, vis:true, action:“Écrivez une lettre à la personne que vous n’avez pas encore rencontrée. Dites-lui qui vous êtes réellement, ce que vous portez, ce dont vous avez besoin.” },
+{ jour:4, titre:“Les Limites fondatrices”, pilier:“Limites & identité”, couleur:C.gold, vis:false },
+{ jour:5, titre:“La Prière de préparation”, pilier:“Ancrage spirituel”, couleur:C.blue, vis:false },
+{ jour:6, titre:“Le Portrait de soi”, pilier:“Estime de soi”, couleur:C.green, vis:false },
+{ jour:7, titre:“La Déclaration d’intention”, pilier:“Maturité”, couleur:C.gold, vis:false },
+],
+formations:[
+{ titre:“Eden Single”, prix:“25 000 FCFA”, rec:true, desc:“Programme complet de préparation relationnelle pour célibataires. Comprendre vos schémas, guérir les blessures actives, et vous préparer à l’engagement que vous méritez.”, msg:“Bonjour, je souhaite m’inscrire à Eden Single suite à ma démonstration Bilan 360°.” },
+{ titre:“Séance avec Zady Zozoro”, prix:“50 000 FCFA”, rec:false, desc:“Session d’accompagnement personnalisée pour approfondir les dynamiques identifiées.”, msg:“Bonjour, je souhaite réserver une séance avec Zady suite à ma démonstration Bilan 360°.” },
+],
+},
+
+fiance: {
+label: “Fiancé(e)”,
+phraseKey: (p) => `"${p}, votre Indicateur de Préparation Matrimoniale est à 54/100. Vous êtes à la frontière entre le couple de la séduction et le couple de l'engagement. Cette frontière exige une conversation que vous n'avez pas encore eue."`,
+rapport: (p) => [
+{ titre: “Ce que révèle votre bilan”, texte: `${p}, vous êtes à l'une des périodes les plus décisives de votre vie relationnelle. Ce qui se construit maintenant — ou ne se construit pas — sera la fondation de tout ce qui vient. Et votre bilan révèle qu'il y a des zones solides, et des zones qui ressemblent encore à du béton frais.` },
+{ titre: “La zone de vigilance principale”, texte: “Vos réponses indiquent un écart entre vos attentes mutuelles que ni l’un ni l’autre ne mesure pleinement. Pas sur les grandes décisions — sur le quotidien : qui gère quoi, comment on traverse les désaccords, comment on intègre les familles. Ces sujets ont été abordés en surface. Ils n’ont pas encore eu leur conversation de fond.” },
+{ titre: “Votre force principale”, texte: “Votre Indicateur de Vision Commune (72/100) est remarquable. Vous vous choisissez avec intention. Vous avez une foi partagée. Vous avez un projet. Ce sont les ingrédients d’un mariage solide. La question n’est pas si vous devez vous marier — c’est avec quelle préparation vous allez entrer dans cet engagement.” },
+{ titre: “Ce que ce bilan recommande”, texte: `${p}, le meilleur investissement que vous puissiez faire pour votre mariage, c'est de faire le travail maintenant — pendant que vous êtes encore fiancés, pendant que la conversation est encore possible sans les pressions de la vie conjugale.` },
+],
+indicateurs: [
+{ id:“ICA”, label:“Compatibilité\naffective”,   value:67, color:C.green, importance:“Mesure la profondeur de l’alignement émotionnel entre vous deux — pas seulement l’attirance, mais la capacité à se rejoindre dans les moments difficiles.” },
+{ id:“IPM”, label:“Préparation\nmatrimoniale”, value:54, color:C.gold,  importance:“Évalue si vous êtes prêts pour le mariage — pas la cérémonie, mais l’engagement. Ce score identifie les zones à consolider avant de prononcer le oui.” },
+{ id:“ITL”, label:“Tensions\nlatentes”,        value:48, color:C.red,   importance:“Indique le niveau de conflits non-dits, d’attentes non-formulées et de sujets évités qui attendent le mariage pour exploser. Mieux vaut les nommer maintenant.” },
+{ id:“IVC”, label:“Vision\ncommune”,           value:72, color:C.blue,  importance:“Mesure l’alignement de votre projet de couple — la vision que vous construisez ensemble. C’est la boussole de tout ce qui vient.” },
+],
+piliers: [
+{ id:“communication”, lines:[“Communication”],         score:58, importance:“Ce que vous ne dites pas avant le mariage, vous le paierez après. La communication pré-matrimoniale est encore protégée par l’idéalisation.”, lecture:“Vous communiquez bien sur les sujets pratiques. Mais les conversations difficiles — peurs, blessures passées, attentes profondes — restent soigneusement évitées.” },
+{ id:“attentes”,  lines:[“Gestion”,“des attentes”],     score:42, importance:“Les attentes non formulées sont les blessures prévisibles du mariage. Ce que vous attendez sans le dire deviendra une source de déception quotidienne.”, lecture:“Il y a un écart significatif entre vos attentes mutuelles. Ces sujets n’ont pas encore eu leur conversation.” },
+{ id:“confiance”, lines:[“Fondation”,“de confiance”],   score:71, importance:“La confiance n’est pas un sentiment — c’est une infrastructure. Elle se construit par des promesses tenues, des vérités dites, des cohérences observées.”, lecture:“La confiance est réelle. Mais quelques zones d’ombre — petits arrangements avec la vérité, sujets qu’on n’ose pas aborder — méritent d’être éclairées avant le mariage.” },
+{ id:“spirituel”, lines:[“Vision”,“spirituelle”],       score:66, importance:“Deux fois individuelles ne font pas automatiquement une spiritualité de couple. La question n’est pas ‘Êtes-vous tous les deux croyants ?’ mais ‘Comment votre foi va-t-elle gouverner votre foyer ?’”, lecture:“Vous partagez la foi — c’est une fondation réelle. Mais vous n’avez pas encore eu la conversation sur la gouvernance spirituelle de votre foyer.” },
+{ id:“finances”,  lines:[“Finances”,”& gouvernance”],   score:49, importance:“L’argent est le premier sujet de conflit dans les couples mariés. Vos croyances sur l’argent sont plus importantes que vos revenus.”, lecture:“Vous avez abordé les finances en surface. Mais les croyances profondes sur l’argent et la philosophie de la dépense n’ont pas encore été discutées.” },
+{ id:“famille”,   lines:[“Familles”,“d’origine”],       score:44, importance:“Vous n’épousez pas une personne — vous fusionnez deux histoires familiales. Ce que chacun porte de sa famille va entrer dans votre foyer.”, lecture:“Les familles d’origine sont présentes — trop présentes dans certains cas. Chacun a des loyautés qui n’ont pas encore été redéfinies clairement.” },
+{ id:“roles”,     lines:[“Rôles”,”& leadership”],       score:38, importance:“Un couple qui n’a pas clarifié ses rôles improvise en permanence — et l’improvisation permanente épuise les deux.”, lecture:“Vous avez des visions différentes — pas opposées, mais non alignées — sur qui fait quoi, qui décide quoi. Ce n’est pas un problème si c’est nommé.” },
+{ id:“conflits”,  lines:[“Gestion”,“des conflits”],     score:35, importance:“La manière dont un couple traverse ses premières disputes préfigure exactement la manière dont il traversera toutes les suivantes.”, lecture:“Vos conflits actuels — encore rares et doux — sont pourtant révélateurs. L’un de vous cède pour éviter la tension. L’autre interprète ce silence comme un accord.” },
+{ id:“intimite”,  lines:[“Intimité”,”& attentes”],      score:53, importance:“Les attentes en matière d’intimité sont rarement discutées avant le mariage — et pourtant parmi les premières sources de déception.”, lecture:“Le sujet a été frôlé mais jamais ouvert. Chacun a des attentes, des craintes, et des schémas hérités. Ces schémas méritent une conversation avant le mariage.” },
+{ id:“projet”,    lines:[“Projet”,“commun”],            score:67, importance:“Le projet commun est l’horizon qui oriente les décisions. Un couple avec une vision partagée traverse les crises avec une boussole.”, lecture:“Vous avez un projet — ensemble. C’est une force réelle. Mais ce projet est encore en surface. La vision profonde n’est pas encore formulée.” },
+{ id:“vulnerabilite”, lines:[“Vulnérabilité”,”& confiance”], score:46, importance:“La vulnérabilité partagée est le ciment des couples qui durent. Elle transforme une cohabitation en communion.”, lecture:“Il y a des zones que vous ne montrez pas encore — pas par malveillance, par peur d’être perçu différemment. Mais le mariage expose tout.” },
+{ id:“resilience”, lines:[“Résilience”,“prévisionnelle”], score:59, importance:“La résilience prévisionnelle est la capacité d’anticiper les crises — non pas à les craindre, mais à se préparer à les traverser ensemble.”, lecture:“Vous avez la ressource. Mais vous n’avez pas encore parlé de vos fragilités respectives. L’anticiper est le plus grand cadeau que vous puissiez vous faire.” },
+],
+patterns: [
+{ id:“ae”, titre:“Dynamique Adam-Ève : La Découverte”, prof:“Primaire · Phase normale mais critique”, couleur:C.gold, desc:“Adam et Ève vivaient dans un jardin parfait — jusqu’au jour où la réalité de l’autre les confronta à leurs propres limites. Ce que vous découvrirez après le mariage ne sera pas une trahison — ce sera l’autre tel qu’il est vraiment. La question est : avez-vous préparé votre cœur à aimer non pas l’image, mais la personne ?”, preuves:[“Réponse 11 — Tendance à minimiser les points de désaccord pour préserver l’harmonie”,“Réponse 26 — Évitement de certains sujets difficiles avant le mariage”,“Réponse 38 — Surprise occasionnelle face à des comportements inattendus de l’autre”] },
+{ id:“ir”, titre:“Dynamique Isaac-Rébecca”, prof:“Secondaire · Force à consolider”, couleur:C.green, desc:“Isaac et Rébecca représentent le couple qui se choisit avec intention — avec une famille derrière, une foi au centre, et un projet devant. Leur dynamique n’est pas exempte de tensions — mais ils ont choisi l’un l’autre. Ce choix est votre force. La question n’est pas si vous devez vous marier — c’est avec quelle préparation vous allez entrer dans cet engagement.”, preuves:[“Réponse 7 — Sentiment fort que l’autre est le bon choix”,“Réponse 22 — Foi partagée comme fondation du projet commun”,“Réponse 37 — Désir sincère de construire un foyer solide ensemble”] },
+],
+onglet3:{
+tag:“Les 7 Fondations du couple”, titre:“Ce que vous construisez avant de dire oui”,
+sub:“Un mariage solide ne commence pas le jour du oui — il se construit dans les mois qui précèdent.”,
+actifIndex:2,
+items:[
+{ num:1, titre:“La Vision commune”, desc:“Pas vos projets individuels additionnés — la vision que vous co-créez. Pourquoi existez-vous ensemble ? Vers quoi allez-vous ?” },
+{ num:2, titre:“La Communication profonde”, desc:“Au-delà du pratique — êtes-vous capables de vous dire vos peurs, vos besoins, vos limites ? Ce que vous ne dites pas avant le mariage, vous le paierez après.” },
+{ num:3, titre:“La Gestion des conflits”, desc:“Vos premières disputes pré-matrimoniales programment la façon dont vous vous disputerez toujours. Les schémas se fixent tôt — et ils sont difficiles à défaire une fois installés.” },
+{ num:4, titre:“L’Accord sur les rôles”, desc:“Qui mène dans quels domaines ? Comment les décisions sont-elles prises ? Ces questions non répondues deviennent des guerres de territoire après le mariage.” },
+{ num:5, titre:“La Gouvernance financière”, desc:“Pas seulement qui gagne quoi — mais ce que l’argent signifie pour chacun de vous. Vos croyances sur l’argent sont plus importantes que vos revenus.” },
+{ num:6, titre:“L’Accord sur les familles”, desc:“Comment allez-vous gérer vos deux familles d’origine ? Cette conversation — souvent évitée — est la première source de conflit des jeunes mariés.” },
+{ num:7, titre:“La Spiritualité de foyer”, desc:“Comment votre foi va-t-elle gouverner votre maison ? Pas votre foi individuelle — votre foi de couple.” },
+],
+indicateur:{ label:“Préparation matrimoniale”, value:54, color:C.gold, desc:“L’indicateur de préparation matrimoniale mesure si vous êtes prêts pour le mariage — pas la cérémonie, mais l’engagement. Un score à 54 indique que vous avez une vraie base, mais que 3 à 4 fondations restent fragiles. L’erreur serait de croire que le mariage va arranger ces zones — il va les amplifier.” },
+ctaText:“La fondation 3 est votre zone de vigilance principale.”,
+ctaSub:“La formation Eden Connexion est conçue pour les fiancés : consolider les 7 fondations avant le mariage, et entrer dans votre engagement avec lucidité, clarté et profondeur.”,
+},
+seeds:[
+{ jour:“Aujourd’hui”, pilier:“Communication”, contenu:“Ce soir, posez cette question à votre futur(e) conjoint(e) : ‘Quelle est la chose sur laquelle tu voudrais qu’on soit complètement alignés avant le mariage ?’”, action:“Écoutez. Sans chercher à résoudre. Juste entendre.” },
+{ jour:“Hier”, pilier:“Vision commune”, contenu:“Chacun a une image mentale du foyer idéal. Ces images ne sont pas identiques — et c’est normal. La question est : les avez-vous comparées ?”, action:“Décrivez séparément votre foyer idéal dans 10 ans. Comparez ensuite sans jugement.” },
+{ jour:“Il y a 2 jours”, pilier:“Conflits”, contenu:“Comment vous disputez-vous ? Pas le sujet de la dispute — le schéma. Qui attaque ? Qui se ferme ? Qui cède ? Ce schéma accompagnera chaque désaccord de votre mariage si non corrigé.”, action:“Décrivez votre dernier conflit en nommant le rôle que chacun a joué — sans attribuer les torts.” },
+{ jour:“Il y a 3 jours”, pilier:“Spirituel”, contenu:“Vous priez peut-être chacun de votre côté. Mais la spiritualité de foyer, c’est différent. C’est prier ensemble, décider ensemble à la lumière de votre foi.”, action:“Proposez une prière commune ce soir — courte, simple, sincère.” },
+],
+plan:[
+{ jour:1, titre:“La Conversation non faite”, pilier:“Communication”, couleur:C.blue, vis:true, action:“Chacun écrit séparément : ‘Le sujet que j’évite d’aborder avec mon futur(e) conjoint(e) est…’ Échangez vos réponses. C’est une porte que vous ouvrez ensemble avant qu’elle ne soit fermée de l’intérieur.” },
+{ jour:2, titre:“La Table des rôles”, pilier:“Leadership & rôles”, couleur:C.red, vis:true, action:“Créez ensemble un tableau : chaque domaine du foyer (finances, éducation, famille élargie, spiritualité, décisions) et pour chacun : qui mène, qui participe, comment vous décidez.” },
+{ jour:3, titre:“La Prière pré-matrimoniale”, pilier:“Vision spirituelle”, couleur:C.green, vis:true, action:“Ce soir, priez ensemble — pas l’un après l’autre, ensemble. Commencez par : ‘Seigneur, ce foyer que nous allons construire, nous te le donnons…’” },
+{ jour:4, titre:“Le Contrat des finances”, pilier:“Finances & gouvernance”, couleur:C.gold, vis:false },
+{ jour:5, titre:“La Lettre aux familles”, pilier:“Familles d’origine”, couleur:C.blue, vis:false },
+{ jour:6, titre:“Le Portrait mutuel”, pilier:“Vulnérabilité”, couleur:C.green, vis:false },
+{ jour:7, titre:“La Déclaration de vision”, pilier:“Projet commun”, couleur:C.gold, vis:false },
+],
+formations:[
+{ titre:“Eden Connexion”, prix:“25 000 FCFA”, rec:true, desc:“Programme pré-matrimonial complet. Consolider les 7 fondations, aligner les visions, et entrer dans le mariage avec lucidité et profondeur.”, msg:“Bonjour, je souhaite m’inscrire à Eden Connexion suite à ma démonstration Bilan 360°.” },
+{ titre:“Séance pré-matrimoniale”, prix:“50 000 FCFA”, rec:true, desc:“Session d’accompagnement personnalisée pour les fiancés. Poser les fondations de votre futur foyer.”, msg:“Bonjour, je souhaite réserver une séance pré-matrimoniale avec Zady suite à ma démonstration.” },
+],
+},
+
+marie: {
+label: “Marié(e)”,
+phraseKey: (p) => `"${p}, votre Indicateur de Solidité Conjugale est à 46/100. Ce chiffre ne dit pas que votre couple est en danger immédiat. Il dit que la fondation qui vous soutient porte des fissures que le quotidien masque encore — mais que votre corps, votre intimité et vos disputes répétitives révèlent depuis longtemps."`,
+rapport: (p) => [
+{ titre: “Ce que révèle votre bilan”, texte: `${p}, vos réponses dessinent le portrait d'un couple qui a réussi à fonctionner pendant plusieurs années sans jamais avoir la conversation qu'il aurait dû avoir. Ce n'est pas un échec — c'est une opportunité : voir clairement pour la première fois ce qui se joue vraiment.` },
+{ titre: “La blessure qui opère dans l’ombre”, texte: “Votre couple vit sous l’effet silencieux d’une redistribution des rôles que personne n’a nommée. Ce déséquilibre ne produit pas de violence immédiate — il produit une froideur, une critique subtile, une difficulté à célébrer sincèrement. Et cette dynamique alimente la quasi-totalité de vos conflits.” },
+{ titre: “Votre ressource principale”, texte: “Votre ancrage spirituel (74/100) est votre pilier le plus solide — et votre ressource la plus inexploitée. La foi est sincère chez vous deux, mais elle reste individuelle. Deux forteresses côte à côte plutôt qu’un temple partagé. Cette ressource, mobilisée ensemble, peut changer la trajectoire de votre couple.” },
+{ titre: “Ce que ce bilan recommande”, texte: `${p}, votre Indicateur de Potentiel de Résilience est à 62/100. La ressource est là. La fenêtre d'intervention est ouverte. La question que pose ce bilan n'est pas 'votre couple va-t-il survivre ?' — c'est : de quelle version de votre couple souhaitez-vous être responsable dans les deux prochaines années ?` },
+],
+indicateurs: [
+{ id:“ISC”, label:“Solidité\nconjugale”,     value:46, color:C.blue,  importance:“Mesure la robustesse globale des fondements de votre couple — la solidité de ce qui vous tient ensemble quand les circonstances poussent vers la séparation.” },
+{ id:“IPR”, label:“Potentiel de\nrésilience”, value:62, color:C.green, importance:“Évalue la capacité de votre couple à se relever d’une période difficile. C’est l’indicateur le plus décisif pour savoir si un accompagnement peut produire des résultats concrets.” },
+{ id:“IRC”, label:“Risque\nconflictuel”,      value:76, color:C.red,   importance:“Indique la probabilité que vos conflits actuels s’aggravent sans intervention. Plus il est élevé, plus une prise en charge rapide et structurée est déterminante.” },
+{ id:“IDC”, label:“Distance\nconjugale”,      value:41, color:C.gold,  importance:“Mesure l’écart affectif entre les deux partenaires — si vous êtes encore dans la même direction, ou si vous avez commencé à construire des vies parallèles.” },
+],
+piliers: [
+{ id:“communication”, lines:[“Communication”],          score:38, importance:“La communication est la colonne vertébrale de tout couple. Un couple qui perd la communication perd la capacité de se retrouver.”, lecture:“Vous parlez — mais les sujets profonds sont systématiquement évités. La communication fonctionne pour le quotidien, mais s’arrête aux portes de l’intériorité.” },
+{ id:“confiance”,    lines:[“Confiance”],               score:61, importance:“La confiance détermine si votre partenaire peut être vulnérable avec vous. Sans elle, le couple se protège mutuellement — et cette protection devient une prison.”, lecture:“La confiance de base est présente. Aucune trahison frontale. Mais une méfiance diffuse s’est installée — non pas sur la fidélité, mais sur l’intention de l’autre.” },
+{ id:“intimite”,     lines:[“Intimité”,“émotionnelle”], score:29, importance:“C’est le pilier le plus invisible et le plus déterminant. On peut avoir une maison fonctionnelle et mourir de solitude à deux.”, lecture:“C’est le point le plus fragile. L’un de vous vit une solitude intérieure profonde. L’autre ne sait pas comment entrer dans cet espace.” },
+{ id:“tensions”,     lines:[“Gestion”,“des tensions”],  score:24, importance:“La manière de traverser les désaccords révèle la maturité relationnelle d’un couple. Un conflit mal géré creuse une blessure invisible qui s’approfondit.”, lecture:“Les conflits suivent un schéma prévisible : déclencheur mineur → escalade → silence punitif → reprise sans résolution.” },
+{ id:“projet”,       lines:[“Projet”,“commun”],         score:52, importance:“Un couple sans vision commune dérive. Le projet commun transforme une cohabitation en mission partagée.”, lecture:“Un projet existe — maison, enfants, stabilité. Mais ce projet est gestionnaire, pas inspirant. Il manque une vision qui transcende le quotidien.” },
+{ id:“spirituel”,    lines:[“Ancrage”,“spirituel”],     score:74, importance:“La foi commune est la ressource la plus puissante d’un couple en crise — et la plus souvent inexploitée.”, lecture:“C’est votre point le plus fort — et votre plus grande ressource inexploitée. La foi est sincère chez vous deux, mais reste individuelle.” },
+{ id:“intime”,       lines:[“Épanouissement”,“intime”], score:41, importance:“La relation physique est un baromètre fidèle de la santé émotionnelle d’un couple. Sa diminution est souvent le premier signal visible d’une distance invisible.”, lecture:“La relation physique a diminué — non par absence de désir, mais par accumulation de rancœurs non résolues.” },
+{ id:“gouvernance”,  lines:[“Gouvernance”,“du foyer”],  score:58, importance:“La gestion du foyer révèle les déséquilibres de charge, les attentes implicites et les ressentiments silencieux.”, lecture:“Le foyer fonctionne. Mais l’un de vous porte plus que sa part sans le dire, et l’autre ne voit pas le poids que cela représente.” },
+{ id:“familles”,     lines:[“Familles”,“d’origine”],    score:44, importance:“Tout couple porte les héritages de deux familles. Les gérer consciemment est une condition de survie du couple.”, lecture:“La belle-famille exerce une pression. L’un de vous, pris entre deux loyautés, oscille sans trancher.” },
+{ id:“croissance”,   lines:[“Croissance”,“personnelle”],score:63, importance:“La croissance individuelle peut nourrir ou fragiliser le couple selon qu’elle est partagée ou qu’elle crée un déséquilibre non nommé.”, lecture:“L’un de vous connaît une croissance significative. L’autre vit ce succès avec une fierté mêlée d’insécurité — un équilibre délicat qu’aucun des deux n’a encore su nommer.” },
+{ id:“leadership”,   lines:[“Leadership”,”& rôles”],   score:31, importance:“Quand les rôles ne sont pas clarifiés, le couple improvise en permanence — et l’improvisation permanente épuise les deux.”, lecture:“Une redistribution des rôles a eu lieu sans que le couple ait eu la conversation pour l’intégrer.” },
+{ id:“resilience_p”, lines:[“Résilience”],             score:55, importance:“La résilience n’est pas de l’endurance — c’est la capacité à apprendre des épreuves et à en sortir transformé.”, lecture:“Ce couple a survécu à plusieurs épreuves. La ressource existe. Mais elle s’use à chaque crise non résolue.” },
+],
+patterns: [
+{ id:“ds”, titre:“Dynamique David-Saül”, prof:“Primaire · Le plus actif”, couleur:C.red, desc:“Cette dynamique émerge lorsqu’un partenaire vit l’ascension professionnelle ou sociale de l’autre comme une menace silencieuse à son identité. Saül aimait David — jusqu’au jour où les femmes chantèrent que David avait tué ses dix-mille. Ce n’est pas la compétition ordinaire : c’est la fragilité identitaire d’un homme — ou d’une femme — qui n’a plus de victoire à remporter dans l’espace qu’il habitait.”, preuves:[“Réponse 12 — Sentiment que le partenaire réussit mieux professionnellement”,“Réponse 28 — Sentiment d’inutilité ponctuelle dans le foyer”,“Réponse 41 — Inconfort face aux compliments reçus par le partenaire”] },
+{ id:“sam”, titre:“Dynamique Samson-Dalila”, prof:“Secondaire · Actif dans les conflits”, couleur:C.gold, desc:“Cette dynamique désigne non pas la trahison, mais l’épuisement. Elle décrit le couple où l’un porte la charge émotionnelle — où les conversations difficiles finissent toujours avec l’un qui cède et l’autre qui ne mesure pas ce qui vient d’être sacrifié pour que la paix revienne. Samson n’a pas perdu sa force en une nuit — il la donnait depuis longtemps.”, preuves:[“Réponse 7 — Épuisement après les conversations difficiles”,“Réponse 19 — L’un des deux cède systématiquement pour éviter la crise”,“Réponse 33 — Sentiment de porter seul la responsabilité émotionnelle”] },
+],
+onglet3:{
+tag:“Les 7 Stades de la rupture”, titre:“La dynamique de rupture conjugale”,
+sub:“Tout couple traverse des épreuves. Ce qui détermine l’issue, c’est le stade atteint — et le moment de l’intervention.”,
+actifIndex:2,
+items:[
+{ num:1, titre:“Le Silence”, desc:“Les conversations se tarissent. On parle de tout — agenda, météo, enfants — sauf de l’essentiel. Le silence protège une blessure qu’aucun n’ose nommer.” },
+{ num:2, titre:“La Distance”, desc:“On partage un toit mais plus une vie intérieure. La cohabitation remplace la communion. On peut dormir dans le même lit et être séparés par un océan.” },
+{ num:3, titre:“Les Cycles conflictuels”, desc:“Les mêmes disputes reviennent sans jamais être résolues. Déclencheur → escalade → silence → reprise comme si rien n’avait eu lieu. La blessure s’approfondit à chaque épisode.” },
+{ num:4, titre:“Le Désengagement”, desc:“L’un ou les deux partenaires cessent d’essayer. Ce n’est pas de la haine — c’est pire. C’est l’indifférence progressive. L’espoir s’étiole sans bruit.” },
+{ num:5, titre:“Les Vies parallèles”, desc:“Chacun reconstruit son monde. Amis séparés, projets séparés, rêves séparés. Le couple existe encore administrativement, mais plus existentiellement.” },
+{ num:6, titre:“La Rupture émotionnelle”, desc:“Le lien affectif est rompu de l’intérieur. La forme du couple subsiste — mais son âme est partie.” },
+{ num:7, titre:“La Séparation formelle”, desc:“La décision est prise. Ce qui était une crise devient une conclusion. Ce stade peut être évité jusqu’au bout — mais seulement par une intervention consciente et rapide.” },
+],
+indicateur:{ label:“Indicateur de résilience”, value:62, color:C.green, desc:“L’indicateur de résilience ne mesure pas si votre couple va bien — il mesure sa capacité à rebondir. Un Indicateur de Risque conflictuel élevé (76) mais une résilience à 62 crée une tension contradictoire : les conflits s’intensifient, mais la ressource pour y faire face existe encore. La fenêtre d’intervention est ouverte — mais elle ne le restera pas indéfiniment.” },
+ctaText:“Vous êtes au stade 3. Agir maintenant change tout.”,
+ctaSub:“Les stades 4, 5 et 6 sont silencieux. On n’y entre pas avec fracas — on y glisse. La formation RESCUE 90 Jours est conçue précisément pour les couples au stade 3.”,
+},
+seeds:[
+{ jour:“Aujourd’hui”, pilier:“Communication”, contenu:“Ce soir, posez cette question à votre partenaire — et ne répondez pas avant d’avoir vraiment écouté : ‘Qu’est-ce que tu vis en ce moment que tu ne m’as pas encore dit ?’”, action:“Écoutez. Sans interrompre. Sans vous justifier. Juste écouter.” },
+{ jour:“Hier”, pilier:“Confiance”, contenu:“La confiance ne se demande pas — elle se reconstruit. Par chaque promesse tenue, chaque présence choisie, chaque secret gardé. Quelle petite promesse pouvez-vous tenir aujourd’hui ?”, action:“Identifiez une micro-promesse que vous pouvez tenir dès aujourd’hui.” },
+{ jour:“Il y a 2 jours”, pilier:“Leadership & rôles”, contenu:“Quand les rôles ne sont pas clarifiés, le couple improvise en permanence — et l’improvisation permanente épuise les deux. Avez-vous eu la conversation sur ‘qui fait quoi et pourquoi’ ?”, action:“Nommez un rôle qui n’est pas clair entre vous deux. Juste le nommer.” },
+{ jour:“Il y a 3 jours”, pilier:“Spirituel”, contenu:“La foi individuelle est une fondation. La foi de couple est une architecture. Quand avez-vous prié ensemble pour la dernière fois — vraiment ensemble ?”, action:“Proposez à votre partenaire 5 minutes de prière commune cette semaine.” },
+],
+plan:[
+{ jour:1, titre:“Le Rituel des 10 Minutes”, pilier:“Intimité émotionnelle”, couleur:C.blue, vis:true, action:“Ce soir, réservez 10 minutes — téléphone éteint. Chacun répond sans interruption : ‘Quelle est la chose que tu aimerais que je comprenne mieux de toi en ce moment ?’ L’objectif n’est pas de résoudre — c’est d’entendre.” },
+{ jour:2, titre:“La Cartographie des Rôles”, pilier:“Leadership & rôles”, couleur:C.red, vis:true, action:“Écrivez séparément : ‘Ce que je fais pour notre foyer’ et ‘Ce que j’attends de l’autre’. Comparez sans jugement. Cherchez où la réalité perçue diverge — sans chercher à avoir raison.” },
+{ jour:3, titre:“La Prière du Couple”, pilier:“Ancrage spirituel”, couleur:C.green, vis:true, action:“Cinq minutes de prière commune — pas de demandes, seulement des gratitudes. Commencez par : ‘Merci pour…’ Laissez la foi redevenir un espace partagé.” },
+{ jour:4, titre:“La Lettre non envoyée”, pilier:“Communication”, couleur:C.gold, vis:false },
+{ jour:5, titre:“Le Portrait de l’autre”, pilier:“Confiance”, couleur:C.blue, vis:false },
+{ jour:6, titre:“La Vision à 5 ans”, pilier:“Projet commun”, couleur:C.green, vis:false },
+{ jour:7, titre:“Le Bilan du couple”, pilier:“Résilience”, couleur:C.gold, vis:false },
+],
+formations:[
+{ titre:“Les 12 Piliers d’un Mariage Solide”, prix:“75 000 FCFA”, rec:true, desc:“Parcours complet sur les 12 dimensions fondamentales du mariage. Formation principale recommandée pour votre profil.”, msg:“Bonjour, je souhaite m’inscrire aux 12 Piliers suite à ma démonstration Bilan 360°.” },
+{ titre:“RESCUE — 90 Jours”, prix:“75 000 FCFA”, rec:true, desc:“Programme intensif de reconstruction pour les couples traversant une crise de leadership ou d’identité des rôles.”, msg:“Bonjour, je souhaite rejoindre RESCUE 90 Jours. IRC : 76/100.” },
+],
+},
+};
+
+// ─── COMPOSANTS UI ────────────────────────────────────────────
+
+function Gauge({ value, color, size = 68 }) {
+const r = 24, cx = size/2, cy = size/2, ci = 2*Math.PI*r;
+const d = (value/100)*ci;
+return (
+<svg width={size} height={size}>
+<circle cx={cx} cy={cy} r={r} fill="none" stroke={C.border} strokeWidth={4}/>
+<circle cx={cx} cy={cy} r={r} fill=“none” stroke={color} strokeWidth={4}
+strokeDasharray={`${d} ${ci}`} strokeLinecap=“round”
+transform={`rotate(-90 ${cx} ${cy})`}/>
+<text x={cx} y={cy+5} textAnchor="middle" fill={color} fontSize={14}
+fontFamily="Georgia,serif" fontWeight="600">{value}</text>
+</svg>
+);
+}
+
+function Radar({ piliers, sel, onSel }) {
+const W=300, H=300, CX=150, CY=150, R=92, n=piliers.length;
+const ang = i => (2*Math.PI*i/n) - Math.PI/2;
+const pt  = (i, sc) => { const a=ang(i), e=R*(sc/100); return { x:CX+e*Math.cos(a), y:CY+e*Math.sin(a) }; };
+const lp  = i => { const a=ang(i), lR=R+28; return { x:CX+lR*Math.cos(a), y:CY+lR*Math.sin(a), a }; };
+const anch= a => { const d=((a*180/Math.PI)+450)%360; if(d<22||d>338)return”middle”; if(d<158)return”start”; if(d<202)return”middle”; return”end”; };
+const poly = piliers.map((p,i)=>{ const {x,y}=pt(i,p.score); return `${x},${y}`; }).join(” “);
+const sc = v => v>=60?C.green:v>=40?C.gold:C.red;
+return (
+<svg width=“100%” viewBox=“0 0 300 300” style={{overflow:“visible”}}>
+{[25,50,75,100].map(lv => {
+const pts = piliers.map((*,i)=>{ const {x,y}=pt(i,lv); return `${x},${y}`; }).join(” “);
+return <polygon key={lv} points={pts} fill=“none” stroke={C.border} strokeWidth={lv===100?1.2:0.5} opacity={0.7}/>;
+})}
+{piliers.map((*,i)=>{ const {x,y}=pt(i,100); return <line key={i} x1={CX} y1={CY} x2={x} y2={y} stroke={C.border} strokeWidth={0.7}/>; })}
+<polygon points={poly} fill="#C9A84C14" stroke="#C9A84C" strokeWidth={1.5}/>
+{piliers.map((p,i)=>{ const {x,y}=pt(i,p.score); const s=p.id===sel;
+return <circle key={i} cx={x} cy={y} r={s?5.5:3.5} fill={s?C.gold:`${C.gold}BB`}
+stroke={C.bg} strokeWidth={1.5} style={{cursor:“pointer”}} onClick={()=>onSel(p.id)}/>;
+})}
+{piliers.map((p,i)=>{ const {x,y,a}=lp(i); const s=p.id===sel;
+return (<g key={i} style={{cursor:“pointer”}} onClick={()=>onSel(p.id)}>
+{p.lines.map((l,li)=>(
+<text key={li} x={x} y={y+li*11-(p.lines.length-1)*5.5}
+textAnchor={anch(a)} fontSize={7.5}
+fill={s?C.gold:C.muted} fontFamily=“sans-serif” fontWeight={s?“700”:“400”}>{l}</text>
+))}
+</g>);
+})}
+<text x={CX} y={CY+5} textAnchor="middle" fontSize={7} fill={C.dim}>Eden 360°</text>
+</svg>
+);
+}
+
+const serif = { fontFamily:“Georgia,serif” };
+const jost  = { fontFamily:“system-ui,sans-serif” };
+const sc = v => v>=60?C.green:v>=40?C.gold:C.red;
+
+const css = `@keyframes ef{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}} .ef{animation:ef .3s ease forwards;} .elck{opacity:.35;cursor:not-allowed;} .pinp{background:#080C10;border:1px solid #1E2330;color:#F0EBE0;padding:13px 14px;font-size:13px;width:100%;outline:none;box-sizing:border-box;font-family:system-ui,sans-serif;transition:border .2s;} .pinp:focus{border-color:#C9A84C66;} .pinp::placeholder{color:#4A4740;} .pbtn{background:transparent;border:1px solid #1E2330;color:#7A7567;padding:14px 16px;font-size:12px;cursor:pointer;width:100%;text-align:left;box-sizing:border-box;transition:all .2s;margin-bottom:8px;font-family:system-ui,sans-serif;} .pbtn:hover{background:#C9A84C0A;border-color:#C9A84C55;color:#F0EBE0;} .pbtn.sel{background:#C9A84C14;border-color:#C9A84C;color:#F0EBE0;} .stab{background:transparent;border:1px solid #1E2330;color:#7A7567;padding:5px 12px;font-size:9px;font-weight:600;cursor:pointer;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;flex-shrink:0;font-family:system-ui,sans-serif;transition:all .15s;} .stab.a{background:#C9A84C;border-color:#C9A84C;color:#0B0F1A;}`;
+
+// ─── ÉCRAN ACCUEIL ────────────────────────────────────────────
+
+function Accueil({ onStart }) {
+const [prenom, setPrenom]     = useState(””);
+const [whatsapp, setWhatsapp] = useState(””);
+const [profil, setProfil]     = useState(””);
+const [err, setErr]           = useState(””);
+
+const PROFILS = [
+{ id:“celibataire”, icon:“○”, label:“Célibataire”,  sub:“Je cherche à me préparer à l’engagement” },
+{ id:“fiance”,      icon:“◇”, label:“Fiancé(e)”,    sub:“Je prépare mon mariage” },
+{ id:“marie”,       icon:“◈”, label:“Marié(e)”,     sub:“Je travaille sur mon couple” },
+];
+
+function go() {
+if (!prenom.trim())  { setErr(“Veuillez entrer votre prénom.”); return; }
+if (!profil)          { setErr(“Veuillez sélectionner votre situation.”); return; }
+setErr(””);
+onStart({ prenom: prenom.trim(), whatsapp: whatsapp.trim(), profil });
+}
+
+return (
+<div style={{ background:C.bg, minHeight:“100vh”, …jost }}>
+{/* En-tête */}
+<div style={{ background:C.deep, borderBottom:`1px solid ${C.borderGold}`, padding:“24px 16px 20px”, textAlign:“center” }}>
+<div style={{ fontSize:9, color:C.gold, letterSpacing:”.36em”, textTransform:“uppercase”, marginBottom:10 }}>✦ Académie Eden · Institut de Leadership Familial</div>
+<div style={{ …serif, fontSize:30, color:C.white, lineHeight:1.2, marginBottom:6 }}>Bilan 360°</div>
+<div style={{ …serif, fontSize:16, color:C.muted, fontStyle:“italic” }}>Évaluation relationnelle approfondie</div>
+</div>
+
+```
+  <div style={{ maxWidth:500, margin:"0 auto", padding:"24px 16px 60px" }}>
+    {/* Pitch */}
+    <div style={{ background:C.card, border:`1px solid ${C.borderGold}`, padding:20, marginBottom:20 }}>
+      <div style={{ fontSize:9, color:C.gold, letterSpacing:".26em", textTransform:"uppercase", marginBottom:8 }}>✦ Démonstration gratuite</div>
+      <div style={{ ...serif, fontSize:20, color:C.white, marginBottom:10 }}>Voyez le niveau de profondeur avant d'acheter</div>
+      <div style={{ fontSize:12, color:C.text, lineHeight:1.8, marginBottom:14 }}>
+        Cette démonstration vous montre exactement ce que vous recevrez dans votre rapport complet — avec votre prénom, adapté à votre situation réelle.
+      </div>
+      <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:8 }}>
+        {[["Radar 12 piliers","Interactif et cliquable"],["Dynamiques bibliques","Avec preuves de vos réponses"],["7 stades / freins / fondations","Adaptés à votre profil"],["Plan d'action 7 jours","3 premières étapes offertes"]].map(([t,s],i) => (
+          <div key={i} style={{ padding:"10px", background:C.deep, border:`1px solid ${C.border}` }}>
+            <div style={{ fontSize:10, color:C.gold, marginBottom:2 }}>✓ {t}</div>
+            <div style={{ fontSize:9, color:C.dim }}>{s}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    {/* Prénom */}
+    <div style={{ marginBottom:18 }}>
+      <div style={{ fontSize:9, color:C.dim, letterSpacing:".2em", textTransform:"uppercase", marginBottom:6 }}>Votre prénom <span style={{ color:C.red }}>*</span></div>
+      <input className="pinp" placeholder="Entrez votre prénom..." value={prenom} onChange={e=>setPrenom(e.target.value)} maxLength={40}/>
+    </div>
+
+    {/* Profil */}
+    <div style={{ marginBottom:18 }}>
+      <div style={{ fontSize:9, color:C.dim, letterSpacing:".2em", textTransform:"uppercase", marginBottom:8 }}>Votre situation <span style={{ color:C.red }}>*</span></div>
+      {PROFILS.map(p => (
+        <button key={p.id} className={`pbtn${profil===p.id?" sel":""}`} onClick={()=>setProfil(p.id)}>
+          <div style={{ display:"flex", alignItems:"center", gap:12 }}>
+            <div style={{ fontSize:18, color:profil===p.id?C.gold:C.dim, flexShrink:0 }}>{p.icon}</div>
+            <div>
+              <div style={{ fontSize:13, color:profil===p.id?C.white:C.text, fontWeight:600, marginBottom:2 }}>{p.label}</div>
+              <div style={{ fontSize:10, color:profil===p.id?C.muted:C.dim }}>{p.sub}</div>
+            </div>
+            {profil===p.id && <div style={{ marginLeft:"auto", fontSize:12, color:C.gold }}>✓</div>}
+          </div>
+        </button>
+      ))}
+    </div>
+
+    {/* WhatsApp */}
+    <div style={{ marginBottom:22 }}>
+      <div style={{ fontSize:9, color:C.dim, letterSpacing:".2em", textTransform:"uppercase", marginBottom:4 }}>Votre WhatsApp <span style={{ color:C.dim, fontWeight:400 }}>(optionnel)</span></div>
+      <div style={{ fontSize:10, color:C.dim, marginBottom:8 }}>Pour recevoir votre code d'accès — aucun démarchage, promesse d'Académie.</div>
+      <input className="pinp" placeholder="+225 XX XX XX XX XX" value={whatsapp} onChange={e=>setWhatsapp(e.target.value)} type="tel"/>
+    </div>
+
+    {err && <div style={{ fontSize:11, color:C.red, marginBottom:14, padding:"9px 12px", background:"#C94A4A0D", border:`1px solid ${C.red}44` }}>{err}</div>}
+
+    <button onClick={go} style={{ background:C.gold, border:"none", color:"#0B0F1A", padding:"15px", ...jost, fontSize:13, fontWeight:700, cursor:"pointer", width:"100%", letterSpacing:".04em", marginBottom:12 }}>
+      Voir ma démonstration →
+    </button>
+    <div style={{ textAlign:"center", fontSize:9.5, color:C.dim, lineHeight:1.6 }}>
+      Démonstration 100% gratuite · Aucun engagement requis<br/>
+      Rapport complet disponible pour 25 000 FCFA
+    </div>
+
+    <div style={{ marginTop:24, padding:"14px 16px", background:C.deep, border:`1px solid ${C.border}` }}>
+      <div style={{ fontSize:9, color:C.dim, letterSpacing:".2em", textTransform:"uppercase", marginBottom:6 }}>Fondé par</div>
+      <div style={{ fontSize:13, color:C.white, fontWeight:600, marginBottom:2 }}>Zady Zozoro</div>
+      <div style={{ fontSize:11, color:C.muted, lineHeight:1.6 }}>Pasteur, théologien et coach familial · 16 ans d'accompagnement · Abidjan, Côte d'Ivoire</div>
+    </div>
+  </div>
+</div>
+```
+
+);
+}
+
+// ─── DÉMO PRINCIPALE ─────────────────────────────────────────
+
+function Demo({ client, onBack }) {
+const { prenom, profil, whatsapp } = client;
+const d = DATA[profil];
+const [tab, setTab]   = useState(“rapport”);
+const [sp,  setSp]    = useState(null);
+const [ss,  setSs]    = useState(null);
+const [si,  setSi]    = useState(null);
+const [ep,  setEp]    = useState(null);
+
+const pil = d.piliers.find(p=>p.id===sp);
+const ind = d.indicateurs.find(i=>i.id===si);
+
+const TABS = [
+{ id:“rapport”, l:“Rapport” },
+{ id:“piliers”, l:“12 Piliers” },
+{ id:“onglet3”, l: profil===“marie”?“7 Stades”: profil===“fiance”?“7 Fondations”:“7 Freins” },
+{ id:“action”,  l:“Plan” },
+{ id:“formation”, l:“Formations” },
+];
+
+const waMsg = `Bonjour, je suis ${prenom} (${d.label}). Je souhaite réaliser mon Bilan 360° Eden.${whatsapp?" Mon numéro : "+whatsapp:""}`;
+const openWA = msg => window.open(`https://wa.me/22501418000001?text=${encodeURIComponent(msg||waMsg)}`,”_blank”);
+
+const actifIndex = d.onglet3.actifIndex;
+
+return (
+<div style={{ background:C.bg, color:C.text, minHeight:“100vh”, …jost }}>
+
+```
+  {/* HEADER */}
+  <div style={{ background:C.deep, borderBottom:`1px solid ${C.borderGold}`, padding:"13px 14px 11px" }}>
+    <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:8 }}>
+      <div>
+        <div style={{ fontSize:9, color:C.gold, letterSpacing:".26em", textTransform:"uppercase", marginBottom:3 }}>✦ Académie Eden · Démonstration</div>
+        <div style={{ ...serif, fontSize:22, color:C.white, lineHeight:1.2 }}>Bilan 360° Eden</div>
+      </div>
+      <div style={{ textAlign:"right" }}>
+        <div style={{ fontSize:9, color:C.dim, marginBottom:1 }}>PROFIL DÉMO</div>
+        <div style={{ ...serif, fontSize:16, color:C.white, fontWeight:600 }}>{prenom}</div>
+        <div style={{ fontSize:10, color:C.gold }}>{d.label}</div>
+      </div>
+    </div>
+
+    <div style={{ background:"#C9A84C0D", border:"1px solid #C9A84C33", padding:"8px 11px", marginBottom:10, fontSize:9.5, color:C.gold, lineHeight:1.6 }}>
+      <strong>Mode démonstration</strong> — Votre rapport réel portera votre prénom dans chaque section et sera produit à partir de vos 50 réponses. <strong>Accès : 25 000 FCFA</strong> · Déduit de toute formation dans les 72 h.
+    </div>
+
+    <div style={{ display:"flex", gap:4, overflowX:"auto" }}>
+      {TABS.map(t => (
+        <button key={t.id} className={`stab${tab===t.id?" a":""}`} onClick={()=>setTab(t.id)}>{t.l}</button>
+      ))}
+    </div>
+    <button onClick={onBack} style={{ background:"transparent", border:"none", color:C.dim, fontSize:10, cursor:"pointer", marginTop:8, padding:0, ...jost }}>← Modifier mon profil</button>
+  </div>
+
+  <div style={{ maxWidth:620, margin:"0 auto", padding:"14px 13px 60px" }}>
+
+    {/* ═══ RAPPORT ═══ */}
+    {tab==="rapport" && <div className="ef">
+      {/* Indicateurs */}
+      <div style={{ background:C.card, border:`1px solid ${C.borderGold}`, padding:16, marginBottom:10 }}>
+        <div style={{ fontSize:9, color:C.gold, letterSpacing:".26em", textTransform:"uppercase", marginBottom:12 }}>✦ Indicateurs composites</div>
+        <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:8 }}>
+          {d.indicateurs.map(x => (
+            <div key={x.id} onClick={()=>setSi(si===x.id?null:x.id)}
+              style={{ cursor:"pointer", padding:"11px 8px", background:C.deep, border:`1px solid ${si===x.id?x.color:C.border}`, textAlign:"center", transition:"border .2s" }}>
+              <Gauge value={x.value} color={x.color} size={66}/>
+              <div style={{ fontSize:9, color:C.muted, marginTop:5, lineHeight:1.4, whiteSpace:"pre-line" }}>{x.label}</div>
+              <div style={{ fontSize:8.5, color:x.color, marginTop:2 }}>{x.id}</div>
+            </div>
+          ))}
+        </div>
+        {ind && <div className="ef" style={{ marginTop:11, padding:"10px 12px", background:`${ind.color}0F`, border:`1px solid ${ind.color}44` }}>
+          <div style={{ fontSize:8.5, color:ind.color, letterSpacing:".18em", textTransform:"uppercase", marginBottom:5 }}>✦ Pourquoi cet indicateur compte</div>
+          <div style={{ fontSize:11.5, color:C.text, lineHeight:1.75 }}>{ind.importance}</div>
+        </div>}
+        {!ind && <div style={{ textAlign:"center", fontSize:9, color:C.dim, marginTop:10 }}>↑ Appuyez sur un indicateur pour comprendre ce qu'il mesure</div>}
+      </div>
+
+      {/* Rapport prose */}
+      <div style={{ background:C.card, border:`1px solid ${C.border}`, padding:16, marginBottom:10 }}>
+        <div style={{ fontSize:9, color:C.gold, letterSpacing:".26em", textTransform:"uppercase", marginBottom:6 }}>✦ Le Rapport Eden</div>
+        <div style={{ ...serif, fontSize:20, color:C.white, marginBottom:12 }}>Ce que votre bilan révèle, {prenom}</div>
+        <div style={{ background:C.deep, border:"1px solid #C9A84C33", padding:"13px 15px", marginBottom:14, borderLeft:"3px solid #C9A84C" }}>
+          <div style={{ ...serif, fontSize:14.5, color:C.white, lineHeight:1.6, fontStyle:"italic" }}>{d.phraseKey(prenom)}</div>
+        </div>
+        {d.rapport(prenom).map((bloc, i) => (
+          <div key={i} style={{ marginBottom:14 }}>
+            <div style={{ fontSize:11, color:C.gold, fontWeight:600, letterSpacing:".04em", marginBottom:5 }}>{bloc.titre}</div>
+            <div style={{ fontSize:12, color:C.text, lineHeight:1.82 }}>{bloc.texte}</div>
+          </div>
+        ))}
+      </div>
+
+      {/* Patterns */}
+      <div style={{ fontSize:9, color:C.gold, letterSpacing:".26em", textTransform:"uppercase", marginBottom:10 }}>✦ Dynamiques relationnelles identifiées</div>
+      {d.patterns.map(p => (
+        <div key={p.id} style={{ background:C.card, border:`1px solid ${C.border}`, borderLeft:`3px solid ${p.couleur}`, padding:"13px 14px", marginBottom:7 }}>
+          <div style={{ display:"flex", justifyContent:"space-between", cursor:"pointer", marginBottom:6 }} onClick={()=>setEp(ep===p.id?null:p.id)}>
+            <div>
+              <div style={{ fontSize:12.5, color:C.white, fontWeight:500, marginBottom:2 }}>{p.titre}</div>
+              <div style={{ fontSize:8.5, color:p.couleur, letterSpacing:".14em" }}>{p.prof}</div>
+            </div>
+            <div style={{ fontSize:18, color:C.dim }}>{ep===p.id?"−":"+"}</div>
+          </div>
+          {ep===p.id && <div className="ef">
+            <div style={{ fontSize:11.5, color:C.text, lineHeight:1.78, marginBottom:11 }}>{p.desc}</div>
+            <div style={{ fontSize:8, color:C.dim, letterSpacing:".18em", textTransform:"uppercase", marginBottom:7 }}>Éléments déclencheurs dans vos réponses</div>
+            {p.preuves.map((pr,i) => (
+              <div key={i} style={{ display:"flex", gap:8, marginBottom:5 }}>
+                <div style={{ width:4, height:4, borderRadius:"50%", background:p.couleur, flexShrink:0, marginTop:6 }}/>
+                <div style={{ fontSize:10.5, color:C.muted, lineHeight:1.5 }}>{pr}</div>
+              </div>
+            ))}
+          </div>}
+        </div>
+      ))}
+    </div>}
+
+    {/* ═══ 12 PILIERS ═══ */}
+    {tab==="piliers" && <div className="ef">
+      <div style={{ fontSize:9, color:C.gold, letterSpacing:".26em", textTransform:"uppercase", marginBottom:6 }}>✦ 12 Piliers</div>
+      <div style={{ ...serif, fontSize:20, color:C.white, marginBottom:4 }}>Votre profil, {prenom}</div>
+      <div style={{ fontSize:11, color:C.muted, marginBottom:13, lineHeight:1.6 }}>Appuyez sur un point ou un label du radar pour lire l'analyse de ce pilier.</div>
+
+      <div style={{ background:C.card, border:`1px solid ${C.borderGold}`, padding:"18px 10px", marginBottom:10 }}>
+        <Radar piliers={d.piliers} sel={sp} onSel={id=>setSp(sp===id?null:id)}/>
+        {!sp && <div style={{ textAlign:"center", fontSize:9, color:C.dim, marginTop:6 }}>← Appuyez sur un point ou un label</div>}
+      </div>
+
+      {pil && <div className="ef" style={{ background:C.card, border:"1px solid #C9A84C33", borderLeft:"3px solid #C9A84C", padding:14, marginBottom:10 }}>
+        <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:10 }}>
+          <div>
+            <div style={{ fontSize:9, color:C.gold, letterSpacing:".18em", textTransform:"uppercase", marginBottom:3 }}>{pil.lines.join(" ")}</div>
+            <div style={{ ...serif, fontSize:26, color:sc(pil.score) }}>{pil.score}<span style={{ fontSize:12 }}>/100</span></div>
+          </div>
+          <div style={{ width:50, height:4, background:C.border, borderRadius:2, overflow:"hidden", alignSelf:"center" }}>
+            <div style={{ width:`${pil.score}%`, height:"100%", background:sc(pil.score) }}/>
+          </div>
+        </div>
+        <div style={{ fontSize:8, color:C.dim, letterSpacing:".18em", textTransform:"uppercase", marginBottom:5 }}>Pourquoi ce pilier est fondamental</div>
+        <div style={{ fontSize:11.5, color:C.text, lineHeight:1.75, marginBottom:11 }}>{pil.importance}</div>
+        <hr style={{ border:"none", borderTop:`1px solid ${C.border}`, margin:"13px 0" }}/>
+        <div style={{ fontSize:8, color:C.gold, letterSpacing:".18em", textTransform:"uppercase", marginBottom:5 }}>Lecture pour votre profil</div>
+        <div style={{ fontSize:11.5, color:C.text, lineHeight:1.75, fontStyle:"italic" }}>{pil.lecture}</div>
+      </div>}
+
+      <div style={{ fontSize:9, color:C.dim, letterSpacing:".18em", textTransform:"uppercase", marginBottom:10 }}>Vue d'ensemble</div>
+      {d.piliers.map(p => (
+        <div key={p.id} onClick={()=>setSp(sp===p.id?null:p.id)}
+          style={{ padding:"10px 12px", background:sp===p.id?"#C9A84C0A":C.card, border:`1px solid ${sp===p.id?C.borderGold:C.border}`, marginBottom:5, cursor:"pointer", transition:"all .2s" }}>
+          <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:5 }}>
+            <div style={{ fontSize:11.5, color:sp===p.id?C.white:C.text, fontWeight:500 }}>{p.lines.join(" ")}</div>
+            <div style={{ ...serif, fontSize:13, color:sc(p.score), fontWeight:600 }}>{p.score}</div>
+          </div>
+          <div style={{ height:3, background:C.border, borderRadius:2, overflow:"hidden" }}>
+            <div style={{ width:`${p.score}%`, height:"100%", background:sc(p.score) }}/>
+          </div>
+        </div>
+      ))}
+    </div>}
+
+    {/* ═══ ONGLET 3 VARIABLE ═══ */}
+    {tab==="onglet3" && <div className="ef">
+      <div style={{ fontSize:9, color:C.gold, letterSpacing:".26em", textTransform:"uppercase", marginBottom:6 }}>✦ {d.onglet3.tag}</div>
+      <div style={{ ...serif, fontSize:20, color:C.white, marginBottom:4 }}>{d.onglet3.titre}</div>
+      <div style={{ fontSize:11, color:C.muted, marginBottom:13, lineHeight:1.6 }}>{d.onglet3.sub}</div>
+
+      {/* Position + barre */}
+      <div style={{ background:C.card, border:`1px solid ${C.borderGold}`, padding:16, marginBottom:10 }}>
+        <div style={{ fontSize:9, color:C.gold, letterSpacing:".26em", textTransform:"uppercase", marginBottom:8 }}>✦ Votre positionnement actuel</div>
+        <div style={{ display:"flex", gap:3, marginBottom:7 }}>
+          {d.onglet3.items.map((s,i) => (
+            <div key={i} style={{ flex:1, height:6, borderRadius:1, background:i<=actifIndex?(i===actifIndex?C.red:`${C.red}55`):C.border }}/>
+          ))}
+        </div>
+        <div style={{ display:"flex", justifyContent:"space-between", marginBottom:11 }}>
+          <div style={{ fontSize:9, color:C.muted }}>{d.onglet3.items[0].titre}</div>
+          <div style={{ fontSize:9, color:C.red, fontWeight:600 }}>{d.onglet3.items[actifIndex].titre} · Actuel</div>
+          <div style={{ fontSize:9, color:C.muted }}>{d.onglet3.items[6].titre}</div>
+        </div>
+        <div style={{ padding:"11px 12px", background:"#C94A4A0D", border:"1px solid #C94A4A44", borderLeft:`3px solid ${C.red}` }}>
+          <div style={{ fontSize:8.5, color:C.red, letterSpacing:".18em", textTransform:"uppercase", marginBottom:5 }}>Position identifiée — {d.onglet3.items[actifIndex].titre}</div>
+          <div style={{ fontSize:11.5, color:C.text, lineHeight:1.75 }}>{d.onglet3.items[actifIndex].desc}</div>
+        </div>
+      </div>
+
+      {/* Indicateur spécifique */}
+      <div style={{ background:C.card, border:`1px solid ${C.border}`, padding:16, marginBottom:10 }}>
+        <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:10 }}>
+          <div>
+            <div style={{ fontSize:9, color:d.onglet3.indicateur.color, letterSpacing:".18em", textTransform:"uppercase", marginBottom:3 }}>✦ {d.onglet3.indicateur.label}</div>
+            <div style={{ ...serif, fontSize:26, color:d.onglet3.indicateur.color }}>{d.onglet3.indicateur.value}<span style={{ fontSize:12 }}>/100</span></div>
+          </div>
+          <Gauge value={d.onglet3.indicateur.value} color={d.onglet3.indicateur.color} size={66}/>
+        </div>
+        <div style={{ height:4, background:C.border, borderRadius:3, marginBottom:11, overflow:"hidden" }}>
+          <div style={{ width:`${d.onglet3.indicateur.value}%`, height:"100%", background:d.onglet3.indicateur.color }}/>
+        </div>
+        <div style={{ fontSize:8, color:C.dim, letterSpacing:".18em", textTransform:"uppercase", marginBottom:5 }}>Pourquoi cet indicateur est déterminant</div>
+        <div style={{ fontSize:11.5, color:C.text, lineHeight:1.75 }}>{d.onglet3.indicateur.desc}</div>
+      </div>
+
+      {/* Items cliquables */}
+      <div style={{ fontSize:9, color:C.dim, letterSpacing:".18em", textTransform:"uppercase", marginBottom:10 }}>Appuyez pour comprendre chaque étape</div>
+      {d.onglet3.items.map((s,i) => (
+        <div key={i} onClick={()=>setSs(ss===i?null:i)}
+          style={{ padding:"12px 14px", background:i===actifIndex?"#C94A4A0D":C.card, border:`1px solid ${i===actifIndex?"#C94A4A66":ss===i?C.borderGold:C.border}`, marginBottom:5, cursor:"pointer", borderLeft:`3px solid ${i===actifIndex?C.red:i<actifIndex?`${C.gold}55`:C.border}`, transition:"all .2s" }}>
+          <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center" }}>
+            <div style={{ display:"flex", alignItems:"center", gap:9 }}>
+              <div style={{ width:23, height:23, borderRadius:"50%", background:i===actifIndex?C.red:i<actifIndex?`${C.gold}44`:C.border, display:"flex", alignItems:"center", justifyContent:"center", fontSize:9.5, color:i===actifIndex?C.white:C.dim, fontWeight:700, flexShrink:0 }}>{s.num}</div>
+              <div>
+                <div style={{ fontSize:12, color:i===actifIndex?C.white:C.text, fontWeight:i===actifIndex?500:400 }}>{s.titre}</div>
+                {i===actifIndex && <div style={{ fontSize:8, color:C.red, letterSpacing:".14em" }}>✦ Votre position actuelle</div>}
+              </div>
+            </div>
+            <div style={{ fontSize:16, color:C.dim }}>{ss===i?"−":"+"}</div>
+          </div>
+          {ss===i && <div className="ef" style={{ marginTop:10, fontSize:11.5, color:C.text, lineHeight:1.75, borderTop:`1px solid ${C.border}`, paddingTop:10 }}>{s.desc}</div>}
+        </div>
+      ))}
+
+      {/* CTA */}
+      <div style={{ background:C.card, border:`1px solid ${C.borderGold}`, padding:16, marginTop:12, textAlign:"center" }}>
+        <div style={{ ...serif, fontSize:17, color:C.white, marginBottom:7 }}>{d.onglet3.ctaText}</div>
+        <div style={{ fontSize:11.5, color:C.muted, lineHeight:1.7, marginBottom:13 }}>{d.onglet3.ctaSub}</div>
+        <button onClick={()=>openWA()} style={{ background:C.gold, border:"none", color:"#0B0F1A", padding:"13px", ...jost, fontSize:11, fontWeight:700, cursor:"pointer", width:"100%" }}>
+          Parler à l'équipe Eden →
+        </button>
+      </div>
+    </div>}
+
+    {/* ═══ PLAN D'ACTION + SEEDS ═══ */}
+    {tab==="action" && <div className="ef">
+      <div style={{ fontSize:9, color:C.gold, letterSpacing:".26em", textTransform:"uppercase", marginBottom:6 }}>✦ Plan d'action</div>
+      <div style={{ ...serif, fontSize:20, color:C.white, marginBottom:4 }}>7 jours pour amorcer la transformation</div>
+      <div style={{ fontSize:11, color:C.muted, marginBottom:14, lineHeight:1.6 }}>Plan personnalisé selon vos 3 piliers les plus fragilisés. 3 premières étapes offertes.</div>
+
+      {/* Seeds */}
+      <div style={{ background:C.card, border:`1px solid ${C.borderGold}`, padding:16, marginBottom:14 }}>
+        <div style={{ fontSize:9, color:C.gold, letterSpacing:".26em", textTransform:"uppercase", marginBottom:3 }}>✦ Seed of Eden · Nourriture quotidienne</div>
+        <div style={{ fontSize:10.5, color:C.muted, marginBottom:12 }}>Chaque jour, une pensée actionnable ciblée sur vos piliers fragilisés.</div>
+        {d.seeds.map((s,i) => (
+          <div key={i} style={{ padding:12, background:i===0?"#C9A84C0A":C.deep, border:`1px solid ${i===0?"#C9A84C33":C.border}`, marginBottom:7 }}>
+            <div style={{ display:"flex", justifyContent:"space-between", marginBottom:5 }}>
+              <div style={{ fontSize:8.5, color:i===0?C.gold:C.dim, letterSpacing:".16em", textTransform:"uppercase" }}>{s.jour}</div>
+              <div style={{ padding:"2px 7px", border:"1px solid #C9A84C33", fontSize:8, color:C.gold, letterSpacing:".1em", textTransform:"uppercase" }}>{s.pilier}</div>
+            </div>
+            <div style={{ fontSize:11.5, color:C.text, lineHeight:1.78, marginBottom:8 }}>{s.contenu}</div>
+            <div style={{ display:"flex", gap:8, padding:"7px 10px", background:"#C9A84C0A", border:"1px solid #C9A84C22" }}>
+              <div style={{ fontSize:13, color:C.gold, flexShrink:0 }}>→</div>
+              <div style={{ fontSize:10.5, color:C.gold, lineHeight:1.6 }}>{s.action}</div>
+            </div>
+          </div>
+        ))}
+        <div style={{ textAlign:"center", padding:"10px 0 2px", borderTop:`1px solid ${C.border}`, marginTop:4, fontSize:9, color:C.dim }}>
+          Abonnés Eden — Seeds quotidiens sur 365 jours · 12 piliers · 12 mois
+        </div>
+      </div>
+
+      {/* Plan 7 jours */}
+      <div style={{ fontSize:9, color:C.dim, letterSpacing:".18em", textTransform:"uppercase", marginBottom:10 }}>Plan d'action — 7 jours</div>
+      {d.plan.map((pa,i) => (
+        <div key={i} className={!pa.vis?"elck":""} style={{ padding:"12px 14px", background:C.card, border:`1px solid ${C.border}`, marginBottom:5, borderLeft:`3px solid ${pa.vis?pa.couleur:C.dim}`, position:"relative" }}>
+          {!pa.vis && <div style={{ position:"absolute", top:"50%", right:13, transform:"translateY(-50%)", fontSize:13, color:C.dim }}>🔒</div>}
+          <div style={{ display:"flex", alignItems:"center", gap:9, marginBottom:pa.vis?8:0 }}>
+            <div style={{ width:25, height:25, borderRadius:"50%", background:pa.vis?`${pa.couleur}22`:C.deep, border:`1px solid ${pa.vis?pa.couleur:C.border}`, display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>
+              <div style={{ fontSize:9, color:pa.vis?pa.couleur:C.dim, fontWeight:700 }}>{pa.jour}</div>
+            </div>
+            <div>
+              <div style={{ fontSize:12, color:pa.vis?C.white:C.dim, fontWeight:500 }}>{pa.titre}</div>
+              <div style={{ fontSize:8.5, color:pa.vis?pa.couleur:C.dim, letterSpacing:".12em" }}>{pa.pilier}</div>
+            </div>
+          </div>
+          {pa.vis && <div style={{ fontSize:11.5, color:C.text, lineHeight:1.75, paddingLeft:34 }}>{pa.action}</div>}
+        </div>
+      ))}
+
+      <div style={{ textAlign:"center", padding:"15px 12px", background:"#C9A84C08", border:"1px solid #C9A84C33", marginTop:7 }}>
+        <div style={{ fontSize:11.5, color:C.muted, lineHeight:1.7, marginBottom:12 }}>
+          Les jours 4 à 7 de votre plan d'action vous attendent dans votre rapport complet. Accès avec le Bilan 360° Eden — 25 000 FCFA.
+        </div>
+        <button onClick={()=>openWA()} style={{ background:C.gold, border:"none", color:"#0B0F1A", padding:"13px", ...jost, fontSize:11, fontWeight:700, cursor:"pointer", width:"100%" }}>
+          Obtenir mon plan complet →
+        </button>
+      </div>
+    </div>}
+
+    {/* ═══ FORMATIONS ═══ */}
+    {tab==="formation" && <div className="ef">
+      <div style={{ fontSize:9, color:C.gold, letterSpacing:".26em", textTransform:"uppercase", marginBottom:6 }}>✦ Formations prescrites</div>
+      <div style={{ ...serif, fontSize:20, color:C.white, marginBottom:4 }}>Ce que l'Académie recommande, {prenom}</div>
+      <div style={{ fontSize:11, color:C.muted, marginBottom:16, lineHeight:1.6 }}>
+        Votre bilan identifie précisément quelle formation vous correspond. Le montant du Bilan (25 000 FCFA) est intégralement déduit de la formation si vous vous inscrivez dans les 72 heures.
+      </div>
+
+      {d.formations.filter(f=>f.rec).map((f,i) => (
+        <div key={i} style={{ background:C.card, border:`1px solid ${C.borderGold}`, padding:16, marginBottom:10 }}>
+          <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:8 }}>
+            <div style={{ fontSize:13, color:C.white, fontWeight:600, flex:1 }}>{f.titre}</div>
+            <div style={{ ...serif, fontSize:16, color:C.gold, marginLeft:12, flexShrink:0 }}>{f.prix}</div>
+          </div>
+          <div style={{ fontSize:11.5, color:C.text, lineHeight:1.75, marginBottom:12 }}>{f.desc}</div>
+          <button onClick={()=>openWA(f.msg)} style={{ background:C.gold, border:"none", color:"#0B0F1A", padding:"12px", ...jost, fontSize:11, fontWeight:700, cursor:"pointer", width:"100%" }}>
+            S'inscrire via WhatsApp →
+          </button>
+        </div>
+      ))}
+
+      {/* Séance */}
+      {d.formations.filter(f=>!f.rec).map((f,i) => (
+        <div key={i} style={{ background:C.card, border:`1px solid ${C.border}`, padding:16, marginBottom:10 }}>
+          <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:8 }}>
+            <div style={{ fontSize:12, color:C.text, fontWeight:500, flex:1 }}>{f.titre}</div>
+            <div style={{ ...serif, fontSize:15, color:C.muted, marginLeft:12 }}>{f.prix}</div>
+          </div>
+          <div style={{ fontSize:11, color:C.muted, lineHeight:1.7, marginBottom:11 }}>{f.desc}</div>
+          <button onClick={()=>openWA(f.msg)} style={{ background:"transparent", border:`1px solid ${C.borderGold}`, color:C.gold, padding:"11px", ...jost, fontSize:11, fontWeight:600, cursor:"pointer", width:"100%" }}>
+            Réserver via WhatsApp →
+          </button>
+        </div>
+      ))}
+
+      {/* Note abonnement — débloqué après formation */}
+      <div style={{ background:C.deep, border:`1px solid ${C.green}33`, padding:16, marginTop:6 }}>
+        <div style={{ fontSize:9, color:C.green, letterSpacing:".26em", textTransform:"uppercase", marginBottom:8 }}>✦ Espace Abonné — accès post-formation</div>
+        <div style={{ fontSize:11.5, color:C.text, lineHeight:1.75, marginBottom:12 }}>
+          Après votre première formation, vous débloquez l'Espace Abonné Eden — 12 mois d'accompagnement structuré avec seeds quotidiens, rapport annuel, et Conseiller Eden qui mémorise votre histoire. L'abonnement commence à 15 000 FCFA/mois.
+        </div>
+        <button onClick={()=>openWA(`Bonjour, je suis ${prenom}. Je souhaite en savoir plus sur l'Espace Abonné Eden après ma formation.`)}
+          style={{ background:"transparent", border:`1px solid ${C.green}55`, color:C.green, padding:"11px", ...jost, fontSize:11, fontWeight:600, cursor:"pointer", width:"100%" }}>
+          En savoir plus sur l'abonnement →
+        </button>
+      </div>
+
+      <div style={{ textAlign:"center", marginTop:20 }}>
+        <div style={{ fontSize:9.5, color:C.dim, lineHeight:1.7, marginBottom:13 }}>
+          Commencez par votre Bilan 360° Eden — 25 000 FCFA.<br/>Rapport complet + plan d'action 7 jours. Déduit de votre formation.
+        </div>
+        <button onClick={()=>openWA()} style={{ background:C.gold, border:"none", color:"#0B0F1A", padding:"14px", ...jost, fontSize:12, fontWeight:700, cursor:"pointer", width:"100%" }}>
+          Obtenir mon Bilan 360° →
+        </button>
+        <div style={{ fontSize:9, color:C.dim, marginTop:8 }}>Zady Zozoro · Académie Eden · Abidjan, Côte d'Ivoire</div>
+      </div>
+    </div>}
+
+  </div>
+</div>
+```
+
+);
+}
+
+// ─── ROOT ─────────────────────────────────────────────────────
+
+export default function App() {
+const [client, setClient] = useState(null);
+
+useEffect(() => {
+const s = document.createElement(“style”);
+s.textContent = css;
+document.head.appendChild(s);
+return () => document.head.removeChild(s);
+}, []);
+
+if (!client) return <Accueil onStart={setClient}/>;
+return <Demo client={client} onBack={()=>setClient(null)}/>;
+}
